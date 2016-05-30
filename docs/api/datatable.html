@@ -1,0 +1,841 @@
+<!DOCTYPE HTML>
+<html lang="zh-tw" >
+    
+    <head>
+        
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>u.DataTable | </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 2.6.7">
+        
+        
+        <meta name="HandheldFriendly" content="true"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+        <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+        
+    <link rel="stylesheet" href="gitbook/style.css">
+    
+        
+        <link rel="stylesheet" href="gitbook/plugins/gitbook-plugin-expandable-chapters/expandable-chapters.css">
+        
+    
+        
+        <link rel="stylesheet" href="gitbook/plugins/gitbook-plugin-anchor-navigation/plugin.css">
+        
+    
+        
+        <link rel="stylesheet" href="gitbook/plugins/gitbook-plugin-highlight/website.css">
+        
+    
+        
+        <link rel="stylesheet" href="gitbook/plugins/gitbook-plugin-search/search.css">
+        
+    
+        
+        <link rel="stylesheet" href="gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
+    
+
+        
+    
+    
+    <link rel="next" href="./row.html" />
+    
+    
+    <link rel="prev" href="./n4.html" />
+    
+
+        
+    </head>
+    <body>
+        
+        
+    <div class="book"
+        data-level="4.1"
+        data-chapter-title="u.DataTable"
+        data-filepath="datatable.md"
+        data-basepath="."
+        data-revision="Tue May 03 2016 18:20:53 GMT+0800 (中国标准时间)"
+        data-innerlanguage="">
+    
+
+<div class="book-summary">
+    <nav role="navigation">
+        <ul class="summary">
+            
+            
+            
+            
+
+            
+
+            
+    
+        <li class="chapter " data-level="0" data-path="index.html">
+            
+                
+                    <a href="./index.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                        介紹
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1" data-path="n1.html">
+            
+                
+                    <a href="./n1.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.</b>
+                        
+                        核心API
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.1" data-path="core.html">
+            
+                
+                    <a href="./core.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.1.</b>
+                        
+                        core
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2" data-path="n2.html">
+            
+                
+                    <a href="./n2.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.</b>
+                        
+                        控件API
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3" data-path="n3.html">
+            
+                
+                    <a href="./n3.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.</b>
+                        
+                        控件模型
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1" data-path="u-meta/string.html">
+            
+                
+                    <a href="./u-meta/string.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.</b>
+                        
+                        字符
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="u-meta/integer.html">
+            
+                
+                    <a href="./u-meta/integer.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.2.</b>
+                        
+                        整数
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" data-path="u-meta/float.html">
+            
+                
+                    <a href="./u-meta/float.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.</b>
+                        
+                        浮点
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4" data-path="u-meta/year.html">
+            
+                
+                    <a href="./u-meta/year.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.4.</b>
+                        
+                        年份
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.5" data-path="u-meta/month.html">
+            
+                
+                    <a href="./u-meta/month.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.5.</b>
+                        
+                        月份
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.6" data-path="u-meta/yearmonth.html">
+            
+                
+                    <a href="./u-meta/yearmonth.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.6.</b>
+                        
+                        年月
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.7" data-path="u-meta/date.html">
+            
+                
+                    <a href="./u-meta/date.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.7.</b>
+                        
+                        日期
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.8" data-path="u-meta/time.html">
+            
+                
+                    <a href="./u-meta/time.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.8.</b>
+                        
+                        时间
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.9" data-path="u-meta/textarea.html">
+            
+                
+                    <a href="./u-meta/textarea.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.9.</b>
+                        
+                        文本域
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.10" data-path="u-meta/combobox.html">
+            
+                
+                    <a href="./u-meta/combobox.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.10.</b>
+                        
+                        下拉
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.11" data-path="u-meta/checkbox.html">
+            
+                
+                    <a href="./u-meta/checkbox.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.11.</b>
+                        
+                        复选
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.12" data-path="u-meta/radio.html">
+            
+                
+                    <a href="./u-meta/radio.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.12.</b>
+                        
+                        单选
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.13" data-path="u-meta/progress.html">
+            
+                
+                    <a href="./u-meta/progress.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.13.</b>
+                        
+                        进度条
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.14" data-path="u-meta/grid.html">
+            
+                
+                    <a href="./u-meta/grid.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.14.</b>
+                        
+                        表格
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.15" data-path="u-meta/tree.html">
+            
+                
+                    <a href="./u-meta/tree.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.15.</b>
+                        
+                        树
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="4" data-path="n4.html">
+            
+                
+                    <a href="./n4.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.</b>
+                        
+                        数据模型API
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter active" data-level="4.1" data-path="datatable.html">
+            
+                
+                    <a href="./datatable.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.1.</b>
+                        
+                        u.DataTable
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="row.html">
+            
+                
+                    <a href="./row.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.2.</b>
+                        
+                        u.Row
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+
+            
+            <li class="divider"></li>
+            <li>
+                <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+                    本書使用 GitBook 釋出
+                </a>
+            </li>
+            
+        </ul>
+    </nav>
+</div>
+
+    <div class="book-body">
+        <div class="body-inner">
+            <div class="book-header" role="navigation">
+    <!-- Actions Left -->
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="./" ></a>
+    </h1>
+</div>
+
+            <div class="page-wrapper" tabindex="-1" role="main">
+                <div class="page-inner">
+                
+                
+                    <section class="normal" id="section-">
+                    
+                        <h1 id="udatatable">u.DataTable</h1>
+<p>&#x521B;&#x5EFA;dataTable</p>
+<pre><code>new u.DataTable({
+    meta:{
+        field1:{type:&apos;string&apos;},
+        field2:{type:&apos;date&apos;}
+    }
+})
+</code></pre><p><em>params</em>:</p>
+<p><code>meta</code>: &#x5B57;&#x6BB5;&#x4FE1;&#x606F;&#x96C6;&#x5408;&#xFF0C;&#x5176;&#x4E2D;&#x7684;key&#x4E3A;&#x5B57;&#x6BB5;&#x540D;&#xFF0C;value&#x4E3A;&#x5B57;&#x6BB5;&#x5C5E;&#x6027;&#x4FE1;&#x606F;&#xFF0C;&#x5C5E;&#x6027;&#x4FE1;&#x606F;&#x53EF;&#x81EA;&#x5B9A;&#x4E49;</p>
+<hr>
+<ul>
+<li><strong>getSimpleData</strong></li>
+</ul>
+<p>&#x83B7;&#x53D6;dataTable&#x4E2D;&#x7684;&#x6570;&#x636E;</p>
+<pre><code>//&#x9ED8;&#x8BA4;&#x83B7;&#x53D6;&#x6240;&#x6709;&#x6570;&#x636E;
+dataTable.getSimpleData()
+
+//&#x83B7;&#x53D6;&#x9009;&#x4E2D;&#x884C;&#x7684;&#x5B57;&#x6BB5;&#xFF1A; field1,field2&#x6570;&#x636E;
+dataTable.getSimpleData({type:&apos;select&apos;,fields:[&apos;field1,field2&apos;]})
+</code></pre><p><em>return</em>&#xFF1A;</p>
+<p><code>datas</code>&#xFF1A;  &#x6570;&#x636E;&#x6570;&#x7EC4;    </p>
+<p><em>params</em>:</p>
+<p><code>type</code>&#xFF1A;&#x83B7;&#x53D6;&#x6307;&#x5B9A;&#x7C7B;&#x578B;&#x7684;&#x6570;&#x636E;</p>
+<p>| &#x7C7B;&#x578B; | &#x4F5C;&#x7528; |</p>
+<p>| all|&#x6240;&#x6709;&#x884C;&#x7684;&#x6570;&#x636E;|</p>
+<p>| current|&#x5F53;&#x524D;&#x884C;&#x7684;&#x6570;&#x636E;|</p>
+<p>| focus|&#x7126;&#x70B9;&#x884C;&#x7684;&#x6570;&#x636E;|</p>
+<p>| select|&#x88AB;&#x9009;&#x4E2D;&#x7684;&#x884C;&#x7684;&#x6570;&#x636E;|</p>
+<p>| change|&#x53D1;&#x751F;&#x6539;&#x53D8;&#x7684;&#x884C;&#x7684;&#x6570;&#x636E;|</p>
+<p><code>fields</code>&#xFF1A;&#x83B7;&#x53D6;&#x6307;&#x5B9A;&#x5B57;&#x6BB5;&#x7684;&#x6570;&#x636E;</p>
+<hr>
+<ul>
+<li><strong>setSimpleData</strong></li>
+</ul>
+<p>&#x8BBE;&#x7F6E;dataTable&#x4E2D;&#x7684;&#x6570;&#x636E;&#xFF0C;&#x5C06;&#x539F;&#x6709;&#x6570;&#x636E;&#x6E05;&#x9664;</p>
+<pre><code>dataTable.setSimpleData([
+    {&quot;field1&quot;:&quot;v1&quot;,&quot;field2&quot;:&quot;v2&quot;},
+    {&quot;field1&quot;:&quot;v3&quot;,&quot;field2&quot;:&quot;v4&quot;}
+])
+</code></pre><hr>
+<ul>
+<li><strong>addSimpleData</strong></li>
+</ul>
+<p>&#x5728;dataTable&#x4E2D;&#x6DFB;&#x52A0;&#x6570;&#x636E;&#xFF0C;&#x539F;&#x6709;&#x6570;&#x636E;&#x4E0D;&#x53D8;</p>
+<pre><code>dataTable.addSimpleData([
+    {&quot;field1&quot;:&quot;v1&quot;,&quot;field2&quot;:&quot;v2&quot;},
+    {&quot;field1&quot;:&quot;v3&quot;,&quot;field2&quot;:&quot;v4&quot;}
+])
+</code></pre><hr>
+<ul>
+<li><strong>clear</strong></li>
+</ul>
+<p>&#x6E05;&#x9664;dataTable&#x4E2D;&#x7684;&#x6240;&#x6709;&#x6570;&#x636E;</p>
+<pre><code>dataTable.clear()
+</code></pre><hr>
+<ul>
+<li><strong>createEmptyRow</strong></li>
+</ul>
+<p>&#x521B;&#x5EFA;&#x65B0;&#x884C;&#xFF0C;&#x5E76;&#x8FFD;&#x52A0;&#x5230;dataTable&#x884C;&#x6570;&#x636E;&#x96C6;&#x5408;&#x7684;&#x6700;&#x540E;</p>
+<pre><code>dataTable.createEmptyRow()
+</code></pre><p><em>return</em>&#xFF1A;</p>
+<p><code>row</code>&#xFF1A;  &#x884C;&#x5BF9;&#x8C61;    </p>
+<hr>
+<ul>
+<li><strong>removeRow</strong></li>
+</ul>
+<p>&#x5220;&#x9664;&#x884C;</p>
+<pre><code>dataTable.removeRow(index)
+</code></pre><p><em>params</em>:</p>
+<p><code>index</code> :&#x8981;&#x5220;&#x9664;&#x7684;&#x884C;&#x7D22;&#x5F15;</p>
+<hr>
+<ul>
+<li><strong>removeRowByRowId</strong></li>
+</ul>
+<p>&#x6839;&#x636E;&#x884C;&#x7684;id&#x6765;&#x5220;&#x9664;&#x884C;</p>
+<pre><code>dataTable.removeRowByRowId(rowId)
+</code></pre><p><em>params</em>:</p>
+<p><code>rowId</code> :&#x8981;&#x5220;&#x9664;&#x7684;&#x884C;id    </p>
+<hr>
+<ul>
+<li><strong>removeRows</strong></li>
+</ul>
+<p>&#x5220;&#x9664;&#x4E00;&#x7EC4;&#x884C;&#x6570;&#x636E;</p>
+<pre><code>dataTable.removeRows(indices)
+</code></pre><p><em>params</em>:</p>
+<p><code>indices</code> : &#x8981;&#x5220;&#x9664;&#x7684;&#x884C;&#x7D22;&#x5F15;&#x6570;&#x7EC4;</p>
+<hr>
+<ul>
+<li><strong>removeAllRows</strong></li>
+</ul>
+<p>&#x5220;&#x9664;&#x6240;&#x6709;&#x884C;</p>
+<pre><code>dataTable.removeAllRows()
+</code></pre><hr>
+<ul>
+<li><strong>setRowSelect</strong></li>
+</ul>
+<p>&#x8BBE;&#x7F6E;&#x884C;&#x9009;&#x4E2D;</p>
+<pre><code>dataTable.setRowSelect(index)
+</code></pre><p><em>params</em>:</p>
+<p><code>index</code> :&#x8981;&#x9009;&#x4E2D;&#x7684;&#x884C;&#x7D22;&#x5F15;</p>
+<hr>
+<ul>
+<li><strong>setRowsSelect</strong></li>
+</ul>
+<p>&#x8BBE;&#x7F6E;&#x591A;&#x884C;&#x9009;&#x4E2D;</p>
+<pre><code>dataTable.setRowsSelect(indices)
+</code></pre><p><em>params</em>:</p>
+<p><code>indices</code> : &#x8981;&#x9009;&#x4E2D;&#x7684;&#x884C;&#x7D22;&#x5F15;&#x6570;&#x7EC4;</p>
+<hr>
+<ul>
+<li><strong>addRowSelect</strong></li>
+</ul>
+<p>&#x8FFD;&#x52A0;&#x884C;&#x9009;&#x4E2D;</p>
+<pre><code>dataTable.addRowSelect(index)
+</code></pre><p><em>params</em>:</p>
+<p><code>index</code> :&#x8981;&#x9009;&#x4E2D;&#x7684;&#x884C;&#x7D22;&#x5F15;</p>
+<hr>
+<ul>
+<li><strong>addRowsSelect</strong></li>
+</ul>
+<p>&#x8FFD;&#x52A0;&#x884C;&#x9009;&#x4E2D;</p>
+<pre><code>dataTable.addRowsSelect(indices)
+</code></pre><p><em>params</em>:</p>
+<p><code>indices</code> : &#x8981;&#x8FFD;&#x52A0;&#x7684;&#x884C;&#x7D22;&#x5F15;&#x6570;&#x7EC4;</p>
+<hr>
+<ul>
+<li><strong>setAllRowsSelect</strong></li>
+</ul>
+<p>&#x8BBE;&#x7F6E;&#x6240;&#x6709;&#x884C;&#x4E3A;&#x9009;&#x4E2D;&#x72B6;&#x6001;</p>
+<pre><code>dataTable.setAllRowsSelect()
+</code></pre><hr>
+<ul>
+<li><strong>setRowUnSelect</strong></li>
+</ul>
+<p>&#x8BBE;&#x7F6E;&#x884C;&#x4E3A;&#x975E;&#x9009;&#x4E2D;&#x72B6;&#x6001;</p>
+<pre><code>dataTable.setRowUnSelect(index)
+</code></pre><p><em>params</em>:</p>
+<p><code>index</code> :&#x884C;&#x7D22;&#x5F15;</p>
+<hr>
+<ul>
+<li><strong>setRowsUnSelect</strong></li>
+</ul>
+<p>&#x8BBE;&#x7F6E;&#x591A;&#x884C;&#x4E3A;&#x975E;&#x9009;&#x4E2D;&#x72B6;&#x6001;</p>
+<pre><code>dataTable.setRowsUnSelect(indices)
+</code></pre><p><em>params</em>:</p>
+<p><code>indices</code> :&#x884C;&#x7D22;&#x5F15;&#x6570;&#x7EC4;</p>
+<hr>
+<ul>
+<li><strong>setAllRowsUnSelect</strong></li>
+</ul>
+<p>&#x8BBE;&#x7F6E;&#x6240;&#x6709;&#x884C;&#x4E3A;&#x975E;&#x9009;&#x4E2D;&#x72B6;&#x6001;</p>
+<pre><code>dataTable.setAllRowsUnSelect()
+</code></pre><hr>
+<ul>
+<li><strong>getSelectedRows</strong></li>
+</ul>
+<p>&#x83B7;&#x53D6;&#x9009;&#x4E2D;&#x884C;</p>
+<pre><code>dataTable.getSelectedRows()
+</code></pre><hr>
+<ul>
+<li><strong>getSelectedIndexs</strong></li>
+</ul>
+<p>&#x83B7;&#x53D6;&#x9009;&#x4E2D;&#x884C;&#x7684;index</p>
+<pre><code>dataTable.getSelectedIndexs()
+</code></pre><hr>
+<ul>
+<li><strong>setRowFocus</strong></li>
+</ul>
+<p>&#x8BBE;&#x7F6E;&#x7126;&#x70B9;&#x884C;</p>
+<pre><code>dataTable.setRowFocus(index)
+</code></pre><p><em>params</em>:</p>
+<p><code>index</code> :&#x8981;&#x8BBE;&#x7F6E;&#x7126;&#x70B9;&#x884C;&#x7684;&#x7D22;&#x5F15;</p>
+<hr>
+<ul>
+<li><strong>setRowUnFocus</strong></li>
+</ul>
+<p>&#x8BBE;&#x7F6E;&#x7126;&#x70B9;&#x884C;&#x4E3A;&#x975E;&#x7126;&#x70B9;&#x72B6;&#x6001;</p>
+<pre><code>dataTable.setRowUnFocus()
+</code></pre><hr>
+<ul>
+<li><strong>getFocusRow</strong></li>
+</ul>
+<p>&#x83B7;&#x53D6;&#x7126;&#x70B9;&#x884C;</p>
+<pre><code>dataTable.getFocusRow()
+</code></pre><hr>
+<ul>
+<li><strong>getFocusIndex</strong></li>
+</ul>
+<p>&#x83B7;&#x53D6;&#x7126;&#x70B9;&#x884C;&#x5BF9;&#x5E94;&#x7684;index</p>
+<pre><code>dataTable.getFocusIndex()
+</code></pre><hr>
+<ul>
+<li><strong>getCurrentRow</strong></li>
+</ul>
+<p>&#x83B7;&#x53D6;&#x5F53;&#x524D;&#x884C;&#x3002;&#x89C4;&#x5219;&#xFF1A; &#x7126;&#x70B9;&#x884C;&#x4F18;&#x5148;&#xFF0C;&#x6CA1;&#x6709;&#x7126;&#x70B9;&#x884C;&#x65F6;&#xFF0C;&#x53D6;&#x7B2C;&#x4E00;&#x9009;&#x4E2D;&#x884C;</p>
+<pre><code>dataTable.getCurrentRow()
+</code></pre><hr>
+<ul>
+<li><strong>getRow</strong></li>
+</ul>
+<p>&#x6839;&#x636E;&#x7D22;&#x5F15;&#x83B7;&#x53D6;Row&#x5BF9;&#x8C61;</p>
+<pre><code>dataTable.getRow(index)
+</code></pre><p><em>params</em>:</p>
+<p><code>index</code> :&#x8981;&#x83B7;&#x53D6;&#x884C;&#x7684;&#x7D22;&#x5F15;</p>
+<hr>
+<ul>
+<li><strong>getRowByRowId</strong></li>
+</ul>
+<p>&#x6839;&#x636E;rowId&#x83B7;&#x53D6;Row&#x5BF9;&#x8C61;</p>
+<pre><code>dataTable.getRow(rowid)
+</code></pre><p><em>params</em>:</p>
+<p><code>rowid</code> :&#x8981;&#x83B7;&#x53D6;&#x884C;&#x7684;rowid</p>
+<hr>
+<ul>
+<li><strong>getChangedRows</strong></li>
+</ul>
+<p>&#x6839;&#x636E;&#x6240;&#x6709;&#x53D1;&#x751F;&#x53D8;&#x5316;&#x7684;Row&#x5BF9;&#x8C61;</p>
+<pre><code>dataTable.getChangedRows()
+</code></pre><hr>
+<ul>
+<li><strong>getAllRows</strong></li>
+</ul>
+<p>&#x6839;&#x636E;&#x6240;&#x6709;&#x7684;Row&#x5BF9;&#x8C61;</p>
+<pre><code>dataTable.getAllRows()
+</code></pre><hr>
+<ul>
+<li><strong>setEnable</strong></li>
+</ul>
+<p>&#x8BBE;&#x7F6E;dataTable&#x662F;&#x5426;&#x53EF;&#x7F16;&#x8F91;</p>
+<pre><code>dataTable.setEnable()
+</code></pre><hr>
+<ul>
+<li><strong>isEnable</strong></li>
+</ul>
+<p>&#x83B7;&#x53D6;dataTable&#x662F;&#x5426;&#x53EF;&#x7F16;&#x8F91;&#x3002;&#x5982;&#x679C;&#x4F20;&#x5165;field&#x5219;&#x83B7;&#x53D6;&#x5BF9;&#x5E94;field&#x662F;&#x5426;&#x53EF;&#x53D8;&#x4EF7;</p>
+<pre><code>dataTable.isEnable() &#x6216; dataTable.isEnable(&apos;filed1&apos;)
+</code></pre><blockquote>
+<p>dataTable.isEnable()
+<em>params</em>:</p>
+</blockquote>
+<p><code>field</code> :&#x5224;&#x65AD;field&#x662F;&#x5426;&#x53EF;&#x7F16;&#x8F91;</p>
+<hr>
+<ul>
+<li><strong>setValue</strong></li>
+</ul>
+<p>&#x8BBE;&#x7F6E;&#x5F53;&#x524D;&#x884C;&#x7684;&#x5B57;&#x6BB5;&#x503C;</p>
+<pre><code>datatable.setValue(fieldName, value)
+</code></pre><p><em>params:</em></p>
+<p><code>fieldName</code> : &#x5B57;&#x6BB5;&#x540D;</p>
+<p><code>value</code>:&#x3000;&#x503C;   </p>
+<hr>
+<ul>
+<li><strong>getValue</strong>  </li>
+</ul>
+<p>&#x83B7;&#x53D6;&#x5F53;&#x524D;&#x884C;&#x5B57;&#x6BB5;&#x7684;&#x503C;</p>
+<pre><code>datatable.getValue(fieldName)
+</code></pre><p><em>params:</em></p>
+<p><code>fieldName</code>: &#x5B57;&#x6BB5;&#x540D;</p>
+<p><em>return</em>:</p>
+<p><code>value</code>: &#x5B57;&#x6BB5;&#x503C;    </p>
+<hr>
+<ul>
+<li><strong>on</strong></li>
+</ul>
+<p>&#x7ED1;&#x5B9A;&#x4E8B;&#x4EF6;&#x76D1;&#x542C;</p>
+<pre><code>datatable.on(eventName, callBack)
+</code></pre><p><em>params:</em></p>
+<p><code>eventName</code>: &#x4E8B;&#x4EF6;&#x540D;&#x79F0;</p>
+<p><code>callBack</code>: &#x56DE;&#x8C03;&#x51FD;&#x6570;</p>
+<p>&#x652F;&#x6301;&#x7684;&#x4E8B;&#x4EF6;&#x7C7B;&#x578B;&#xFF1A;</p>
+<p>|&#x4E8B;&#x4EF6;&#x540D;&#x79F0;||&#x4E8B;&#x4EF6;&#x8BF4;&#x660E;||&#x56DE;&#x8C03;&#x51FD;&#x6570;&#x63A5;&#x53D7;&#x7684;&#x53C2;&#x6570;|</p>
+<p>|valueChange||&#x5B57;&#x6BB5;&#x503C;&#x53D1;&#x751F;&#x53D8;&#x5316;&#x4E8B;&#x4EF6;||dataTable&#xFF1A;&#x6B64;dataTable&#x5BF9;&#x5E94;id&#xFF1B;rowId&#xFF1A;&#x53D1;&#x751F;&#x6539;&#x53D8;&#x884C;&#x7684;rowId&#xFF1B;field&#xFF1A;&#x53D1;&#x751F;&#x6539;&#x53D8;&#x7684;field&#xFF1B;oldValue&#xFF1A;&#x6539;&#x53D8;&#x4E4B;&#x524D;&#x7684;&#x503C;&#xFF1B;newValue&#xFF1A;&#x6539;&#x53D8;&#x4E4B;&#x540E;&#x7684;&#x503C;&#xFF1B;|</p>
+<p>|xxx.valueChange||&#x67D0;&#x4E00;&#x5B57;&#x6BB5;&#x503C;&#x53D1;&#x751F;&#x53D8;&#x5316;&#x4E8B;&#x4EF6;||dataTable&#xFF1A;&#x6B64;dataTable&#x5BF9;&#x5E94;id&#xFF1B;rowId&#xFF1A;&#x53D1;&#x751F;&#x6539;&#x53D8;&#x884C;&#x7684;rowId&#xFF1B;field&#xFF1A;&#x53D1;&#x751F;&#x6539;&#x53D8;&#x7684;field&#xFF1B;oldValue&#xFF1A;&#x6539;&#x53D8;&#x4E4B;&#x524D;&#x7684;&#x503C;&#xFF1B;newValue&#xFF1A;&#x6539;&#x53D8;&#x4E4B;&#x540E;&#x7684;&#x503C;&#xFF1B;|</p>
+<p>|select||&#x884C;&#x9009;&#x4E2D;&#x4E8B;&#x4EF6;||indices&#xFF1A;&#x9009;&#x4E2D;&#x884C;&#x5BF9;&#x5E94;&#x7684;index&#xFF1B;rowIds&#xFF1A;&#x9009;&#x4E2D;&#x884C;&#x5BF9;&#x5E94;&#x7684;rowId&#xFF1B;|</p>
+<p>|unSelect||&#x884C;&#x53CD;&#x9009;&#x4E8B;&#x4EF6;||indices&#xFF1A;&#x9009;&#x53CD;&#x9009;&#x5BF9;&#x5E94;&#x7684;index&#xFF1B;rowIds&#xFF1A;&#x9009;&#x53CD;&#x9009;&#x5BF9;&#x5E94;&#x7684;rowId&#xFF1B;|</p>
+<p>|allSelect||&#x9009;&#x4E2D;&#x6240;&#x6709;&#x884C;&#x4E8B;&#x4EF6;|||</p>
+<p>|allUnselect||&#x53CD;&#x9009;&#x6240;&#x6709;&#x884C;&#x4E8B;&#x4EF6;|||</p>
+<p>|insert||&#x63D2;&#x5165;&#x884C;&#x4E8B;&#x4EF6;||index&#xFF1A;&#x63D2;&#x5165;&#x884C;&#x5BF9;&#x5E94;&#x7684;index&#xFF1B;rows&#xFF1A;&#x6240;&#x63D2;&#x5165;&#x7684;&#x884C;&#x4FE1;&#x606F;&#xFF1B;|</p>
+<p>|update||&#x884C;&#x4FEE;&#x6539;&#x4E8B;&#x4EF6;||index&#xFF1A;&#x4FEE;&#x6539;&#x884C;&#x5BF9;&#x5E94;&#x7684;index&#xFF1B;rows&#xFF1A;&#x6240;&#x4FEE;&#x6539;&#x7684;&#x884C;&#x4FE1;&#x606F;&#xFF1B;|</p>
+<p>|delete||&#x884C;&#x5220;&#x9664;&#x4E8B;&#x4EF6;||indices&#xFF1A;&#x5220;&#x9664;&#x884C;&#x5BF9;&#x5E94;&#x7684;index&#xFF1B;rowIds&#xFF1A;&#x5220;&#x9664;&#x884C;&#x5BF9;&#x5E94;&#x7684;rowId&#xFF1B;deleteRows&#xFF1A;&#x6240;&#x5220;&#x9664;&#x7684;&#x884C;&#x4FE1;&#x606F;&#xFF1B;|</p>
+<p>|deleteAll||&#x5220;&#x9664;&#x6240;&#x6709;&#x884C;&#x4E8B;&#x4EF6;|||</p>
+<p>|focus||&#x884C;&#x83B7;&#x53D6;&#x7126;&#x70B9;&#x4E8B;&#x4EF6;||index&#xFF1A;&#x7126;&#x70B9;&#x884C;&#x5BF9;&#x5E94;&#x7684;index&#xFF1B;rowId&#xFF1A;&#x7126;&#x70B9;&#x884C;&#x5BF9;&#x5E94;&#x7684;rowId&#xFF1B;|</p>
+<p>|unFocus||&#x884C;&#x53D6;&#x6D88;&#x7126;&#x70B9;&#x4E8B;&#x4EF6;||index&#xFF1A;&#x53D6;&#x6D88;&#x7126;&#x70B9;&#x884C;&#x5BF9;&#x5E94;&#x7684;index&#xFF1B;rowId&#xFF1A;&#x53D6;&#x6D88;&#x7126;&#x70B9;&#x884C;&#x5BF9;&#x5E94;&#x7684;rowId&#xFF1B;|</p>
+<p>|enableChange||&#x53EF;&#x4FEE;&#x6539;&#x5C5E;&#x6027;&#x6539;&#x53D8;&#x4E8B;&#x4EF6;||enable&#xFF1A;&#x662F;&#x5426;&#x53EF;&#x4FEE;&#x6539;&#xFF1B;|</p>
+<p>|metaChange||&#x5B57;&#x6BB5;&#x5C5E;&#x6027;&#x4FE1;&#x606F;&#x6539;&#x53D8;&#x4E8B;&#x4EF6;||dataTable&#xFF1A;&#x6B64;dataTable&#x5BF9;&#x5E94;id&#xFF1B;field&#xFF1A;&#x53D1;&#x751F;&#x5C5E;&#x6027;&#x6539;&#x53D8;&#x7684;&#x5B57;&#x6BB5;&#xFF1B;meta&#xFF1A;&#x53D1;&#x751F;&#x6539;&#x53D8;&#x7684;&#x5C5E;&#x6027;&#xFF1B;oldValue&#xFF1A;&#x53D1;&#x751F;&#x6539;&#x53D8;&#x4E4B;&#x524D;&#x7684;&#x503C;&#xFF1B;newValue&#xFF1A;&#x53D1;&#x751F;&#x6539;&#x53D8;&#x4E4B;&#x540E;&#x7684;&#x503C;&#xFF1B;|</p>
+<p>|rowMetaChange||Row&#x5BF9;&#x8C61;&#x5B57;&#x6BB5;&#x5C5E;&#x6027;&#x4FE1;&#x606F;&#x6539;&#x53D8;&#x4E8B;&#x4EF6;||dataTable&#xFF1A;&#x6B64;dataTable&#x5BF9;&#x5E94;id&#xFF1B;field&#xFF1A;&#x53D1;&#x751F;&#x5C5E;&#x6027;&#x6539;&#x53D8;&#x7684;&#x5B57;&#x6BB5;&#xFF1B;meta&#xFF1A;&#x53D1;&#x751F;&#x6539;&#x53D8;&#x7684;&#x5C5E;&#x6027;&#xFF1B;oldValue&#xFF1A;&#x53D1;&#x751F;&#x6539;&#x53D8;&#x4E4B;&#x524D;&#x7684;&#x503C;&#xFF1B;newValue&#xFF1A;&#x53D1;&#x751F;&#x6539;&#x53D8;&#x4E4B;&#x540E;&#x7684;&#x503C;&#xFF1B;row&#xFF1A;&#x53D1;&#x751F;&#x5C5E;&#x6027;&#x6539;&#x53D8;&#x7684;Row&#x5BF9;&#x8C61;|</p>
+<hr>
+<ul>
+<li><strong>getMeta</strong></li>
+</ul>
+<p>&#x83B7;&#x53D6;&#x5B57;&#x6BB5;&#x7684;&#x5C5E;&#x6027;&#x4FE1;&#x606F;(&#x5982;&#xFF1A;&#x5B57;&#x6BB5;&#x7C7B;&#x578B;&#x3001;&#x7CBE;&#x5EA6;&#x4FE1;&#x606F;&#x7B49;)</p>
+<pre><code>datatable.getMeta(fieldName, key)
+</code></pre><p><em>params:</em></p>
+<p><code>fieldName</code>: &#x5B57;&#x6BB5;&#x540D;&#x79F0;</p>
+<p><code>key</code> : &#x5C5E;&#x6027;&#x952E;&#x503C;</p>
+<p><em>return:</em></p>
+<p><code>metaValue</code>: &#x5C5E;&#x6027;&#x503C; </p>
+<hr>
+<ul>
+<li><strong>setMeta</strong></li>
+</ul>
+<p>&#x8BBE;&#x7F6E;&#x5B57;&#x6BB5;&#x7684;&#x5C5E;&#x6027;&#x4FE1;&#x606F;</p>
+<pre><code>datatable.setMeta(fieldName, key, value)
+</code></pre><p><em>params:</em></p>
+<p><code>fieldName</code>: &#x5B57;&#x6BB5;&#x540D;&#x79F0;</p>
+<p><code>key</code>: &#x5C5E;&#x6027;&#x952E;&#x503C;</p>
+<p><code>value</code>:    &#x5C5E;&#x6027;&#x503C;</p>
+<hr>
+<ul>
+<li><strong>ref</strong></li>
+</ul>
+<p>&#x4EE5;knockout&#x8BED;&#x6CD5;&#x505A;&#x53CC;&#x5411;&#x7ED1;&#x5B9A;&#xFF0C;&#x663E;&#x793A;&#x5F53;&#x524D;&#x884C;&#x7684;&#x5B57;&#x6BB5;&#x503C;</p>
+<pre><code>&lt;label data-bind=&quot;text: dataTable.ref(&apos;fieldName&apos;)&quot;&gt;&lt;/label&gt;
+</code></pre><p><em>params:</em></p>
+<p><code>fieldName</code> : &#x5B57;&#x6BB5;&#x540D;</p>
+<div id='anchors-navbar'><i class='fa fa-anchor'></i><ul><li><a href='#udatatable'>u.DataTable</a></li></ul></div><a href='#udatatable' id='goTop'><i class='fa fa-arrow-up'></i></a>
+                    
+                    </section>
+                
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="./n4.html" class="navigation navigation-prev " aria-label="Previous page: 数据模型API"><i class="fa fa-angle-left"></i></a>
+        
+        
+        <a href="./row.html" class="navigation navigation-next " aria-label="Next page: u.Row"><i class="fa fa-angle-right"></i></a>
+        
+    </div>
+</div>
+
+        
+<script src="gitbook/app.js"></script>
+
+    
+    <script src="gitbook/plugins/gitbook-plugin-expandable-chapters/expandable-chapters.js"></script>
+    
+
+    
+    <script src="gitbook/plugins/gitbook-plugin-search/lunr.min.js"></script>
+    
+
+    
+    <script src="gitbook/plugins/gitbook-plugin-search/search.js"></script>
+    
+
+    
+    <script src="gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {"expandable-chapters":{},"anchor-navigation":{},"highlight":{},"search":{"maxIndexSize":1000000},"sharing":{"all":["facebook","google","twitter","weibo","instapaper"],"facebook":true,"google":false,"instapaper":false,"twitter":true,"vk":false,"weibo":false},"fontsettings":{"family":"sans","size":2,"theme":"white"}};
+    gitbook.start(config);
+});
+</script>
+
+        
+    </body>
+    
+</html>

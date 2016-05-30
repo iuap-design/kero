@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css"  href="../../../vendor/uui/css/u.css">
+</head>
+<body>
+    <button id="msgBtn" class="u-button" >FLAT</button>
+    <script src="../../../vendor/uui/js/u-polyfill.js"></script>
+    <script src="../../../vendor/uui/js/u-ui.js"></script>
+
+<script>
+    var msgBtn = document.body.querySelector("#msgBtn");
+    u.on(msgBtn,'click', function(){ 
+        u.showMessage({msg:"HELLO!!!",showSeconds:3})
+    })
+
+
+</script>
+
+</body>
+</html>

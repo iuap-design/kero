@@ -1,0 +1,53 @@
+/*动态进度条卡片样式*/
+
+.progress-card {
+    position: relative;
+    width: 400px;
+    font-size: 12px;
+    color: #333333;
+    font-family: 'Microsoft YaHei', 'Open Sans', 'Helvetica Neue', Arial, 'Hiragino Sans GB', sans-serif;
+    overflow: auto;
+}
+
+.progress-title {
+    font-size: 14px;
+    color: #666666;
+    padding-top: 14px;
+    padding-left: 10px;
+}
+
+.progress-close {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    cursor: pointer;
+}
+
+.progress-content {
+    margin: 30px;
+}
+
+.progress-content .u-progress {
+    margin: 10px 0px;
+}
+
+.progress-content .bold {
+    font-weight: 600;
+}
+
+.progress-close.u-button {
+    float: right;
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+
+.progress-end {
+    position: relative;
+    width: 100%;
+}
+
+.progress-end .close {
+    float: right;
+    margin-right: 20px;
+    margin-bottom: 20px;
+}

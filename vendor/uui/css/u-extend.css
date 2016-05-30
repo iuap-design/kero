@@ -1,0 +1,812 @@
+@charset "UTF-8";
+/*  IMAGES  */
+/* 默认颜色 */
+/* 主题颜色放入 themeColors.scss
+$color-primary: $palette-indigo-500 !default;
+$color-primary-dark: $palette-indigo-700 !default;
+$color-accent: $palette-pink-A200 !default;
+*/
+/* 客户化 */
+/* 波纹效果 */
+/* 动画 */
+/* 阴影 */
+/* ==========  字体  ========== */
+/* 控件 */
+/* UButton */
+/* UText */
+/*  Navlayout  */
+/* gridlayout */
+/* menu */
+/* CHECKBOX */
+/*  Radio  */
+/* Switch  */
+/* loading */
+/* datetimepicker */
+/* message */
+/* DATA TABLE */
+/* tooltip*/
+/* 进度条 */
+/* ==========  Content Tabs  ========== */
+/* CARD */
+/* Card dimensions */
+/* Cover image */
+/* ==========  Card  ========== */
+/* ============ Forms ============*/
+/* BADGE */
+body {
+  font-family: 'Microsoft YaHei','Open Sans','Helvetica Neue',Arial,'Hiragino Sans GB',sans-serif;
+  font-color: #333333; }
+
+.u-link {
+  cursor: pointer;
+  font-size: 12px;
+  color: rgb(27,174,222); }
+
+i.fa {
+  padding: 0 5px; }
+
+.u-visible {
+  display: block; }
+
+.u-not-visible {
+  display: none; }
+
+.u-border-top {
+  border-top: 1px solid rgb(241,241,241); }
+
+.u-border-left {
+  border-left: 1px solid rgb(241,241,241); }
+
+.u-border-right {
+  border-right: 1px solid rgb(241,241,241); }
+
+.u-border-bottom {
+  border-bottom: 1px solid rgb(241,241,241); }
+
+.u-right {
+  float: right; }
+
+.u-left {
+  float: left; }
+
+.u-text-left {
+  text-align: left; }
+
+.u-text-center {
+  text-align: center; }
+
+.u-text-right {
+  text-align: right; }
+
+@media (max-width: 480px) {
+  .u-hidden-xs {
+    display: none; } }
+
+@media (max-width: 768px) {
+  .u-hidden-sm {
+    display: none; } }
+
+/**
+ * Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/*
+ * What follows is the result of much research on cross-browser styling.
+ * Credit left inline and big thanks to Nicolas Gallagher, Jonathan Neal,
+ * Kroc Camen, and the H5BP dev community and team.
+ */
+/* ==========================================================================
+   Base styles: opinionated defaults
+   ========================================================================== */
+html {
+  color: rgba(0,0,0, 0.87);
+  font-size: 1em;
+  line-height: 1.4; }
+
+/*
+ * Remove text-shadow in selection highlight:
+ * https://twitter.com/miketaylr/status/12228805301
+ *
+ * These selection rule sets have to be separate.
+ * Customize the background color to match your design.
+ */
+::-moz-selection {
+  background: #b3d4fc;
+  text-shadow: none; }
+::selection {
+  background: #b3d4fc;
+  text-shadow: none; }
+
+/*
+ * A better looking default horizontal rule
+ */
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 1em 0;
+  padding: 0; }
+
+/*
+ * Remove the gap between audio, canvas, iframes,
+ * images, videos and the bottom of their containers:
+ * https://github.com/h5bp/html5-boilerplate/issues/440
+ */
+audio,
+canvas,
+iframe,
+img,
+svg,
+video {
+  vertical-align: middle; }
+
+/*
+ * Remove default fieldset styles.
+ */
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0; }
+
+/*
+ * Allow only vertical resizing of textareas.
+ */
+textarea {
+  resize: vertical; }
+
+/* ==========================================================================
+   Browser Upgrade Prompt
+   ========================================================================== */
+.browserupgrade {
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0; }
+
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+/* ==========================================================================
+   Helper classes
+   ========================================================================== */
+/*
+ * Hide visually and from screen readers:
+ */
+.hidden {
+  display: none !important; }
+
+/*
+ * Hide only visually, but have it available for screen readers:
+ * http://snook.ca/archives/html_and_css/hiding-content-for-accessibility
+ */
+.visuallyhidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px; }
+
+/*
+ * Extends the .visuallyhidden class to allow the element
+ * to be focusable when navigated to via the keyboard:
+ * https://www.drupal.org/node/897638
+ */
+.visuallyhidden.focusable:active,
+.visuallyhidden.focusable:focus {
+  clip: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  position: static;
+  width: auto; }
+
+/*
+ * Hide visually and from screen readers, but maintain layout
+ */
+.invisible {
+  visibility: hidden; }
+
+/*
+ * Clearfix: contain floats
+ *
+ * For modern browsers
+ * 1. The space content is one way to avoid an Opera bug when the
+ *    `contenteditable` attribute is included anywhere else in the document.
+ *    Otherwise it causes space to appear at the top and bottom of elements
+ *    that receive the `clearfix` class.
+ * 2. The use of `table` rather than `block` is only necessary if using
+ *    `:before` to contain the top-margins of child elements.
+ */
+.clearfix:before,
+.clearfix:after {
+  content: " ";
+  /* 1 */
+  display: table;
+  /* 2 */ }
+
+.clearfix:after {
+  clear: both; }
+
+/* ==========================================================================
+   EXAMPLE Media Queries for Responsive Design.
+   These examples override the primary ('mobile first') styles.
+   Modify as content requires.
+   ========================================================================== */
+/* ==========================================================================
+   Print styles.
+   Inlined to avoid the additional HTTP request:
+   http://www.phpied.com/delay-loading-your-print-css/
+   ========================================================================== */
+@media print {
+  *,
+  *:before,
+  *:after,
+  *:first-letter,
+  *:first-line {
+    background: transparent !important;
+    color: #000 !important;
+    /* Black prints faster: http://www.sanbeiji.com/archives/953 */
+    box-shadow: none !important;
+    text-shadow: none !important; }
+  a,
+  a:visited {
+    text-decoration: underline; }
+  a[href]:after {
+    content: " (" attr(href) ")"; }
+  abbr[title]:after {
+    content: " (" attr(title) ")"; }
+  /*
+     * Don't show links that are fragment identifiers,
+     * or use the `javascript:` pseudo protocol
+     */
+  a[href^="#"]:after,
+  a[href^="javascript:"]:after {
+    content: ""; }
+  pre,
+  blockquote {
+    border: 1px solid #999;
+    page-break-inside: avoid; }
+  /*
+     * Printing Tables:
+     * http://css-discuss.incutio.com/wiki/Printing_Tables
+     */
+  thead {
+    display: table-header-group; }
+  tr,
+  img {
+    page-break-inside: avoid; }
+  img {
+    max-width: 100% !important; }
+  p,
+  h2,
+  h3 {
+    orphans: 3;
+    widows: 3; }
+  h2,
+  h3 {
+    page-break-after: avoid; } }
+
+/**
+ * Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/* Remove the unwanted box around FAB buttons */
+/* More info: http://goo.gl/IPwKi */
+a, .mdl-accordion, .mdl-button, .mdl-card, .mdl-checkbox, .mdl-dropdown-menu,
+.mdl-icon-toggle, .mdl-item, .mdl-radio, .mdl-slider, .mdl-switch, .mdl-tabs__tab {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0); }
+
+/*
+ * Make html take up the entire screen
+ * Then set touch-action to avoid touch delay on mobile IE
+ */
+html {
+  width: 100%;
+  height: 100%;
+  touch-action: manipulation; }
+
+/*
+* Make body take up the entire screen
+* Remove body margin so layout containers don't cause extra overflow.
+*/
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0; }
+
+/*
+ * Main display reset for IE support.
+ * Source: http://weblog.west-wind.com/posts/2015/Jan/12/main-HTML5-Tag-not-working-in-Internet-Explorer-91011
+ */
+main {
+  display: block; }
+
+/*
+* Apply no display to elements with the hidden attribute.
+* IE 9 and 10 support.
+*/
+*[hidden] {
+  display: none !important; }
+
+.blog-nav {
+  list-style: none;
+  margin: 0;
+  padding: 0; }
+  .blog-nav > li {
+    float: left;
+    text-align: center;
+    cursor: pointer;
+    height: 100%;
+    display: inline-block; }
+    .blog-nav > li.active {
+      color: rgb(27,174,222);
+      border-bottom: 1px solid rgb(27,174,222); }
+    .blog-nav > li:hover {
+      border-bottom: 1px solid rgb(27,174,222); }
+    .blog-nav > li > a {
+      padding: 0 22px;
+      text-decoration: initial; }
+
+.u-avatar {
+  position: relative; }
+
+.u-avatar i {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 10px;
+  height: 10px;
+  border: 2px solid #fff;
+  border-radius: 100%; }
+
+.u-avatar-online i {
+  background-color: #4caf50; }
+
+.u-avatar-off i {
+  background-color: #616161; }
+
+.u-avatar-busy i {
+  background-color: #ff9800; }
+
+.u-avatar-away i {
+  background-color: #f44336; }
+
+.u-avatar img {
+  width: 100%;
+  height: 100%; }
+
+.u-widget-bg {
+  background-color: #eceff1;
+  padding: 15px; }
+
+.u-widget {
+  background-color: #FFF;
+  margin: 15px; }
+  .u-widget:after {
+    display: table;
+    content: " ";
+    clear: both; }
+
+.u-widget-left {
+  margin-right: 0; }
+
+.u-widget-right {
+  margin-left: 0; }
+
+.u-widget-middle {
+  margin-left: 0;
+  margin-right: 0; }
+
+.u-widget-heading {
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  position: relative;
+  padding: 0;
+  /*border-bottom: 1px solid transparent;*/
+  border-bottom: 1px solid #e0e0e0; }
+
+.u-widget-title {
+  margin-top: 0;
+  margin-bottom: 0;
+  display: block;
+  padding: 10px 30px;
+  font-size: 16px;
+  color: #424242;
+  font-weight: 400;
+  border-left: 4px solid red; }
+  .u-widget-title .u-widget-more {
+    position: absolute;
+    right: 30px;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+            transform: translateY(-50%); }
+
+.u-widget-body {
+  padding: 30px 30px;
+  position: relative;
+  padding-top: 30px; }
+
+.u-widget-footer {
+  padding: 0 30px 15px;
+  padding-top: 15px;
+  background-color: transparent;
+  border-top: 1px solid #e0e0e0;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px; }
+
+/* 宽高 */
+.w-16 {
+  width: 16px; }
+
+.w-20 {
+  width: 20px; }
+
+.w-24 {
+  width: 24px; }
+
+.w-32 {
+  width: 32px; }
+
+.w-40 {
+  width: 40px; }
+
+.w-48 {
+  width: 48px; }
+
+.w-56 {
+  width: 56px; }
+
+.w-64 {
+  width: 64px; }
+
+.w-xxl {
+  width: 60px; }
+
+.w-xs {
+  width: 90px; }
+
+.w-sm {
+  width: 120px; }
+
+.w {
+  width: 180px; }
+
+.w-md {
+  width: 200px; }
+
+.w-lg {
+  width: 240px; }
+
+.w-xl {
+  width: 280px; }
+
+.w-xxl {
+  width: 320px; }
+
+.w-full {
+  width: 100%; }
+
+.w-auto {
+  width: auto; }
+
+.h-auto {
+  height: auto; }
+
+.h-full {
+  height: 100%; }
+
+/* 外边距 */
+.no-margin {
+  margin: 0; }
+
+.m {
+  margin: 16px; }
+
+.m-xs {
+  margin: 4px; }
+
+.m-sm {
+  margin: 8px; }
+
+.m-md {
+  margin: 24px; }
+
+.m-lg {
+  margin: 32px; }
+
+.m-v-xs {
+  margin-top: 4px;
+  margin-bottom: 4px; }
+
+.m-v-sm {
+  margin-top: 8px;
+  margin-bottom: 8px; }
+
+.m-v {
+  margin-top: 16px;
+  margin-bottom: 16px; }
+
+.m-v-md {
+  margin-top: 24px;
+  margin-bottom: 24px; }
+
+.m-v-lg {
+  margin-top: 32px;
+  margin-bottom: 32px; }
+
+.m-h-xs {
+  margin-right: 4px;
+  margin-left: 4px; }
+
+.m-h-sm {
+  margin-right: 8px;
+  margin-left: 8px; }
+
+.m-h {
+  margin-right: 16px;
+  margin-left: 16px; }
+
+.m-h-md {
+  margin-right: 24px;
+  margin-left: 24px; }
+
+.m-h-lg {
+  margin-right: 32px;
+  margin-left: 32px; }
+
+.m-t {
+  margin-top: 16px; }
+
+.m-t-xs {
+  margin-top: 4px; }
+
+.m-t-sm {
+  margin-top: 8px; }
+
+.m-t-md {
+  margin-top: 24px; }
+
+.m-t-lg {
+  margin-top: 32px; }
+
+.m-r {
+  margin-right: 16px; }
+
+.m-r-xs {
+  margin-right: 4px; }
+
+.m-r-sm {
+  margin-right: 8px; }
+
+.m-r-md {
+  margin-right: 24px; }
+
+.m-r-lg {
+  margin-right: 32px; }
+
+.m-b {
+  margin-bottom: 16px; }
+
+.m-b-xs {
+  margin-bottom: 4px; }
+
+.m-b-sm {
+  margin-bottom: 8px; }
+
+.m-b-md {
+  margin-bottom: 24px; }
+
+.m-b-lg {
+  margin-bottom: 32px; }
+
+.m-l {
+  margin-left: 16px; }
+
+.m-l-xs {
+  margin-left: 4px; }
+
+.m-l-sm {
+  margin-left: 8px; }
+
+.m-l-md {
+  margin-left: 24px; }
+
+.m-l-lg {
+  margin-left: 32px; }
+
+.m-n {
+  margin: -16px; }
+
+.m-h-n {
+  margin-right: -16px;
+  margin-left: -16px; }
+
+.m-v-n {
+  margin-top: -16px;
+  margin-bottom: -16px; }
+
+.m-l-n {
+  margin-left: -16px; }
+
+.m-r-n {
+  margin-right: -16px; }
+
+.m-t-n {
+  margin-top: -16px; }
+
+.m-b-n {
+  margin-bottom: -16px; }
+
+/* 内边距 */
+.no-padding {
+  padding: 0 !important; }
+
+.no-padding-h {
+  padding-right: 0 !important;
+  padding-left: 0 !important; }
+
+.no-padding-v {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important; }
+
+.p-xs {
+  padding: 4px; }
+
+.p-sm {
+  padding: 8px; }
+
+.p {
+  padding: 16px; }
+
+.p-md {
+  padding: 24px; }
+
+.p-lg {
+  padding: 32px; }
+
+.p-h {
+  padding-right: 16px;
+  padding-left: 16px; }
+
+.p-h-xs {
+  padding-right: 4px;
+  padding-left: 4px; }
+
+.p-h-sm {
+  padding-right: 8px;
+  padding-left: 8px; }
+
+.p-h-md {
+  padding-right: 24px;
+  padding-left: 24px; }
+
+.p-t-md {
+  padding-top: 24px; }
+
+.p-b-md {
+  padding-bottom: 24px; }
+
+.p-l-md {
+  padding-left: 24px; }
+
+.p-h-lg {
+  padding-right: 32px;
+  padding-left: 32px; }
+
+.p-v {
+  padding-top: 16px;
+  padding-bottom: 16px; }
+
+.p-v-xs {
+  padding-top: 4px;
+  padding-bottom: 4px; }
+
+.p-v-sm {
+  padding-top: 8px;
+  padding-bottom: 8px; }
+
+.p-v-md {
+  padding-top: 24px;
+  padding-bottom: 24px; }
+
+.p-v-lg {
+  padding-top: 32px;
+  padding-bottom: 32px; }
+
+.padding {
+  padding: 32px 32px; }
+
+.padding-out {
+  margin: -32px -32px; }
+
+/* 边框 */
+.no-border {
+  border-color: transparent;
+  border-width: 0; }
+
+/* 背景 */
+.no-bg {
+  color: inherit;
+  background-color: transparent; }
+
+/* 文字 */
+.text-ellipsis {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; }
+
+.text-muted {
+  color: inherit;
+  opacity: 0.75; }
+
+.text-muted-dk {
+  color: inherit;
+  opacity: 0.5; }
+
+.text-muted-lt {
+  color: inherit;
+  opacity: 0.25; }
+
+.text-right {
+  text-align: right; }
+
+.u-link {
+  cursor: pointer;
+  font-size: 12px;
+  color: rgb(3,119,193);
+  background-color: transparent;
+  text-decoration: none; }
+
+.u-link:active,
+.u-link:hover {
+  outline: 0; }
+
+.u-link:focus, .u-link:hover {
+  text-decoration: underline; }
+
+.img-circle {
+  border-radius: 50%; }
