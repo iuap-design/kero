@@ -290,7 +290,7 @@ content区域css begin
 .u-grid-content-td-div > .right-span{
     position: absolute;
     right: 0px;
-    line-height: 2.125em;
+    line-height: inherit;
     width: 2rem;
     text-align: center;
 }

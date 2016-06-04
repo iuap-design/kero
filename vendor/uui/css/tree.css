@@ -15,14 +15,14 @@ website:    http://code.google.com/p/jquerytree/
 }
 .ztree {
   margin: 0;
-  padding: 5px;
+  padding: 9px;
   color: #333333;
 }
 .ztree li {
   padding: 0;
   margin: 0;
   list-style: none;
-  line-height: 24px;
+  line-height: 26px;
   text-align: left;
   white-space: nowrap;
   outline: 0;
@@ -36,7 +36,7 @@ website:    http://code.google.com/p/jquerytree/
   background: url(../images/line_conn.gif) 0 0 repeat-y;
 }
 .ztree li a {
-  padding: 0 4px;
+  /*padding: 0 4px;*/
   margin: 0;
   cursor: pointer;
   color: #333;
@@ -47,10 +47,16 @@ website:    http://code.google.com/p/jquerytree/
   position: relative;
 }
 .ztree li a:hover {
-    background-color: #eee;
+    /*background-color: #eee;*/
+    background-color: #e7f8fb;
 }
+.ztree li a.focusNode {
+    /*background-color: #eee;*/
+    background-color: #C0EBF4;
+}
+
 .ztree li a.curSelectedNode span:first-child + span{
-  color:#3881D8;
+  /*color:#3881D8;*/
 }
 .ztree li a.curSelectedNode_Edit {
   padding-top: 0px;
@@ -86,7 +92,7 @@ website:    http://code.google.com/p/jquerytree/
   line-height: 0;
   margin: 0;
   width: 16px;
-  height: 16px;
+  height: 26px;
   display: inline-block;
   position: relative;
   /*border: 0 none;*/
@@ -103,6 +109,7 @@ website:    http://code.google.com/p/jquerytree/
   height: 13px;
   margin: 0 3px 0 0;
   cursor: auto;
+  z-index: 1000;
 }
 .ztree li span.button.chk.checkbox_false_full {
   background-position: 0 0;
@@ -259,6 +266,7 @@ website:    http://code.google.com/p/jquerytree/
   background-position: -110px 0;
   vertical-align: top;
   *vertical-align: middle;
+  overflow: hidden;
 }
 .ztree li span.button.ico_open:after {
     font-family:'FontAwesome';
@@ -276,6 +284,7 @@ website:    http://code.google.com/p/jquerytree/
   background-position: -110px 0;
   vertical-align: top;
   *vertical-align: middle;
+  overflow: hidden;
 }
 .ztree li span.button.ico_close:after {
     font-family:'FontAwesome';
@@ -291,6 +300,7 @@ website:    http://code.google.com/p/jquerytree/
  
   vertical-align: top;
   *vertical-align: middle;
+  overflow: hidden;
 }
 .ztree li span.button.ico_docu:after {
     font-family:'FontAwesome';
@@ -412,13 +422,14 @@ ul.ztree.zTreeDragUL {
 
 .ztree li span.button.switch {
     position: relative;
+    z-index: 1000;
 }
 
-.ztree li span.button.switch.noline_close:after {
+  .ztree li span.button.switch.noline_close:after {
         /* -webkit-transform: scale(.5) rotate(0deg); */
     /* transform: scale(.5) rotate(0deg); */
     /* zoom: 1; */
-    content: '';
+   /* content: '';
     display: inline-block;
     position: absolute;
     top: 7px;
@@ -427,11 +438,17 @@ ul.ztree.zTreeDragUL {
     width: 0;
     border-left: solid 4px #666;
     border-top: solid 4px transparent;
-    border-bottom: solid 4px transparent;
+    border-bottom: solid 4px transparent;*/
+    content: "\f107";
+    font-family: 'FontAwesome';
+    /*color: #3881D8;*/
+       position: absolute;
+    top: 10px;
+    font-size: 16px;
 }
 
 .ztree li span.button.switch.noline_open:after {
-    -webkit-transform: rotate(90deg); 
+    /*-webkit-transform: rotate(90deg); 
     transform: rotate(90deg); 
     content: '';
     display: inline-block;
@@ -442,6 +459,13 @@ ul.ztree.zTreeDragUL {
     width: 0;
     border-left: solid 4px #666;
     border-top: solid 4px transparent;
-    border-bottom: solid 4px transparent;
+    border-bottom: solid 4px transparent;*/
+    content: "\f105";
+    font-family: 'FontAwesome';
+    /*color: #3881D8;*/
+       position: absolute;
+    top: 10px;
+    font-size: 16px;
+    left:5px;
 }
 

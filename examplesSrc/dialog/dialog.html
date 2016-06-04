@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet"  href="../../../vendor/uui/fonts/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css"  href="../../../vendor/uui/css/u.css">
+</head>
+<body>
+    <!--<button id="msgBtn" class="u-button"  u-meta='{"type":"button"}'>FLAT</button>-->
+    <button id="msgDialogBtn" class="u-button raised accent">消息提示框</button>
+    <button id="msgDialogBtn2" class="u-button raised accent">消息确认框</button>
+	
+	<button id="msgDialogBtn3" class="u-button raised accent">模态框</button>
+	
+	
+	<div id="dialog_content" style="display:none;">
+		<div class="u-msg-title">
+			<h4>单据名称</h4>
+		</div>
+		<div class="u-msg-content">
+			<p>单据内容区</p>
+		</div>
+		<div class="u-msg-footer">
+			<button class="u-msg-ok u-button">保存<span class="u-button-container"><span class="u-ripple"></span></span></button>
+			<button class="u-msg-cancel u-button">取消<span class="u-button-container"><span class="u-ripple"></span></span></button>
+		</div>
+	</div>
+    <script src="../../../vendor/uui/js/u-polyfill.js"></script>
+    <script src="../../../vendor/uui/js/u-ui.js"></script>
+
+<script>
+    u.compMgr.apply({
+        el:'body'
+    })
+
+    var msgBtn = document.body.querySelector("#msgDialogBtn");
+    u.on(msgBtn,'click', function(){
+//            u.showMessage("HELLO!!!");
+        u.messageDialog({msg:"HELLO!!!",title:"测试提示", btnText:"OK!"});
+    })
+    var msgBtn2 = document.body.querySelector("#msgDialogBtn2");
+    u.on(msgBtn2,'click', function(){
+//            u.showMessage("HELLO!!!");
+        u.confirmDialog({
+            msg: "是否保存单据？",
+            title: "测试确认",
+            onOk: function () {
+                alert('ok')
+            },
+            onCancel: function () {
+                alert('cancel')
+            }
+        });
+    })
+	
+	
+	var msgBtn3 = document.body.querySelector("#msgDialogBtn3");
+	u.on(msgBtn3,'click', function(){
+		window.md = u.dialog({id:'testDialg',content:"#dialog_content",hasCloseMenu:true});
+	});
+	
+	var okButton = document.body.querySelector(".u-msg-ok");
+	u.on(okButton,'click', function(){
+		alert('ok');
+	});
+	
+	var cancelButton = document.body.querySelector(".u-msg-cancel");
+	u.on(cancelButton,'click', function(){
+		md.close();
+	});
+</script>
+
+</body>
+</html>

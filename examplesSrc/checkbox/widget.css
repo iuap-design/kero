@@ -1,0 +1,62 @@
+.u-checkbox-labelauty {
+    width: auto;
+    height: 32px;
+    padding: 2px 8px;
+    border: solid 1px #ccc;
+}
+
+.u-checkbox-labelauty:hover {
+    border: solid 2px #e4393c;
+    padding: 1px 7px;
+    color: #e4393c;
+}
+
+.u-checkbox-labelauty.u-checkbox.is-upgraded {
+    padding-left: 8px;
+}
+
+.u-checkbox-labelauty:hover.u-checkbox.is-upgraded, .u-checkbox-labelauty.is-upgraded.is-checked {
+    padding-left: 7px;
+}
+
+.u-checkbox-labelauty.is-checked {
+    border: solid 2px #e4393c;
+    padding: 1px 7px;
+}
+
+.u-checkbox-labelauty .u-checkbox-label {
+    display: inline-block;
+}
+
+.u-checkbox-labelauty .u-checkbox-outline {
+    display: none;
+}
+
+.u-checkbox-labelauty.is-checked:before {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    content: ' ';
+    border-left: 12px solid transparent;
+    border-bottom: 12px solid #e4393c;
+}
+
+.u-checkbox-labelauty.is-checked:after {
+    -webkit-transform: rotate(45deg) scale(.8);
+    transform: rotate(45deg) scale(.8);
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    display: table;
+    width: 5px;
+    height: 8px;
+    box-sizing: border-box;
+    border: 2px solid #fff;
+    border-top: 0;
+    border-left: 0;
+    content: ' ';
+    -webkit-transition: all .2s cubic-bezier(.12,.4,.29,1.46) .1s;
+    transition: all .2s cubic-bezier(.12,.4,.29,1.46) .1s;
+}

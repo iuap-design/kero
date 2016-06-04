@@ -1139,10 +1139,17 @@ var XmlHttp = {
   reqCount : 4,
   createXhr : function() {
     var xmlhttp = null;
-    if (window.XMLHttpRequest) {
+    /*if (window.XMLHttpRequest) {
       xmlhttp = new XMLHttpRequest();
     } else {
       xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }*/
+    if(u.isIE8){
+      xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");//IE低版本创建XMLHTTP  
+    }else if(u.isIE){
+      xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");//IE高版本创建XMLHTTP
+    }else if(window.XMLHttpRequest){
+      xmlhttp = new XMLHttpRequest();
     }
     return xmlhttp;
   },
@@ -1153,16 +1160,16 @@ var XmlHttp = {
     var error = _json["error"];
     var params = _json["data"] || {};
     var method = (_json["type"] == undefined ? XmlHttp.post : _json["type"]).toLowerCase();
-		var gzipFlag = params.compressType;
+    var gzipFlag = params.compressType;
     url = XmlHttp.serializeUrl(url);
     params = XmlHttp.serializeParams(params);
     if (method == XmlHttp.get && params != null) {
       url += ("&" + params);
-      params = null;	//如果是get请求,保证最终会执行send(null)
+      params = null;  //如果是get请求,保证最终会执行send(null)
     }
 
     var xmlhttp = XmlHttp.createXhr();
-    xmlhttp.open(method, url, async);
+    xmlhttp.open(method, url+ escape(new Date()), async);
 
     if (method == XmlHttp.post) {
       xmlhttp.setRequestHeader("Content-type",
@@ -1177,22 +1184,22 @@ var XmlHttp = {
         execount++;
         // 等待readyState状态不再变化之后,再执行回调函数
         //if (execount == XmlHttp.reqCount) {// 火狐下存在问题，修改判断方式
-		if(this.readyState == XmlHttp.reqCount){
+        if(xmlhttp.readyState == XmlHttp.reqCount){
           XmlHttp.execBack(xmlhttp, callback, error);
         }
       };
       // send方法要在在回调函数之后执行
-	      	xmlhttp.send(params);
+      xmlhttp.send(params);
     } else {
       // 同步 readyState 直接变为 4
       // 并且 send 方法要在回调函数之前执行
-	    xmlhttp.send(params);
+      xmlhttp.send(params);
       XmlHttp.execBack(xmlhttp, callback, error);
     }
   },
   execBack : function(xmlhttp, callback, error) {
     //if (xmlhttp.readyState == 4
-     if (xmlhttp.status == 200 || xmlhttp.status == 304) {
+     if (xmlhttp.status == 200 || xmlhttp.status == 304 || xmlhttp.readyState == 4) {
       callback(xmlhttp.responseText,xmlhttp.status, xmlhttp);
     } else {
       if (error) {
@@ -1642,20 +1649,20 @@ u.compMgr = CompMgr;
 //    });
 //}
 
-
-if (window.i18n) {
-    var scriptPath = getCurrentJsPath(),
-        _temp = scriptPath.substr(0, scriptPath.lastIndexOf('/')),
-        __FOLDER__ = _temp.substr(0, _temp.lastIndexOf('/'))
-    u.uuii18n = u.extend({}, window.i18n)
-    u.uuii18n.init({
-        postAsync: false,
-        getAsync: false,
-        fallbackLng: false,
-        ns: {namespaces: ['uui-trans']},
-        resGetPath: __FOLDER__ + '/locales/__lng__/__ns__.json'
-    })
-}
+//
+//if (window.i18n) {
+//    var scriptPath = getCurrentJsPath(),
+//        _temp = scriptPath.substr(0, scriptPath.lastIndexOf('/')),
+//        __FOLDER__ = _temp.substr(0, _temp.lastIndexOf('/'))
+//    u.uuii18n = u.extend({}, window.i18n)
+//    u.uuii18n.init({
+//        postAsync: false,
+//        getAsync: false,
+//        fallbackLng: false,
+//        ns: {namespaces: ['uui-trans']},
+//        resGetPath: __FOLDER__ + '/locales/__lng__/__ns__.json'
+//    })
+//}
 
 window.trans = u.trans = function (key, dftValue) {
     return  u.uuii18n ?  u.uuii18n.t('uui-trans:' + key) : dftValue
@@ -6032,7 +6039,7 @@ u.showMessage = function(options) {
     msg = options['msg'] || "";
     position = options['position'] || "bottom-right";  //center. top-left, top-center, top-right, bottom-left, bottom-center, bottom-right,
     //TODO 后面改规则：没设宽高时，自适应
-    width = options['width'] || "300px";
+    width = options['width'] || "";
     // height = options['height'] || "100px";
      msgType = options['msgType'] || 'info';
     //默认为当用户输入的时间，当用户输入的时间为false并且msgType=='info'时，默认显示时间为2s
@@ -6468,7 +6475,8 @@ u.Autocomplete = u.BaseComponent.extend({
 		width: 0,
 		source:null,
 		select: null,
-		multiSelect: false
+		multiSelect: false,
+		//moreClick:function(){},
 	},
 	init: function(){
 		var self = this;
@@ -6501,11 +6509,11 @@ u.Autocomplete = u.BaseComponent.extend({
 			self.lastKeyPressCode = e.keyCode;
 			switch (e.keyCode) {
 				case 38: // up
-					e.preventDefault();
+					u.stopEvent(e);
 					self.moveSelect(-1);
 					break;
 				case 40: // down
-					e.preventDefault();
+					u.stopEvent(e);
 					self.moveSelect(1);
 					break;
 				case 9: // tab
@@ -6513,7 +6521,7 @@ u.Autocomplete = u.BaseComponent.extend({
 					if (self.selectCurrent()) {
 						// make sure to blur off the current field
 						// self.element.blur();
-						e.preventDefault();
+						u.stopEvent(e);
 					}
 					break;
 				default:
@@ -6778,9 +6786,15 @@ u.Autocomplete = u.BaseComponent.extend({
 		var ul = document.createElement("ul");
 		var num = items.length;
 		var me = this;
+		var showMoreMenu = false;
 
 		// limited results to a max number
-		if ((this.options.maxItemsToShow > 0) && (this.options.maxItemsToShow < num)) num = this.options.maxItemsToShow;
+		if ((this.options.maxItemsToShow > 0) && (this.options.maxItemsToShow < num)){
+			num = this.options.maxItemsToShow;
+			if(this.options.moreMenuClick){
+				showMoreMenu = true;
+			}	
+		} 
 
 		for (var i = 0; i < num; i++) {
 			var item = items[i];
@@ -6804,9 +6818,26 @@ u.Autocomplete = u.BaseComponent.extend({
 				u.removeClass(this, "ac_over");
 			});
 			u.on(li, 'mousedown', function(e){
-				e.preventDefault();
-				e.stopPropagation();
+				u.stopEvent(e);
 				me.selectItem(this);
+			});
+		}
+		if(showMoreMenu){
+			var li = document.createElement("li");
+			li.innerHTML = '更多';
+			ul.appendChild(li);
+			u.on(li, 'mouseenter', function(){
+				var _li = ul.querySelector('li.ac_over');
+				if (_li)
+					u.removeClass(_li, 'ac_over');;
+				u.addClass(this,"ac_over");
+			});
+			u.on(li,'mouseleave', function(){
+				u.removeClass(this, "ac_over");
+			});
+			u.on(li, 'mousedown', function(e){
+				u.stopEvent(e);
+				me.options.moreMenuClick.call(me);
 			});
 		}
 		return ul;
@@ -6827,9 +6858,15 @@ u.Autocomplete = u.BaseComponent.extend({
 		var ul = document.createElement("ul");
 		var num = data.length;
 		var self = this;
+		var showMoreMenu = false;
 
 		// limited results to a max number
-		if ((this.options.maxItemsToShow > 0) && (this.options.maxItemsToShow < num)) num = this.options.maxItemsToShow;
+		if ((this.options.maxItemsToShow > 0) && (this.options.maxItemsToShow < num)){
+			num = this.options.maxItemsToShow;
+			if(this.options.moreMenuClick){
+				showMoreMenu = true;
+			}	
+		} 
 
 		for (var i = 0; i < num; i++) {
 			var row = data[i];
@@ -6862,9 +6899,26 @@ u.Autocomplete = u.BaseComponent.extend({
 				u.removeClass(this, "ac_over");
 			});
 			u.on(li, 'mousedown', function(){
-				e.preventDefault();
-				e.stopPropagation();
+				u.stopEvent(e);
 				self.selectItem(this);
+			});
+		}
+		if(showMoreMenu){
+			var li = document.createElement("li");
+			li.innerHTML = '更多';
+			ul.appendChild(li);
+			u.on(li, 'mouseenter', function(){
+				var _li = ul.querySelector('li.ac_over');
+				if (_li)
+					u.removeClass(_li, 'ac_over');;
+				u.addClass(this,"ac_over");
+			});
+			u.on(li,'mouseleave', function(){
+				u.removeClass(this, "ac_over");
+			});
+			u.on(li, 'mousedown', function(e){
+				u.stopEvent(e);
+				self.options.moreMenuClick.call(self);
 			});
 		}
 		return ul;
@@ -8081,10 +8135,19 @@ u.DateTimePicker.fn.show = function(evt){
             }
         };
         u.on(document,'click', callback);
+
+        u.on(document.body,'scroll',function(){
+            u.showPanelByEle({
+                ele:self._input,
+                panel:self._panel,
+                position:"bottomLeft"
+            });
+        })
     }
     
     this.isShow = true;
 };
+
 
 /**
  * 确定事件
@@ -8554,6 +8617,14 @@ u.Time = u.BaseComponent.extend({
         });
 		this.panelDiv.style.zIndex = u.getZIndex();
         u.addClass(this.panelDiv, 'is-visible');
+
+        u.on(document.body,'scroll',function(){
+            u.showPanelByEle({
+                ele:oThis.input,
+                panel:oThis.panelDiv,
+                position:"bottomLeft"
+            });
+        })
         
    
         
@@ -8862,6 +8933,13 @@ u.YearMonth.fn.show = function(evt) {
             panel:this.panelDiv,
             position:"bottomLeft"
         });
+    u.on(document.body,'scroll',function(){
+            u.showPanelByEle({
+                ele:oThis.input,
+                panel:oThis.panelDiv,
+                position:"bottomLeft"
+            });
+        })
 	this.panelDiv.style.zIndex = u.getZIndex();
     u.addClass(this.panelDiv, 'is-visible');
     var oThis = this;
@@ -9059,6 +9137,13 @@ u.Year.fn.show = function(evt) {
             panel:this.panelDiv,
             position:"bottomLeft"
         });
+	u.on(document.body,'scroll',function(){
+        u.showPanelByEle({
+            ele:oThis.input,
+            panel:oThis.panelDiv,
+            position:"bottomLeft"
+        });
+    })
 	this.panelDiv.style.zIndex = u.getZIndex();
     u.addClass(this.panelDiv, 'is-visible');
         
@@ -9264,7 +9349,13 @@ u.Month.fn.show = function(evt) {
             panel:this.panelDiv,
             position:"bottomLeft"
         });
-	        
+	u.on(document.body,'scroll',function(){
+        u.showPanelByEle({
+            ele:oThis.input,
+            panel:oThis.panelDiv,
+            position:"bottomLeft"
+        });
+    })        
 	this.panelDiv.style.width = 152 + 'px';
 	this.panelDiv.style.zIndex = u.getZIndex();
     u.addClass(this.panelDiv, 'is-visible');
@@ -9666,6 +9757,13 @@ u.ClockPicker.fn._zoomIn = function(newPage){
 	            panel:this.panelDiv,
 	            position:"bottomLeft"
 	        });
+	        u.on(document.body,'scroll',function(){
+		        u.showPanelByEle({
+		            ele:self.input,
+		            panel:self.panelDiv,
+		            position:"bottomLeft"
+		        });
+		    })    
         }
         
 		this.panelDiv.style.zIndex = u.getZIndex();
@@ -9791,7 +9889,14 @@ u.Combo = u.BaseComponent.extend({
             panel:this._ul,
             position:"bottomLeft"
         });
-	this._ul.style.width = width + 'px';
+        u.on(document.body,'scroll',function(){
+            u.showPanelByEle({
+                ele:self._input,
+                panel:self._ul,
+                position:"bottomLeft"
+            });
+        })    
+	    this._ul.style.width = width + 'px';
         u.addClass(this._ul, 'is-animating');
         this._ul.style.zIndex = u.getZIndex();
         u.addClass(this._ul, 'is-visible');
@@ -10590,6 +10695,7 @@ u.Tooltip.prototype = {
         }, self.options.delay.hide)
     },
     show: function(){
+        var self = this;
         this.tipDom.querySelector('.tooltip-inner').innerHTML = this.options.title;
         this.tipDom.style.zIndex = u.getZIndex();
         this.container.appendChild(this.tipDom);
@@ -10606,6 +10712,13 @@ u.Tooltip.prototype = {
             panel:this.tipDom,
             position:'topCenter'
         });
+        u.on(document.body,'scroll',function(){
+            u.showPanelByEle({
+                ele:self.element,
+                panel:self.tipDom,
+                position:"bottomLeft"
+            });
+        })   
     },
     hide: function(){
 		if (this.container.contains(this.tipDom)){
@@ -11466,6 +11579,10 @@ u.slidePanel = function (options) {
         });
         slideDom.style.transform = 'translate3d(100%,0,0)';
         overlayDiv.style.opacity = 0;
+        if(u.isIE8){
+            document.body.removeChild(slideDom);
+            document.body.removeChild(overlayDiv);
+        }
     })
 
     return {

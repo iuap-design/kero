@@ -1138,10 +1138,17 @@ var XmlHttp = {
   reqCount : 4,
   createXhr : function() {
     var xmlhttp = null;
-    if (window.XMLHttpRequest) {
+    /*if (window.XMLHttpRequest) {
       xmlhttp = new XMLHttpRequest();
     } else {
       xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }*/
+    if(u.isIE8){
+      xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");//IE低版本创建XMLHTTP  
+    }else if(u.isIE){
+      xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");//IE高版本创建XMLHTTP
+    }else if(window.XMLHttpRequest){
+      xmlhttp = new XMLHttpRequest();
     }
     return xmlhttp;
   },
@@ -1152,16 +1159,16 @@ var XmlHttp = {
     var error = _json["error"];
     var params = _json["data"] || {};
     var method = (_json["type"] == undefined ? XmlHttp.post : _json["type"]).toLowerCase();
-		var gzipFlag = params.compressType;
+    var gzipFlag = params.compressType;
     url = XmlHttp.serializeUrl(url);
     params = XmlHttp.serializeParams(params);
     if (method == XmlHttp.get && params != null) {
       url += ("&" + params);
-      params = null;	//如果是get请求,保证最终会执行send(null)
+      params = null;  //如果是get请求,保证最终会执行send(null)
     }
 
     var xmlhttp = XmlHttp.createXhr();
-    xmlhttp.open(method, url, async);
+    xmlhttp.open(method, url+ escape(new Date()), async);
 
     if (method == XmlHttp.post) {
       xmlhttp.setRequestHeader("Content-type",
@@ -1176,22 +1183,22 @@ var XmlHttp = {
         execount++;
         // 等待readyState状态不再变化之后,再执行回调函数
         //if (execount == XmlHttp.reqCount) {// 火狐下存在问题，修改判断方式
-		if(this.readyState == XmlHttp.reqCount){
+        if(xmlhttp.readyState == XmlHttp.reqCount){
           XmlHttp.execBack(xmlhttp, callback, error);
         }
       };
       // send方法要在在回调函数之后执行
-	      	xmlhttp.send(params);
+      xmlhttp.send(params);
     } else {
       // 同步 readyState 直接变为 4
       // 并且 send 方法要在回调函数之前执行
-	    xmlhttp.send(params);
+      xmlhttp.send(params);
       XmlHttp.execBack(xmlhttp, callback, error);
     }
   },
   execBack : function(xmlhttp, callback, error) {
     //if (xmlhttp.readyState == 4
-     if (xmlhttp.status == 200 || xmlhttp.status == 304) {
+     if (xmlhttp.status == 200 || xmlhttp.status == 304 || xmlhttp.readyState == 4) {
       callback(xmlhttp.responseText,xmlhttp.status, xmlhttp);
     } else {
       if (error) {
@@ -1641,20 +1648,20 @@ u.compMgr = CompMgr;
 //    });
 //}
 
-
-if (window.i18n) {
-    var scriptPath = getCurrentJsPath(),
-        _temp = scriptPath.substr(0, scriptPath.lastIndexOf('/')),
-        __FOLDER__ = _temp.substr(0, _temp.lastIndexOf('/'))
-    u.uuii18n = u.extend({}, window.i18n)
-    u.uuii18n.init({
-        postAsync: false,
-        getAsync: false,
-        fallbackLng: false,
-        ns: {namespaces: ['uui-trans']},
-        resGetPath: __FOLDER__ + '/locales/__lng__/__ns__.json'
-    })
-}
+//
+//if (window.i18n) {
+//    var scriptPath = getCurrentJsPath(),
+//        _temp = scriptPath.substr(0, scriptPath.lastIndexOf('/')),
+//        __FOLDER__ = _temp.substr(0, _temp.lastIndexOf('/'))
+//    u.uuii18n = u.extend({}, window.i18n)
+//    u.uuii18n.init({
+//        postAsync: false,
+//        getAsync: false,
+//        fallbackLng: false,
+//        ns: {namespaces: ['uui-trans']},
+//        resGetPath: __FOLDER__ + '/locales/__lng__/__ns__.json'
+//    })
+//}
 
 window.trans = u.trans = function (key, dftValue) {
     return  u.uuii18n ?  u.uuii18n.t('uui-trans:' + key) : dftValue
@@ -3570,20 +3577,31 @@ App.fn.compsValidateMultiParam = function(options){
         comps = this.getComps(element),
         passed = true,
         showMsg = options.showMsg,
-        MsgArr = new Array();
-        Msg = '';
+        notPassedArr = new Array();
     for(var i = 0; i < comps.length; i++){
         if (comps[i].doValidate){
             result = comps[i].doValidate({trueValue:true, showMsg:showMsg});
             passed = result.passed && passed;
             if(!result.passed){
-                MsgArr.push(result.Msg);
-                Msg += result.Msg;
+                notPassedArr.push(result);
             }
         }
     }
     return {passed:passed,
-            MsgArr:MsgArr};
+            notPassedArr:notPassedArr}; 
+}
+
+/**
+ * 将comp显示到顶端（此方法只支持body上存在滚动条的情况）
+ * @param {object} comp对象
+ */
+App.fn.showComp = function(comp){
+    var ele = comp.element,off = u.getOffset(ele),scroll = u.getScroll(ele),
+        top = off.top - scroll.top,bodyHeight = document.body.clientHeight,
+        nowTop = document.body.scrollTop;
+    if(top > bodyHeight || top < 0){
+        document.body.scrollTop = nowTop + top;
+    }
 }
 
 /**
@@ -4149,6 +4167,7 @@ Events.fn.getEvent = function (name) {
 var DataTable = function (options) {
     options = options || {};
     this.id = options['id'];
+    this.strict = options['strict'] || false;
     this.meta = DataTable.createMetaItems(options['meta']);
     this.enable = options['enable'] || DataTable.DEFAULTS.enable;
     this.pageSize = ko.observable(options['pageSize'] || DataTable.DEFAULTS.pageSize)
@@ -4220,7 +4239,8 @@ DataTable.createMetaItems = function (metas) {
  */
 DataTable.fn.createField = function(fieldName, options){
     //字段不主动定义，则不创建
-    //return;
+    if (this.root.strict == true)
+        return;
     //有子表的情况不创建字段
     if (fieldName.indexOf('.') != -1){
         var fNames = fieldName.split('.');
@@ -4438,7 +4458,7 @@ DataTable.fn.setData = function (data,options) {
         newSize = data.pageSize || this.pageSize(),
         newTotalPages = data.totalPages || this.totalPages(),
         newTotalRow = data.totalRow || data.rows.length,
-        select, focus,unSelect=options?options.unSelect:true; // 改为默认为true
+        select, focus,unSelect=options?options.unSelect:false; 
         //currPage,
         //type = data.type;
 
@@ -4507,10 +4527,12 @@ DataTable.fn.getSimpleData = function(options){
  *options{} unSelect为true：不选中，为false则选中，默认选中0行
  */
 DataTable.fn.setSimpleData = function(data,options){
-    if (!data){
-        throw new Error("dataTable.setSimpleData param can't be null!");
-    }
     this.clear();
+    if (!data){
+        // throw new Error("dataTable.setSimpleData param can't be null!");
+        return;
+    }
+    
     var rows = [];
     if (!u.isArray(data))
         data = [data];
@@ -5992,7 +6014,8 @@ Row.fn.refCombo = function (fieldName, datasource) {
 
             for (var i = 0, length = ds.length; i < length; i++) {
                 for (var j = 0; j < valArr.length; j++) {
-                    if (ds[i].pk == valArr[j]) {
+                    var value = ds[i]['pk'] || ds[i]['value'] || '';
+                    if (value == valArr[j]) {
                         nameArr.push(ds[i].name)
                     }
                 }
@@ -6333,59 +6356,63 @@ Row.fn.setData = function (data, subscribe) {
     this.status = data.status
     var sourceData = data.data,
         targetData = this.data;
-     this._setData(sourceData, targetData,subscribe);
+    if (this.parent.root.strict != true){
+        this._setData(sourceData, targetData,subscribe);
+        return;
+    }
 
-    // 如果有一天，规则改成：定义dataTable的时候必须定义所有字段信息才能设置数据。放开下面这段代码
-    //var meta = this.parent.meta;
-    //for (var key in meta){
-    //    var oldValue = newValue = null;
-    //    //子数据
-    //    if (meta[key]['type'] && meta[key]['type'] === 'child'){
-    //        targetData[key].isChild = true;
-    //        //ns 是多级数据时的空间名： 最顶层的dataTable没有ns。  f1.f2.f3
-    //        var ns = this.parent.ns === '' ? key : this.parent.ns + '.' + key
-    //        var meta = this.parent.meta[key]['meta']
-    //        targetData[key].value = new u.DataTable({root:this.parent.root,ns:ns,meta:meta});
-    //        if (typeof sourceData[key] === 'object')
-    //            targetData[key].value.setSimpleData(sourceData[key]);
-    //    }
-    //    //存在多级关系
-    //    else if (key.indexOf('.') != -1){
-    //        var keys = key.split('.');
-    //        var _fieldValue = sourceData;
-    //        var _targetField = targetData;
-    //        for(var i = 0; i< keys.length; i++){
-    //            _fieldValue = _fieldValue[keys[i]];
-    //            _targetField = _targetField[keys[i]];
-    //        }
-    //        oldValue = _targetField['value'];
-    //        _targetField['value'] = this.formatValue(key, _fieldValue)
-    //        newValue = _targetField['value'];
-    //    }
-    //    // 通过 setSimpleData 设置的数据
-    //    else if (sourceData[key] == null ||  typeof sourceData[key] != 'object'){
-    //        oldValue = targetData[key]['value'];
-    //        targetData[key]['value'] = this.formatValue(key, sourceData[key])
-    //        newValue = targetData[key]['value'];
-    //    }
-    //    else{
-    //        var valueObj = sourceData[key];
-    //        if (valueObj.error) {
-    //            u.showMessageDialog({title: "警告", msg: valueObj.error, backdrop: true});
-    //        } else if (valueObj.value || valueObj.value === null || valueObj.meta){
-    //            oldValue = targetData[key]['value'];
-    //            targetData[key]['value'] = this.formatValue(key, valueObj.value)
-    //            newValue = targetData[key]['value'];
-    //            for (var k in valueObj.meta) {
-    //                this.setMeta(key, k, valueObj.meta[k])
-    //            }
-    //        }
-    //    }
-    //    if (subscribe === true && (oldValue !== newValue)){
-    //        this._triggerChange(key, oldValue);
-    //    }
-    //
-    //}
+    // strict 为true 时 ，定义dataTable的时候必须定义所有字段信息才能设置数据。
+    var meta = this.parent.meta;
+    for (var key in meta){
+        var oldValue = newValue = null;
+        //子数据
+        if (meta[key]['type'] && meta[key]['type'] === 'child'){
+            targetData[key].isChild = true;
+            //ns 是多级数据时的空间名： 最顶层的dataTable没有ns。  f1.f2.f3
+            var ns = this.parent.ns === '' ? key : this.parent.ns + '.' + key
+            var meta = this.parent.meta[key]['meta']
+            targetData[key].value = new u.DataTable({root:this.parent.root,ns:ns,meta:meta});
+            if (typeof sourceData[key] === 'object')
+                targetData[key].value.setSimpleData(sourceData[key]);
+        }
+        //存在多级关系
+        else if (key.indexOf('.') != -1){
+            var keys = key.split('.');
+            var _fieldValue = sourceData;
+            var _targetField = targetData;
+            for(var i = 0; i< keys.length; i++){
+                _fieldValue = _fieldValue || {};
+                _fieldValue = _fieldValue[keys[i]];
+                _targetField = _targetField[keys[i]];
+            }
+            oldValue = _targetField['value'];
+            _targetField['value'] = this.formatValue(key, _fieldValue)
+            newValue = _targetField['value'];
+        }
+        // 通过 setSimpleData 设置的数据
+        else if (sourceData[key] == null ||  typeof sourceData[key] != 'object'){
+            oldValue = targetData[key]['value'];
+            targetData[key]['value'] = this.formatValue(key, sourceData[key])
+            newValue = targetData[key]['value'];
+        }
+        else{
+            var valueObj = sourceData[key];
+            if (valueObj.error) {
+                u.showMessageDialog({title: "警告", msg: valueObj.error, backdrop: true});
+            } else if (valueObj.value || valueObj.value === null || valueObj.meta){
+                oldValue = targetData[key]['value'];
+                targetData[key]['value'] = this.formatValue(key, valueObj.value)
+                newValue = targetData[key]['value'];
+                for (var k in valueObj.meta) {
+                    this.setMeta(key, k, valueObj.meta[k])
+                }
+            }
+        }
+        if (subscribe === true && (oldValue !== newValue)){
+            this._triggerChange(key, oldValue);
+        }
+
+    }
 };
 
 
@@ -6594,11 +6621,14 @@ u.EnableMixin = {
     init: function(){
         var self = this;
         //处理只读
-        this.dataModel.refEnable(this.field).subscribe(function(value) {
-            self.setEnable(value);
-        });
-        this.setEnable(this.dataModel.isEnable(this.field));
-
+        if (this.options['enable'] && (this.options['enable'] == 'false' || this.options['enable'] == false)){
+            this.setEnable(false);
+        }else {
+            this.dataModel.refEnable(this.field).subscribe(function (value) {
+                self.setEnable(value);
+            });
+            this.setEnable(this.dataModel.isEnable(this.field));
+        }
     },
     methods:{
         setEnable: function(enable){
@@ -6623,7 +6653,7 @@ u.RequiredMixin = {
         var self = this;
         this.required = this.getOption('required');
         this.dataModel.refRowMeta(this.field, "required").subscribe(function(value) {
-            self.setRequired(event.newValue);
+            self.setRequired(value);
         });
         //this.setRequired(this.dataModel.getMeta(this.field, "required"));
 
@@ -6686,12 +6716,15 @@ u.ValidateMixin = {
             if (this.validate) {
                 if (options && options['trueValue'] === true) {
                     options['showMsg'] = options['showMsg'] || false;
-                    return this.validate.check({pValue: this.getValue(), showMsg: options['showMsg']});
+                    var result = this.validate.check({pValue: this.getValue(), showMsg: options['showMsg']});
                 }
-                else
-                    return this.validate.check()
+                else{
+                    var result = this.validate.check();
+                }
+                result.comp = this;
+                return result;
             } else {
-                return {passed:true}
+                return {passed:true,comp:this}
             }
         },
         /**
@@ -7258,8 +7291,8 @@ u.CheckboxAdapter = u.BaseAdapter.extend({
     },
     setComboData: function (comboData) {
         var self = this;
-        this.element.innerHTML = '';
-        for (var i = 0, len = comboData.length; i < len; i++) {
+        //this.element.innerHTML = '';
+        for (var i = 0, len = comboData.length; i < (len - 1); i++) {
             for(var j=0; j<this.checkboxTemplateArray.length; j++){
                 this.element.appendChild(this.checkboxTemplateArray[j].cloneNode(true));
             }
@@ -7530,8 +7563,8 @@ u.RadioAdapter = u.BaseAdapter.extend({
     },
     setComboData: function (comboData) {
         var self = this;
-        this.element.innerHTML = '';
-        for (var i = 0, len = comboData.length; i < len; i++) {
+        // this.element.innerHTML = '';
+        for (var i = 0, len = comboData.length; i < (len - 1); i++) {
             for(var j=0; j<this.radioTemplateArray.length; j++){
                 this.element.appendChild(this.radioTemplateArray[j].cloneNode(true));
             }

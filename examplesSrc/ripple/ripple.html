@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="../../../vendor/uui/css/u.css">
+    <style>
+        #rippleTest {
+            height:100px;
+            width: 100px;
+            border: 1px solid #feff47;
+            color: red;
+            /*margin: 100px 0 0 100px;*/
+        }
+    </style>
+
+</head>
+<body>
+<div class="u-r" id="rippleTest">
+    <span class="u-ripple" style="width: 25px;height: 25px"></span>
+</div>
+<script src="../../../vendor/uui/js/u-polyfill.js"></script>
+<script src="../../../vendor/uui/js/u-ui.js"></script>
+
+<script>
+    var rippleEle = document.getElementById('rippleTest');
+    var ripple = new u.Ripple(rippleEle);
+    ripple.setRippleXY(10,10);
+    ripple.setRippleStyles(false);
+    //ripple.setFrameCount(3)
+</script>
+</body>
+</html>

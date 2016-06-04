@@ -870,7 +870,7 @@
 					childHtml = view.appendNodes(setting, level + 1, node[childKey], node, initFlag, openFlag && node.open);
 				}
 				if (openFlag) {
-
+					setting.treeObj.offsetWidth=setting.treeObj[0].offsetWidth;
 					view.makeDOMNodeMainBefore(html, setting, node);
 					view.makeDOMNodeLine(html, setting, node);
 					data.getBeforeA(setting, node, html);
@@ -1181,10 +1181,25 @@
 			var title = data.getNodeTitle(setting, node),
 			url = view.makeNodeUrl(setting, node),
 			fontcss = view.makeNodeFontCss(setting, node),
+			parDomWidth=setting.treeObj.offsetWidth,
+			// parPaddingLeft=parseInt(setting.treeObj.css('paddingLeft')),
+			parPaddingLeft=9,
+			checkboxLength=17,
+			pLeft,
 			fontStyle = [];
+			fontStyle.push('width', ":", parDomWidth+'px', ";");
+			if(setting.check.enable){
+				pLeft=checkboxLength+parPaddingLeft+18*(node.level+1)+'px';
+			}else{
+				pLeft=parPaddingLeft+18*(node.level+1)+'px';
+			}
+			fontStyle.push('padding-left', ":",pLeft, ";");
+			fontStyle.push('margin-left', ":", '-'+pLeft, ";");
 			for (var f in fontcss) {
 				fontStyle.push(f, ":", fontcss[f], ";");
 			}
+			// 添加width，padding
+
 			html.push("<a id='", node.tId, consts.id.A, "' class='", consts.className.LEVEL, node.level,"' treeNode", consts.id.A," onclick=\"", (node.click || ''),
 				"\" ", ((url != null && url.length > 0) ? "href='" + url + "'" : ""), " target='",view.makeNodeTarget(node),"' style='", fontStyle.join(''),
 				"'");
@@ -3605,6 +3620,11 @@ u.TreeAdapter = u.BaseAdapter.extend({
 				},
 				// 单选时点击触发选中
 				onClick: function(e, id, node) {
+					//点击时取消所有超链接效果
+					$('#'+id+' a').removeClass('focusNode');
+					//添加focusNode样式
+					
+					$('#'+node.tId+'_a').addClass('focusNode');
 					if (oThis.tree.setting.view.selectedMulti != true) {
 						// 获取到节点的idValue
 						var idValue = node.id;

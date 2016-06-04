@@ -1,0 +1,31 @@
+.u-tag {
+    display: inline-block;
+    line-height: 22px;
+    height: 22px;
+    padding: 0 8px;
+    border-radius: 6px;
+    background: #f3f3f3;
+    font-size: 12px;
+    -webkit-transition: all .3s cubic-bezier(.78,.14,.15,.86);
+    transition: all .3s cubic-bezier(.78,.14,.15,.86);
+    vertical-align: middle;
+    opacity: .85;
+    overflow: hidden;
+    margin: 2px 4px 2px 0;
+    color: #666;
+}
+
+.u-tag:hover {
+	opacity: 1;
+}
+
+.u-tag-text a {
+	color: inherit;
+    outline: none;
+    text-decoration: none;
+}
+
+.u-tag .fa-remove {
+	cursor: pointer;
+}
+    

@@ -1466,7 +1466,7 @@
 				this.cleanCurrEventName =  setTimeout(function(){
 					oThis.currentEventName = null;
 					Fun.call(oThis,Arg);
-				},500);
+				},250);
 			}
 		},
 		/*
@@ -1634,13 +1634,13 @@
 			}
 		},
 		getInt:function(value,defaultValue){
-			if(value === null || value === undefined || value === 'null' || value === 'undefined' || value === "" || Number.isNaN(value)){
+			if(value === null || value === undefined || value === 'null' || value === 'undefined' || value === "" || isNaN(value)){
 				value = defaultValue;
 			}
 			return value;
 		},
 		getFloat:function(value,defaultValue){
-			if(value === null || value === undefined || value === 'null' || value === 'undefined' || value === "" || Number.isNaN(value)){
+			if(value === null || value === undefined || value === 'null' || value === 'undefined' || value === "" || isNaN(value)){
 				value = defaultValue;
 			}
 			return value;
@@ -3184,6 +3184,17 @@
 		var $td = $(e.target).closest('td');
 		var colIndex = $td.index();
 		if(this.options.editable && (this.eidtRowIndex != index || (this.options.editType == 'default' && this.editColIndex != colIndex))){
+			if(typeof this.options.onBeforeEditFun == 'function'){
+				var obj = {};
+				obj.gridObj = this;
+				obj.rowObj = this.dataSourceObj.rows[index];
+				obj.rowIndex = index;
+				obj.colIndex = colIndex;
+				obj.e = e;
+				if(!this.options.onBeforeEditFun(obj)){
+					return;
+				}
+			}
 			this.editRowFun($tr,colIndex);
 		}
 	};
@@ -4588,7 +4599,11 @@
 					paddingTop: $nowTh.css("paddingTop"),
 					paddingBottom: $nowTh.css("paddingBottom")
 				}).html(nowGridCompColumn.options.title || nowGridCompColumn.options.field).prepend('<span class="fa fa-ban u-grid-header-drag-status" />');
-				$('#' + this.options.id)[0].insertAdjacentElement('afterBegin',$d[0]);
+				try{
+					$('#' + this.options.id)[0].insertAdjacentElement('afterBegin',$d[0]);
+				}catch(e){
+					$('#' + this.options.id)[0].insertBefore($d[0],$('#' + this.options.id)[0].firstChild);
+				}
 				$d.on('mousemove',function(){
 					e.stopPropagation();
 				});
@@ -4612,8 +4627,13 @@
 				$d1.css({
 					top: '6px'
 				});
-				$('#' + this.options.id)[0].insertAdjacentElement('afterBegin',$d[0]);
-				$('#' + this.options.id)[0].insertAdjacentElement('afterBegin',$d1[0]);
+				try{
+					$('#' + this.options.id)[0].insertAdjacentElement('afterBegin',$d[0]);
+					$('#' + this.options.id)[0].insertAdjacentElement('afterBegin',$d1[0]);
+				}catch(e){
+					$('#' + this.options.id)[0].insertBefore($d[0],$('#' + this.options.id)[0].firstChild);
+					$('#' + this.options.id)[0].insertBefore($d1[0],$('#' + this.options.id)[0].firstChild);
+				}
 			}
 			this.canSwap = false;
 			$('#' + this.options.id + '_header_table th').each(function(i) {
@@ -5060,6 +5080,7 @@ u.GridAdapter = u.BaseAdapter.extend({
 		this.gridOptions.onDblClickFun = u.getFunction(viewModel,this.gridOptions.onDblClickFun);
 		this.gridOptions.onValueChange = u.getFunction(viewModel,this.gridOptions.onValueChange);
 		this.gridOptions.onBeforeClickFun = u.getFunction(viewModel,this.gridOptions.onBeforeClickFun);
+		this.gridOptions.onBeforeEditFun = u.getFunction(viewModel,this.gridOptions.onBeforeEditFun);
 		/*
 		 * 处理column参数  item
 		 * div子项div存储column信息
@@ -5148,6 +5169,9 @@ u.GridAdapter = u.BaseAdapter.extend({
 				}
 			}else if(rType == 'integerRender'){
 				column.renderType = function(obj){
+					var grid = obj.gridObj											
+					var column = obj.gridCompColumn
+					var field = column.options.field
 					obj.element.innerHTML =  obj.value
 					/*设置header为right*/
 					$('#' + grid.options.id + '_header_table').find('th[field="'+field+'"]').css('text-align', 'right');
@@ -5350,15 +5374,17 @@ u.GridAdapter = u.BaseAdapter.extend({
 			}else if(rType == 'passwordRender'){
 				//通过grid的dataType为DateTime format处理
 				column.renderType = function(obj){
-					obj.element.innerHTML = '<input type="password" disable="true" readonly="readonly" style="border:0px;background:none;" value="' + obj.value + '"><span class="fa fa-eye right-span" ></span>';
+					obj.element.innerHTML = '<input type="password" disable="true" readonly="readonly" style="border:0px;background:none;padding:0px;" value="' + obj.value + '" title=""><span class="fa fa-eye right-span" ></span>';
 					var span = obj.element.querySelector('span');
 					var input = obj.element.querySelector('input');
 					input.value = obj.value;
 					$(span).on('click',function(){
-						if(input.type == 'password')
+						if(input.type == 'password'){
 							input.type = 'text'
-						else
+						}
+						else{
 							input.type = 'password'
+						}
 					})
 					// 根据惊道需求增加renderType之后的处理,此处只针对grid.js中的默认render进行处理，非默认通过renderType进行处理
 					if(typeof afterRType == 'function'){
@@ -6012,18 +6038,18 @@ u.GridAdapter = u.BaseAdapter.extend({
 				field = columnOptions.field,
 				title = columnOptions.title,
 				required = columnOptions.required,
-				validType = columnOptions.validType,
-				placement = columnOptions.placement,
-				tipId = columnOptions.tipId,
-				errorMsg = columnOptions.errorMsg,
-				nullMsg = columnOptions.nullMsg,
-                maxLength = columnOptions.maxLength,
-                minLength = columnOptions.minLength,
-                max = columnOptions.max,
-                min = columnOptions.min,
-                maxNotEq = columnOptions.maxNotEq,
-                minNotEq = columnOptions.minNotEq,
-                reg = columnOptions.regExp,
+				validType = columnOptions.editOptions.validType,
+				placement = columnOptions.editOptions.placement,
+				tipId = columnOptions.editOptions.tipId,
+				errorMsg = columnOptions.editOptions.errorMsg,
+				nullMsg = columnOptions.editOptions.nullMsg,
+                maxLength = columnOptions.editOptions.maxLength,
+                minLength = columnOptions.editOptions.minLength,
+                max = columnOptions.editOptions.max,
+                min = columnOptions.editOptions.min,
+                maxNotEq = columnOptions.editOptions.maxNotEq,
+                minNotEq = columnOptions.editOptions.minNotEq,
+                reg = columnOptions.editOptions.regExp,
                 columnPassedFlag = true,
                 columnMsg = '';
             var validate = new u.Validate({
@@ -6092,11 +6118,9 @@ u.GridAdapter = u.BaseAdapter.extend({
 
  		return {
  			passed:passed,
- 			Msg:wholeMsg,
- 			MsgObj:{
- 				id:this.id,
- 				Msg:wholeMsg
- 			}}
+ 			comp:this,
+ 			Msg:wholeMsg
+ 		}
 	},
 });
 
