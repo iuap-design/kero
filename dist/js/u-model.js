@@ -3476,78 +3476,6 @@ u.compMgr.addDataAdapter(
 
 
 
-/**
- * 货币控件
- */
-u.CurrencyAdapter = u.FloatAdapter.extend({
-    init: function () {
-        var self = this;
-        u.CurrencyAdapter.superclass.init.apply(this);
-
-        this.maskerMeta = iweb.Core.getMaskerMeta('currency') || {};
-        this.maskerMeta.precision = this.getOption('precision') || this.maskerMeta.precision;
-        this.maskerMeta.curSymbol = this.getOption('curSymbol') || this.maskerMeta.curSymbol;
-        this.validType = 'float';
-        this.dataModel.on(this.field + '.curSymbol.' + u.DataTable.ON_CURRENT_META_CHANGE, function (event) {
-            self.setCurSymbol(event.newValue)
-        });
-        this.formater = new u.NumberFormater(this.maskerMeta.precision);
-        this.masker = new CurrencyMasker(this.maskerMeta);
-    },
-    /**
-     * 修改精度
-     * @param {Integer} precision
-     */
-    setPrecision: function (precision) {
-        if (this.maskerMeta.precision == precision) return
-        this.maskerMeta.precision = precision
-        this.formater = new u.NumberFormater(this.maskerMeta.precision);
-        this.masker = new u.CurrencyMasker(this.maskerMeta);
-        var currentRow = this.dataModel.getCurrentRow();
-        if (currentRow) {
-            var v = this.dataModel.getCurrentRow().getValue(this.field)
-            this.showValue = this.masker.format(this.formater.format(v)).value
-        } else {
-            this.showValue = this.masker.format(this.formater.format(this.trueValue)).value
-        }
-        this.setShowValue(this.showValue)
-    },
-    /**
-     * 修改币符
-     * @param {String} curSymbol
-     */
-    setCurSymbol: function (curSymbol) {
-        if (this.maskerMeta.curSymbol == curSymbol) return
-        this.maskerMeta.curSymbol = curSymbol
-        this.masker.formatMeta.curSymbol = this.maskerMeta.curSymbol
-        this.element.trueValue = this.trueValue
-        this.showValue = this.masker.format(this.trueValue).value
-        this.setShowValue(this.showValue)
-
-    },
-    onFocusin: function (e) {
-        var v = this.getValue(), vstr = v + '', focusValue = v
-        if (u.isNumber(v) && u.isNumber(this.maskerMeta.precision)) {
-            if (vstr.indexOf('.') >= 0) {
-                var sub = vstr.substr(vstr.indexOf('.') + 1)
-                if (sub.length < this.maskerMeta.precision || parseInt(sub.substr(this.maskerMeta.precision)) == 0) {
-                    focusValue = this.formater.format(v)
-                }
-            } else if (this.maskerMeta.precision > 0) {
-                focusValue = this.formater.format(v)
-            }
-        }
-        this.setShowValue(focusValue)
-
-    }
-})
-
-u.compMgr.addDataAdapter({
-        adapter: u.CurrencyAdapter,
-        name: 'currency'
-    });
-
-
 u.DateTimeAdapter = u.BaseAdapter.extend({
 	mixins: [u.ValueMixin,u.EnableMixin,u.RequiredMixin, u.ValidateMixin],
 	init: function (options) {
@@ -3667,98 +3595,6 @@ u.compMgr.addDataAdapter(
 			adapter: u.DateTimeAdapter,
 			name: 'u-datetime'
 		});
-
-+function($) {
-
-	/**
-	 * Class Editor
-	 * @param {[type]} document  [description]
-	 * @param {[type]} options   [description]
-	 * @param {[type]} viewModel [description]
-	 */
-	var Editor = $.InputComp.extend({
-		initialize: function(element, options, viewModel) {
-			
-			this.element = element;
-			this.id = options['id'];
-			this.options = options;
-			this.viewModel = viewModel;
-			this.e_editor = this.id + "editor";
-			this.render(this.options);
-			
-			Editor.superclass.initialize.apply(this, arguments)
-			this.create()
-			
-			
-		},
-		
-		render: function(data){
-			var cols = data.cols || 80;
-			var rows = data.rows || 10;
-			var self = this
-			var tpls = '<textarea cols="' + cols + '" id="'+ this.e_editor +'" name="editor" rows="' + rows + '"></textarea>';
-			$(this.element).append(tpls);
-			//this.element.append(tpls);
-			$( '#'+this.e_editor ).ckeditor(); 
-			var tmpeditor = CKEDITOR.instances[this.e_editor]
-			this.tmpeditor = tmpeditor
-			//tmpeditor.setData()
-			this.tmpeditor.on('blur',function(){
-			
-				self.setValue(tmpeditor.getData())
-			});
-			
-			this.tmpeditor.on('focus',function(){
-				
-				self.setShowValue(self.getValue())
-			});
-			
-			//console.log(CKEDITOR.instances[this.e_editor].getData())
-		},
-		modelValueChange: function(value) {
-			if (this.slice) return
-			value = value || ""
-			this.trueValue = value
-			this.showValue = value//this.masker.format(value).value
-			this.setShowValue(this.showValue)
-		},
-		setValue: function(value) {
-			this.trueValue = value//this.formater.format(value)
-			this.showValue = value//this.masker.format(value).value
-			this.setShowValue(this.showValue)
-			this.slice = true
-			this.setModelValue(this.trueValue)
-			this.slice = false
-			this.trigger(Editor.EVENT_VALUE_CHANGE, this.trueValue)
-		},
-		getValue : function() {
-			return this.trueValue
-		},
-		setShowValue : function(showValue) {
-			this.showValue = showValue			
-			this.element.value = showValue
-			this.tmpeditor.setData(showValue)
-		},
-		getShowValue: function() {
-			return this.showValue
-		},
-		getContent: function(){
-			return $( '#'+this.e_editor ).html();
-		},
-
-		setContent: function(txt){
-			$( '#'+this.e_editor ).html(txt);
-		},
-
-		Statics: {
-			compName: 'editor'
-		}
-	});	
-
-	if ($.compManager)
-		$.compManager.addPlug(Editor)
-
-}($);
 
 u.FloatAdapter = u.BaseAdapter.extend({
     mixins:[u.ValueMixin,u.EnableMixin, u.RequiredMixin, u.ValidateMixin],
@@ -4063,123 +3899,6 @@ u.compMgr.addDataAdapter(
 
 
 
-+function($) {
-	var Multilang = $.InputComp.extend({
-		initialize: function(element, options, viewModel) {
-			var self = this
-			Multilang.superclass.initialize.apply(this, arguments)
-			this.create()
-			var multinfo =  iweb.Core.getLanguages()
-			if(options.multinfo){
-				multinfo = options.multinfo
-			}
-
-			var multidata = [];
-			this.field = options.field;
-			multinfo.lang_name =  options.field
-			for(i = 0; i < multinfo.length; i++){
-				if(i){
-					multidata[i] =  this.dataModel.getValue(this.field + (i+1),this.dataTableRow)
-				}else{
-					multidata[i] =  this.dataModel.getValue(this.field,this.dataTableRow)
-				}
-
-			}
-
-
-			this.multinfo = multinfo;
-			this.multidata = multidata;
-			$(element).multilang({"multinfo":multinfo, "multidata":multidata});
-
-			this.$element = $(element)
-			this.$element.on('change.u.multilang', function(event, valObj) {
-
-				self.setModelValue(valObj)
-			})
-		},
-		create: function() {
-			var self = this
-			if (this.dataModel) {
-				//处理数据绑定
-				if (this.hasDataTable) {
-					//this.dataModel.ref(this.field).subscribe(function(value) {
-					//		self.modelValueChange(value)
-					//})
-					this.dataModel.on($.DataTable.ON_CURRENT_ROW_CHANGE, function(event){
-						self.modelValueChange();
-					});
-
-					//处理只读
-					//this.dataModel.refEnable(this.field).subscribe(function(value){
-					//	self.setEnable(value)
-					//})
-					this.dataModel.on(this.field + '.enable.' +  $.DataTable.ON_CURRENT_META_CHANGE, function(event){
-						self.setEnable(event.newValue);
-					});
-					this.setEnable(this.dataModel.isEnable(this.field))
-				} else {
-					this.dataModel.subscribe(function(value) {
-						self.modelValueChange(value)
-					})
-				}
-				this.modelValueChange(this.hasDataTable ? this.dataModel.getValue(this.field) : this.dataModel())
-//				this.modelValuelangChange(this.hasDataTable ? this.dataModel.getValue(this.fieldlang) : this.dataModel())
-			}
-
-		},
-		parseDataModel: function() {
-			if (!this.options || !this.options["data"]) return
-			this.dataModel = $.getJSObject(this.viewModel, this.options["data"])
-			if (this.dataModel instanceof $.DataTable) {
-				this.hasDataTable = true
-				this.field = this.options["field"]
-				//			this.fieldlang = this.options["fieldlang"]
-			}
-		},
-		//往模型上设置值
-		setModelValue: function(valObj) {
-			if (!this.dataModel) return
-			if (this.hasDataTable) {
-
-				this.dataModel.setValue(valObj.field, valObj.newValue)
-				//			this.dataModel.setValue(this.fieldlang, valObj.lang)
-			} else {
-				this.dataModel(valObj.newValue)
-			}
-		},
-		modelValueChange: function(value) {
-
-			var self = this
-			if(this.multidata){
-
-				for(i = 0; i < self.multinfo.length; i++){
-					if(i){
-						self.multidata[i] = self.dataModel.getValue(self.field + (i+1),self.dataTableRow)
-					}else{
-						self.multidata[i] = self.dataModel.getValue(self.field,self.dataTableRow)
-					}
-				}
-				this.$element.multilang({"multidata":self.multidata});
-
-			}
-
-
-
-			//this.dataModel.getValue(this.field,this.dataTableRow)
-			//$(this.element).siblings('.multilang_body').children('input').val(value)
-
-		},
-		modelValuelangChange: function(value) {
-
-		},
-		Statics: {
-			compName: 'multilang'
-		}
-	})
-
-	if ($.compManager)
-		$.compManager.addPlug(Multilang)
-}($);
 u.NativeCheckAdapter = u.BaseAdapter.extend({
     mixins: [u.ValueMixin, u.EnableMixin],
     init: function () {
@@ -4439,66 +4158,6 @@ u.compMgr.addDataAdapter(
     });
 
 
-
-
-
-/**
- * 密码控件
- */
-u.PassWordAdapter = u.StringAdapter.extend({
-    init: function () {
-        u.PassWordAdapter.superclass.init.apply(this);
-        var oThis = this;
-        this.element.type = "password";
-        oThis.element.title = '';
-        this._element = this.element.parentNode;
-        this.span = this._element.querySelector("span");
-        if(this.span){
-            u.on(this.span,'click',function(){
-                if(oThis.element.type == 'password'){
-                    oThis.element.type = 'text';
-                }else{
-                    oThis.element.type = 'password';
-                }
-            });
-        }
-        
-    },
-    setShowValue: function (showValue) {
-        this.showValue = showValue;
-        this.element.value = showValue;
-        this.element.title = '';
-    },
-});
-u.compMgr.addDataAdapter(
-    {
-        adapter: u.PassWordAdapter,
-        name: 'password'
-    });
-
-
-
-/**
- * 百分比控件
- */
-u.PercentAdapter = u.FloatAdapter.extend({
-    init: function () {
-        u.PercentAdapter.superclass.init.apply(this);
-        this.validType = 'float';
-        this.maskerMeta = iweb.Core.getMaskerMeta('percent') || {};
-        this.maskerMeta.precision = this.getOption('precision') || this.maskerMeta.precision;
-        if (this.maskerMeta.precision){
-            this.maskerMeta.precision = parseInt(this.maskerMeta.precision) + 2;
-        }
-        this.formater = new u.NumberFormater(this.maskerMeta.precision);
-        this.masker = new PercentMasker(this.maskerMeta);
-    }
-});
-u.compMgr.addDataAdapter(
-    {
-        adapter: u.PercentAdapter,
-        name: 'percent'
-    });
 
 
 
@@ -4899,26 +4558,6 @@ u.compMgr.addDataAdapter(
 
 
 
-/**
- * URL控件
- */
-u.UrlAdapter = u.StringAdapter.extend({
-    init: function () {
-        u.UrlAdapter.superclass.init.apply(this);
-        this.validType = 'url';
-        /*
-         * 因为需要输入，因此不显示为超链接
-         */
-    }
-});
-u.compMgr.addDataAdapter(
-    {
-        adapter: u.UrlAdapter,
-        name: 'url'
-    });
-
-
-
 u.YearAdapter = u.BaseAdapter.extend({
     initialize: function (comp, options) {
         var self = this;
@@ -4994,5 +4633,157 @@ u.compMgr.addDataAdapter(
     });
 
 
+
+
+
+/**
+ * 货币控件
+ */
+u.CurrencyAdapter = u.FloatAdapter.extend({
+    init: function () {
+        var self = this;
+        u.CurrencyAdapter.superclass.init.apply(this);
+
+        this.maskerMeta = iweb.Core.getMaskerMeta('currency') || {};
+        this.maskerMeta.precision = this.getOption('precision') || this.maskerMeta.precision;
+        this.maskerMeta.curSymbol = this.getOption('curSymbol') || this.maskerMeta.curSymbol;
+        this.validType = 'float';
+        this.dataModel.on(this.field + '.curSymbol.' + u.DataTable.ON_CURRENT_META_CHANGE, function (event) {
+            self.setCurSymbol(event.newValue)
+        });
+        this.formater = new u.NumberFormater(this.maskerMeta.precision);
+        this.masker = new CurrencyMasker(this.maskerMeta);
+    },
+    /**
+     * 修改精度
+     * @param {Integer} precision
+     */
+    setPrecision: function (precision) {
+        if (this.maskerMeta.precision == precision) return
+        this.maskerMeta.precision = precision
+        this.formater = new u.NumberFormater(this.maskerMeta.precision);
+        this.masker = new u.CurrencyMasker(this.maskerMeta);
+        var currentRow = this.dataModel.getCurrentRow();
+        if (currentRow) {
+            var v = this.dataModel.getCurrentRow().getValue(this.field)
+            this.showValue = this.masker.format(this.formater.format(v)).value
+        } else {
+            this.showValue = this.masker.format(this.formater.format(this.trueValue)).value
+        }
+        this.setShowValue(this.showValue)
+    },
+    /**
+     * 修改币符
+     * @param {String} curSymbol
+     */
+    setCurSymbol: function (curSymbol) {
+        if (this.maskerMeta.curSymbol == curSymbol) return
+        this.maskerMeta.curSymbol = curSymbol
+        this.masker.formatMeta.curSymbol = this.maskerMeta.curSymbol
+        this.element.trueValue = this.trueValue
+        this.showValue = this.masker.format(this.trueValue).value
+        this.setShowValue(this.showValue)
+
+    },
+    onFocusin: function (e) {
+        var v = this.getValue(), vstr = v + '', focusValue = v
+        if (u.isNumber(v) && u.isNumber(this.maskerMeta.precision)) {
+            if (vstr.indexOf('.') >= 0) {
+                var sub = vstr.substr(vstr.indexOf('.') + 1)
+                if (sub.length < this.maskerMeta.precision || parseInt(sub.substr(this.maskerMeta.precision)) == 0) {
+                    focusValue = this.formater.format(v)
+                }
+            } else if (this.maskerMeta.precision > 0) {
+                focusValue = this.formater.format(v)
+            }
+        }
+        this.setShowValue(focusValue)
+
+    }
+})
+
+u.compMgr.addDataAdapter({
+        adapter: u.CurrencyAdapter,
+        name: 'currency'
+    });
+
+
+/**
+ * 密码控件
+ */
+u.PassWordAdapter = u.StringAdapter.extend({
+    init: function () {
+        u.PassWordAdapter.superclass.init.apply(this);
+        var oThis = this;
+        this.element.type = "password";
+        oThis.element.title = '';
+        this._element = this.element.parentNode;
+        this.span = this._element.querySelector("span");
+        if(this.span){
+            u.on(this.span,'click',function(){
+                if(oThis.element.type == 'password'){
+                    oThis.element.type = 'text';
+                }else{
+                    oThis.element.type = 'password';
+                }
+            });
+        }
+        
+    },
+    setShowValue: function (showValue) {
+        this.showValue = showValue;
+        this.element.value = showValue;
+        this.element.title = '';
+    },
+});
+u.compMgr.addDataAdapter(
+    {
+        adapter: u.PassWordAdapter,
+        name: 'password'
+    });
+
+
+
+/**
+ * 百分比控件
+ */
+u.PercentAdapter = u.FloatAdapter.extend({
+    init: function () {
+        u.PercentAdapter.superclass.init.apply(this);
+        this.validType = 'float';
+        this.maskerMeta = iweb.Core.getMaskerMeta('percent') || {};
+        this.maskerMeta.precision = this.getOption('precision') || this.maskerMeta.precision;
+        if (this.maskerMeta.precision){
+            this.maskerMeta.precision = parseInt(this.maskerMeta.precision) + 2;
+        }
+        this.formater = new u.NumberFormater(this.maskerMeta.precision);
+        this.masker = new PercentMasker(this.maskerMeta);
+    }
+});
+u.compMgr.addDataAdapter(
+    {
+        adapter: u.PercentAdapter,
+        name: 'percent'
+    });
+
+
+
+/**
+ * URL控件
+ */
+u.UrlAdapter = u.StringAdapter.extend({
+    init: function () {
+        u.UrlAdapter.superclass.init.apply(this);
+        this.validType = 'url';
+        /*
+         * 因为需要输入，因此不显示为超链接
+         */
+    }
+});
+u.compMgr.addDataAdapter(
+    {
+        adapter: u.UrlAdapter,
+        name: 'url'
+    });
 
 

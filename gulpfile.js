@@ -30,7 +30,8 @@ var globs = {
         ],
         dtJs:[
             'dist/js/model.js',
-            'js/dtJs/**.js'
+            'js/dtJs/**.js',
+            'js/dtJs/extend/**.js'
         ]
     }
 };
