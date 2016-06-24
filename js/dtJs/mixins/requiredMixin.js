@@ -7,7 +7,7 @@ u.RequiredMixin = {
         var self = this;
         this.required = this.getOption('required');
         this.dataModel.refRowMeta(this.field, "required").subscribe(function(value) {
-            self.setRequired(event.newValue);
+            self.setRequired(value);
         });
         //this.setRequired(this.dataModel.getMeta(this.field, "required"));
 

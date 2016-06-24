@@ -10,6 +10,8 @@ u.ValidateMixin = {
         this.nullMsg = this.getOption('nullMsg');
         this.regExp = this.getOption('regExp');
         this.successId=this.getOption('successId');
+        this.hasSuccess=this.getOption('hasSuccess');
+        this.notipFlag=this.getOption('notipFlag');
 
         // if (this.validType) {
             this.validate = new u.Validate({
@@ -21,6 +23,8 @@ u.ValidateMixin = {
                 placement: this.placement,
                 tipId: this.tipId,
                 successId:this.successId,
+                notipFlag:this.notipFlag,
+                hasSuccess:this.hasSuccess,
                 errorMsg: this.errorMsg,
                 nullMsg: this.nullMsg,
                 maxLength: this.maxLength,
@@ -42,12 +46,15 @@ u.ValidateMixin = {
             if (this.validate) {
                 if (options && options['trueValue'] === true) {
                     options['showMsg'] = options['showMsg'] || false;
-                    return this.validate.check({pValue: this.getValue(), showMsg: options['showMsg']});
+                    var result = this.validate.check({pValue: this.getValue(), showMsg: options['showMsg']});
                 }
-                else
-                    return this.validate.check()
+                else{
+                    var result = this.validate.check();
+                }
+                result.comp = this;
+                return result;
             } else {
-                return {passed:true}
+                return {passed:true,comp:this}
             }
         },
         /**

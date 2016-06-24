@@ -31,7 +31,10 @@ u.NativeCheckAdapter = u.BaseAdapter.extend({
         this.element.innerHTML = '';
         for (var i = 0, len = comboData.length; i < len; i++) {
             for(var j=0; j<this.checkboxTemplateArray.length; j++){
-                this.element.appendChild(this.checkboxTemplateArray[j].cloneNode(true));
+                try{
+                    this.element.appendChild(this.checkboxTemplateArray[j].cloneNode());
+                }catch(e){
+                }
             }
             //this.radioTemplate.clone().appendTo(this.element)
         }
