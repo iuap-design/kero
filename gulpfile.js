@@ -30,7 +30,35 @@ var globs = {
         ],
         dtJs:[
             'dist/js/model.js',
-            'js/dtJs/**.js'
+            'js/dtJs/core.js',
+            'js/dtJs/mixins/enableMixin.js',
+            'js/dtJs/mixins/requiredMixin.js',
+            'js/dtJs/mixins/validateMixin.js',
+            'js/dtJs/mixins/valueMixin.js',
+            'js/dtJs/baseAdapter.js',
+            'js/dtJs/integer.js',
+            'js/dtJs/float.js',
+            'js/dtJs/currency.js',
+            'js/dtJs/percent.js',
+            'js/dtJs/string.js',
+            'js/dtJs/textarea.js',
+            'js/dtJs/textfield.js',
+            'js/dtJs/checkbox.js',
+            'js/dtJs/switch.js',
+            'js/dtJs/combobox.js',
+            'js/dtJs/radio.js',
+            'js/dtJs/native-radio.js',
+            'js/dtJs/native-checkbox.js',
+            'js/dtJs/pagination.js',
+            'js/dtJs/datetime.js',
+            'js/dtJs/time.js',
+            'js/dtJs/yearmonth.js',
+            'js/dtJs/year.js',
+            'js/dtJs/month.js',
+            'js/dtJs/progress.js',
+            'js/dtJs/url.js',
+            'js/dtJs/password.js'
+            // 'js/dtJs/**.js'
         ]
     }
 };

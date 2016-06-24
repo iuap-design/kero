@@ -157,20 +157,31 @@ App.fn.compsValidateMultiParam = function(options){
         comps = this.getComps(element),
         passed = true,
         showMsg = options.showMsg,
-        MsgArr = new Array();
-        Msg = '';
+        notPassedArr = new Array();
     for(var i = 0; i < comps.length; i++){
         if (comps[i].doValidate){
             result = comps[i].doValidate({trueValue:true, showMsg:showMsg});
             passed = result.passed && passed;
             if(!result.passed){
-                MsgArr.push(result.Msg);
-                Msg += result.Msg;
+                notPassedArr.push(result);
             }
         }
     }
     return {passed:passed,
-            MsgArr:MsgArr};
+            notPassedArr:notPassedArr}; 
+}
+
+/**
+ * 将comp显示到顶端（此方法只支持body上存在滚动条的情况）
+ * @param {object} comp对象
+ */
+App.fn.showComp = function(comp){
+    var ele = comp.element,off = u.getOffset(ele),scroll = u.getScroll(ele),
+        top = off.top - scroll.top,bodyHeight = document.body.clientHeight,
+        nowTop = document.body.scrollTop;
+    if(top > bodyHeight || top < 0){
+        document.body.scrollTop = nowTop + top;
+    }
 }
 
 /**
@@ -493,7 +504,12 @@ ServerEvent.fn.fire = function (p) {
 
 ServerEvent.fn.getData = function () {
     var envJson = ko.utils.stringifyJson(this.app.getEnvironment()),
-        datasJson = ko.utils.stringifyJson(this.datas),
+        datasJson = ko.utils.stringifyJson(this.datas, function replacer(key, value) {
+          if (typeof value === "undefined" || value == null) {
+            return '';
+          }
+          return value;
+        }),
         compressType = '',
         compression = false
     if (window.trimServerEventData) {
@@ -731,6 +747,7 @@ Events.fn.getEvent = function (name) {
 var DataTable = function (options) {
     options = options || {};
     this.id = options['id'];
+    this.strict = options['strict'] || false;
     this.meta = DataTable.createMetaItems(options['meta']);
     this.enable = options['enable'] || DataTable.DEFAULTS.enable;
     this.pageSize = ko.observable(options['pageSize'] || DataTable.DEFAULTS.pageSize)
@@ -802,7 +819,8 @@ DataTable.createMetaItems = function (metas) {
  */
 DataTable.fn.createField = function(fieldName, options){
     //字段不主动定义，则不创建
-    //return;
+    if (this.root.strict == true)
+        return;
     //有子表的情况不创建字段
     if (fieldName.indexOf('.') != -1){
         var fNames = fieldName.split('.');
@@ -1016,11 +1034,11 @@ DataTable.fn.updateMeta = function (meta) {
  *
  */
 DataTable.fn.setData = function (data,options) {
-    var newIndex = data.pageIndex || 0,
+    var newIndex = data.pageIndex || this.pageIndex(),
         newSize = data.pageSize || this.pageSize(),
         newTotalPages = data.totalPages || this.totalPages(),
         newTotalRow = data.totalRow || data.rows.length,
-        select, focus,unSelect=options?options.unSelect:true; // 改为默认为true
+        select, focus,unSelect=options?options.unSelect:false; 
         //currPage,
         //type = data.type;
 
@@ -1089,10 +1107,19 @@ DataTable.fn.getSimpleData = function(options){
  *options{} unSelect为true：不选中，为false则选中，默认选中0行
  */
 DataTable.fn.setSimpleData = function(data,options){
+    //this.clear();
+    this.removeAllRows();
+    this.cachedPages = [];
+    //this.totalPages(1);
+    //this.pageIndex(0);
+    this.focusIndex(-1);
+    this.selectedIndices([]);
+
     if (!data){
-        throw new Error("dataTable.setSimpleData param can't be null!");
+        // throw new Error("dataTable.setSimpleData param can't be null!");
+        return;
     }
-    this.clear();
+    
     var rows = [];
     if (!u.isArray(data))
         data = [data];
@@ -1514,7 +1541,12 @@ DataTable.fn.setRowsSelect = function (indices) {
         return;
     }
     this.setAllRowsUnSelect({quiet: true});
-    this.selectedIndices(indices);
+    try{
+        this.selectedIndices(indices);
+    }catch(e){
+        
+    }
+    
 //		var index = this.getSelectedIndex()
 //		this.setCurrentRow(index)
     var rowIds = this.getRowIdsByIndices(indices);
@@ -2574,7 +2606,8 @@ Row.fn.refCombo = function (fieldName, datasource) {
 
             for (var i = 0, length = ds.length; i < length; i++) {
                 for (var j = 0; j < valArr.length; j++) {
-                    if (ds[i].pk == valArr[j]) {
+                    var value = ds[i]['pk'] || ds[i]['value'] || '';
+                    if (value == valArr[j]) {
                         nameArr.push(ds[i].name)
                     }
                 }
@@ -2599,7 +2632,7 @@ Row.fn.refDate = function (fieldName, format) {
             if (!this._getField(fieldName)['value']) return "";
             var valArr = this._getField(fieldName)['value']
             if (!valArr) return "";
-            valArr = moment(valArr).format(format)
+            valArr = u.date.format(valArr, format); //moment(valArr).format(format)
             return valArr;
         },
         write: function (value) {
@@ -2721,8 +2754,14 @@ Row.fn._triggerChange = function(fieldName, oldValue, ctx){
         this.status = Row.STATUS.UPDATE
     if (this.valueChange[fieldName])
         this.valueChange[fieldName](-this.valueChange[fieldName]())
-    if (this.parent.getCurrentRow() == this && this.parent.valueChange[fieldName])
-        this.parent.valueChange[fieldName](-this.parent.valueChange[fieldName]());
+    if (this.parent.getCurrentRow() == this && this.parent.valueChange[fieldName]){
+        try{ //后续找锐锋确认
+            this.parent.valueChange[fieldName](-this.parent.valueChange[fieldName]());
+        }catch(e){
+
+        }
+        
+    }
     if (this.parent.ns){
         var fName = this.parent.ns + '.' + fieldName;
         if (this.parent.root.valueChange[fName])
@@ -2753,7 +2792,9 @@ Row.fn.setValue = function (fieldName, value, ctx, options) {
         value = fieldName;
         fieldName = '$data';
     }
-    var oldValue = this.getValue(fieldName) || ""
+    var oldValue = this.getValue(fieldName)
+    if(typeof oldValue == 'undefined' || oldValue === null)
+        oldValue = ''
     if (eq(oldValue, value)) return;
     this._getField(fieldName)['value'] = value;
     this._triggerChange(fieldName, oldValue, ctx);
@@ -2878,7 +2919,7 @@ Row.fn._setData = function(sourceData, targetData, subscribe, parentKey){
         else {
             if (valueObj.error) {
                 u.showMessageDialog({title: "警告", msg: valueObj.error, backdrop: true});
-            } else if (valueObj.value || valueObj.value === null  || valueObj.meta){
+            } else if (valueObj.value || valueObj.value === null  || valueObj.meta || valueObj.value === '' || valueObj.value === '0' || valueObj.value === 0){
                 var oldValue = targetData[key]['value'];
                 targetData[key]['value'] = this.formatValue(key, valueObj.value)
                 if (subscribe === true && (oldValue !== targetData[key]['value'])){
@@ -2915,59 +2956,63 @@ Row.fn.setData = function (data, subscribe) {
     this.status = data.status
     var sourceData = data.data,
         targetData = this.data;
-     this._setData(sourceData, targetData,subscribe);
+    if (this.parent.root.strict != true){
+        this._setData(sourceData, targetData,subscribe);
+        return;
+    }
 
-    // 如果有一天，规则改成：定义dataTable的时候必须定义所有字段信息才能设置数据。放开下面这段代码
-    //var meta = this.parent.meta;
-    //for (var key in meta){
-    //    var oldValue = newValue = null;
-    //    //子数据
-    //    if (meta[key]['type'] && meta[key]['type'] === 'child'){
-    //        targetData[key].isChild = true;
-    //        //ns 是多级数据时的空间名： 最顶层的dataTable没有ns。  f1.f2.f3
-    //        var ns = this.parent.ns === '' ? key : this.parent.ns + '.' + key
-    //        var meta = this.parent.meta[key]['meta']
-    //        targetData[key].value = new u.DataTable({root:this.parent.root,ns:ns,meta:meta});
-    //        if (typeof sourceData[key] === 'object')
-    //            targetData[key].value.setSimpleData(sourceData[key]);
-    //    }
-    //    //存在多级关系
-    //    else if (key.indexOf('.') != -1){
-    //        var keys = key.split('.');
-    //        var _fieldValue = sourceData;
-    //        var _targetField = targetData;
-    //        for(var i = 0; i< keys.length; i++){
-    //            _fieldValue = _fieldValue[keys[i]];
-    //            _targetField = _targetField[keys[i]];
-    //        }
-    //        oldValue = _targetField['value'];
-    //        _targetField['value'] = this.formatValue(key, _fieldValue)
-    //        newValue = _targetField['value'];
-    //    }
-    //    // 通过 setSimpleData 设置的数据
-    //    else if (sourceData[key] == null ||  typeof sourceData[key] != 'object'){
-    //        oldValue = targetData[key]['value'];
-    //        targetData[key]['value'] = this.formatValue(key, sourceData[key])
-    //        newValue = targetData[key]['value'];
-    //    }
-    //    else{
-    //        var valueObj = sourceData[key];
-    //        if (valueObj.error) {
-    //            u.showMessageDialog({title: "警告", msg: valueObj.error, backdrop: true});
-    //        } else if (valueObj.value || valueObj.value === null || valueObj.meta){
-    //            oldValue = targetData[key]['value'];
-    //            targetData[key]['value'] = this.formatValue(key, valueObj.value)
-    //            newValue = targetData[key]['value'];
-    //            for (var k in valueObj.meta) {
-    //                this.setMeta(key, k, valueObj.meta[k])
-    //            }
-    //        }
-    //    }
-    //    if (subscribe === true && (oldValue !== newValue)){
-    //        this._triggerChange(key, oldValue);
-    //    }
-    //
-    //}
+    // strict 为true 时 ，定义dataTable的时候必须定义所有字段信息才能设置数据。
+    var meta = this.parent.meta;
+    for (var key in meta){
+        var oldValue = newValue = null;
+        //子数据
+        if (meta[key]['type'] && meta[key]['type'] === 'child'){
+            targetData[key].isChild = true;
+            //ns 是多级数据时的空间名： 最顶层的dataTable没有ns。  f1.f2.f3
+            var ns = this.parent.ns === '' ? key : this.parent.ns + '.' + key
+            var meta = this.parent.meta[key]['meta']
+            targetData[key].value = new u.DataTable({root:this.parent.root,ns:ns,meta:meta});
+            if (typeof sourceData[key] === 'object')
+                targetData[key].value.setSimpleData(sourceData[key]);
+        }
+        //存在多级关系
+        else if (key.indexOf('.') != -1){
+            var keys = key.split('.');
+            var _fieldValue = sourceData;
+            var _targetField = targetData;
+            for(var i = 0; i< keys.length; i++){
+                _fieldValue = _fieldValue || {};
+                _fieldValue = _fieldValue[keys[i]];
+                _targetField = _targetField[keys[i]];
+            }
+            oldValue = _targetField['value'];
+            _targetField['value'] = this.formatValue(key, _fieldValue)
+            newValue = _targetField['value'];
+        }
+        // 通过 setSimpleData 设置的数据
+        else if (sourceData[key] == null ||  typeof sourceData[key] != 'object'){
+            oldValue = targetData[key]['value'];
+            targetData[key]['value'] = this.formatValue(key, sourceData[key])
+            newValue = targetData[key]['value'];
+        }
+        else{
+            var valueObj = sourceData[key];
+            if (valueObj.error) {
+                u.showMessageDialog({title: "警告", msg: valueObj.error, backdrop: true});
+            } else if (valueObj.value || valueObj.value === null || valueObj.meta){
+                oldValue = targetData[key]['value'];
+                targetData[key]['value'] = this.formatValue(key, valueObj.value)
+                newValue = targetData[key]['value'];
+                for (var k in valueObj.meta) {
+                    this.setMeta(key, k, valueObj.meta[k])
+                }
+            }
+        }
+        if (subscribe === true && (oldValue !== newValue)){
+            this._triggerChange(key, oldValue);
+        }
+
+    }
 };
 
 
@@ -3026,7 +3071,13 @@ Row.fn.getData = function () {
                     data[key].value = _dateToUTCString(data[key].value)
                 }
             } else if(meta[key].type == 'child') {
-                data[key].value = this.getValue(key).getDataByRule(DataTable.SUBMIT.all);
+                var chiddt = this.getValue(key),
+                    rs = chiddt.rows(),
+                    cds = [];
+                for(var i=0;i < rs.length;i++) {
+                    cds.push(rs[i].getData());
+                }
+                data[key].value = JSON.stringify(cds);
             }
         }
     }
@@ -3074,9 +3125,17 @@ Row.fn.getSimpleData = function(options){
     options = options || {}
     var fields = options['fields'] || null;
     var meta = this.parent.getMeta();
-    var data = ko.toJS(this.data)
     var data = this.data;
     var _data = this._getSimpleData(data); //{};
+    var _fieldsData = {};
+    if (fields){
+        for (var key in _data){
+            if (fields.indexOf(key) != -1){
+                _fieldsData[key] = _data[key];
+            }
+        }
+        return _fieldsData;
+    }
     // for (var key in meta) {
     //    if (fields && fields.indexOf(key) == -1)
     //        continue;
@@ -3169,6 +3228,205 @@ var _dateToUTCString = function (date) {
 u.Row = Row;
 u.DataTable = DataTable;
 
+
+/**
+ * Created by dingrf on 2016/4/5.
+ */
+
+u.EnableMixin = {
+    init: function(){
+        var self = this;
+        //处理只读
+        if (this.options['enable'] && (this.options['enable'] == 'false' || this.options['enable'] == false)){
+            this.setEnable(false);
+        }else {
+            this.dataModel.refEnable(this.field).subscribe(function (value) {
+                self.setEnable(value);
+            });
+            this.setEnable(this.dataModel.isEnable(this.field));
+        }
+    },
+    methods:{
+        setEnable: function(enable){
+                if (enable === true || enable === 'true') {
+                    this.enable = true;
+                    this.element.removeAttribute('readonly');
+                    u.removeClass(this.element.parentNode,'disablecover');
+                } else if (enable === false || enable === 'false') {
+                    this.enable = false;
+                    this.element.setAttribute('readonly', 'readonly');
+                    u.addClass(this.element.parentNode,'disablecover');
+                }
+        }
+    }
+}
+/**
+ * Created by dingrf on 2016/4/6.
+ */
+
+u.RequiredMixin = {
+    init: function(){
+        var self = this;
+        this.required = this.getOption('required');
+        this.dataModel.refRowMeta(this.field, "required").subscribe(function(value) {
+            self.setRequired(value);
+        });
+        //this.setRequired(this.dataModel.getMeta(this.field, "required"));
+
+    },
+    methods:{
+        setRequired: function (required) {
+            if (required === true || required === 'true') {
+                this.required = true;
+            } else if (required === false || required === 'false') {
+                this.required = false;
+            }
+        },
+    }
+}
+/**
+ * Created by dingrf on 2016/4/6.
+ */
+
+u.ValidateMixin = {
+    init: function(){
+        this.placement = this.getOption('placement');
+        this.tipId = this.getOption('tipId');
+        this.errorMsg = this.getOption('errorMsg');
+        this.nullMsg = this.getOption('nullMsg');
+        this.regExp = this.getOption('regExp');
+        this.successId=this.getOption('successId');
+        this.hasSuccess=this.getOption('hasSuccess');
+        this.notipFlag=this.getOption('notipFlag');
+
+        // if (this.validType) {
+            this.validate = new u.Validate({
+                el: this.element,
+                single: true,
+                validMode: 'manually',
+                required: this.required,
+                validType: this.validType,
+                placement: this.placement,
+                tipId: this.tipId,
+                successId:this.successId,
+                notipFlag:this.notipFlag,
+                hasSuccess:this.hasSuccess,
+                errorMsg: this.errorMsg,
+                nullMsg: this.nullMsg,
+                maxLength: this.maxLength,
+                minLength: this.minLength,
+                max: this.max,
+                min: this.min,
+                maxNotEq: this.maxNotEq,
+                minNotEq: this.minNotEq,
+                reg: this.regExp
+            });
+        // };
+
+    },
+    methods:{
+        /**
+         *校验
+         */
+        doValidate: function (options) {
+            if (this.validate) {
+                if (options && options['trueValue'] === true) {
+                    options['showMsg'] = options['showMsg'] || false;
+                    var result = this.validate.check({pValue: this.getValue(), showMsg: options['showMsg']});
+                }
+                else{
+                    var result = this.validate.check();
+                }
+                result.comp = this;
+                return result;
+            } else {
+                return {passed:true,comp:this}
+            }
+        },
+        /**
+         * 是否需要清除数据
+         */
+        _needClean: function () {
+            if (this.validate)
+                return this.validate._needClean();
+            else return false
+        }
+    }
+}
+/**
+ * Created by dingrf on 2016/4/6.
+ */
+
+
+u.ValueMixin = {
+    init: function(){
+        var self = this;
+        this.dataModel.ref(this.field).subscribe(function(value) {
+            self.modelValueChange(value)
+        });
+        this.modelValueChange(this.dataModel.getValue(this.field));
+
+    },
+    methods:{
+        /**
+         * 模型数据改变
+         * @param {Object} value
+         */
+        modelValueChange: function (value) {
+            if (this.slice) return;
+            if (value === null || typeof value == "undefined")
+                value = "";
+            this.trueValue = this.formater ? this.formater.format(value) : value;
+            //this.element.trueValue = this.trueValue;
+            this.showValue = this.masker ? this.masker.format(this.trueValue).value : this.trueValue;
+            this.setShowValue(this.showValue);
+
+            //this.trueValue = value;
+            //this.showValue = value;
+            //this.setShowValue(this.showValue);
+        },
+
+        ///**
+        // * 设置模型值
+        // * @param {Object} value
+        // */
+        //setModelValue: function (value) {
+        //    if (!this.dataModel) return;
+        //    this.dataModel.setValue(this.field, value)
+        //},
+        /**
+         * 设置控件值
+         * @param {Object} value
+         */
+        setValue: function (value) {
+            this.trueValue = this.formater ? this.formater.format(value) : value;
+            this.showValue = this.masker ? this.masker.format(this.trueValue).value : this.trueValue;
+            this.setShowValue(this.showValue);
+            this.slice = true;
+            this.dataModel.setValue(this.field, this.trueValue);
+            this.slice = false;
+        },
+        /**
+         * 取控件的值
+         */
+        getValue: function () {
+            return this.trueValue;
+        },
+        setShowValue: function (showValue) {
+            this.showValue = showValue;
+            this.element.value = showValue;
+            this.element.title = showValue;
+
+        },
+        getShowValue: function () {
+            return this.showValue
+        },
+        setModelValue: function (value) {
+            if (!this.dataModel) return
+            this.dataModel.setValue(this.field, value)
+        },
+    }
+}
 /**
  * Created by dingrf on 2016/1/15.
  */
@@ -3234,6 +3492,363 @@ u.BaseAdapter = u.Class.create({
 
     }
 });
+u.IntegerAdapter = u.BaseAdapter.extend({
+    mixins:[u.ValueMixin,u.EnableMixin, u.RequiredMixin, u.ValidateMixin],
+    init: function () {
+        var self = this;
+        this.element = this.element.nodeName === 'INPUT' ? this.element : this.element.querySelector('input');
+        if (!this.element){
+            throw new Error('not found INPUT element, u-meta:' + JSON.stringify(this.options));
+        };
+        this.validType = this.options['validType'] || 'integer';
+        this.max = this.options['max'];
+        this.min = this.options['min'];
+        this.maxNotEq = this.options['maxNotEq'];
+        this.minNotEq = this.options['minNotEq'];
+        this.maxLength = this.options['maxLength'] ? options['maxLength'] : 25;
+        this.minLength = this.options['mixLength'] ? options['mixLength'] : 0;
+        if (this.dataModel) {
+            this.min = this.dataModel.getMeta(this.field, "min") !== undefined ? this.dataModel.getMeta(this.field, "min") : this.min;
+            this.max = this.dataModel.getMeta(this.field, "max") !== undefined ? this.dataModel.getMeta(this.field, "max") : this.max;
+            this.minNotEq = this.dataModel.getMeta(this.field, "minNotEq") !== undefined ? this.dataModel.getMeta(this.field, "minNotEq") : this.minNotEq;
+            this.maxNotEq = this.dataModel.getMeta(this.field, "maxNotEq") !== undefined ? this.dataModel.getMeta(this.field, "maxNotEq") : this.maxNotEq;
+            this.minLength = u.isNumber(this.dataModel.getMeta(this.field, "minLength")) ? this.dataModel.getMeta(this.field, "minLength") : this.minLength;
+            this.maxLength = u.isNumber(this.dataModel.getMeta(this.field, "maxLength")) ? this.dataModel.getMeta(this.field, "maxLength") : this.maxLength;
+        }
+        u.on(this.element, 'focus', function(){
+            if(self.enable){
+                self.setShowValue(self.getValue())
+            }
+        })
+
+        u.on(this.element, 'blur',function(){
+            if(self.enable){
+                if (!self.doValidate() && self._needClean()) {
+                    if (self.required && (self.element.value === null || self.element.value === undefined || self.element.value === '')) {
+                        // 因必输项清空导致检验没通过的情况
+                        self.setValue('')
+                    } else {
+                        self.element.value = self.getShowValue()
+                    }
+                }
+                else
+                    self.setValue(self.element.value)
+            }
+        });
+    }
+});
+u.compMgr.addDataAdapter({
+        adapter: u.IntegerAdapter,
+        name: 'integer'
+    });
+
+
+u.FloatAdapter = u.BaseAdapter.extend({
+    mixins:[u.ValueMixin,u.EnableMixin, u.RequiredMixin, u.ValidateMixin],
+    init: function () {
+        var self = this;
+        this.element = this.element.nodeName === 'INPUT' ? this.element : this.element.querySelector('input');
+        if (!this.element){
+            throw new Error('not found INPUT element, u-meta:' + JSON.stringify(this.options));
+        };
+        this.maskerMeta = u.core.getMaskerMeta('float') || {};
+        this.validType = 'float';
+        this.maskerMeta.precision = this.getOption('precision') || this.maskerMeta.precision;
+        this.max = this.getOption('max') || "10000000000000000000";
+        this.min = this.getOption('min') || "-10000000000000000000";
+        this.maxNotEq = this.getOption('maxNotEq');
+        this.minNotEq = this.getOption('minNotEq');
+
+        //处理数据精度
+        this.dataModel.refRowMeta(this.field, "precision").subscribe(function(precision){
+            if(precision === undefined) return;
+            self.setPrecision(precision)
+        });
+        this.formater = new u.NumberFormater(this.maskerMeta.precision);
+        this.masker = new u.NumberMasker(this.maskerMeta);
+        u.on(this.element, 'focus', function(){
+            if(self.enable){
+                self.onFocusin()
+            }
+        })
+
+        u.on(this.element, 'blur',function(){
+            if(self.enable){
+                if (!self.doValidate() && self._needClean()) {
+                    if (self.required && (self.element.value === null || self.element.value === undefined || self.element.value === '')) {
+                        // 因必输项清空导致检验没通过的情况
+                        self.setValue('')
+                    } else {
+                        self.element.value = self.getShowValue()
+                    }
+                }
+                else
+                    self.setValue(self.element.value)
+            }
+        });
+
+
+    },
+    /**
+     * 修改精度
+     * @param {Integer} precision
+     */
+    setPrecision: function (precision) {
+        if (this.maskerMeta.precision == precision) return;
+        this.maskerMeta.precision = precision
+        this.formater = new u.NumberFormater(this.maskerMeta.precision);
+        this.masker = new u.NumberMasker(this.maskerMeta);
+        var currentRow = this.dataModel.getCurrentRow();
+        if (currentRow) {
+            var v = this.dataModel.getCurrentRow().getValue(this.field)
+            this.showValue = this.masker.format(this.formater.format(v)).value
+        } else {
+            this.showValue = this.masker.format(this.formater.format(this.trueValue)).value
+        }
+
+        this.setShowValue(this.showValue)
+    },
+    onFocusin: function () {
+        var v = this.dataModel.getCurrentRow().getValue(this.field), vstr = v + '', focusValue = v;
+        if (u.isNumber(v) && u.isNumber(this.maskerMeta.precision)) {
+            if (vstr.indexOf('.') >= 0) {
+                var sub = vstr.substr(vstr.indexOf('.') + 1);
+                if (sub.length < this.maskerMeta.precision || parseInt(sub.substr(this.maskerMeta.precision)) == 0) {
+                    focusValue = this.formater.format(v)
+                }
+            } else if (this.maskerMeta.precision > 0) {
+                focusValue = this.formater.format(v)
+            }
+        }
+        focusValue = parseFloat(focusValue) || '';
+        this.setShowValue(focusValue)
+    },
+    _needClean: function () {
+        return true
+    }
+});
+
+u.compMgr.addDataAdapter({
+        adapter: u.FloatAdapter,
+        name: 'float'
+    });
+/**
+ * 货币控件
+ */
+u.CurrencyAdapter = u.FloatAdapter.extend({
+    init: function () {
+        var self = this;
+        u.CurrencyAdapter.superclass.init.apply(this);
+
+        this.maskerMeta = iweb.Core.getMaskerMeta('currency') || {};
+        this.maskerMeta.precision = this.getOption('precision') || this.maskerMeta.precision;
+        this.maskerMeta.curSymbol = this.getOption('curSymbol') || this.maskerMeta.curSymbol;
+        this.validType = 'float';
+        this.dataModel.on(this.field + '.curSymbol.' + u.DataTable.ON_CURRENT_META_CHANGE, function (event) {
+            self.setCurSymbol(event.newValue)
+        });
+        this.formater = new u.NumberFormater(this.maskerMeta.precision);
+        this.masker = new CurrencyMasker(this.maskerMeta);
+    },
+    /**
+     * 修改精度
+     * @param {Integer} precision
+     */
+    setPrecision: function (precision) {
+        if (this.maskerMeta.precision == precision) return
+        this.maskerMeta.precision = precision
+        this.formater = new u.NumberFormater(this.maskerMeta.precision);
+        this.masker = new u.CurrencyMasker(this.maskerMeta);
+        var currentRow = this.dataModel.getCurrentRow();
+        if (currentRow) {
+            var v = this.dataModel.getCurrentRow().getValue(this.field)
+            this.showValue = this.masker.format(this.formater.format(v)).value
+        } else {
+            this.showValue = this.masker.format(this.formater.format(this.trueValue)).value
+        }
+        this.setShowValue(this.showValue)
+    },
+    /**
+     * 修改币符
+     * @param {String} curSymbol
+     */
+    setCurSymbol: function (curSymbol) {
+        if (this.maskerMeta.curSymbol == curSymbol) return
+        this.maskerMeta.curSymbol = curSymbol
+        this.masker.formatMeta.curSymbol = this.maskerMeta.curSymbol
+        this.element.trueValue = this.trueValue
+        this.showValue = this.masker.format(this.trueValue).value
+        this.setShowValue(this.showValue)
+
+    },
+    onFocusin: function (e) {
+        var v = this.getValue(), vstr = v + '', focusValue = v
+        if (u.isNumber(v) && u.isNumber(this.maskerMeta.precision)) {
+            if (vstr.indexOf('.') >= 0) {
+                var sub = vstr.substr(vstr.indexOf('.') + 1)
+                if (sub.length < this.maskerMeta.precision || parseInt(sub.substr(this.maskerMeta.precision)) == 0) {
+                    focusValue = this.formater.format(v)
+                }
+            } else if (this.maskerMeta.precision > 0) {
+                focusValue = this.formater.format(v)
+            }
+        }
+        this.setShowValue(focusValue)
+
+    }
+})
+
+u.compMgr.addDataAdapter({
+        adapter: u.CurrencyAdapter,
+        name: 'currency'
+    });
+
+
+/**
+ * 百分比控件
+ */
+u.PercentAdapter = u.FloatAdapter.extend({
+    init: function () {
+        u.PercentAdapter.superclass.init.apply(this);
+        this.validType = 'float';
+        this.maskerMeta = iweb.Core.getMaskerMeta('percent') || {};
+        this.maskerMeta.precision = this.getOption('precision') || this.maskerMeta.precision;
+        if (this.maskerMeta.precision){
+            this.maskerMeta.precision = parseInt(this.maskerMeta.precision) + 2;
+        }
+        this.formater = new u.NumberFormater(this.maskerMeta.precision);
+        this.masker = new PercentMasker(this.maskerMeta);
+    }
+});
+u.compMgr.addDataAdapter(
+    {
+        adapter: u.PercentAdapter,
+        name: 'percent'
+    });
+
+
+
+u.StringAdapter = u.BaseAdapter.extend({
+    mixins:[u.ValueMixin,u.EnableMixin, u.RequiredMixin, u.ValidateMixin],
+    init: function(){
+        var self = this;
+        this.element = this.element.nodeName === 'INPUT' ? this.element : this.element.querySelector('input');
+        if (!this.element){
+            throw new Error('not found INPUT element, u-meta:' + JSON.stringify(this.options));
+        };
+        this.validType = this.options['validType'] || 'string';
+        this.minLength = this.getOption('minLength');
+        this.maxLength = this.getOption('maxLength');
+
+        u.on(this.element, 'focus', function(){
+            if(self.enable){
+                self.setShowValue(self.getValue())
+            }
+        })
+
+        u.on(this.element, 'blur',function(e){
+            if(self.enable){
+                if (!self.doValidate() && self._needClean()) {
+                    if (self.required && (self.element.value === null || self.element.value === undefined || self.element.value === '')) {
+                        // 因必输项清空导致检验没通过的情况
+                        self.setValue('')
+                    } else {
+                        self.element.value = self.getShowValue()
+                    }
+                }
+                else
+                    self.setValue(self.element.value)
+            }
+        });
+    }
+});
+u.compMgr.addDataAdapter({
+        adapter: u.StringAdapter,
+        name: 'string'
+    });
+
+	
+
+u.TextAreaAdapter = u.BaseAdapter.extend({
+    mixins:[u.ValueMixin,u.EnableMixin, u.RequiredMixin, u.ValidateMixin],
+    init: function () {
+        var self = this;
+        this.element = this.element.nodeName === 'TEXTAREA' ? this.element : this.element.querySelector('textarea');
+        if (!this.element){
+            throw new Error('not found TEXTAREA element, u-meta:' + JSON.stringify(this.options));
+        };
+
+        u.on(this.element, 'focus', function () {
+            self.setShowValue(self.getValue())
+        });
+        u.on(this.element, 'blur', function () {
+            self.setValue(self.element.value)
+        })
+    }
+});
+
+u.compMgr.addDataAdapter({
+        adapter: u.TextAreaAdapter,
+        name: 'textarea'
+    })
+
+/**
+ * Created by dingrf on 2016/1/25.
+ */
+
+u.TextFieldAdapter = u.BaseAdapter.extend({
+    /**
+     *
+     * @param comp
+     * @param options ：
+     *      el: '#content',  对应的dom元素
+     *      options: {},     配置
+     *      model:{}        模型，包括数据和事件
+     */
+    initialize: function (options) {
+        u.TextFieldAdapter.superclass.initialize.apply(this, arguments);
+        //this.comp = comp;
+        //this.element = options['el'];
+        //this.options = options['options'];
+        //this.viewModel = options['model'];
+        var dataType = this.dataModel.getMeta(this.field,'type') || 'string';
+        //var dataType = this.options['dataType'] || 'string';
+
+        this.comp = new u.Text(this.element);
+        this.element['u.Text'] = this.comp;
+
+
+        if (dataType === 'float'){
+            this.trueAdpt = new u.FloatAdapter(options);
+        }
+        else if (dataType === 'string'){
+            this.trueAdpt = new u.StringAdapter(options);
+        }
+        else if (dataType === 'integer'){
+            this.trueAdpt = new u.IntegerAdapter(options);
+        }else{
+            throw new Error("'u-text' only support 'float' or 'string' or 'integer' field type, not support type: '" + dataType + "', field: '" +this.field+ "'");
+        }
+        u.extend(this, this.trueAdpt);
+
+
+        this.trueAdpt.comp = this.comp;
+        this.trueAdpt.setShowValue = function (showValue) {
+            this.showValue = showValue;
+            //if (this.comp.compType === 'text')
+            this.comp.change(showValue);
+            this.element.title = showValue;
+        }
+        return this.trueAdpt;
+    }
+});
+
+u.compMgr.addDataAdapter(
+    {
+        adapter: u.TextFieldAdapter,
+        name: 'u-text'
+        //dataType: 'float'
+    })
 u.CheckboxAdapter = u.BaseAdapter.extend({
     mixins: [u.ValueMixin, u.EnableMixin,u.RequiredMixin, u.ValidateMixin],
     init: function (options) {
@@ -3292,8 +3907,8 @@ u.CheckboxAdapter = u.BaseAdapter.extend({
     },
     setComboData: function (comboData) {
         var self = this;
-        this.element.innerHTML = '';
-        for (var i = 0, len = comboData.length; i < len; i++) {
+        //this.element.innerHTML = '';
+        for (var i = 0, len = comboData.length; i < (len - 1); i++) {
             for(var j=0; j<this.checkboxTemplateArray.length; j++){
                 this.element.appendChild(this.checkboxTemplateArray[j].cloneNode(true));
             }
@@ -3378,6 +3993,56 @@ u.compMgr.addDataAdapter(
     {
         adapter: u.CheckboxAdapter,
         name: 'u-checkbox'
+    });
+
+u.SwitchAdapter = u.BaseAdapter.extend({
+    initialize: function (options) {
+        var self = this;
+        u.SwitchAdapter.superclass.initialize.apply(this, arguments);
+
+        this.comp = new u.Switch(this.element);
+        this.element['u.Switch'] = this.comp;
+        this.checkedValue =  this.options['checkedValue'] || this.comp._inputElement.value;
+        this.unCheckedValue =  this.options["unCheckedValue"];
+        this.comp.on('change', function(event){
+            if (self.slice) return;
+            if (self.comp._inputElement.checked) {
+                self.dataModel.setValue(self.field, self.checkedValue);
+            }else{
+                self.dataModel.setValue(self.field, self.unCheckedValue)
+            }
+        });
+
+        this.dataModel.ref(this.field).subscribe(function(value) {
+        	self.modelValueChange(value)
+        })
+
+
+    },
+
+    modelValueChange: function (val) {
+        if (this.slice) return;
+        if (this.comp._inputElement.checked != (val === this.checkedValue)){
+            this.slice = true;
+            this.comp.toggle();
+            this.slice = false;
+        }
+
+    },
+    setEnable: function (enable) {
+        if (enable === true || enable === 'true') {
+            this.enable = true
+        } else if (enable === false || enable === 'false') {
+            this.enable = false
+        }
+    }
+})
+
+
+u.compMgr.addDataAdapter(
+    {
+        adapter: u.SwitchAdapter,
+        name: 'u-switch'
     });
 
 u.ComboboxAdapter = u.BaseAdapter.extend({
@@ -3476,710 +4141,201 @@ u.compMgr.addDataAdapter(
 
 
 
-/**
- * 货币控件
- */
-u.CurrencyAdapter = u.FloatAdapter.extend({
-    init: function () {
+u.RadioAdapter = u.BaseAdapter.extend({
+    mixins: [u.ValueMixin, u.EnableMixin,u.RequiredMixin, u.ValidateMixin],
+    init: function (options) {
         var self = this;
-        u.CurrencyAdapter.superclass.init.apply(this);
+        //u.RadioAdapter.superclass.initialize.apply(this, arguments);
+        this.dynamic = false;
+        if (this.options['datasource']) {
+            this.dynamic = true;
+            var datasource = u.getJSObject(this.viewModel, this.options['datasource']);
 
-        this.maskerMeta = iweb.Core.getMaskerMeta('currency') || {};
-        this.maskerMeta.precision = this.getOption('precision') || this.maskerMeta.precision;
-        this.maskerMeta.curSymbol = this.getOption('curSymbol') || this.maskerMeta.curSymbol;
-        this.validType = 'float';
-        this.dataModel.on(this.field + '.curSymbol.' + u.DataTable.ON_CURRENT_META_CHANGE, function (event) {
-            self.setCurSymbol(event.newValue)
-        });
-        this.formater = new u.NumberFormater(this.maskerMeta.precision);
-        this.masker = new CurrencyMasker(this.maskerMeta);
-    },
-    /**
-     * 修改精度
-     * @param {Integer} precision
-     */
-    setPrecision: function (precision) {
-        if (this.maskerMeta.precision == precision) return
-        this.maskerMeta.precision = precision
-        this.formater = new u.NumberFormater(this.maskerMeta.precision);
-        this.masker = new u.CurrencyMasker(this.maskerMeta);
-        var currentRow = this.dataModel.getCurrentRow();
-        if (currentRow) {
-            var v = this.dataModel.getCurrentRow().getValue(this.field)
-            this.showValue = this.masker.format(this.formater.format(v)).value
+            this.radioTemplateArray = [];
+            for (var i= 0, count = this.element.childNodes.length; i< count; i++){
+                this.radioTemplateArray.push(this.element.childNodes[i]);
+            }
+            this.setComboData(datasource);
         } else {
-            this.showValue = this.masker.format(this.formater.format(this.trueValue)).value
-        }
-        this.setShowValue(this.showValue)
-    },
-    /**
-     * 修改币符
-     * @param {String} curSymbol
-     */
-    setCurSymbol: function (curSymbol) {
-        if (this.maskerMeta.curSymbol == curSymbol) return
-        this.maskerMeta.curSymbol = curSymbol
-        this.masker.formatMeta.curSymbol = this.maskerMeta.curSymbol
-        this.element.trueValue = this.trueValue
-        this.showValue = this.masker.format(this.trueValue).value
-        this.setShowValue(this.showValue)
+            this.comp = new u.Radio(this.element);
+            this.element['u.Radio'] = this.comp;
+            this.eleValue = this.comp._btnElement.value;
 
-    },
-    onFocusin: function (e) {
-        var v = this.getValue(), vstr = v + '', focusValue = v
-        if (u.isNumber(v) && u.isNumber(this.maskerMeta.precision)) {
-            if (vstr.indexOf('.') >= 0) {
-                var sub = vstr.substr(vstr.indexOf('.') + 1)
-                if (sub.length < this.maskerMeta.precision || parseInt(sub.substr(this.maskerMeta.precision)) == 0) {
-                    focusValue = this.formater.format(v)
+            this.comp.on('change', function(event){
+                if (self.slice) return;
+                var modelValue = self.dataModel.getValue(self.field);
+                //var valueArr = modelValue == '' ?  [] : modelValue.split(',');
+                if (self.comp._btnElement.checked){
+                    self.dataModel.setValue(self.field, self.eleValue);
                 }
-            } else if (this.maskerMeta.precision > 0) {
-                focusValue = this.formater.format(v)
-            }
-        }
-        this.setShowValue(focusValue)
-
-    }
-})
-
-u.compMgr.addDataAdapter({
-        adapter: u.CurrencyAdapter,
-        name: 'currency'
-    });
-
-
-u.DateTimeAdapter = u.BaseAdapter.extend({
-	mixins: [u.ValueMixin,u.EnableMixin,u.RequiredMixin, u.ValidateMixin],
-	init: function (options) {
-		var self = this,adapterType,format;
-		// u.DateTimeAdapter.superclass.initialize.apply(this, arguments);
-		if (this.options.type === 'u-date'){
-			this.adapterType = 'date';
-		}else{
-			this.adapterType = 'datetime'
-			u.addClass(this.element,'time');
-		}
-
-		this.maskerMeta = u.core.getMaskerMeta(this.adapterType) || {};
-		this.maskerMeta.format = this.options['format'] || this.maskerMeta.format;
-		if(this.dataModel){
-			this.dataModel.on(this.field + '.format.' +  u.DataTable.ON_CURRENT_META_CHANGE, function(event){
-				self.setFormat(event.newValue)
-			});
-		}
-		
-		if(this.dataModel)
-			format = this.dataModel.getMeta(this.field, "format")
-		this.maskerMeta.format = format || this.maskerMeta.format
-
-		this.startField = this.options.startField?this.options.startField : this.dataModel.getMeta(this.field, "startField");
-		//if(!this.options['format'])
-		//	this.options.format = "YYYY-MM-DD HH:mm:ss";
-		//this.formater = new $.DateFormater(this.maskerMeta.format);
-		//this.masker = new DateTimeMasker(this.maskerMeta);
-
-		this.comp = new u.DateTimePicker({el:this.element,format:this.maskerMeta.format});
-		this.element['u.DateTimePicker'] = this.comp;
-
-
-		this.comp.on('select', function(event){
-			/*self.slice = true;
-			if(self.dataModel){
-				if (this.options.type === 'u-date')
-					self.dataModel.setValue(self.field, u.date.format(event.value,'YYYY-MM-DD'));
-				else
-					self.dataModel.setValue(self.field, u.date.format(event.value,'YYYY-MM-DD HH:mm:ss'));
-			}
-			self.slice = false;*/
-			self.setValue(event.value);
-		});
-		if(this.dataModel){
-			this.dataModel.ref(this.field).subscribe(function(value) {
-				self.modelValueChange(value);
-			});
-			if(this.startField){
-				this.dataModel.ref(this.startField).subscribe(function(value) {
-					self.comp.setStartDate(value);
-					if(self.comp.date < u.date.getDateObj(value) || !value){
-						self.dataModel.setValue(self.field,'');
-					}
-				});
-			}
-			if(this.startField){
-				var startValue = this.dataModel.getValue(this.startField);
-				if(startValue)
-					self.comp.setStartDate(startValue);
-			}
-			
-		}
-			
-	},
-	modelValueChange: function(value){
-		if (this.slice) return;
-		this.trueValue = value;
-		this.comp.setDate(value);
-	},
-	setFormat: function(format){
-		if (this.maskerMeta.format == format) return;
-		this.maskerMeta.format = format;
-		this.comp.setFormat(format);
-		//this.formater = new $.DateFormater(this.maskerMeta.format);
-		//this.masker = new DateTimeMasker(this.maskerMeta);
-	},
-	setValue: function (value) {
-		if (this.options.type === 'u-date'){
-			value = u.date.format(value,'YYYY-MM-DD');
-		}else{
-			value = u.date.format(value,'YYYY-MM-DD HH:mm:ss');
-		}
-        this.trueValue = this.formater ? this.formater.format(value) : value;
-        this.showValue = this.masker ? this.masker.format(this.trueValue).value : this.trueValue;
-        this.setShowValue(this.showValue);
-        this.slice = true;
-        this.dataModel.setValue(this.field, this.trueValue);
-        this.slice = false;
-    },
-    setEnable: function(enable){
-        if (enable === true || enable === 'true') {
-            this.enable = true;
-            this.element.removeAttribute('readonly');
-            this.comp._input.removeAttribute('readonly');
-            u.removeClass(this.element.parentNode,'disablecover');
-        } else if (enable === false || enable === 'false') {
-            this.enable = false;
-            this.element.setAttribute('readonly', 'readonly');
-            this.comp._input.setAttribute('readonly', 'readonly');
-            u.addClass(this.element.parentNode,'disablecover');
-        }
-        this.comp.setEnable(enable);
-    }
-
-});
-
-u.compMgr.addDataAdapter(
-		{
-			adapter: u.DateTimeAdapter,
-			name: 'u-date'
-		});
-
-u.compMgr.addDataAdapter(
-		{
-			adapter: u.DateTimeAdapter,
-			name: 'u-datetime'
-		});
-
-+function($) {
-
-	/**
-	 * Class Editor
-	 * @param {[type]} document  [description]
-	 * @param {[type]} options   [description]
-	 * @param {[type]} viewModel [description]
-	 */
-	var Editor = $.InputComp.extend({
-		initialize: function(element, options, viewModel) {
-			
-			this.element = element;
-			this.id = options['id'];
-			this.options = options;
-			this.viewModel = viewModel;
-			this.e_editor = this.id + "editor";
-			this.render(this.options);
-			
-			Editor.superclass.initialize.apply(this, arguments)
-			this.create()
-			
-			
-		},
-		
-		render: function(data){
-			var cols = data.cols || 80;
-			var rows = data.rows || 10;
-			var self = this
-			var tpls = '<textarea cols="' + cols + '" id="'+ this.e_editor +'" name="editor" rows="' + rows + '"></textarea>';
-			$(this.element).append(tpls);
-			//this.element.append(tpls);
-			$( '#'+this.e_editor ).ckeditor(); 
-			var tmpeditor = CKEDITOR.instances[this.e_editor]
-			this.tmpeditor = tmpeditor
-			//tmpeditor.setData()
-			this.tmpeditor.on('blur',function(){
-			
-				self.setValue(tmpeditor.getData())
-			});
-			
-			this.tmpeditor.on('focus',function(){
-				
-				self.setShowValue(self.getValue())
-			});
-			
-			//console.log(CKEDITOR.instances[this.e_editor].getData())
-		},
-		modelValueChange: function(value) {
-			if (this.slice) return
-			value = value || ""
-			this.trueValue = value
-			this.showValue = value//this.masker.format(value).value
-			this.setShowValue(this.showValue)
-		},
-		setValue: function(value) {
-			this.trueValue = value//this.formater.format(value)
-			this.showValue = value//this.masker.format(value).value
-			this.setShowValue(this.showValue)
-			this.slice = true
-			this.setModelValue(this.trueValue)
-			this.slice = false
-			this.trigger(Editor.EVENT_VALUE_CHANGE, this.trueValue)
-		},
-		getValue : function() {
-			return this.trueValue
-		},
-		setShowValue : function(showValue) {
-			this.showValue = showValue			
-			this.element.value = showValue
-			this.tmpeditor.setData(showValue)
-		},
-		getShowValue: function() {
-			return this.showValue
-		},
-		getContent: function(){
-			return $( '#'+this.e_editor ).html();
-		},
-
-		setContent: function(txt){
-			$( '#'+this.e_editor ).html(txt);
-		},
-
-		Statics: {
-			compName: 'editor'
-		}
-	});	
-
-	if ($.compManager)
-		$.compManager.addPlug(Editor)
-
-}($);
-
-u.FloatAdapter = u.BaseAdapter.extend({
-    mixins:[u.ValueMixin,u.EnableMixin, u.RequiredMixin, u.ValidateMixin],
-    init: function () {
-        var self = this;
-        this.element = this.element.nodeName === 'INPUT' ? this.element : this.element.querySelector('input');
-        if (!this.element){
-            throw new Error('not found INPUT element, u-meta:' + JSON.stringify(this.options));
-        };
-        this.maskerMeta = u.core.getMaskerMeta('float') || {};
-        this.validType = 'float';
-        this.maskerMeta.precision = this.getOption('precision') || this.maskerMeta.precision;
-        this.max = this.getOption('max') || "10000000000000000000";
-        this.min = this.getOption('min') || "-10000000000000000000";
-        this.maxNotEq = this.getOption('maxNotEq');
-        this.minNotEq = this.getOption('minNotEq');
-
-        //处理数据精度
-        this.dataModel.refRowMeta(this.field, "precision").subscribe(function(precision){
-            if(precision === undefined) return;
-            self.setPrecision(precision)
-        });
-        this.formater = new u.NumberFormater(this.maskerMeta.precision);
-        this.masker = new u.NumberMasker(this.maskerMeta);
-        u.on(this.element, 'focus', function(){
-            if(self.enable){
-                self.onFocusin()
-            }
-        })
-
-        u.on(this.element, 'blur',function(){
-            if(self.enable){
-                if (!self.doValidate() && self._needClean()) {
-                    if (self.required && (self.element.value === null || self.element.value === undefined || self.element.value === '')) {
-                        // 因必输项清空导致检验没通过的情况
-                        self.setValue('')
-                    } else {
-                        self.element.value = self.getShowValue()
-                    }
-                }
-                else
-                    self.setValue(self.element.value)
-            }
-        });
-
-
-    },
-    /**
-     * 修改精度
-     * @param {Integer} precision
-     */
-    setPrecision: function (precision) {
-        if (this.maskerMeta.precision == precision) return;
-        this.maskerMeta.precision = precision
-        this.formater = new u.NumberFormater(this.maskerMeta.precision);
-        this.masker = new u.NumberMasker(this.maskerMeta);
-        var currentRow = this.dataModel.getCurrentRow();
-        if (currentRow) {
-            var v = this.dataModel.getCurrentRow().getValue(this.field)
-            this.showValue = this.masker.format(this.formater.format(v)).value
-        } else {
-            this.showValue = this.masker.format(this.formater.format(this.trueValue)).value
+            });
         }
 
-        this.setShowValue(this.showValue)
-    },
-    onFocusin: function () {
-        var v = this.dataModel.getCurrentRow().getValue(this.field), vstr = v + '', focusValue = v;
-        if (u.isNumber(v) && u.isNumber(this.maskerMeta.precision)) {
-            if (vstr.indexOf('.') >= 0) {
-                var sub = vstr.substr(vstr.indexOf('.') + 1);
-                if (sub.length < this.maskerMeta.precision || parseInt(sub.substr(this.maskerMeta.precision)) == 0) {
-                    focusValue = this.formater.format(v)
-                }
-            } else if (this.maskerMeta.precision > 0) {
-                focusValue = this.formater.format(v)
-            }
-        }
-        focusValue = parseFloat(focusValue) || '';
-        this.setShowValue(focusValue)
-    },
-    _needClean: function () {
-        return true
-    }
-});
-
-u.compMgr.addDataAdapter({
-        adapter: u.FloatAdapter,
-        name: 'float'
-    });
-u.IntegerAdapter = u.BaseAdapter.extend({
-    mixins:[u.ValueMixin,u.EnableMixin, u.RequiredMixin, u.ValidateMixin],
-    init: function () {
-        var self = this;
-        this.element = this.element.nodeName === 'INPUT' ? this.element : this.element.querySelector('input');
-        if (!this.element){
-            throw new Error('not found INPUT element, u-meta:' + JSON.stringify(this.options));
-        };
-        this.validType = this.options['validType'] || 'integer';
-        this.max = this.options['max'];
-        this.min = this.options['min'];
-        this.maxNotEq = this.options['maxNotEq'];
-        this.minNotEq = this.options['minNotEq'];
-        this.maxLength = this.options['maxLength'] ? options['maxLength'] : 25;
-        this.minLength = this.options['mixLength'] ? options['mixLength'] : 0;
-        if (this.dataModel) {
-            this.min = this.dataModel.getMeta(this.field, "min") !== undefined ? this.dataModel.getMeta(this.field, "min") : this.min;
-            this.max = this.dataModel.getMeta(this.field, "max") !== undefined ? this.dataModel.getMeta(this.field, "max") : this.max;
-            this.minNotEq = this.dataModel.getMeta(this.field, "minNotEq") !== undefined ? this.dataModel.getMeta(this.field, "minNotEq") : this.minNotEq;
-            this.maxNotEq = this.dataModel.getMeta(this.field, "maxNotEq") !== undefined ? this.dataModel.getMeta(this.field, "maxNotEq") : this.maxNotEq;
-            this.minLength = u.isNumber(this.dataModel.getMeta(this.field, "minLength")) ? this.dataModel.getMeta(this.field, "minLength") : this.minLength;
-            this.maxLength = u.isNumber(this.dataModel.getMeta(this.field, "maxLength")) ? this.dataModel.getMeta(this.field, "maxLength") : this.maxLength;
-        }
-        u.on(this.element, 'focus', function(){
-            if(self.enable){
-                self.setShowValue(self.getValue())
-            }
-        })
-
-        u.on(this.element, 'blur',function(){
-            if(self.enable){
-                if (!self.doValidate() && self._needClean()) {
-                    if (self.required && (self.element.value === null || self.element.value === undefined || self.element.value === '')) {
-                        // 因必输项清空导致检验没通过的情况
-                        self.setValue('')
-                    } else {
-                        self.element.value = self.getShowValue()
-                    }
-                }
-                else
-                    self.setValue(self.element.value)
-            }
-        });
-    }
-});
-u.compMgr.addDataAdapter({
-        adapter: u.IntegerAdapter,
-        name: 'integer'
-    });
-
-
-+function($) {
-
-/**
- * link控件
- */
-	var LinkComp = u.BaseComponent.extend({
-		initialize: function(element, options, viewModel) {
-			$.InputComp.superclass.initialize.apply(this, arguments)
-			this.dataModel = null
-			this.hasDataTable = false
-			this.enable = true
-			this.parseDataModel()
-			if(options['click']){
-				var clickFunc  = $.getJSObject(viewModel, options['click'])
-				this.on('click', clickFunc)
-			}
-				
-			this.create()
-		},
-		create: function() {
-			var self = this
-			if (this.dataModel) {
-				//处理数据绑定
-				if (this.hasDataTable) {
-					//this.dataModel.ref(this.field).subscribe(function(value) {
-					//		self.modelValueChange(value)
-					//})
-					this.dataModel.on(this.field + '.' +  $.DataTable.ON_CURRENT_VALUE_CHANGE, function(event){
-						self.modelValueChange(event.newValue);
-					});
-
-					//处理只读
-					//this.dataModel.refEnable(this.field).subscribe(function(value){
-					//	self.setEnable(value)
-					//})
-					this.dataModel.on(this.field + '.enable.' +  $.DataTable.ON_CURRENT_META_CHANGE, function(event){
-						self.setEnable(event.newValue);
-					});
-
-					this.dataModel.on($.DataTable.ON_CURRENT_ROW_CHANGE, function(){
-						var row = self.dataModel.getCurrentRow();
-						if (!row){
-							self.modelValueChange('');
-							self.setEnable(false);
-						}else{
-							self.modelValueChange(row.getValue(self.field));
-						}
-					});
-
-
-					this.setEnable(this.dataModel.isEnable(this.field))
-				} else {
-					this.dataModel.subscribe(function(value) {
-						self.modelValueChange(value)
-					});
-				}
-				this.modelValueChange(this.hasDataTable ? this.dataModel.getValue(this.field) : this.dataModel())
-			}
-			$(this.element).on('click', function(){
-				if (self.enable)
-					self.trigger('click', {field:self.field,dataTable:self.dataModel})
-			})
-		},
-		/**
-		 * 模型数据改变
-		 * @param {Object} value
-		 */
-		modelValueChange: function(value) {
-			this.setValue(value)
-		},
-
-		/**
-		 * @private
-		 */
-		parseDataModel: function() {
-			if (!this.options || !this.options["data"]) return
-			this.dataModel = $.getJSObject(this.viewModel, this.options["data"])
-			if (this.dataModel instanceof $.DataTable) {
-				this.hasDataTable = true
-				this.field = this.options["field"]
-			}
-		},
-		/**
-		 * 设置控件值
-		 * @param {Object} value
-		 */
-		setValue: function(value) {
-			this.value = value
-			$(this.element).html(value)
-		},
-		/**
-		 * 取控件的值
-		 */
-		getValue: function() {
-			return this.value
-		},
-//		setUrl: function(url){
-//			
-//		},
-//		getUrl: function(){
-//			
-//		}
-
-		setEnable: function(enable){
-			if(enable === true || enable === 'true'){
-				this.enable = true
-				$(this.element).css('cursor', 'pointer')	
-			}	
-			else if(enable === false || enable === 'false'){	
-				this.enable = false			
-				$(this.element).css('cursor', 'not-allowed')
-			}	
-		},
-
-		Statics: {
-			compName: 'link'
-		}
-	})
-
-	if ($.compManager)
-		$.compManager.addPlug(LinkComp)
-
-}($);
-
-u.MonthAdapter = u.BaseAdapter.extend({
-    initialize: function (comp, options) {
-        var self = this;
-        u.MonthAdapter.superclass.initialize.apply(this, arguments);
-        this.validType = 'month';
-
-        this.comp = new u.Month(this.element);
-
-
-        this.comp.on('valueChange', function(event){
-            self.slice = true;
-            self.dataModel.setValue(self.field, event.value);
-            self.slice = false;
-            //self.setValue(event.value);
-        });
         this.dataModel.ref(this.field).subscribe(function(value) {
             self.modelValueChange(value)
         })
 
 
     },
+    setComboData: function (comboData) {
+        var self = this;
+        // this.element.innerHTML = '';
+        for (var i = 0, len = comboData.length; i < (len - 1); i++) {
+            for(var j=0; j<this.radioTemplateArray.length; j++){
+                this.element.appendChild(this.radioTemplateArray[j].cloneNode(true));
+            }
+            //this.radioTemplate.clone().appendTo(this.element)
+        }
+
+        var allRadio = this.element.querySelectorAll('[type=radio]');
+        var allName = this.element.querySelectorAll('.u-radio-label');
+        for (var k = 0; k < allRadio.length; k++) {
+            allRadio[k].value = comboData[k].pk || comboData[k].value;
+            allName[k].innerHTML = comboData[k].name
+        }
+
+        this.radioInputName = allRadio[0].name;
+
+        this.element.querySelectorAll('.u-radio').forEach(function (ele) {
+            var comp = new u.Radio(ele);
+            ele['u.Radio'] = comp;
+
+            comp.on('change', function(event){
+                if (comp._btnElement.checked){
+                    self.dataModel.setValue(self.field, comp._btnElement.value);
+                }
+            });
+        })
+    },
+
     modelValueChange: function (value) {
         if (this.slice) return;
-        this.comp.setValue(value);
+        if (this.dynamic){
+            this.trueValue = value;
+            this.element.querySelectorAll('.u-radio').forEach(function (ele) {
+                var comp =  ele['u.Radio'];
+                if (comp._btnElement.value == value) {
+                    comp._btnElement.click();
+                }
+            })
+        }else{
+            if (this.eleValue == value){
+                this.slice = true
+                this.comp._btnElement.click();
+                this.slice = false
+            }
+        }
     },
+
     setEnable: function (enable) {
+        this.enable = (enable === true || enable === 'true');
+        if (this.dynamic){
+            this.element.querySelectorAll('.u-radio').forEach(function (ele) {
+                var comp =  ele['u.Radio'];
+                if (enable === true || enable === 'true'){
+                    comp.enable();
+                }else{
+                    comp.disable();
+                }
+            })
+        }else{
+            if (this.enable){
+                this.comp.enable();
+            }else{
+                this.comp.disable();
+            }
+        }
     }
-});
+})
+
 
 u.compMgr.addDataAdapter(
     {
-        adapter: u.MonthAdapter,
-        name: 'u-month'
+        adapter: u.RadioAdapter,
+        name: 'u-radio'
     });
 
+u.NativeRadioAdapter = u.BaseAdapter.extend({
+    mixins: [u.ValueMixin, u.EnableMixin],
+    init: function () {
+        this.isDynamic = false;
+        //如果存在datasource，动态创建radio
+        if (this.options['datasource']) {
+            this.isDynamic = true;
+            var datasource = u.getJSObject(this.viewModel, this.options['datasource']);
+            //if(!u.isArray(datasource)) return;
+
+            this.radioTemplateArray = [];
+            for (var i= 0, count = this.element.childNodes.length; i< count; i++){
+                this.radioTemplateArray.push(this.element.childNodes[i]);
+            }
+            this.setComboData(datasource);
+        } else {
+        }
+    },
+    setComboData: function (comboData) {
+        var self = this;
+        //if(!this.radioTemplate.is(":radio")) return;
+        this.element.innerHTML = '';
+        for (var i = 0, len = comboData.length; i < len; i++) {
+            for(var j=0; j<this.radioTemplateArray.length; j++){
+                try{
+                    this.element.appendChild(this.radioTemplateArray[j].cloneNode(true));
+                }catch(e){
+                    
+                }
+                
+            }
+            //this.radioTemplate.clone().appendTo(this.element)
+        }
+
+        var allRadio = this.element.querySelectorAll('[type=radio]');
+        var allName = this.element.querySelectorAll('[data-role=name]');
+        for (var k = 0; k < allRadio.length; k++) {
+            allRadio[k].value = comboData[k].pk || comboData[k].value;
+            allName[k].innerHTML = comboData[k].name
+        }
+
+        this.radioInputName = allRadio[0].name;
+
+        this.element.querySelectorAll('[type=radio][name="'+ this.radioInputName +'"]').forEach(function (ele) {
+            u.on(ele, 'click', function () {
+                if (this.checked) {
+                    self.setValue(this.value);
+                }
+
+            })
+        })
+    },
+    modelValueChange: function (value) {
+        if (this.slice) return;
+        this.setValue(value)
+    },
+    setValue: function (value) {
+        this.trueValue = value;
+        this.element.querySelectorAll('[type=radio][name="'+ this.radioInputName +'"]').forEach(function (ele) {
+            if (ele.value == value) {
+                ele.checked = true;
+            } else {
+                ele.checked = false;
+            }
+        })
+        this.slice = true;
+        this.dataModel.setValue(this.field, this.trueValue);
+        this.slice = false;
+    },
+    getValue: function () {
+        return this.trueValue;
+    },
 
 
+});
 
+u.compMgr.addDataAdapter({
+    adapter: u.NativeRadioAdapter,
+    name: 'radio'
+});
 
-+function($) {
-	var Multilang = $.InputComp.extend({
-		initialize: function(element, options, viewModel) {
-			var self = this
-			Multilang.superclass.initialize.apply(this, arguments)
-			this.create()
-			var multinfo =  iweb.Core.getLanguages()
-			if(options.multinfo){
-				multinfo = options.multinfo
-			}
-
-			var multidata = [];
-			this.field = options.field;
-			multinfo.lang_name =  options.field
-			for(i = 0; i < multinfo.length; i++){
-				if(i){
-					multidata[i] =  this.dataModel.getValue(this.field + (i+1),this.dataTableRow)
-				}else{
-					multidata[i] =  this.dataModel.getValue(this.field,this.dataTableRow)
-				}
-
-			}
-
-
-			this.multinfo = multinfo;
-			this.multidata = multidata;
-			$(element).multilang({"multinfo":multinfo, "multidata":multidata});
-
-			this.$element = $(element)
-			this.$element.on('change.u.multilang', function(event, valObj) {
-
-				self.setModelValue(valObj)
-			})
-		},
-		create: function() {
-			var self = this
-			if (this.dataModel) {
-				//处理数据绑定
-				if (this.hasDataTable) {
-					//this.dataModel.ref(this.field).subscribe(function(value) {
-					//		self.modelValueChange(value)
-					//})
-					this.dataModel.on($.DataTable.ON_CURRENT_ROW_CHANGE, function(event){
-						self.modelValueChange();
-					});
-
-					//处理只读
-					//this.dataModel.refEnable(this.field).subscribe(function(value){
-					//	self.setEnable(value)
-					//})
-					this.dataModel.on(this.field + '.enable.' +  $.DataTable.ON_CURRENT_META_CHANGE, function(event){
-						self.setEnable(event.newValue);
-					});
-					this.setEnable(this.dataModel.isEnable(this.field))
-				} else {
-					this.dataModel.subscribe(function(value) {
-						self.modelValueChange(value)
-					})
-				}
-				this.modelValueChange(this.hasDataTable ? this.dataModel.getValue(this.field) : this.dataModel())
-//				this.modelValuelangChange(this.hasDataTable ? this.dataModel.getValue(this.fieldlang) : this.dataModel())
-			}
-
-		},
-		parseDataModel: function() {
-			if (!this.options || !this.options["data"]) return
-			this.dataModel = $.getJSObject(this.viewModel, this.options["data"])
-			if (this.dataModel instanceof $.DataTable) {
-				this.hasDataTable = true
-				this.field = this.options["field"]
-				//			this.fieldlang = this.options["fieldlang"]
-			}
-		},
-		//往模型上设置值
-		setModelValue: function(valObj) {
-			if (!this.dataModel) return
-			if (this.hasDataTable) {
-
-				this.dataModel.setValue(valObj.field, valObj.newValue)
-				//			this.dataModel.setValue(this.fieldlang, valObj.lang)
-			} else {
-				this.dataModel(valObj.newValue)
-			}
-		},
-		modelValueChange: function(value) {
-
-			var self = this
-			if(this.multidata){
-
-				for(i = 0; i < self.multinfo.length; i++){
-					if(i){
-						self.multidata[i] = self.dataModel.getValue(self.field + (i+1),self.dataTableRow)
-					}else{
-						self.multidata[i] = self.dataModel.getValue(self.field,self.dataTableRow)
-					}
-				}
-				this.$element.multilang({"multidata":self.multidata});
-
-			}
-
-
-
-			//this.dataModel.getValue(this.field,this.dataTableRow)
-			//$(this.element).siblings('.multilang_body').children('input').val(value)
-
-		},
-		modelValuelangChange: function(value) {
-
-		},
-		Statics: {
-			compName: 'multilang'
-		}
-	})
-
-	if ($.compManager)
-		$.compManager.addPlug(Multilang)
-}($);
 u.NativeCheckAdapter = u.BaseAdapter.extend({
     mixins: [u.ValueMixin, u.EnableMixin],
     init: function () {
@@ -4213,7 +4369,10 @@ u.NativeCheckAdapter = u.BaseAdapter.extend({
         this.element.innerHTML = '';
         for (var i = 0, len = comboData.length; i < len; i++) {
             for(var j=0; j<this.checkboxTemplateArray.length; j++){
-                this.element.appendChild(this.checkboxTemplateArray[j].cloneNode(true));
+                try{
+                    this.element.appendChild(this.checkboxTemplateArray[j].cloneNode());
+                }catch(e){
+                }
             }
             //this.radioTemplate.clone().appendTo(this.element)
         }
@@ -4285,82 +4444,6 @@ u.NativeCheckAdapter = u.BaseAdapter.extend({
 u.compMgr.addDataAdapter({
     adapter: u.NativeCheckAdapter,
     name: 'checkbox'
-});
-
-u.NativeRadioAdapter = u.BaseAdapter.extend({
-    mixins: [u.ValueMixin, u.EnableMixin],
-    init: function () {
-        this.isDynamic = false;
-        //如果存在datasource，动态创建radio
-        if (this.options['datasource']) {
-            this.isDynamic = true;
-            var datasource = u.getJSObject(this.viewModel, this.options['datasource']);
-            //if(!u.isArray(datasource)) return;
-
-            this.radioTemplateArray = [];
-            for (var i= 0, count = this.element.childNodes.length; i< count; i++){
-                this.radioTemplateArray.push(this.element.childNodes[i]);
-            }
-            this.setComboData(datasource);
-        } else {
-        }
-    },
-    setComboData: function (comboData) {
-        var self = this;
-        //if(!this.radioTemplate.is(":radio")) return;
-        this.element.innerHTML = '';
-        for (var i = 0, len = comboData.length; i < len; i++) {
-            for(var j=0; j<this.radioTemplateArray.length; j++){
-                this.element.appendChild(this.radioTemplateArray[j].cloneNode(true));
-            }
-            //this.radioTemplate.clone().appendTo(this.element)
-        }
-
-        var allRadio = this.element.querySelectorAll('[type=radio]');
-        var allName = this.element.querySelectorAll('[data-role=name]');
-        for (var k = 0; k < allRadio.length; k++) {
-            allRadio[k].value = comboData[k].pk || comboData[k].value;
-            allName[k].innerHTML = comboData[k].name
-        }
-
-        this.radioInputName = allRadio[0].name;
-
-        this.element.querySelectorAll('[type=radio][name="'+ this.radioInputName +'"]').forEach(function (ele) {
-            u.on(ele, 'click', function () {
-                if (this.checked) {
-                    self.setValue(this.value);
-                }
-
-            })
-        })
-    },
-    modelValueChange: function (value) {
-        if (this.slice) return;
-        this.setValue(value)
-    },
-    setValue: function (value) {
-        this.trueValue = value;
-        this.element.querySelectorAll('[type=radio][name="'+ this.radioInputName +'"]').forEach(function (ele) {
-            if (ele.value == value) {
-                ele.checked = true;
-            } else {
-                ele.checked = false;
-            }
-        })
-        this.slice = true;
-        this.dataModel.setValue(this.field, this.trueValue);
-        this.slice = false;
-    },
-    getValue: function () {
-        return this.trueValue;
-    },
-
-
-});
-
-u.compMgr.addDataAdapter({
-    adapter: u.NativeRadioAdapter,
-    name: 'radio'
 });
 
 u.PaginationAdapter = u.BaseAdapter.extend({
@@ -4442,376 +4525,188 @@ u.compMgr.addDataAdapter(
 
 
 
-/**
- * 密码控件
- */
-u.PassWordAdapter = u.StringAdapter.extend({
-    init: function () {
-        u.PassWordAdapter.superclass.init.apply(this);
-        var oThis = this;
-        this.element.type = "password";
-        oThis.element.title = '';
-        this._element = this.element.parentNode;
-        this.span = this._element.querySelector("span");
-        if(this.span){
-            u.on(this.span,'click',function(){
-                if(oThis.element.type == 'password'){
-                    oThis.element.type = 'text';
-                }else{
-                    oThis.element.type = 'password';
-                }
-            });
-        }
-        
+u.DateTimeAdapter = u.BaseAdapter.extend({
+	mixins: [u.ValueMixin,u.EnableMixin,u.RequiredMixin, u.ValidateMixin],
+	init: function (options) {
+		var self = this,adapterType,format;
+		// u.DateTimeAdapter.superclass.initialize.apply(this, arguments);
+		if (this.options.type === 'u-date'){
+			this.adapterType = 'date';
+		}else{
+			this.adapterType = 'datetime'
+			u.addClass(this.element,'time');
+		}
+
+		this.maskerMeta = u.core.getMaskerMeta(this.adapterType) || {};
+		this.maskerMeta.format = this.options['format'] || this.maskerMeta.format;
+		if(this.dataModel){
+			this.dataModel.on(this.field + '.format.' +  u.DataTable.ON_CURRENT_META_CHANGE, function(event){
+				self.setFormat(event.newValue)
+			});
+		}
+		
+		if(this.dataModel && !this.options['format'])
+			this.options.format = this.dataModel.getMeta(this.field, "format")
+
+		if(!this.options['format']){
+			if(this.options.type === 'u-date'){
+				this.options.format = "YYYY-MM-DD";
+			}else{
+				this.options.format = "YYYY-MM-DD HH:mm:ss";
+			}
+		}
+		format = this.options.format;
+		this.maskerMeta.format = format || this.maskerMeta.format
+
+		this.startField = this.options.startField?this.options.startField : this.dataModel.getMeta(this.field, "startField");
+		
+			
+		// this.formater = new $.DateFormater(this.maskerMeta.format);
+		// this.masker = new DateTimeMasker(this.maskerMeta);
+		var op;
+		if(u.isMobile){
+			op = {
+				theme:"ios",
+				mode:"scroller",
+				lang: "zh",  
+				cancelText: null,
+				onSelect:function(val){
+					self.setValue(val);
+				}
+			}
+			this.element = this.element.querySelector("input");
+			this.element.setAttribute('readonly','readonly');
+			if(this.adapterType == 'date'){
+				$(this.element).mobiscroll().date(op);
+			}else{
+				$(this.element).mobiscroll().datetime(op);
+			}
+		}else{
+			this.comp = new u.DateTimePicker({el:this.element,format:this.maskerMeta.format});
+		}
+		
+		this.element['u.DateTimePicker'] = this.comp;
+
+		if(!u.isMobile){
+			this.comp.on('select', function(event){
+				self.setValue(event.value);
+			});
+		}
+		if(this.dataModel){
+			this.dataModel.ref(this.field).subscribe(function(value) {
+				self.modelValueChange(value);
+			});
+			if(this.startField){
+				this.dataModel.ref(this.startField).subscribe(function(value) {
+					if(u.isMobile){
+						var valueObj = u.date.getDateObj(value);
+						op.minDate = valueObj;
+						if(self.adapterType == 'date'){
+							$(self.element).mobiscroll().date(op);
+						}else{
+							$(self.element).mobiscroll().datetime(op);
+						}
+						var nowDate = u.date.getDateObj(self.dataModel.getValue(self.field));
+						if(nowDate < valueObj || !value){
+							self.dataModel.setValue(self.field,'');
+						}
+					}else{
+						self.comp.setStartDate(value);
+						if(self.comp.date < u.date.getDateObj(value) || !value){
+							self.dataModel.setValue(self.field,'');
+						}
+					}
+					
+				});
+			}
+			if(this.startField){
+				var startValue = this.dataModel.getValue(this.startField);
+				if(startValue){
+					if(u.isMobile){
+						op.minDate = u.date.getDateObj(startValue);
+						if(this.adapterType == 'date'){
+							$(this.element).mobiscroll().date(op);
+						}else{
+							$(this.element).mobiscroll().datetime(op);
+						}
+					}else{
+						self.comp.setStartDate(startValue);
+					}
+				}
+			}
+			
+		}
+			
+	},
+	modelValueChange: function(value){
+		if (this.slice) return;
+		this.trueValue = value;
+		if(u.isMobile){
+			if(value){
+				value = u.date.format(value,this.options.format);
+				$(this.element).scroller('setDate', u.date.getDateObj(value), true);
+			}
+		}else{
+			this.comp.setDate(value);
+		}
+		
+	},
+	setFormat: function(format){
+		if (this.maskerMeta.format == format) return;
+		this.options.format = format;
+		this.maskerMeta.format = format;
+		if(!u.isMobile)
+			this.comp.setFormat(format);
+		// this.formater = new $.DateFormater(this.maskerMeta.format);
+		// this.masker = new DateTimeMasker(this.maskerMeta);
+	},
+	setValue: function (value) {
+		value = u.date.format(value,this.options.format);
+        this.trueValue = this.formater ? this.formater.format(value) : value;
+        this.showValue = this.masker ? this.masker.format(this.trueValue).value : this.trueValue;
+        this.setShowValue(this.showValue);
+        this.slice = true;
+        this.dataModel.setValue(this.field, this.trueValue);
+        this.slice = false;
     },
-    setShowValue: function (showValue) {
-        this.showValue = showValue;
-        this.element.value = showValue;
-        this.element.title = '';
-    },
-});
-u.compMgr.addDataAdapter(
-    {
-        adapter: u.PassWordAdapter,
-        name: 'password'
-    });
-
-
-
-/**
- * 百分比控件
- */
-u.PercentAdapter = u.FloatAdapter.extend({
-    init: function () {
-        u.PercentAdapter.superclass.init.apply(this);
-        this.validType = 'float';
-        this.maskerMeta = iweb.Core.getMaskerMeta('percent') || {};
-        this.maskerMeta.precision = this.getOption('precision') || this.maskerMeta.precision;
-        if (this.maskerMeta.precision){
-            this.maskerMeta.precision = parseInt(this.maskerMeta.precision) + 2;
-        }
-        this.formater = new u.NumberFormater(this.maskerMeta.precision);
-        this.masker = new PercentMasker(this.maskerMeta);
-    }
-});
-u.compMgr.addDataAdapter(
-    {
-        adapter: u.PercentAdapter,
-        name: 'percent'
-    });
-
-
-
-u.ProgressAdapter = u.BaseAdapter.extend({
-    initialize: function (options) {
-        var self = this;
-        u.ProgressAdapter.superclass.initialize.apply(this, arguments);
-
-        this.comp = new u.Progress(this.element);
-        this.element['u.Progress'] = this.comp;
-
-        this.dataModel.ref(this.field).subscribe(function(value) {
-        	self.modelValueChange(value)
-        })
-    },
-
-    modelValueChange: function (val) {
-        this.comp.setProgress(val)
-    }
-})
-
-
-u.compMgr.addDataAdapter(
-    {
-        adapter: u.ProgressAdapter,
-        name: 'u-progress'
-    });
-
-u.RadioAdapter = u.BaseAdapter.extend({
-    mixins: [u.ValueMixin, u.EnableMixin,u.RequiredMixin, u.ValidateMixin],
-    init: function (options) {
-        var self = this;
-        //u.RadioAdapter.superclass.initialize.apply(this, arguments);
-        this.dynamic = false;
-        if (this.options['datasource']) {
-            this.dynamic = true;
-            var datasource = u.getJSObject(this.viewModel, this.options['datasource']);
-
-            this.radioTemplateArray = [];
-            for (var i= 0, count = this.element.childNodes.length; i< count; i++){
-                this.radioTemplateArray.push(this.element.childNodes[i]);
-            }
-            this.setComboData(datasource);
-        } else {
-            this.comp = new u.Radio(this.element);
-            this.element['u.Radio'] = this.comp;
-            this.eleValue = this.comp._btnElement.value;
-
-            this.comp.on('change', function(event){
-                if (self.slice) return;
-                var modelValue = self.dataModel.getValue(self.field);
-                //var valueArr = modelValue == '' ?  [] : modelValue.split(',');
-                if (self.comp._btnElement.checked){
-                    self.dataModel.setValue(self.field, self.eleValue);
-                }
-            });
-        }
-
-        this.dataModel.ref(this.field).subscribe(function(value) {
-            self.modelValueChange(value)
-        })
-
-
-    },
-    setComboData: function (comboData) {
-        var self = this;
-        this.element.innerHTML = '';
-        for (var i = 0, len = comboData.length; i < len; i++) {
-            for(var j=0; j<this.radioTemplateArray.length; j++){
-                this.element.appendChild(this.radioTemplateArray[j].cloneNode(true));
-            }
-            //this.radioTemplate.clone().appendTo(this.element)
-        }
-
-        var allRadio = this.element.querySelectorAll('[type=radio]');
-        var allName = this.element.querySelectorAll('.u-radio-label');
-        for (var k = 0; k < allRadio.length; k++) {
-            allRadio[k].value = comboData[k].pk || comboData[k].value;
-            allName[k].innerHTML = comboData[k].name
-        }
-
-        this.radioInputName = allRadio[0].name;
-
-        this.element.querySelectorAll('.u-radio').forEach(function (ele) {
-            var comp = new u.Radio(ele);
-            ele['u.Radio'] = comp;
-
-            comp.on('change', function(event){
-                if (comp._btnElement.checked){
-                    self.dataModel.setValue(self.field, comp._btnElement.value);
-                }
-            });
-        })
-    },
-
-    modelValueChange: function (value) {
-        if (this.slice) return;
-        if (this.dynamic){
-            this.trueValue = value;
-            this.element.querySelectorAll('.u-radio').forEach(function (ele) {
-                var comp =  ele['u.Radio'];
-                if (comp._btnElement.value == value) {
-                    comp._btnElement.click();
-                }
-            })
-        }else{
-            if (this.eleValue == value){
-                this.slice = true
-                this.comp._btnElement.click();
-                this.slice = false
-            }
-        }
-    },
-
-    setEnable: function (enable) {
-        this.enable = (enable === true || enable === 'true');
-        if (this.dynamic){
-            this.element.querySelectorAll('.u-radio').forEach(function (ele) {
-                var comp =  ele['u.Radio'];
-                if (enable === true || enable === 'true'){
-                    comp.enable();
-                }else{
-                    comp.disable();
-                }
-            })
-        }else{
-            if (this.enable){
-                this.comp.enable();
-            }else{
-                this.comp.disable();
-            }
-        }
-    }
-})
-
-
-u.compMgr.addDataAdapter(
-    {
-        adapter: u.RadioAdapter,
-        name: 'u-radio'
-    });
-
-u.StringAdapter = u.BaseAdapter.extend({
-    mixins:[u.ValueMixin,u.EnableMixin, u.RequiredMixin, u.ValidateMixin],
-    init: function(){
-        var self = this;
-        this.element = this.element.nodeName === 'INPUT' ? this.element : this.element.querySelector('input');
-        if (!this.element){
-            throw new Error('not found INPUT element, u-meta:' + JSON.stringify(this.options));
-        };
-        this.validType = this.options['validType'] || 'string';
-        this.minLength = this.getOption('minLength');
-        this.maxLength = this.getOption('maxLength');
-
-        u.on(this.element, 'focus', function(){
-            if(self.enable){
-                self.setShowValue(self.getValue())
-            }
-        })
-
-        u.on(this.element, 'blur',function(e){
-            if(self.enable){
-                if (!self.doValidate() && self._needClean()) {
-                    if (self.required && (self.element.value === null || self.element.value === undefined || self.element.value === '')) {
-                        // 因必输项清空导致检验没通过的情况
-                        self.setValue('')
-                    } else {
-                        self.element.value = self.getShowValue()
-                    }
-                }
-                else
-                    self.setValue(self.element.value)
-            }
-        });
-    }
-});
-u.compMgr.addDataAdapter({
-        adapter: u.StringAdapter,
-        name: 'string'
-    });
-
-	
-
-u.SwitchAdapter = u.BaseAdapter.extend({
-    initialize: function (options) {
-        var self = this;
-        u.SwitchAdapter.superclass.initialize.apply(this, arguments);
-
-        this.comp = new u.Switch(this.element);
-        this.element['u.Switch'] = this.comp;
-        this.checkedValue =  this.options['checkedValue'] || this.comp._inputElement.value;
-        this.unCheckedValue =  this.options["unCheckedValue"];
-        this.comp.on('change', function(event){
-            if (self.slice) return;
-            if (self.comp._inputElement.checked) {
-                self.dataModel.setValue(self.field, self.checkedValue);
-            }else{
-                self.dataModel.setValue(self.field, self.unCheckedValue)
-            }
-        });
-
-        this.dataModel.ref(this.field).subscribe(function(value) {
-        	self.modelValueChange(value)
-        })
-
-
-    },
-
-    modelValueChange: function (val) {
-        if (this.slice) return;
-        if (this.comp._inputElement.checked != (val === this.checkedValue)){
-            this.slice = true;
-            this.comp.toggle();
-            this.slice = false;
-        }
-
-    },
-    setEnable: function (enable) {
+    setEnable: function(enable){
         if (enable === true || enable === 'true') {
-            this.enable = true
+            this.enable = true;
+            this.element.removeAttribute('readonly');
+            if(u.isMobile){
+
+            }else{
+            	this.comp._input.removeAttribute('readonly');
+            }
+            u.removeClass(this.element.parentNode,'disablecover');
         } else if (enable === false || enable === 'false') {
-            this.enable = false
+            this.enable = false;
+            this.element.setAttribute('readonly', 'readonly');
+            if(u.isMobile){
+
+            }else{
+            	this.comp._input.setAttribute('readonly', 'readonly');
+            }
+            u.addClass(this.element.parentNode,'disablecover');
         }
+        if(!u.isMobile)
+        	this.comp.setEnable(enable);
     }
-})
 
-
-u.compMgr.addDataAdapter(
-    {
-        adapter: u.SwitchAdapter,
-        name: 'u-switch'
-    });
-
-u.TextAreaAdapter = u.BaseAdapter.extend({
-    mixins:[u.ValueMixin,u.EnableMixin, u.RequiredMixin, u.ValidateMixin],
-    init: function () {
-        var self = this;
-        this.element = this.element.nodeName === 'TEXTAREA' ? this.element : this.element.querySelector('textarea');
-        if (!this.element){
-            throw new Error('not found TEXTAREA element, u-meta:' + JSON.stringify(this.options));
-        };
-
-        u.on(this.element, 'focus', function () {
-            self.setShowValue(self.getValue())
-        });
-        u.on(this.element, 'blur', function () {
-            self.setValue(self.element.value)
-        })
-    }
-});
-
-u.compMgr.addDataAdapter({
-        adapter: u.TextAreaAdapter,
-        name: 'textarea'
-    })
-
-/**
- * Created by dingrf on 2016/1/25.
- */
-
-u.TextFieldAdapter = u.BaseAdapter.extend({
-    /**
-     *
-     * @param comp
-     * @param options ：
-     *      el: '#content',  对应的dom元素
-     *      options: {},     配置
-     *      model:{}        模型，包括数据和事件
-     */
-    initialize: function (options) {
-        u.TextFieldAdapter.superclass.initialize.apply(this, arguments);
-        //this.comp = comp;
-        //this.element = options['el'];
-        //this.options = options['options'];
-        //this.viewModel = options['model'];
-        var dataType = this.dataModel.getMeta(this.field,'type') || 'string';
-        //var dataType = this.options['dataType'] || 'string';
-
-        this.comp = new u.Text(this.element);
-        this.element['u.Text'] = this.comp;
-
-
-        if (dataType === 'float'){
-            this.trueAdpt = new u.FloatAdapter(options);
-        }
-        else if (dataType === 'string'){
-            this.trueAdpt = new u.StringAdapter(options);
-        }
-        else if (dataType === 'integer'){
-            this.trueAdpt = new u.IntegerAdapter(options);
-        }else{
-            throw new Error("'u-text' only support 'float' or 'string' or 'integer' field type, not support type: '" + dataType + "', field: '" +this.field+ "'");
-        }
-        u.extend(this, this.trueAdpt);
-
-
-        this.trueAdpt.comp = this.comp;
-        this.trueAdpt.setShowValue = function (showValue) {
-            this.showValue = showValue;
-            //if (this.comp.compType === 'text')
-            this.comp.change(showValue);
-            this.element.title = showValue;
-        }
-        return this.trueAdpt;
-    }
 });
 
 u.compMgr.addDataAdapter(
-    {
-        adapter: u.TextFieldAdapter,
-        name: 'u-text'
-        //dataType: 'float'
-    })
+		{
+			adapter: u.DateTimeAdapter,
+			name: 'u-date'
+		});
+
+u.compMgr.addDataAdapter(
+		{
+			adapter: u.DateTimeAdapter,
+			name: 'u-datetime'
+		});
+
 u.TimeAdapter = u.BaseAdapter.extend({
     initialize: function (options) {
         var self = this;
@@ -4899,23 +4794,42 @@ u.compMgr.addDataAdapter(
 
 
 
-/**
- * URL控件
- */
-u.UrlAdapter = u.StringAdapter.extend({
-    init: function () {
-        u.UrlAdapter.superclass.init.apply(this);
-        this.validType = 'url';
-        /*
-         * 因为需要输入，因此不显示为超链接
-         */
+u.YearMonthAdapter = u.BaseAdapter.extend({
+    initialize: function (comp, options) {
+        var self = this;
+        u.YearMonthAdapter.superclass.initialize.apply(this, arguments);
+        this.validType = 'yearmonth';
+
+        this.comp = new u.YearMonth(this.element);
+
+
+        this.comp.on('valueChange', function(event){
+            self.slice = true;
+            self.dataModel.setValue(self.field, event.value);
+            self.slice = false;
+            //self.setValue(event.value);
+        });
+        this.dataModel.ref(this.field).subscribe(function(value) {
+            self.modelValueChange(value)
+        })
+
+
+    },
+    modelValueChange: function (value) {
+        if (this.slice) return;
+        this.comp.setValue(value);
+    },
+    setEnable: function (enable) {
     }
 });
+
 u.compMgr.addDataAdapter(
     {
-        adapter: u.UrlAdapter,
-        name: 'url'
+        adapter: u.YearMonthAdapter,
+        name: 'u-yearmonth'
     });
+
+
 
 
 
@@ -4958,13 +4872,13 @@ u.compMgr.addDataAdapter(
 
 
 
-u.YearMonthAdapter = u.BaseAdapter.extend({
+u.MonthAdapter = u.BaseAdapter.extend({
     initialize: function (comp, options) {
         var self = this;
-        u.YearMonthAdapter.superclass.initialize.apply(this, arguments);
-        this.validType = 'yearmonth';
+        u.MonthAdapter.superclass.initialize.apply(this, arguments);
+        this.validType = 'month';
 
-        this.comp = new u.YearMonth(this.element);
+        this.comp = new u.Month(this.element);
 
 
         this.comp.on('valueChange', function(event){
@@ -4989,10 +4903,105 @@ u.YearMonthAdapter = u.BaseAdapter.extend({
 
 u.compMgr.addDataAdapter(
     {
-        adapter: u.YearMonthAdapter,
-        name: 'u-yearmonth'
+        adapter: u.MonthAdapter,
+        name: 'u-month'
     });
 
 
+
+
+
+u.ProgressAdapter = u.BaseAdapter.extend({
+    initialize: function (options) {
+        var self = this;
+        u.ProgressAdapter.superclass.initialize.apply(this, arguments);
+
+        this.comp = new u.Progress(this.element);
+        this.element['u.Progress'] = this.comp;
+
+        this.dataModel.ref(this.field).subscribe(function(value) {
+        	self.modelValueChange(value)
+        })
+    },
+
+    modelValueChange: function (val) {
+        this.comp.setProgress(val)
+    }
+})
+
+
+u.compMgr.addDataAdapter(
+    {
+        adapter: u.ProgressAdapter,
+        name: 'u-progress'
+    });
+
+/**
+ * URL控件
+ */
+u.UrlAdapter = u.StringAdapter.extend({
+    init: function () {
+        u.UrlAdapter.superclass.init.apply(this);
+        this.validType = 'url';
+        /*
+         * 因为需要输入，因此不显示为超链接
+         */
+    }
+});
+u.compMgr.addDataAdapter(
+    {
+        adapter: u.UrlAdapter,
+        name: 'url'
+    });
+
+
+
+/**
+ * 密码控件
+ */
+u.PassWordAdapter = u.StringAdapter.extend({
+    init: function () {
+        u.PassWordAdapter.superclass.init.apply(this);
+        var oThis = this;
+        if(u.isIE8){
+            var outStr = this.element.outerHTML;
+            var l = outStr.length;
+            outStr = outStr.substring(0,l-1) + ' type="password"' + outStr.substring(l-1);
+            var newEle = document.createElement(outStr);
+            var parent = this.element.parentNode;
+            parent.insertBefore(newEle,this.element.nextSibling);
+            parent.removeChild(this.element);
+            this.element = newEle;
+        }else{
+            this.element.type = "password";
+        }
+        oThis.element.title = '';
+        this._element = this.element.parentNode;
+        this.span = this._element.querySelector("span");
+        if(u.isIE8){
+            this.span.style.display = 'none';
+        }
+        if(this.span){
+            u.on(this.span,'click',function(){
+                if(oThis.element.type == 'password'){
+                    oThis.element.type = 'text';
+                }else{
+                    oThis.element.type = 'password';
+                }
+            });
+        }
+        
+    },
+    setShowValue: function (showValue) {
+        this.showValue = showValue;
+        this.element.value = showValue;
+        this.element.title = '';
+    },
+});
+u.compMgr.addDataAdapter(
+    {
+        adapter: u.PassWordAdapter,
+        name: 'password'
+    });
 
 
