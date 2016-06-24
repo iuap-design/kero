@@ -157,20 +157,31 @@ App.fn.compsValidateMultiParam = function(options){
         comps = this.getComps(element),
         passed = true,
         showMsg = options.showMsg,
-        MsgArr = new Array();
-        Msg = '';
+        notPassedArr = new Array();
     for(var i = 0; i < comps.length; i++){
         if (comps[i].doValidate){
             result = comps[i].doValidate({trueValue:true, showMsg:showMsg});
             passed = result.passed && passed;
             if(!result.passed){
-                MsgArr.push(result.Msg);
-                Msg += result.Msg;
+                notPassedArr.push(result);
             }
         }
     }
     return {passed:passed,
-            MsgArr:MsgArr};
+            notPassedArr:notPassedArr}; 
+}
+
+/**
+ * 将comp显示到顶端（此方法只支持body上存在滚动条的情况）
+ * @param {object} comp对象
+ */
+App.fn.showComp = function(comp){
+    var ele = comp.element,off = u.getOffset(ele),scroll = u.getScroll(ele),
+        top = off.top - scroll.top,bodyHeight = document.body.clientHeight,
+        nowTop = document.body.scrollTop;
+    if(top > bodyHeight || top < 0){
+        document.body.scrollTop = nowTop + top;
+    }
 }
 
 /**
@@ -493,7 +504,12 @@ ServerEvent.fn.fire = function (p) {
 
 ServerEvent.fn.getData = function () {
     var envJson = ko.utils.stringifyJson(this.app.getEnvironment()),
-        datasJson = ko.utils.stringifyJson(this.datas),
+        datasJson = ko.utils.stringifyJson(this.datas, function replacer(key, value) {
+          if (typeof value === "undefined" || value == null) {
+            return '';
+          }
+          return value;
+        }),
         compressType = '',
         compression = false
     if (window.trimServerEventData) {

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Title</title>
+<link rel="stylesheet" href="http://iuap.yonyou.com/fe/vendor/font-awesome/css/font-awesome.css">
+<link rel="stylesheet" type="text/css" href="http://iuap.yonyou.com/fe/vendor/uui/css/u.css">
+<link rel="stylesheet" type="text/css" href="http://iuap.yonyou.com/fe/vendor/uui/css/u-extend.css">
+<link rel="stylesheet" type="text/css" href="http://iuap.yonyou.com/fe/vendor/uui/css/tree.css">
+<link rel="stylesheet" type="text/css" href="http://iuap.yonyou.com/fe/vendor/uui/css/grid.css">
+<link rel="stylesheet" type="text/css" href="widget.css">
+</head>
+<body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet"  href="../../../assets/fonts/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css"  href="../../../vendor/uui/css/u.css">
+</head>
+<body>
+	<div id='pagination' class='u-pagination'>
+    </div>
+    <script src="../../../vendor/uui/js/u-polyfill.js"></script>
+    <script src="../../../vendor/uui/js/u-ui.js"></script>
+
+<script>
+
+    var element = document.getElementById('pagination');
+    var comp = new u.pagination({el:element,jumppage:true});
+    comp.update({totalPages: 100,pageSize:20,currentPage:1,totalCount:200,});
+
+    this.comp.on('pageChange', function (pageIndex) {
+        console.log('新的页号为' + pageIndex);
+    });
+
+    this.comp.on('sizeChange', function (arg) {
+        console.log('每页显示条数为' + arg[0]);
+    });
+</script>
+
+</body>
+</html>
+
+<script src="http://iuap.yonyou.com/fe/vendor/jquery/jquery-1.11.2.js"></script>
+<script src="http://iuap.yonyou.com/fe/vendor/knockout/knockout-3.2.0.debug.js"></script>
+<script src="http://iuap.yonyou.com/fe/vendor/uui/js/u-polyfill.js"></script>
+<script src="http://iuap.yonyou.com/fe/vendor/uui/js/u.js"></script>
+<script src="http://iuap.yonyou.com/fe/vendor/uui/js/u-tree.js"></script>
+<script src="http://iuap.yonyou.com/fe/vendor/uui/js/u-grid.js"></script>
+<script src="http://iuap.yonyou.com/fe/vendor/requirejs/require.debug.js"></script>
+<script src="widget.js"></script>
+</body>
+</html>

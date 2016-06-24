@@ -139,7 +139,7 @@ function copyExamp(path,pathLength){
 		}
 	})
 }
-copyExamp(basePath + '/grid',22);
+copyExamp(basePath + '',18);
 /* 处理examples文件夹 end*/
 
 
@@ -205,59 +205,64 @@ function replaceMdFun(filePath,type,itemName){
 	var replaceStr = '';
 	// 遍历所有的文件夹，每个文件夹生成一个文件，然后最后将文件拼到md文件中，已经测试多目录的话是按目录结构生成的
 	var exampTypePath = exampPath + '/' + type; //snippets/examples/grid/datatable
-	file.walkSync(exampTypePath,function(bPath,d,files,r){
-		// 每个子目录都会执行此function
-		var path = bPath.replace(/\\/g,'/'); //snippets/examples/grid/datatable/base
-		var pathArr = path.split('/');
-		var dir = pathArr[pathArr.length - 1];
-		var Str = '### ' + dir + '\r\n';
-		var l = files.length,now = 0;
+	fs.exists(exampTypePath,function(exist){
+		if(exist) {
+			file.walkSync(exampTypePath,function(bPath,d,files,r){
+				// 每个子目录都会执行此function
+				var path = bPath.replace(/\\/g,'/'); //snippets/examples/grid/datatable/base
+				var pathArr = path.split('/');
+				var dir = pathArr[pathArr.length - 1];
+				var Str = '### ' + dir + '\r\n';
+				var l = files.length,now = 0;
 
-		if(files && l > 0){
-			files.forEach(function(item){
-				var tmpPath = bPath + '\\' + item; 
-				tmpPath = tmpPath.replace(/\\/g,'/'); //snippets/examples/grid/datatable/base/widget.css
-				fs.stat(tmpPath,function(err, stat){
-					var cssIndex = item.indexOf('.css');
-					var htmlIndex = item.indexOf('.html');
-					var jsIndex = item.indexOf('.js');
-					var txtIndex = item.indexOf('.txt');
-					if(cssIndex > -1 || htmlIndex > -1 ||jsIndex > -1){
-						fs.readFile(tmpPath,function(err,data){
-							if(data.toString().length > 0)
-								Str += '<pre><code>' + data.toString().replace(/\</g,'&lt;') + '</code></pre>\r\n';
-				        })
-					}
-					if(txtIndex > -1){
-						fs.readFile(tmpPath,function(err,data){
-							Str += data.toString() + '\r\n';
-							now++;
-				        })
-					}
-				})
-			})
-			var ii = setInterval(function(){
-				if(1 == now){
-					var nowFilePath = filePath.replace('docs','temp/' + type).replace('.md','');//snippets/temp/datatable/grid
-					fs.exists(nowFilePath, function(exist) {
-						if(!exist){
-							try{
-								fs.mkdirSync(nowFilePath);
-							}catch(e){
+				if(files && l > 0){
+					files.forEach(function(item){
+						var tmpPath = bPath + '\\' + item; 
+						tmpPath = tmpPath.replace(/\\/g,'/'); //snippets/examples/grid/datatable/base/widget.css
+						fs.stat(tmpPath,function(err, stat){
+							var cssIndex = item.indexOf('.css');
+							var htmlIndex = item.indexOf('.html');
+							var jsIndex = item.indexOf('.js');
+							var txtIndex = item.indexOf('.txt');
+							if(cssIndex > -1 || htmlIndex > -1 ||jsIndex > -1){
+								fs.readFile(tmpPath,function(err,data){
+									if(data.toString().length > 0)
+										Str += '<pre><code>' + data.toString().replace(/\</g,'&lt;') + '</code></pre>\r\n';
+						        })
 							}
+							if(txtIndex > -1){
+								fs.readFile(tmpPath,function(err,data){
+									Str += data.toString() + '\r\n';
+									now++;
+						        })
+							}
+						})
+					})
+					var ii = setInterval(function(){
+						if(1 == now){
+							var nowFilePath = filePath.replace('docs','temp/' + type).replace('.md','');//snippets/temp/datatable/grid
+							fs.exists(nowFilePath, function(exist) {
+								if(!exist){
+									try{
+										fs.mkdirSync(nowFilePath);
+									}catch(e){
+									}
+								}
+								nowFilePath = nowFilePath + '/' + dir + '.txt';//snippets/temp/datatable/grid/base.txt
+								fs.writeFile(nowFilePath,Str,function(err){
+						        	if(err){
+						        		console.log('write err:' + nowFilePath);
+						        	}
+						        })
+							});
+					        clearInterval(ii);
 						}
-						nowFilePath = nowFilePath + '/' + dir + '.txt';//snippets/temp/datatable/grid/base.txt
-						fs.writeFile(nowFilePath,Str,function(err){
-				        	if(err){
-				        		console.log('write err:' + nowFilePath);
-				        	}
-				        })
-					});
-			        clearInterval(ii);
+					})
 				}
-			})
+			})			
 		}
-	})
+	});
+
 	// 延迟执行保证testa目录下的文件已经生成
 	setTimeout(function(){
 		var tempPath = filePath.replace('docs','temp/' + type).replace('.md','');
