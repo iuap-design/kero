@@ -57,8 +57,22 @@ var globs = {
             'js/dtJs/month.js',
             'js/dtJs/progress.js',
             'js/dtJs/url.js',
-            'js/dtJs/password.js'
+            'js/dtJs/password.js',
             // 'js/dtJs/**.js'
+            // core
+            'js/core/core.js',
+            'js/core/event.js',
+            'js/utilities/jsExtensions.js',
+            'js/core/ajax.js',
+            'js/core/base.js',
+            'js/core/compMgr.js',
+            'js/utilities/i18n.js',
+            'js/utilities/rsautils.js',
+            'js/utilities/masker.js',
+            'js/utilities/formater.js',
+            'js/utilities/dateUtils.js',
+            'js/utilities/dataRender.js',
+            'js/utilities/hotKeys.js' 
         ]
     }
 };
