@@ -72,7 +72,7 @@ var globs = {
             'js/utilities/formater.js',
             'js/utilities/dateUtils.js',
             'js/utilities/dataRender.js',
-            'js/utilities/hotKeys.js' 
+            'js/utilities/hotKeys.js'
         ]
     }
 };
