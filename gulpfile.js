@@ -73,7 +73,9 @@ var globs = {
             'js/utilities/dateUtils.js',
             'js/utilities/dataRender.js',
             'js/utilities/hotKeys.js'
-        ]
+        ],
+        treeJs:'js/dtJs/tree.js',
+        gridJs:'js/dtJs/grid.js'
     }
 };
 
