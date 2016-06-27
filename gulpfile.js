@@ -97,7 +97,26 @@ gulp.task('uJs', ['Js'], function(){
         .on('error', errHandle)
         .pipe(rename('u-model.min.js'))
         .pipe(gulp.dest('dist/js'));
+});
+
+/**
+ * output tree.kero.js
+ */
+gulp.task('tree', function() {
+    return gulp.src(globs.js.treeJs)
+        .pipe(rename('tree.kero.js'))
+        .pipe(gulp.dest('dist/js'))
 })
 
-gulp.task('dist', ['uJs'], function(){
+/**
+ * output grid.kero.js
+ */
+gulp.task('grid', function() {
+    return gulp.src(globs.js.gridJs)
+        .pipe(rename('grid.kero.js'))
+        .pipe(gulp.dest('dist/js'))
+})
+
+
+gulp.task('dist', ['uJs', 'tree', 'grid'], function(){
 });
