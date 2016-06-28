@@ -10,27 +10,35 @@ var util = require('gulp-util');
 /**
  * 公共错误处理函数
  * 使用示例：
- *  .pipe(uglify())
- .on('error', errHandle)
- .pipe(rename('u.min.js'))
+ *  .pipe(uglify().on('error', errHandle))
+    .pipe(rename('u.min.js'))
  * @param  {[type]} err [description]
  * @return {[type]}     [description]
  */
-function errHandle(err) {
-    util.log(err.fileName + '文件编译出错，出错行数为' + err.lineNumber + '，具体错误信息为：' + err.message);
+var errHandle = function ( err ) {
+    // 报错文件名
+    var fileName = err.fileName;
+    // 报错类型
+    var name = err.name;
+    // 报错信息
+    var message = err.message;
+    // 出错代码位置
+    var loc = err.loc;
+
+    var logInfo = '报错文件：' + fileName + '报错类型：' + name + '出错代码位置：' + loc.line + ',' + loc.column;
+
+    util.log( logInfo );
+
     this.end();
-};
+}
 
 
 var globs = {
     js: {
-        js:[
-            'js/app.js',
-            'js/dataTable.js'
-        ],
         dtJs:[
-            'dist/js/model.js',
             'js/dtJs/core.js',
+            'js/app.js',
+            'js/dataTable.js',
             'js/dtJs/mixins/enableMixin.js',
             'js/dtJs/mixins/requiredMixin.js',
             'js/dtJs/mixins/validateMixin.js',
@@ -58,8 +66,8 @@ var globs = {
             'js/dtJs/progress.js',
             'js/dtJs/url.js',
             'js/dtJs/password.js',
-            // 'js/dtJs/**.js'
-            // core
+        ],
+        coreJs:[
             'js/core/core.js',
             'js/core/event.js',
             'js/utilities/jsExtensions.js',
@@ -79,8 +87,8 @@ var globs = {
     }
 };
 
-gulp.task('Js', function() {
-    return gulp.src(globs.js.js)
+gulp.task('js', function() {
+    return gulp.src(globs.js.dtJs)
         .pipe(concat('model.js'))
         .pipe(gulp.dest('dist/js'))
         .pipe(uglify())
@@ -89,8 +97,8 @@ gulp.task('Js', function() {
         .pipe(gulp.dest('dist/js'));
 });
 
-gulp.task('uJs', ['Js'], function(){
-    return gulp.src(globs.js.dtJs)
+gulp.task('ujs', ['js'], function(){
+    return gulp.src(globs.js.coreJs.concat(globs.js.dtJs))
         .pipe(concat('u-model.js'))
         .pipe(gulp.dest('dist/js'))
         .pipe(uglify())
@@ -99,18 +107,14 @@ gulp.task('uJs', ['Js'], function(){
         .pipe(gulp.dest('dist/js'));
 });
 
-/**
- * output tree.kero.js
- */
+
 gulp.task('tree', function() {
     return gulp.src(globs.js.treeJs)
         .pipe(rename('tree.kero.js'))
         .pipe(gulp.dest('dist/js'))
 })
 
-/**
- * output grid.kero.js
- */
+
 gulp.task('grid', function() {
     return gulp.src(globs.js.gridJs)
         .pipe(rename('grid.kero.js'))
@@ -118,5 +122,5 @@ gulp.task('grid', function() {
 })
 
 
-gulp.task('dist', ['uJs', 'tree', 'grid'], function(){
+gulp.task('dist', ['ujs', 'tree', 'grid'], function(){
 });

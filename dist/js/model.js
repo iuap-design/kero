@@ -1,3 +1,4 @@
+
 var App = function () {
     this.dataTables = {};
 }
@@ -3227,3 +3228,1780 @@ var _dateToUTCString = function (date) {
 
 u.Row = Row;
 u.DataTable = DataTable;
+
+/**
+ * Created by dingrf on 2016/4/5.
+ */
+
+u.EnableMixin = {
+    init: function(){
+        var self = this;
+        //处理只读
+        if (this.options['enable'] && (this.options['enable'] == 'false' || this.options['enable'] == false)){
+            this.setEnable(false);
+        }else {
+            this.dataModel.refEnable(this.field).subscribe(function (value) {
+                self.setEnable(value);
+            });
+            this.setEnable(this.dataModel.isEnable(this.field));
+        }
+    },
+    methods:{
+        setEnable: function(enable){
+                if (enable === true || enable === 'true') {
+                    this.enable = true;
+                    this.element.removeAttribute('readonly');
+                    u.removeClass(this.element.parentNode,'disablecover');
+                } else if (enable === false || enable === 'false') {
+                    this.enable = false;
+                    this.element.setAttribute('readonly', 'readonly');
+                    u.addClass(this.element.parentNode,'disablecover');
+                }
+        }
+    }
+}
+/**
+ * Created by dingrf on 2016/4/6.
+ */
+
+u.RequiredMixin = {
+    init: function(){
+        var self = this;
+        this.required = this.getOption('required');
+        this.dataModel.refRowMeta(this.field, "required").subscribe(function(value) {
+            self.setRequired(value);
+        });
+        //this.setRequired(this.dataModel.getMeta(this.field, "required"));
+
+    },
+    methods:{
+        setRequired: function (required) {
+            if (required === true || required === 'true') {
+                this.required = true;
+            } else if (required === false || required === 'false') {
+                this.required = false;
+            }
+        },
+    }
+}
+/**
+ * Created by dingrf on 2016/4/6.
+ */
+
+u.ValidateMixin = {
+    init: function(){
+        this.placement = this.getOption('placement');
+        this.tipId = this.getOption('tipId');
+        this.errorMsg = this.getOption('errorMsg');
+        this.nullMsg = this.getOption('nullMsg');
+        this.regExp = this.getOption('regExp');
+        this.successId=this.getOption('successId');
+        this.hasSuccess=this.getOption('hasSuccess');
+        this.notipFlag=this.getOption('notipFlag');
+
+        // if (this.validType) {
+            this.validate = new u.Validate({
+                el: this.element,
+                single: true,
+                validMode: 'manually',
+                required: this.required,
+                validType: this.validType,
+                placement: this.placement,
+                tipId: this.tipId,
+                successId:this.successId,
+                notipFlag:this.notipFlag,
+                hasSuccess:this.hasSuccess,
+                errorMsg: this.errorMsg,
+                nullMsg: this.nullMsg,
+                maxLength: this.maxLength,
+                minLength: this.minLength,
+                max: this.max,
+                min: this.min,
+                maxNotEq: this.maxNotEq,
+                minNotEq: this.minNotEq,
+                reg: this.regExp
+            });
+        // };
+
+    },
+    methods:{
+        /**
+         *校验
+         */
+        doValidate: function (options) {
+            if (this.validate) {
+                if (options && options['trueValue'] === true) {
+                    options['showMsg'] = options['showMsg'] || false;
+                    var result = this.validate.check({pValue: this.getValue(), showMsg: options['showMsg']});
+                }
+                else{
+                    var result = this.validate.check();
+                }
+                result.comp = this;
+                return result;
+            } else {
+                return {passed:true,comp:this}
+            }
+        },
+        /**
+         * 是否需要清除数据
+         */
+        _needClean: function () {
+            if (this.validate)
+                return this.validate._needClean();
+            else return false
+        }
+    }
+}
+/**
+ * Created by dingrf on 2016/4/6.
+ */
+
+
+u.ValueMixin = {
+    init: function(){
+        var self = this;
+        this.dataModel.ref(this.field).subscribe(function(value) {
+            self.modelValueChange(value)
+        });
+        this.modelValueChange(this.dataModel.getValue(this.field));
+
+    },
+    methods:{
+        /**
+         * 模型数据改变
+         * @param {Object} value
+         */
+        modelValueChange: function (value) {
+            if (this.slice) return;
+            if (value === null || typeof value == "undefined")
+                value = "";
+            this.trueValue = this.formater ? this.formater.format(value) : value;
+            //this.element.trueValue = this.trueValue;
+            this.showValue = this.masker ? this.masker.format(this.trueValue).value : this.trueValue;
+            this.setShowValue(this.showValue);
+
+            //this.trueValue = value;
+            //this.showValue = value;
+            //this.setShowValue(this.showValue);
+        },
+
+        ///**
+        // * 设置模型值
+        // * @param {Object} value
+        // */
+        //setModelValue: function (value) {
+        //    if (!this.dataModel) return;
+        //    this.dataModel.setValue(this.field, value)
+        //},
+        /**
+         * 设置控件值
+         * @param {Object} value
+         */
+        setValue: function (value) {
+            this.trueValue = this.formater ? this.formater.format(value) : value;
+            this.showValue = this.masker ? this.masker.format(this.trueValue).value : this.trueValue;
+            this.setShowValue(this.showValue);
+            this.slice = true;
+            this.dataModel.setValue(this.field, this.trueValue);
+            this.slice = false;
+        },
+        /**
+         * 取控件的值
+         */
+        getValue: function () {
+            return this.trueValue;
+        },
+        setShowValue: function (showValue) {
+            this.showValue = showValue;
+            this.element.value = showValue;
+            this.element.title = showValue;
+
+        },
+        getShowValue: function () {
+            return this.showValue
+        },
+        setModelValue: function (value) {
+            if (!this.dataModel) return
+            this.dataModel.setValue(this.field, value)
+        },
+    }
+}
+/**
+ * Created by dingrf on 2016/1/15.
+ */
+
+/**
+ * adapter基类
+ */
+
+u.BaseAdapter = u.Class.create({
+    /**
+     *
+     * @param comp
+     * @param options ：
+     *      el: '#content',  对应的dom元素
+     *      options: {},     配置
+     *      model:{}        模型，包括数据和事件
+     */
+    initialize: function (options) {
+        //组合mixin中的方法
+        for(var i in this.mixins){
+            var mixin = this.mixins[i];
+            for (var key in mixin['methods']){
+                if (!this[key]){
+                    this[key] = mixin['methods'][key];
+                }
+            }
+        }
+
+        //this.comp = comp;
+        this.element = options['el'];
+        this.options = options['options'];
+        this.viewModel = options['model'];
+        this.dataModel = null;
+        this.mixins = this.mixins || [];
+        this.parseDataModel();
+        this.init();
+        //执行mixin中的初始化方法
+        for(var i in this.mixins){
+            var mixin = this.mixins[i];
+            if (mixin['init'])
+                mixin.init.call(this);
+        }
+
+    },
+    parseDataModel: function () {
+        if (!this.options || !this.options["data"]) return;
+        this.field = this.options["field"];
+        var dtId = this.options["data"];
+        this.dataModel = u.getJSObject(this.viewModel, this.options["data"]);
+        if (this.dataModel){
+            var opt = {};
+            if (this.options.type === 'u-date'){
+                opt.type = 'date'
+            }
+            if (this.field)
+                this.dataModel.createField(this.field, opt);
+        }
+    },
+    getOption: function(key){
+        return this.dataModel.getRowMeta(this.field, key) || this.options[key];
+    },
+    init: function(){
+
+    }
+});
+u.IntegerAdapter = u.BaseAdapter.extend({
+    mixins:[u.ValueMixin,u.EnableMixin, u.RequiredMixin, u.ValidateMixin],
+    init: function () {
+        var self = this;
+        this.element = this.element.nodeName === 'INPUT' ? this.element : this.element.querySelector('input');
+        if (!this.element){
+            throw new Error('not found INPUT element, u-meta:' + JSON.stringify(this.options));
+        };
+        this.validType = this.options['validType'] || 'integer';
+        this.max = this.options['max'];
+        this.min = this.options['min'];
+        this.maxNotEq = this.options['maxNotEq'];
+        this.minNotEq = this.options['minNotEq'];
+        this.maxLength = this.options['maxLength'] ? options['maxLength'] : 25;
+        this.minLength = this.options['mixLength'] ? options['mixLength'] : 0;
+        if (this.dataModel) {
+            this.min = this.dataModel.getMeta(this.field, "min") !== undefined ? this.dataModel.getMeta(this.field, "min") : this.min;
+            this.max = this.dataModel.getMeta(this.field, "max") !== undefined ? this.dataModel.getMeta(this.field, "max") : this.max;
+            this.minNotEq = this.dataModel.getMeta(this.field, "minNotEq") !== undefined ? this.dataModel.getMeta(this.field, "minNotEq") : this.minNotEq;
+            this.maxNotEq = this.dataModel.getMeta(this.field, "maxNotEq") !== undefined ? this.dataModel.getMeta(this.field, "maxNotEq") : this.maxNotEq;
+            this.minLength = u.isNumber(this.dataModel.getMeta(this.field, "minLength")) ? this.dataModel.getMeta(this.field, "minLength") : this.minLength;
+            this.maxLength = u.isNumber(this.dataModel.getMeta(this.field, "maxLength")) ? this.dataModel.getMeta(this.field, "maxLength") : this.maxLength;
+        }
+        u.on(this.element, 'focus', function(){
+            if(self.enable){
+                self.setShowValue(self.getValue())
+            }
+        })
+
+        u.on(this.element, 'blur',function(){
+            if(self.enable){
+                if (!self.doValidate() && self._needClean()) {
+                    if (self.required && (self.element.value === null || self.element.value === undefined || self.element.value === '')) {
+                        // 因必输项清空导致检验没通过的情况
+                        self.setValue('')
+                    } else {
+                        self.element.value = self.getShowValue()
+                    }
+                }
+                else
+                    self.setValue(self.element.value)
+            }
+        });
+    }
+});
+u.compMgr.addDataAdapter({
+        adapter: u.IntegerAdapter,
+        name: 'integer'
+    });
+
+
+u.FloatAdapter = u.BaseAdapter.extend({
+    mixins:[u.ValueMixin,u.EnableMixin, u.RequiredMixin, u.ValidateMixin],
+    init: function () {
+        var self = this;
+        this.element = this.element.nodeName === 'INPUT' ? this.element : this.element.querySelector('input');
+        if (!this.element){
+            throw new Error('not found INPUT element, u-meta:' + JSON.stringify(this.options));
+        };
+        this.maskerMeta = u.core.getMaskerMeta('float') || {};
+        this.validType = 'float';
+        this.maskerMeta.precision = this.getOption('precision') || this.maskerMeta.precision;
+        this.max = this.getOption('max') || "10000000000000000000";
+        this.min = this.getOption('min') || "-10000000000000000000";
+        this.maxNotEq = this.getOption('maxNotEq');
+        this.minNotEq = this.getOption('minNotEq');
+
+        //处理数据精度
+        this.dataModel.refRowMeta(this.field, "precision").subscribe(function(precision){
+            if(precision === undefined) return;
+            self.setPrecision(precision)
+        });
+        this.formater = new u.NumberFormater(this.maskerMeta.precision);
+        this.masker = new u.NumberMasker(this.maskerMeta);
+        u.on(this.element, 'focus', function(){
+            if(self.enable){
+                self.onFocusin()
+            }
+        })
+
+        u.on(this.element, 'blur',function(){
+            if(self.enable){
+                if (!self.doValidate() && self._needClean()) {
+                    if (self.required && (self.element.value === null || self.element.value === undefined || self.element.value === '')) {
+                        // 因必输项清空导致检验没通过的情况
+                        self.setValue('')
+                    } else {
+                        self.element.value = self.getShowValue()
+                    }
+                }
+                else
+                    self.setValue(self.element.value)
+            }
+        });
+
+
+    },
+    /**
+     * 修改精度
+     * @param {Integer} precision
+     */
+    setPrecision: function (precision) {
+        if (this.maskerMeta.precision == precision) return;
+        this.maskerMeta.precision = precision
+        this.formater = new u.NumberFormater(this.maskerMeta.precision);
+        this.masker = new u.NumberMasker(this.maskerMeta);
+        var currentRow = this.dataModel.getCurrentRow();
+        if (currentRow) {
+            var v = this.dataModel.getCurrentRow().getValue(this.field)
+            this.showValue = this.masker.format(this.formater.format(v)).value
+        } else {
+            this.showValue = this.masker.format(this.formater.format(this.trueValue)).value
+        }
+
+        this.setShowValue(this.showValue)
+    },
+    onFocusin: function () {
+        var v = this.dataModel.getCurrentRow().getValue(this.field), vstr = v + '', focusValue = v;
+        if (u.isNumber(v) && u.isNumber(this.maskerMeta.precision)) {
+            if (vstr.indexOf('.') >= 0) {
+                var sub = vstr.substr(vstr.indexOf('.') + 1);
+                if (sub.length < this.maskerMeta.precision || parseInt(sub.substr(this.maskerMeta.precision)) == 0) {
+                    focusValue = this.formater.format(v)
+                }
+            } else if (this.maskerMeta.precision > 0) {
+                focusValue = this.formater.format(v)
+            }
+        }
+        focusValue = parseFloat(focusValue) || '';
+        this.setShowValue(focusValue)
+    },
+    _needClean: function () {
+        return true
+    }
+});
+
+u.compMgr.addDataAdapter({
+        adapter: u.FloatAdapter,
+        name: 'float'
+    });
+/**
+ * 货币控件
+ */
+u.CurrencyAdapter = u.FloatAdapter.extend({
+    init: function () {
+        var self = this;
+        u.CurrencyAdapter.superclass.init.apply(this);
+
+        this.maskerMeta = iweb.Core.getMaskerMeta('currency') || {};
+        this.maskerMeta.precision = this.getOption('precision') || this.maskerMeta.precision;
+        this.maskerMeta.curSymbol = this.getOption('curSymbol') || this.maskerMeta.curSymbol;
+        this.validType = 'float';
+        this.dataModel.on(this.field + '.curSymbol.' + u.DataTable.ON_CURRENT_META_CHANGE, function (event) {
+            self.setCurSymbol(event.newValue)
+        });
+        this.formater = new u.NumberFormater(this.maskerMeta.precision);
+        this.masker = new CurrencyMasker(this.maskerMeta);
+    },
+    /**
+     * 修改精度
+     * @param {Integer} precision
+     */
+    setPrecision: function (precision) {
+        if (this.maskerMeta.precision == precision) return
+        this.maskerMeta.precision = precision
+        this.formater = new u.NumberFormater(this.maskerMeta.precision);
+        this.masker = new u.CurrencyMasker(this.maskerMeta);
+        var currentRow = this.dataModel.getCurrentRow();
+        if (currentRow) {
+            var v = this.dataModel.getCurrentRow().getValue(this.field)
+            this.showValue = this.masker.format(this.formater.format(v)).value
+        } else {
+            this.showValue = this.masker.format(this.formater.format(this.trueValue)).value
+        }
+        this.setShowValue(this.showValue)
+    },
+    /**
+     * 修改币符
+     * @param {String} curSymbol
+     */
+    setCurSymbol: function (curSymbol) {
+        if (this.maskerMeta.curSymbol == curSymbol) return
+        this.maskerMeta.curSymbol = curSymbol
+        this.masker.formatMeta.curSymbol = this.maskerMeta.curSymbol
+        this.element.trueValue = this.trueValue
+        this.showValue = this.masker.format(this.trueValue).value
+        this.setShowValue(this.showValue)
+
+    },
+    onFocusin: function (e) {
+        var v = this.getValue(), vstr = v + '', focusValue = v
+        if (u.isNumber(v) && u.isNumber(this.maskerMeta.precision)) {
+            if (vstr.indexOf('.') >= 0) {
+                var sub = vstr.substr(vstr.indexOf('.') + 1)
+                if (sub.length < this.maskerMeta.precision || parseInt(sub.substr(this.maskerMeta.precision)) == 0) {
+                    focusValue = this.formater.format(v)
+                }
+            } else if (this.maskerMeta.precision > 0) {
+                focusValue = this.formater.format(v)
+            }
+        }
+        this.setShowValue(focusValue)
+
+    }
+})
+
+u.compMgr.addDataAdapter({
+        adapter: u.CurrencyAdapter,
+        name: 'currency'
+    });
+
+
+/**
+ * 百分比控件
+ */
+u.PercentAdapter = u.FloatAdapter.extend({
+    init: function () {
+        u.PercentAdapter.superclass.init.apply(this);
+        this.validType = 'float';
+        this.maskerMeta = iweb.Core.getMaskerMeta('percent') || {};
+        this.maskerMeta.precision = this.getOption('precision') || this.maskerMeta.precision;
+        if (this.maskerMeta.precision){
+            this.maskerMeta.precision = parseInt(this.maskerMeta.precision) + 2;
+        }
+        this.formater = new u.NumberFormater(this.maskerMeta.precision);
+        this.masker = new PercentMasker(this.maskerMeta);
+    }
+});
+u.compMgr.addDataAdapter(
+    {
+        adapter: u.PercentAdapter,
+        name: 'percent'
+    });
+
+
+
+u.StringAdapter = u.BaseAdapter.extend({
+    mixins:[u.ValueMixin,u.EnableMixin, u.RequiredMixin, u.ValidateMixin],
+    init: function(){
+        var self = this;
+        this.element = this.element.nodeName === 'INPUT' ? this.element : this.element.querySelector('input');
+        if (!this.element){
+            throw new Error('not found INPUT element, u-meta:' + JSON.stringify(this.options));
+        };
+        this.validType = this.options['validType'] || 'string';
+        this.minLength = this.getOption('minLength');
+        this.maxLength = this.getOption('maxLength');
+
+        u.on(this.element, 'focus', function(){
+            if(self.enable){
+                self.setShowValue(self.getValue())
+            }
+        })
+
+        u.on(this.element, 'blur',function(e){
+            if(self.enable){
+                if (!self.doValidate() && self._needClean()) {
+                    if (self.required && (self.element.value === null || self.element.value === undefined || self.element.value === '')) {
+                        // 因必输项清空导致检验没通过的情况
+                        self.setValue('')
+                    } else {
+                        self.element.value = self.getShowValue()
+                    }
+                }
+                else
+                    self.setValue(self.element.value)
+            }
+        });
+    }
+});
+u.compMgr.addDataAdapter({
+        adapter: u.StringAdapter,
+        name: 'string'
+    });
+
+	
+
+u.TextAreaAdapter = u.BaseAdapter.extend({
+    mixins:[u.ValueMixin,u.EnableMixin, u.RequiredMixin, u.ValidateMixin],
+    init: function () {
+        var self = this;
+        this.element = this.element.nodeName === 'TEXTAREA' ? this.element : this.element.querySelector('textarea');
+        if (!this.element){
+            throw new Error('not found TEXTAREA element, u-meta:' + JSON.stringify(this.options));
+        };
+
+        u.on(this.element, 'focus', function () {
+            self.setShowValue(self.getValue())
+        });
+        u.on(this.element, 'blur', function () {
+            self.setValue(self.element.value)
+        })
+    }
+});
+
+u.compMgr.addDataAdapter({
+        adapter: u.TextAreaAdapter,
+        name: 'textarea'
+    })
+
+/**
+ * Created by dingrf on 2016/1/25.
+ */
+
+u.TextFieldAdapter = u.BaseAdapter.extend({
+    /**
+     *
+     * @param comp
+     * @param options ：
+     *      el: '#content',  对应的dom元素
+     *      options: {},     配置
+     *      model:{}        模型，包括数据和事件
+     */
+    initialize: function (options) {
+        u.TextFieldAdapter.superclass.initialize.apply(this, arguments);
+        //this.comp = comp;
+        //this.element = options['el'];
+        //this.options = options['options'];
+        //this.viewModel = options['model'];
+        var dataType = this.dataModel.getMeta(this.field,'type') || 'string';
+        //var dataType = this.options['dataType'] || 'string';
+
+        this.comp = new u.Text(this.element);
+        this.element['u.Text'] = this.comp;
+
+
+        if (dataType === 'float'){
+            this.trueAdpt = new u.FloatAdapter(options);
+        }
+        else if (dataType === 'string'){
+            this.trueAdpt = new u.StringAdapter(options);
+        }
+        else if (dataType === 'integer'){
+            this.trueAdpt = new u.IntegerAdapter(options);
+        }else{
+            throw new Error("'u-text' only support 'float' or 'string' or 'integer' field type, not support type: '" + dataType + "', field: '" +this.field+ "'");
+        }
+        u.extend(this, this.trueAdpt);
+
+
+        this.trueAdpt.comp = this.comp;
+        this.trueAdpt.setShowValue = function (showValue) {
+            this.showValue = showValue;
+            //if (this.comp.compType === 'text')
+            this.comp.change(showValue);
+            this.element.title = showValue;
+        }
+        return this.trueAdpt;
+    }
+});
+
+u.compMgr.addDataAdapter(
+    {
+        adapter: u.TextFieldAdapter,
+        name: 'u-text'
+        //dataType: 'float'
+    })
+u.CheckboxAdapter = u.BaseAdapter.extend({
+    mixins: [u.ValueMixin, u.EnableMixin,u.RequiredMixin, u.ValidateMixin],
+    init: function (options) {
+        var self = this;
+        // u.CheckboxAdapter.superclass.initialize.apply(this, arguments); 
+        this.isGroup = this.options['isGroup'] === true || this.options['isGroup'] === 'true';
+        if (this.options['datasource']) {
+            this.isGroup = true;
+            var datasource = u.getJSObject(this.viewModel, this.options['datasource']);
+            this.checkboxTemplateArray = [];
+            for (var i= 0, count = this.element.childNodes.length; i< count; i++){
+                this.checkboxTemplateArray.push(this.element.childNodes[i]);
+            }
+            this.setComboData(datasource);
+        }else{
+            if(this.element['u.Checkbox']) {
+                this.comp = this.element['u.Checkbox']
+            } else {
+                this.comp = new u.Checkbox(this.element);
+                this.element['u.Checkbox'] = this.comp;
+            }
+            
+            this.checkedValue =  this.options['checkedValue'] || this.comp._inputElement.value;
+            this.unCheckedValue =  this.options["unCheckedValue"];
+
+            this.comp.on('change', function(){
+                if (self.slice) return;
+                if(!self.dataModel) return;
+                var modelValue = self.dataModel.getValue(self.field);
+                modelValue = modelValue ? modelValue : '';
+                if (self.isGroup) {
+                    var valueArr = modelValue == '' ? [] : modelValue.split(',');
+
+                    if (self.comp._inputElement.checked) {
+                        valueArr.push(self.checkedValue)
+                    } else {
+                        var index = valueArr.indexOf(self.checkedValue);
+                        valueArr.splice(index, 1);
+                    }
+                    self.dataModel.setValue(self.field, valueArr.join(','));
+                }else{
+                    if (self.comp._inputElement.checked) {
+                        self.dataModel.setValue(self.field, self.checkedValue);
+                    }else{
+                        self.dataModel.setValue(self.field, self.unCheckedValue)
+                    }
+                }
+            });
+        }
+
+        if(this.dataModel){
+            this.dataModel.ref(this.field).subscribe(function(value) {
+                self.modelValueChange(value)
+            })
+        }
+    },
+    setComboData: function (comboData) {
+        var self = this;
+        //this.element.innerHTML = '';
+        for (var i = 0, len = comboData.length; i < (len - 1); i++) {
+            for(var j=0; j<this.checkboxTemplateArray.length; j++){
+                this.element.appendChild(this.checkboxTemplateArray[j].cloneNode(true));
+            }
+        }
+        var allCheck = this.element.querySelectorAll('[type=checkbox]');
+        var allName = this.element.querySelectorAll('[data-role=name]');
+        for (var k = 0; k < allCheck.length; k++) {
+            allCheck[k].value = comboData[k].pk || comboData[k].value;
+            allName[k].innerHTML = comboData[k].name
+        }
+        this.element.querySelectorAll('.u-checkbox').forEach(function (ele) {
+            var comp;
+            if(ele['u.Checkbox']) {
+                comp = ele['u.Checkbox'];
+            } else {
+                comp = new u.Checkbox(ele);
+            }
+            ele['u.Checkbox'] = comp;
+            comp.on('change', function(){
+                if (self.slice) return;
+                var modelValue = self.dataModel.getValue(self.field);
+                modelValue = modelValue ? modelValue : '';
+                var valueArr = modelValue == '' ? [] : modelValue.split(',');
+                if (comp._inputElement.checked) {
+                    valueArr.push(comp._inputElement.value)
+                } else {
+                    var index = valueArr.indexOf(comp._inputElement.value);
+                    valueArr.splice(index, 1);
+                }
+                //self.slice = true;
+                self.dataModel.setValue(self.field, valueArr.join(','));
+                //self.slice = false;
+            });
+        })
+
+    },
+    modelValueChange: function (val) {
+        var self = this;
+        if (this.slice) return;
+        if (this.isGroup){
+            this.trueValue = val;
+            this.element.querySelectorAll('.u-checkbox').forEach(function (ele) {
+                var comp =  ele['u.Checkbox'];
+                if (comp._inputElement.checked != (val + ',').indexOf(comp._inputElement.value) > -1){
+                    self.slice = true;
+                    comp.toggle();
+                    self.slice = false;
+                }
+            })
+        }else{
+            if (this.comp._inputElement.checked != (val === this.checkedValue)){
+                this.slice = true;
+                this.comp.toggle();
+                this.slice = false;
+            }
+        }
+    },
+
+    setEnable: function (enable) {
+        this.enable = (enable === true || enable === 'true');
+        if (this.isGroup){
+            this.element.querySelectorAll('.u-checkbox').forEach(function (ele) {
+                var comp =  ele['u.Checkbox'];
+                if (enable === true || enable === 'true'){
+                    comp.enable();
+                }else{
+                    comp.disable();
+                }
+            })
+        }else{
+            if (this.enable){
+                this.comp.enable();
+            }else{
+                this.comp.disable();
+            }
+        }
+    }
+})
+
+
+u.compMgr.addDataAdapter(
+    {
+        adapter: u.CheckboxAdapter,
+        name: 'u-checkbox'
+    });
+
+u.SwitchAdapter = u.BaseAdapter.extend({
+    initialize: function (options) {
+        var self = this;
+        u.SwitchAdapter.superclass.initialize.apply(this, arguments);
+
+        this.comp = new u.Switch(this.element);
+        this.element['u.Switch'] = this.comp;
+        this.checkedValue =  this.options['checkedValue'] || this.comp._inputElement.value;
+        this.unCheckedValue =  this.options["unCheckedValue"];
+        this.comp.on('change', function(event){
+            if (self.slice) return;
+            if (self.comp._inputElement.checked) {
+                self.dataModel.setValue(self.field, self.checkedValue);
+            }else{
+                self.dataModel.setValue(self.field, self.unCheckedValue)
+            }
+        });
+
+        this.dataModel.ref(this.field).subscribe(function(value) {
+        	self.modelValueChange(value)
+        })
+
+
+    },
+
+    modelValueChange: function (val) {
+        if (this.slice) return;
+        if (this.comp._inputElement.checked != (val === this.checkedValue)){
+            this.slice = true;
+            this.comp.toggle();
+            this.slice = false;
+        }
+
+    },
+    setEnable: function (enable) {
+        if (enable === true || enable === 'true') {
+            this.enable = true
+        } else if (enable === false || enable === 'false') {
+            this.enable = false
+        }
+    }
+})
+
+
+u.compMgr.addDataAdapter(
+    {
+        adapter: u.SwitchAdapter,
+        name: 'u-switch'
+    });
+
+u.ComboboxAdapter = u.BaseAdapter.extend({
+    mixins:[u.ValueMixin,u.EnableMixin, u.RequiredMixin, u.ValidateMixin],
+    init: function () {
+        var self = this;
+        //u.ComboboxAdapter.superclass.initialize.apply(this, arguments);
+        this.datasource = u.getJSObject(this.viewModel, this.options['datasource']);
+        this.mutil = this.options.mutil || false;
+        this.onlySelect = this.options.onlySelect || false;
+        this.validType = 'combobox';
+        this.comp = new u.Combo({el:this.element,mutilSelect:this.mutil,onlySelect:this.onlySelect});
+        this.element['u.Combo'] = this.comp;
+        if (this.datasource){
+            this.comp.setComboData(this.datasource);
+        }else{
+            if(u.isIE8 || u.isIE9)
+                alert("IE8/IE9必须设置datasource");
+        }
+        ////TODO 后续支持多选
+        //if (this.mutil) {
+        //    //$(this.comboEle).on("mutilSelect", function (event, value) {
+        //    //    self.setValue(value)
+        //    //})
+        //}
+        this.comp.on('select', function(event){
+            // self.slice = true;
+            // if(self.dataModel)
+            //     self.dataModel.setValue(self.field, event.value);
+            // self.slice = false;
+            self.setValue(event.value);
+        });
+        //if(this.dataModel){
+        //    this.dataModel.ref(this.field).subscribe(function(value) {
+        //        self.modelValueChange(value)
+        //    })
+        //}
+    },
+    modelValueChange: function (value) {
+        if (this.slice) return;
+        //this.trueValue = value;
+        if (value === null || typeof value == "undefined")
+            value = "";
+        this.comp.setValue(value);
+        this.trueValue = this.formater ? this.formater.format(value) : value;
+        //this.element.trueValue = this.trueValue;
+        this.showValue = this.masker ? this.masker.format(this.trueValue).value : this.trueValue;
+        this.setShowValue(this.showValue);
+    },
+    //setValue: function (value) {
+    //    this.trueValue = value;
+    //    this.slice = true;
+    //    this.setModelValue(this.trueValue);
+    //    this.slice = false;
+    //},
+    //getValue: function () {
+    //    return this.trueValue
+    //},
+    setEnable: function (enable) {
+        var self = this;
+        if (enable === true || enable === 'true') {
+            this.enable = true;
+            this.element.removeAttribute('readonly');
+            this.comp._input.removeAttribute('readonly');
+            u.removeClass(this.element.parentNode,'disablecover');
+            u.on(this.comp._input, 'focus', function (e) {
+                self.comp.show(e);
+                u.stopEvent(e);
+            })
+            if (this.comp.iconBtn){
+                u.on(this.comp.iconBtn, 'click', function(e){
+                    self.comp.show(e);
+                    u.stopEvent(e);
+                })
+            }
+        } else if (enable === false || enable === 'false') {
+            this.enable = false;
+            this.element.setAttribute('readonly', 'readonly');
+            this.comp._input.setAttribute('readonly', 'readonly');
+            u.addClass(this.element.parentNode,'disablecover');
+            u.off(this.comp._input, 'focus')
+            if (this.comp.iconBtn){
+                u.off(this.comp.iconBtn, 'click')
+            }
+        }
+    }
+});
+
+u.compMgr.addDataAdapter(
+    {
+        adapter: u.ComboboxAdapter,
+        name: 'u-combobox'
+    });
+
+
+
+
+
+u.RadioAdapter = u.BaseAdapter.extend({
+    mixins: [u.ValueMixin, u.EnableMixin,u.RequiredMixin, u.ValidateMixin],
+    init: function (options) {
+        var self = this;
+        //u.RadioAdapter.superclass.initialize.apply(this, arguments);
+        this.dynamic = false;
+        if (this.options['datasource']) {
+            this.dynamic = true;
+            var datasource = u.getJSObject(this.viewModel, this.options['datasource']);
+
+            this.radioTemplateArray = [];
+            for (var i= 0, count = this.element.childNodes.length; i< count; i++){
+                this.radioTemplateArray.push(this.element.childNodes[i]);
+            }
+            this.setComboData(datasource);
+        } else {
+            this.comp = new u.Radio(this.element);
+            this.element['u.Radio'] = this.comp;
+            this.eleValue = this.comp._btnElement.value;
+
+            this.comp.on('change', function(event){
+                if (self.slice) return;
+                var modelValue = self.dataModel.getValue(self.field);
+                //var valueArr = modelValue == '' ?  [] : modelValue.split(',');
+                if (self.comp._btnElement.checked){
+                    self.dataModel.setValue(self.field, self.eleValue);
+                }
+            });
+        }
+
+        this.dataModel.ref(this.field).subscribe(function(value) {
+            self.modelValueChange(value)
+        })
+
+
+    },
+    setComboData: function (comboData) {
+        var self = this;
+        // this.element.innerHTML = '';
+        for (var i = 0, len = comboData.length; i < (len - 1); i++) {
+            for(var j=0; j<this.radioTemplateArray.length; j++){
+                this.element.appendChild(this.radioTemplateArray[j].cloneNode(true));
+            }
+            //this.radioTemplate.clone().appendTo(this.element)
+        }
+
+        var allRadio = this.element.querySelectorAll('[type=radio]');
+        var allName = this.element.querySelectorAll('.u-radio-label');
+        for (var k = 0; k < allRadio.length; k++) {
+            allRadio[k].value = comboData[k].pk || comboData[k].value;
+            allName[k].innerHTML = comboData[k].name
+        }
+
+        this.radioInputName = allRadio[0].name;
+
+        this.element.querySelectorAll('.u-radio').forEach(function (ele) {
+            var comp = new u.Radio(ele);
+            ele['u.Radio'] = comp;
+
+            comp.on('change', function(event){
+                if (comp._btnElement.checked){
+                    self.dataModel.setValue(self.field, comp._btnElement.value);
+                }
+            });
+        })
+    },
+
+    modelValueChange: function (value) {
+        if (this.slice) return;
+        if (this.dynamic){
+            this.trueValue = value;
+            this.element.querySelectorAll('.u-radio').forEach(function (ele) {
+                var comp =  ele['u.Radio'];
+                if (comp._btnElement.value == value) {
+                    comp._btnElement.click();
+                }
+            })
+        }else{
+            if (this.eleValue == value){
+                this.slice = true
+                this.comp._btnElement.click();
+                this.slice = false
+            }
+        }
+    },
+
+    setEnable: function (enable) {
+        this.enable = (enable === true || enable === 'true');
+        if (this.dynamic){
+            this.element.querySelectorAll('.u-radio').forEach(function (ele) {
+                var comp =  ele['u.Radio'];
+                if (enable === true || enable === 'true'){
+                    comp.enable();
+                }else{
+                    comp.disable();
+                }
+            })
+        }else{
+            if (this.enable){
+                this.comp.enable();
+            }else{
+                this.comp.disable();
+            }
+        }
+    }
+})
+
+
+u.compMgr.addDataAdapter(
+    {
+        adapter: u.RadioAdapter,
+        name: 'u-radio'
+    });
+
+u.NativeRadioAdapter = u.BaseAdapter.extend({
+    mixins: [u.ValueMixin, u.EnableMixin],
+    init: function () {
+        this.isDynamic = false;
+        //如果存在datasource，动态创建radio
+        if (this.options['datasource']) {
+            this.isDynamic = true;
+            var datasource = u.getJSObject(this.viewModel, this.options['datasource']);
+            //if(!u.isArray(datasource)) return;
+
+            this.radioTemplateArray = [];
+            for (var i= 0, count = this.element.childNodes.length; i< count; i++){
+                this.radioTemplateArray.push(this.element.childNodes[i]);
+            }
+            this.setComboData(datasource);
+        } else {
+        }
+    },
+    setComboData: function (comboData) {
+        var self = this;
+        //if(!this.radioTemplate.is(":radio")) return;
+        this.element.innerHTML = '';
+        for (var i = 0, len = comboData.length; i < len; i++) {
+            for(var j=0; j<this.radioTemplateArray.length; j++){
+                try{
+                    this.element.appendChild(this.radioTemplateArray[j].cloneNode(true));
+                }catch(e){
+                    
+                }
+                
+            }
+            //this.radioTemplate.clone().appendTo(this.element)
+        }
+
+        var allRadio = this.element.querySelectorAll('[type=radio]');
+        var allName = this.element.querySelectorAll('[data-role=name]');
+        for (var k = 0; k < allRadio.length; k++) {
+            allRadio[k].value = comboData[k].pk || comboData[k].value;
+            allName[k].innerHTML = comboData[k].name
+        }
+
+        this.radioInputName = allRadio[0].name;
+
+        this.element.querySelectorAll('[type=radio][name="'+ this.radioInputName +'"]').forEach(function (ele) {
+            u.on(ele, 'click', function () {
+                if (this.checked) {
+                    self.setValue(this.value);
+                }
+
+            })
+        })
+    },
+    modelValueChange: function (value) {
+        if (this.slice) return;
+        this.setValue(value)
+    },
+    setValue: function (value) {
+        this.trueValue = value;
+        this.element.querySelectorAll('[type=radio][name="'+ this.radioInputName +'"]').forEach(function (ele) {
+            if (ele.value == value) {
+                ele.checked = true;
+            } else {
+                ele.checked = false;
+            }
+        })
+        this.slice = true;
+        this.dataModel.setValue(this.field, this.trueValue);
+        this.slice = false;
+    },
+    getValue: function () {
+        return this.trueValue;
+    },
+
+
+});
+
+u.compMgr.addDataAdapter({
+    adapter: u.NativeRadioAdapter,
+    name: 'radio'
+});
+
+u.NativeCheckAdapter = u.BaseAdapter.extend({
+    mixins: [u.ValueMixin, u.EnableMixin],
+    init: function () {
+        var self = this;
+        this.isGroup = false;
+        //如果存在datasource，动态创建checkbox
+        if (this.options['datasource']) {
+            this.isGroup = true;
+            var datasource = u.getJSObject(this.viewModel, this.options['datasource']);
+            //if(!u.isArray(datasource)) return;
+
+            this.checkboxTemplateArray = [];
+            for (var i= 0, count = this.element.childNodes.length; i< count; i++){
+                this.checkboxTemplateArray.push(this.element.childNodes[i]);
+            }
+            this.setComboData(datasource);
+        } else {
+            this.checkedValue =  this.options['checkedValue'] || 'Y';
+            this.unCheckedValue =  this.options["unCheckedValue"] || 'N';
+            u.on(this.element, 'click', function () {
+                if (this.checked) {
+                    self.dataModel.setValue(self.field, self.checkedValue);
+                }else{
+                    self.dataModel.setValue(self.field, self.unCheckedValue)
+                }
+            });
+        }
+    },
+    setComboData: function (comboData) {
+        var self = this;
+        this.element.innerHTML = '';
+        for (var i = 0, len = comboData.length; i < len; i++) {
+            for(var j=0; j<this.checkboxTemplateArray.length; j++){
+                try{
+                    this.element.appendChild(this.checkboxTemplateArray[j].cloneNode());
+                }catch(e){
+                }
+            }
+            //this.radioTemplate.clone().appendTo(this.element)
+        }
+
+        var allCheck = this.element.querySelectorAll('[type=checkbox]');
+        var allName = this.element.querySelectorAll('[data-role=name]');
+        for (var k = 0; k < allCheck.length; k++) {
+            allCheck[k].value = comboData[k].pk || comboData[k].value;
+            allName[k].innerHTML = comboData[k].name
+        }
+
+        this.element.querySelectorAll('[type=checkbox]').forEach(function (ele) {
+            u.on(ele, 'click', function () {
+                var modelValue = self.dataModel.getValue(self.field);
+
+                var valueArr = modelValue == '' ? [] : modelValue.split(',');
+
+                if (this.checked) {
+                    valueArr.push(this.value)
+                } else {
+                    var index = valueArr.indexOf(this.value);
+                    valueArr.splice(index, 1);
+                }
+                self.slice = true;
+                self.dataModel.setValue(self.field, valueArr.join(','));
+                self.slice = false;
+
+            })
+        })
+    },
+    modelValueChange: function (val) {
+        if (this.slice) return;
+        if (this.isGroup){
+            this.element.querySelectorAll('[type=checkbox]').forEach(function (ele) {
+                if (ele.checked != (val + ',').indexOf(ele.value) > -1){
+                    this.slice = true;
+                    ele.checked = !ele.checked;
+                    this.slice = false;
+                }
+            })
+        }else{
+            if (this.element.checked != (val === this.checkedValue)){
+                this.slice = true;
+                this.element.checked = !this.element.checked;
+                this.slice = false;
+            }
+        }
+    },
+    setValue: function (value) {
+        this.trueValue = value;
+        this.element.querySelectorAll('[type=checkbox]').forEach(function (ele) {
+            if (ele.value == value) {
+                ele.checked = true;
+            } else {
+                ele.checked = false;
+            }
+        })
+        this.slice = true;
+        this.dataModel.setValue(this.field, this.trueValue);
+        this.slice = false;
+    },
+    getValue: function () {
+        return this.trueValue;
+    },
+
+
+});
+
+u.compMgr.addDataAdapter({
+    adapter: u.NativeCheckAdapter,
+    name: 'checkbox'
+});
+
+u.PaginationAdapter = u.BaseAdapter.extend({
+        initialize: function (comp, options) {
+            var self = this;
+            u.PaginationAdapter.superclass.initialize.apply(this, arguments);
+
+            //var Pagination = function(element, options, viewModel) {
+
+            if (!this.dataModel.pageSize() && this.options.pageSize)
+                this.dataModel.pageSize(this.options.pageSize)
+            this.options.pageSize = this.dataModel.pageSize() || this.options.pageSize;
+            //this.$element.pagination(options);
+            //this.comp = this.$element.data('u.pagination');
+            this.comp = new u.pagination({el:this.element,jumppage:true});
+			this.element['u.pagination'] = this.comp;
+            this.comp.dataModel = this.dataModel;
+            this.pageChange = u.getFunction(this.viewModel, this.options['pageChange']);
+            this.sizeChange = u.getFunction(this.viewModel, this.options['sizeChange']);
+
+            this.comp.on('pageChange', function (pageIndex) {
+                if (typeof self.pageChange == 'function') {
+                    self.pageChange(pageIndex);
+                } else {
+                    self.defaultPageChange(pageIndex);
+                }
+
+            });
+            this.comp.on('sizeChange', function (size, pageIndex) {
+                if (typeof self.sizeChange == 'function') {
+                    self.sizeChange(size, pageIndex);
+                } else {
+                    u.showMessage({msg:"没有注册sizeChange事件"});
+                }
+            });
+
+
+            this.dataModel.totalPages.subscribe(function (value) {
+                self.comp.update({totalPages: value})
+            })
+
+            this.dataModel.pageSize.subscribe(function (value) {
+                self.comp.update({pageSize: value})
+            })
+
+            this.dataModel.pageIndex.subscribe(function (value) {
+                self.comp.update({currentPage: value + 1})
+            })
+
+            this.dataModel.totalRow.subscribe(function (value) {
+                self.comp.update({totalCount: value})
+            })
+
+        },
+
+        defaultPageChange: function (pageIndex) {
+        if (this.dataModel.hasPage(pageIndex)) {
+            this.dataModel.setCurrentPage(pageIndex)
+        } else {
+        }
+    },
+
+    disableChangeSize: function () {
+        this.comp.disableChangeSize();
+    },
+
+    enableChangeSize: function () {
+        this.comp.enableChangeSize();
+    }
+});
+
+u.compMgr.addDataAdapter(
+    {
+        adapter: u.PaginationAdapter,
+        name: 'pagination'
+    });
+
+
+
+
+
+u.DateTimeAdapter = u.BaseAdapter.extend({
+	mixins: [u.ValueMixin,u.EnableMixin,u.RequiredMixin, u.ValidateMixin],
+	init: function (options) {
+		var self = this,adapterType,format;
+		// u.DateTimeAdapter.superclass.initialize.apply(this, arguments);
+		if (this.options.type === 'u-date'){
+			this.adapterType = 'date';
+		}else{
+			this.adapterType = 'datetime'
+			u.addClass(this.element,'time');
+		}
+
+		this.maskerMeta = u.core.getMaskerMeta(this.adapterType) || {};
+		this.maskerMeta.format = this.options['format'] || this.maskerMeta.format;
+		if(this.dataModel){
+			this.dataModel.on(this.field + '.format.' +  u.DataTable.ON_CURRENT_META_CHANGE, function(event){
+				self.setFormat(event.newValue)
+			});
+		}
+		
+		if(this.dataModel && !this.options['format'])
+			this.options.format = this.dataModel.getMeta(this.field, "format")
+
+		if(!this.options['format']){
+			if(this.options.type === 'u-date'){
+				this.options.format = "YYYY-MM-DD";
+			}else{
+				this.options.format = "YYYY-MM-DD HH:mm:ss";
+			}
+		}
+		format = this.options.format;
+		this.maskerMeta.format = format || this.maskerMeta.format
+
+		this.startField = this.options.startField?this.options.startField : this.dataModel.getMeta(this.field, "startField");
+		
+			
+		// this.formater = new $.DateFormater(this.maskerMeta.format);
+		// this.masker = new DateTimeMasker(this.maskerMeta);
+		var op;
+		if(u.isMobile){
+			op = {
+				theme:"ios",
+				mode:"scroller",
+				lang: "zh",  
+				cancelText: null,
+				onSelect:function(val){
+					self.setValue(val);
+				}
+			}
+			this.element = this.element.querySelector("input");
+			this.element.setAttribute('readonly','readonly');
+			if(this.adapterType == 'date'){
+				$(this.element).mobiscroll().date(op);
+			}else{
+				$(this.element).mobiscroll().datetime(op);
+			}
+		}else{
+			this.comp = new u.DateTimePicker({el:this.element,format:this.maskerMeta.format});
+		}
+		
+		this.element['u.DateTimePicker'] = this.comp;
+
+		if(!u.isMobile){
+			this.comp.on('select', function(event){
+				self.setValue(event.value);
+			});
+		}
+		if(this.dataModel){
+			this.dataModel.ref(this.field).subscribe(function(value) {
+				self.modelValueChange(value);
+			});
+			if(this.startField){
+				this.dataModel.ref(this.startField).subscribe(function(value) {
+					if(u.isMobile){
+						var valueObj = u.date.getDateObj(value);
+						op.minDate = valueObj;
+						if(self.adapterType == 'date'){
+							$(self.element).mobiscroll().date(op);
+						}else{
+							$(self.element).mobiscroll().datetime(op);
+						}
+						var nowDate = u.date.getDateObj(self.dataModel.getValue(self.field));
+						if(nowDate < valueObj || !value){
+							self.dataModel.setValue(self.field,'');
+						}
+					}else{
+						self.comp.setStartDate(value);
+						if(self.comp.date < u.date.getDateObj(value) || !value){
+							self.dataModel.setValue(self.field,'');
+						}
+					}
+					
+				});
+			}
+			if(this.startField){
+				var startValue = this.dataModel.getValue(this.startField);
+				if(startValue){
+					if(u.isMobile){
+						op.minDate = u.date.getDateObj(startValue);
+						if(this.adapterType == 'date'){
+							$(this.element).mobiscroll().date(op);
+						}else{
+							$(this.element).mobiscroll().datetime(op);
+						}
+					}else{
+						self.comp.setStartDate(startValue);
+					}
+				}
+			}
+			
+		}
+			
+	},
+	modelValueChange: function(value){
+		if (this.slice) return;
+		this.trueValue = value;
+		if(u.isMobile){
+			if(value){
+				value = u.date.format(value,this.options.format);
+				$(this.element).scroller('setDate', u.date.getDateObj(value), true);
+			}
+		}else{
+			this.comp.setDate(value);
+		}
+		
+	},
+	setFormat: function(format){
+		if (this.maskerMeta.format == format) return;
+		this.options.format = format;
+		this.maskerMeta.format = format;
+		if(!u.isMobile)
+			this.comp.setFormat(format);
+		// this.formater = new $.DateFormater(this.maskerMeta.format);
+		// this.masker = new DateTimeMasker(this.maskerMeta);
+	},
+	setValue: function (value) {
+		value = u.date.format(value,this.options.format);
+        this.trueValue = this.formater ? this.formater.format(value) : value;
+        this.showValue = this.masker ? this.masker.format(this.trueValue).value : this.trueValue;
+        this.setShowValue(this.showValue);
+        this.slice = true;
+        this.dataModel.setValue(this.field, this.trueValue);
+        this.slice = false;
+    },
+    setEnable: function(enable){
+        if (enable === true || enable === 'true') {
+            this.enable = true;
+            this.element.removeAttribute('readonly');
+            if(u.isMobile){
+
+            }else{
+            	this.comp._input.removeAttribute('readonly');
+            }
+            u.removeClass(this.element.parentNode,'disablecover');
+        } else if (enable === false || enable === 'false') {
+            this.enable = false;
+            this.element.setAttribute('readonly', 'readonly');
+            if(u.isMobile){
+
+            }else{
+            	this.comp._input.setAttribute('readonly', 'readonly');
+            }
+            u.addClass(this.element.parentNode,'disablecover');
+        }
+        if(!u.isMobile)
+        	this.comp.setEnable(enable);
+    }
+
+});
+
+u.compMgr.addDataAdapter(
+		{
+			adapter: u.DateTimeAdapter,
+			name: 'u-date'
+		});
+
+u.compMgr.addDataAdapter(
+		{
+			adapter: u.DateTimeAdapter,
+			name: 'u-datetime'
+		});
+
+u.TimeAdapter = u.BaseAdapter.extend({
+    initialize: function (options) {
+        var self = this;
+        u.TimeAdapter.superclass.initialize.apply(this, arguments);
+        this.validType = 'time';
+
+        this.maskerMeta = u.core.getMaskerMeta('time') || {};
+        this.maskerMeta.format = this.dataModel.getMeta(this.field, "format") || this.maskerMeta.format
+
+        if (this.options.type == 'u-clockpicker' && !u.isIE8)
+            this.comp = new u.ClockPicker(this.element);
+        else
+            this.comp = new u.Time(this.element);
+        var dataType = this.dataModel.getMeta(this.field,'type');
+        this.dataType =  dataType || 'string';
+
+
+        this.comp.on('valueChange', function(event){
+            self.slice = true;
+            if(event.value == ''){
+                self.dataModel.setValue(self.field,'')
+            }else{
+                var _date = self.dataModel.getValue(self.field);
+                if (self.dataType === 'datetime') {
+                    var valueArr = event.value.split(':');
+                    _date = u.date.getDateObj(_date);
+                    if (!_date){
+                        self.dataModel.setValue(self.field,'');
+                    }else {
+                        if (event.value == _date.getHours() + ':' + _date.getMinutes() + ':' + _date.getSeconds())
+                            return;
+                        _date.setHours(valueArr[0]);
+                        _date.setMinutes(valueArr[1]);
+                        _date.setSeconds(valueArr[2]);
+                        self.dataModel.setValue(self.field, u.date.format(_date, 'YYYY-MM-DD HH:mm:ss'));
+                    }
+                }
+                else{
+                    if (event.value == _date)
+                        return;
+                    self.dataModel.setValue(self.field, event.value);
+                }
+            }
+            
+            self.slice = false;
+            //self.setValue(event.value);
+        });
+        this.dataModel.ref(this.field).subscribe(function(value) {
+            self.modelValueChange(value)
+        })
+
+
+    },
+    modelValueChange: function (value) {
+        if (this.slice) return;
+        var compValue = '';
+        if (this.dataType === 'datetime') {
+            var _date = u.date.getDateObj(value);
+            if (!_date)
+                compValue = ''
+            else
+                compValue = _date.getHours() + ':' + _date.getMinutes() + ':' + _date.getSeconds();
+        }
+        else{
+            compValue = value;
+        }
+        this.comp.setValue(compValue);
+    },
+    setEnable: function (enable) {
+    }
+});
+
+u.compMgr.addDataAdapter(
+    {
+        adapter: u.TimeAdapter,
+        name: 'u-time'
+    });
+
+u.compMgr.addDataAdapter(
+    {
+        adapter: u.TimeAdapter,
+        name: 'u-clockpicker'
+    });
+
+
+
+
+u.YearMonthAdapter = u.BaseAdapter.extend({
+    initialize: function (comp, options) {
+        var self = this;
+        u.YearMonthAdapter.superclass.initialize.apply(this, arguments);
+        this.validType = 'yearmonth';
+
+        this.comp = new u.YearMonth(this.element);
+
+
+        this.comp.on('valueChange', function(event){
+            self.slice = true;
+            self.dataModel.setValue(self.field, event.value);
+            self.slice = false;
+            //self.setValue(event.value);
+        });
+        this.dataModel.ref(this.field).subscribe(function(value) {
+            self.modelValueChange(value)
+        })
+
+
+    },
+    modelValueChange: function (value) {
+        if (this.slice) return;
+        this.comp.setValue(value);
+    },
+    setEnable: function (enable) {
+    }
+});
+
+u.compMgr.addDataAdapter(
+    {
+        adapter: u.YearMonthAdapter,
+        name: 'u-yearmonth'
+    });
+
+
+
+
+
+u.YearAdapter = u.BaseAdapter.extend({
+    initialize: function (comp, options) {
+        var self = this;
+        u.YearAdapter.superclass.initialize.apply(this, arguments);
+        this.validType = 'year';
+
+        this.comp = new u.Year(this.element);
+
+
+        this.comp.on('valueChange', function(event){
+            self.slice = true;
+            self.dataModel.setValue(self.field, event.value);
+            self.slice = false;
+            //self.setValue(event.value);
+        });
+        this.dataModel.ref(this.field).subscribe(function(value) {
+            self.modelValueChange(value)
+        })
+
+
+    },
+    modelValueChange: function (value) {
+        if (this.slice) return;
+        this.comp.setValue(value);
+    },
+    setEnable: function (enable) {
+    }
+});
+
+u.compMgr.addDataAdapter(
+    {
+        adapter: u.YearAdapter,
+        name: 'u-year'
+    });
+
+
+
+
+
+u.MonthAdapter = u.BaseAdapter.extend({
+    initialize: function (comp, options) {
+        var self = this;
+        u.MonthAdapter.superclass.initialize.apply(this, arguments);
+        this.validType = 'month';
+
+        this.comp = new u.Month(this.element);
+
+
+        this.comp.on('valueChange', function(event){
+            self.slice = true;
+            self.dataModel.setValue(self.field, event.value);
+            self.slice = false;
+            //self.setValue(event.value);
+        });
+        this.dataModel.ref(this.field).subscribe(function(value) {
+            self.modelValueChange(value)
+        })
+
+
+    },
+    modelValueChange: function (value) {
+        if (this.slice) return;
+        this.comp.setValue(value);
+    },
+    setEnable: function (enable) {
+    }
+});
+
+u.compMgr.addDataAdapter(
+    {
+        adapter: u.MonthAdapter,
+        name: 'u-month'
+    });
+
+
+
+
+
+u.ProgressAdapter = u.BaseAdapter.extend({
+    initialize: function (options) {
+        var self = this;
+        u.ProgressAdapter.superclass.initialize.apply(this, arguments);
+
+        this.comp = new u.Progress(this.element);
+        this.element['u.Progress'] = this.comp;
+
+        this.dataModel.ref(this.field).subscribe(function(value) {
+        	self.modelValueChange(value)
+        })
+    },
+
+    modelValueChange: function (val) {
+        this.comp.setProgress(val)
+    }
+})
+
+
+u.compMgr.addDataAdapter(
+    {
+        adapter: u.ProgressAdapter,
+        name: 'u-progress'
+    });
+
+/**
+ * URL控件
+ */
+u.UrlAdapter = u.StringAdapter.extend({
+    init: function () {
+        u.UrlAdapter.superclass.init.apply(this);
+        this.validType = 'url';
+        /*
+         * 因为需要输入，因此不显示为超链接
+         */
+    }
+});
+u.compMgr.addDataAdapter(
+    {
+        adapter: u.UrlAdapter,
+        name: 'url'
+    });
+
+
+
+/**
+ * 密码控件
+ */
+u.PassWordAdapter = u.StringAdapter.extend({
+    init: function () {
+        u.PassWordAdapter.superclass.init.apply(this);
+        var oThis = this;
+        if(u.isIE8){
+            var outStr = this.element.outerHTML;
+            var l = outStr.length;
+            outStr = outStr.substring(0,l-1) + ' type="password"' + outStr.substring(l-1);
+            var newEle = document.createElement(outStr);
+            var parent = this.element.parentNode;
+            parent.insertBefore(newEle,this.element.nextSibling);
+            parent.removeChild(this.element);
+            this.element = newEle;
+        }else{
+            this.element.type = "password";
+        }
+        oThis.element.title = '';
+        this._element = this.element.parentNode;
+        this.span = this._element.querySelector("span");
+        if(u.isIE8){
+            this.span.style.display = 'none';
+        }
+        if(this.span){
+            u.on(this.span,'click',function(){
+                if(oThis.element.type == 'password'){
+                    oThis.element.type = 'text';
+                }else{
+                    oThis.element.type = 'password';
+                }
+            });
+        }
+        
+    },
+    setShowValue: function (showValue) {
+        this.showValue = showValue;
+        this.element.value = showValue;
+        this.element.title = '';
+    },
+});
+u.compMgr.addDataAdapter(
+    {
+        adapter: u.PassWordAdapter,
+        name: 'password'
+    });
+
+
