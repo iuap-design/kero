@@ -94,11 +94,11 @@ u.GridAdapter = u.BaseAdapter.extend({
 						$(obj.element).parent().parent().find('.u-grid-edit-mustFlag').show()
 					}
 
-					// checkbox 类型
-					if($Div.find('.checkbox').length > 0) {
-						$Div.closest('.u-grid-edit-div').css({'position': 'absolute', 'left': '83px'});
-						$Div.closest('.u-grid-edit-whole-div').find('.u-grid-edit-label').css({'margin-left': '112px', 'text-align': 'left'})
-					}
+					// checkbox 类型  此段逻辑不知道是什么，暂时注释掉
+					// if($Div.find('.checkbox').length > 0) {
+					// 	$Div.closest('.u-grid-edit-div').css({'position': 'absolute', 'left': '83px'});
+					// 	$Div.closest('.u-grid-edit-whole-div').find('.u-grid-edit-label').css({'margin-left': '112px', 'text-align': 'left'})
+					// }
 					obj.element.parent().focus();
 					comp.modelValueChange(obj.value);
 
