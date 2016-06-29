@@ -47,6 +47,7 @@ u.DateTimeAdapter = u.BaseAdapter.extend({
 					self.setValue(val);
 				}
 			}
+			this._span = this.element.querySelector("span");
 			this.element = this.element.querySelector("input");
 			this.element.setAttribute('readonly','readonly');
 			if(this.adapterType == 'date'){
@@ -54,6 +55,19 @@ u.DateTimeAdapter = u.BaseAdapter.extend({
 			}else{
 				$(this.element).mobiscroll().datetime(op);
 			}
+			setTimeout(function(){
+		        self.element.setAttribute('readonly','readonly');
+		    },1000);
+		    
+		    if (this._span){
+		        u.on(this._span, 'click', function(e){
+		            // if (self.isShow !== true){
+		            //     self.show(e);
+		            // }
+		            self.element.focus();
+		            u.stopEvent(e);
+		        });
+		    }
 		}else{
 			this.comp = new u.DateTimePicker({el:this.element,format:this.maskerMeta.format});
 		}
