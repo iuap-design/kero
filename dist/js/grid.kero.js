@@ -40,6 +40,8 @@ u.GridAdapter = u.BaseAdapter.extend({
 		this.gridOptions.onValueChange = u.getFunction(viewModel,this.gridOptions.onValueChange);
 		this.gridOptions.onBeforeClickFun = u.getFunction(viewModel,this.gridOptions.onBeforeClickFun);
 		this.gridOptions.onBeforeEditFun = u.getFunction(viewModel,this.gridOptions.onBeforeEditFun);
+		this.gridOptions.onRowHover = u.getFunction(viewModel,this.gridOptions.onRowHover);
+		
 		/*
 		 * 处理column参数  item
 		 * div子项div存储column信息
@@ -82,24 +84,22 @@ u.GridAdapter = u.BaseAdapter.extend({
 					}
 					var comp = oThis.editComponent[column.field]
 					if (!comp){
-						obj.element.focus();
+						obj.element.parent().focus();
 						return
 					}
 					obj.element.innerHTML = '';
-					var $Div = $('<div class="u-grid-content-td-div" ></div>');
 					var row = oThis.getDataTableRow(obj.rowObj)
-					$(obj.element).append($Div);
-					$Div.append(oThis.editComponentDiv[column.field]);
+					$(obj.element).append(oThis.editComponentDiv[column.field]);
 					if(comp.required) {
-						$(obj.element).parent().find('.u-grid-edit-mustFlag').show()
+						$(obj.element).parent().parent().find('.u-grid-edit-mustFlag').show()
 					}
 
-					// checkbox 类型
-					if($Div.find('.checkbox').length > 0) {
-						$Div.closest('.u-grid-edit-div').css({'position': 'absolute', 'left': '83px'});
-						$Div.closest('.u-grid-edit-whole-div').find('.u-grid-edit-label').css({'margin-left': '112px', 'text-align': 'left'})
-					}
-					obj.element.focus();
+					// checkbox 类型  此段逻辑不知道是什么，暂时注释掉
+					// if($Div.find('.checkbox').length > 0) {
+					// 	$Div.closest('.u-grid-edit-div').css({'position': 'absolute', 'left': '83px'});
+					// 	$Div.closest('.u-grid-edit-whole-div').find('.u-grid-edit-label').css({'margin-left': '112px', 'text-align': 'left'})
+					// }
+					obj.element.parent().focus();
 					comp.modelValueChange(obj.value);
 
 
