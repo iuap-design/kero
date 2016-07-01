@@ -2741,6 +2741,28 @@ Row.fn.setChildValue = function(fieldName, value){
     }
 };
 
+Row.fn.setChildSimpleDataByRowId = function(rowId, data){
+    var rowIdArr = rowId.split('.');
+    var rowIdLength = rowIdArr.length;
+    if(rowIdLength > 1){
+        var _childField = rowIdArr[0]; //子表字段
+        var _childObj = this.data[_childField]; // 子表字段存放的obj
+        if (_childObj && _childObj['value'] instanceof u.DataTable){
+            var rowId = rowIdArr[1];
+            var row = null;
+            if(rowId)
+                row = _childObj['value'].getRowByRowId(rowId);
+            if (row){
+                if(rowIdArr.length == 2){
+                    row.setSimpleData(data);
+                }else{
+                    row.setChildSimpleDataByRowId(fieldName.replace(_childField + '.' + rowId + '.', ''),data)
+                }
+            }
+        }
+    }
+}
+
 
 var eq = function (a, b) {
     if ((a === null || a === undefined || a === '') && (b === null || b === undefined || b === '')) return true;
@@ -2756,12 +2778,7 @@ Row.fn._triggerChange = function(fieldName, oldValue, ctx){
     if (this.valueChange[fieldName])
         this.valueChange[fieldName](-this.valueChange[fieldName]())
     if (this.parent.getCurrentRow() == this && this.parent.valueChange[fieldName]){
-        try{ //后续找锐锋确认
-            this.parent.valueChange[fieldName](-this.parent.valueChange[fieldName]());
-        }catch(e){
-
-        }
-        
+        this.parent.valueChange[fieldName](-this.parent.valueChange[fieldName]());
     }
     if (this.parent.ns){
         var fName = this.parent.ns + '.' + fieldName;

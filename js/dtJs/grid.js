@@ -84,7 +84,7 @@ u.GridAdapter = u.BaseAdapter.extend({
 					}
 					var comp = oThis.editComponent[column.field]
 					if (!comp){
-						obj.element.parent().focus();
+						$(obj.element).parent().focus();
 						return
 					}
 					obj.element.innerHTML = '';
