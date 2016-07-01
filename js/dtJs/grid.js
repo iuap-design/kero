@@ -99,7 +99,7 @@ u.GridAdapter = u.BaseAdapter.extend({
 					// 	$Div.closest('.u-grid-edit-div').css({'position': 'absolute', 'left': '83px'});
 					// 	$Div.closest('.u-grid-edit-whole-div').find('.u-grid-edit-label').css({'margin-left': '112px', 'text-align': 'left'})
 					// }
-					obj.element.parent().focus();
+					$(obj.element).parent().focus();
 					comp.modelValueChange(obj.value);
 
 
