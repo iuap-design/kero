@@ -205,9 +205,17 @@ DataTable.fn.createField = function(fieldName, options){
         this.meta[fieldName] = {}
     }
     if (typeof options === 'object'){
-        for(var key in options){
-            if (!this.meta[fieldName][key]){
+        if(options['meta']){
+            for(var key in options['meta']){
+                //if (!this.meta[fieldName][key]){
+                this.meta[fieldName]['meta'][key] = options['meta'][key];
+                //}
+            }
+        }else{
+            for(var key in options){
+                //if (!this.meta[fieldName][key]){
                 this.meta[fieldName][key] = options[key];
+                //}
             }
         }
     }
