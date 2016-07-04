@@ -1,3 +1,10 @@
+/** 
+ * datatable v3.0.3
+ * 
+ * author : yonyou FED
+ * homepage : https://github.com/iuap-design/datatable#readme
+ * bugs : https://github.com/iuap-design/datatable/issues
+ **/ 
 
 var App = function () {
     this.dataTables = {};

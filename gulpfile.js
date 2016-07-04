@@ -6,6 +6,7 @@ var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
 var minifycss = require('gulp-minify-css');
 var util = require('gulp-util');
+var makeumd = require('./makeumd.js');
 
 /**
  * 公共错误处理函数
@@ -87,7 +88,7 @@ var globs = {
     }
 };
 
-gulp.task('js', function() {
+gulp.task('js-init', function() {
     return gulp.src(globs.js.dtJs)
         .pipe(concat('model.js'))
         .pipe(gulp.dest('dist/js'))
@@ -97,7 +98,14 @@ gulp.task('js', function() {
         .pipe(gulp.dest('dist/js'));
 });
 
-gulp.task('ujs', ['js'], function(){
+gulp.task('js', ['js-init'], function(){
+     makeumd.init([
+            'dist/js/model.js',
+            'dist/js/model.min.js',
+        ]);
+});
+
+gulp.task('ujs-init', ['js-init'], function(){
     return gulp.src(globs.js.coreJs.concat(globs.js.dtJs))
         .pipe(concat('u-model.js'))
         .pipe(gulp.dest('dist/js'))
@@ -107,20 +115,60 @@ gulp.task('ujs', ['js'], function(){
         .pipe(gulp.dest('dist/js'));
 });
 
+gulp.task('ujs', ['ujs-init'], function(){
+     makeumd.init([
+            'dist/js/u-model.js',
+            'dist/js/u-model.min.js',
+        ]);
+});
 
-gulp.task('tree', function() {
+
+
+gulp.task('tree-init', function() {
     return gulp.src(globs.js.treeJs)
         .pipe(rename('tree.kero.js'))
         .pipe(gulp.dest('dist/js'))
-})
+        .pipe(uglify())
+        .on('error', errHandle)
+        .pipe(rename('tree.kero.min.js'))
+        .pipe(gulp.dest('dist/js'));
+});
+
+gulp.task('tree', ['tree-init'], function(){
+     makeumd.init([
+            'dist/js/tree.kero.js',
+            'dist/js/tree.kero.min.js',
+        ]);
+});
 
 
-gulp.task('grid', function() {
+gulp.task('grid-init', function() {
     return gulp.src(globs.js.gridJs)
         .pipe(rename('grid.kero.js'))
         .pipe(gulp.dest('dist/js'))
+        .pipe(uglify())
+        .on('error', errHandle)
+        .pipe(rename('grid.kero.min.js'))
+        .pipe(gulp.dest('dist/js'));
+});
+
+gulp.task('grid', ['grid-init'], function(){
+     makeumd.init([
+            'dist/js/grid.kero.js',
+            'dist/js/grid.kero.min.js',
+        ]);
+});
+
+gulp.task('distWatch', function(){
+    gulp.watch(globs.js.coreJs.concat(globs.js.dtJs), ['ujs']);
+    gulp.watch(globs.js.treeJs, ['tree']);
+    gulp.watch(globs.js.gridJs, ['grid']);
 })
 
 
-gulp.task('dist', ['ujs', 'tree', 'grid'], function(){
+gulp.task('dev', ['js', 'ujs', 'tree', 'grid'],function(){
+    gulp.run('distWatch');
+});
+
+gulp.task('dist', ['js', 'ujs', 'tree', 'grid'], function(){
 });
