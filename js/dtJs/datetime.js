@@ -47,7 +47,6 @@ u.DateTimeAdapter = u.BaseAdapter.extend({
 					self.setValue(val);
 				}
 			}
-			this._span = this.element.querySelector("span");
 			this.element = this.element.querySelector("input");
 			this.element.setAttribute('readonly','readonly');
 			if(this.adapterType == 'date'){
@@ -55,19 +54,6 @@ u.DateTimeAdapter = u.BaseAdapter.extend({
 			}else{
 				$(this.element).mobiscroll().datetime(op);
 			}
-			setTimeout(function(){
-		        self.element.setAttribute('readonly','readonly');
-		    },1000);
-		    
-		    if (this._span){
-		        u.on(this._span, 'click', function(e){
-		            // if (self.isShow !== true){
-		            //     self.show(e);
-		            // }
-		            self.element.focus();
-		            u.stopEvent(e);
-		        });
-		    }
 		}else{
 			this.comp = new u.DateTimePicker({el:this.element,format:this.maskerMeta.format});
 		}
@@ -161,7 +147,7 @@ u.DateTimeAdapter = u.BaseAdapter.extend({
             this.enable = true;
             this.element.removeAttribute('readonly');
             if(u.isMobile){
-
+            	this.element.removeAttribute('disabled');
             }else{
             	this.comp._input.removeAttribute('readonly');
             }
@@ -170,7 +156,7 @@ u.DateTimeAdapter = u.BaseAdapter.extend({
             this.enable = false;
             this.element.setAttribute('readonly', 'readonly');
             if(u.isMobile){
-
+            	this.element.setAttribute('disabled','disabled');
             }else{
             	this.comp._input.setAttribute('readonly', 'readonly');
             }

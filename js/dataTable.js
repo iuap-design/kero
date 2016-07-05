@@ -1565,6 +1565,25 @@ DataTable.fn.getRowIndex = function (row){
     return -1;
 };
 
+DataTable.fn.getRowsByField = function(field,value){
+    var rows = this.rows.peek();
+    var returnRows = new Array();
+    for (var i = 0, count = rows.length; i < count; i++) {
+        if (rows[i].getValue(field) === value)
+            returnRows.push(rows[i]);
+    }
+    return returnRows;
+}
+
+DataTable.fn.getRowByField = function(field,value){
+    var rows = this.rows.peek();
+    for (var i = 0, count = rows.length; i < count; i++) {
+        if (rows[i].getValue(field) === value)
+            return rows[i]
+    }
+    return null;
+}
+
 DataTable.fn.getAllRows = function () {
     return this.rows.peek();
 }
