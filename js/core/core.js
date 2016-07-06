@@ -227,6 +227,9 @@ u.extend(u, {
 			return element.classList.toggle(value);
 		}
 	},
+	index: function(selector, childEle) {
+		return Array.prototype.slice.call(document.querySelectorAll(selector), 0).indexOf(childEle);
+	},
 	closest: function(element, selector) {
 		var tmp = element;
 		while(tmp != null &&!u.hasClass(tmp, selector) && tmp != document.body ) {
