@@ -6,6 +6,7 @@ u.ValidateMixin = {
     init: function(){
         this.placement = this.getOption('placement');
         this.tipId = this.getOption('tipId');
+        this.tipAliveTime = this.getOption('tipAliveTime');
         this.errorMsg = this.getOption('errorMsg');
         this.nullMsg = this.getOption('nullMsg');
         this.regExp = this.getOption('regExp');
@@ -22,6 +23,7 @@ u.ValidateMixin = {
                 validType: this.validType,
                 placement: this.placement,
                 tipId: this.tipId,
+				tipAliveTime: this.tipAliveTime,
                 successId:this.successId,
                 notipFlag:this.notipFlag,
                 hasSuccess:this.hasSuccess,
