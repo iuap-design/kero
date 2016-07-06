@@ -757,7 +757,6 @@ u.GridAdapter = u.BaseAdapter.extend({
 				options:eOptions,
 				model: viewModel
 			});
-			//$.compManager.plugs.string(compDiv.find("input")[0],eOptions,viewModel);
 
 		}else if(eType == 'integer'){
 			compDiv = $('<div><input type="text" class="u-grid-edit-item-integer"></div>');
@@ -942,6 +941,10 @@ u.GridAdapter = u.BaseAdapter.extend({
 				model: viewModel
 			});
 		}
+		// input输入blur时显示下一个编辑控件
+		$('input',$(compDiv)).on('blur',function(e){
+			oThis.grid.nextEditShow();
+		});
 		if (comp && comp.dataAdapter){
 			comp = comp.dataAdapter;
 		}
