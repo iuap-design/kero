@@ -7235,6 +7235,13 @@ u.StringAdapter = u.BaseAdapter.extend({
             }
         })
 
+        u.on(this.element, 'keydown',function(e){
+            var keyCode = e.keyCode;
+            if( e.keyCode == 13){// 回车
+                this.blur();
+            }
+        });
+
         u.on(this.element, 'blur',function(e){
             if(self.enable){
                 if (!self.doValidate() && self._needClean()) {
