@@ -39,7 +39,7 @@
         f2:{type:'date',format:'YYYY/MM/DD'}
     });
 
-更多设置参见***
+更多设置参见 [u.DataTable](http://design.yyuap.com/dist/pages/kero/udatatable.html)
 
 ---
 
