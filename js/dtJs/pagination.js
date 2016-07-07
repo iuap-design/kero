@@ -10,7 +10,8 @@ u.PaginationAdapter = u.BaseAdapter.extend({
             this.options.pageSize = this.dataModel.pageSize() || this.options.pageSize;
             //this.$element.pagination(options);
             //this.comp = this.$element.data('u.pagination');
-            this.comp = new u.pagination({el:this.element,jumppage:true});
+            var options = u.extend({},{el:this.element,jumppage:true},this.options);
+            this.comp = new u.pagination(options);
 			this.element['u.pagination'] = this.comp;
             this.comp.dataModel = this.dataModel;
             this.pageChange = u.getFunction(this.viewModel, this.options['pageChange']);

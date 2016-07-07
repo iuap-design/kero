@@ -1460,6 +1460,16 @@ DataTable.fn.getCurrentRow = function () {
         return this.getRow(index)
 }
 
+DataTable.fn.getCurrentIndex = function () {
+    if (this.focusIndex() != -1)
+        return this.focusIndex()
+    var index = this.getSelectedIndex()
+    if (index == -1)
+        return -1
+    else
+        return index
+}
+
 
 DataTable.fn.updateCurrIndex = function () {
     var currentIndex = this.focusIndex() != -1 ? this.focusIndex() : this.getSelectedIndex();
