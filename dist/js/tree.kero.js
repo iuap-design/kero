@@ -59,7 +59,7 @@ u.TreeAdapter = u.BaseAdapter.extend({
 						if (nodes[i].checked) {
 							// 选中数据行
 							nodes[i].checkedOld = true;
-							if (oThis.tree.setting.check.enable == true) {
+							if (oThis.tree.setting.view.selectedMulti == true) {
 								oThis.dataTable.addRowsSelect([index]);
 							} else {
 								oThis.dataTable.setRowSelect(index);
@@ -209,7 +209,7 @@ u.TreeAdapter = u.BaseAdapter.extend({
 				var idValue = dataObj[oThis.options.idField].value;
 				var node = oThis.tree.getNodeByParam('id', idValue);
 				if (oThis.tree.setting.view.selectedMulti == true  && !node.checked) {
-					oThis.tree.checkNode(node);
+					oThis.tree.checkNode(node,true,false,true);
 				} else {
 					oThis.tree.selectNode(node, false);
 				}
@@ -224,7 +224,7 @@ u.TreeAdapter = u.BaseAdapter.extend({
 				var idValue = dataObj[oThis.options.idField].value;
 				var node = oThis.tree.getNodeByParam('id', idValue);
 				if (oThis.tree.setting.view.selectedMulti == true && node.checked) {
-					oThis.tree.checkNode(node);
+					oThis.tree.checkNode(node,false,true,true);
 				} else {
 					oThis.tree.cancelSelectedNode(node)
 				}
