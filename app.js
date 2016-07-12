@@ -238,7 +238,7 @@ function replaceMdFun(filePath,itemName){
 									}else if(htmlIndex > -1){
 										showStr += '<div class="example-content">' + data.toString() + '\r\n</div>\r\n';
 									}else if(jsIndex > -1){
-										showStr += '<div class="example-content"><script>' + data.toString() + '\r\n' + '</script></div>\r\n';
+										showStr += '<div class="example-content"><script>window.onload = function(){' + data.toString() + '\r\n' + '}</script></div>\r\n';
 									}
 									
 								}
