@@ -4743,7 +4743,6 @@ u.DateTimeAdapter = u.BaseAdapter.extend({
     setEnable: function(enable){
         if (enable === true || enable === 'true') {
             this.enable = true;
-            this.element.removeAttribute('readonly');
             if(u.isMobile){
             	this.element.removeAttribute('disabled');
             }else{
@@ -4752,7 +4751,6 @@ u.DateTimeAdapter = u.BaseAdapter.extend({
             u.removeClass(this.element.parentNode,'disablecover');
         } else if (enable === false || enable === 'false') {
             this.enable = false;
-            this.element.setAttribute('readonly', 'readonly');
             if(u.isMobile){
             	this.element.setAttribute('disabled','disabled');
             }else{
