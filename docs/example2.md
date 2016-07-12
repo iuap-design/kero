@@ -13,9 +13,8 @@ javascript片段同`hello world`示例，html片段说明
 * `"data":"dt1","field":"f1"`绑定`dt1`下的`f1`表单
 
 <div class="example-content"><input  u-meta='{"type":"string","data":"dt1","field":"f1"}' />
-<div  data-bind="text:dt1.ref('f1')"></div>
-</div>
-<div class="example-content"><script>window.onload = function(){var app,viewModel;
+<div  data-bind="text:dt1.ref('f1')"></div></div>
+<div class="example-content ex-hide"><script>var app,viewModel;
 viewModel = {
     dt1: new u.DataTable({
         meta:{
@@ -36,7 +35,7 @@ app = u.createApp({
 var r = viewModel.dt1.createEmptyRow();
 r.setValue('f1','Hello World');
 
-}</script></div>
+</script></div>
 <div class="examples-code"><pre><code>&lt;input  u-meta='{"type":"string","data":"dt1","field":"f1"}' />
 &lt;div  data-bind="text:dt1.ref('f1')">&lt;/div></code></pre>
 </div>

@@ -20,7 +20,8 @@ html内容解读
 * `data-bind`进行数据绑定
 * `"text:dt1.ref('f1')">`指定绑定的实例集合：`dt1`下的`f1`
 
-<div class="example-content"><script>window.onload = function(){var app,viewModel;
+<div class="example-content"><div data-bind="text:dt1.ref('f1')"></div></div>
+<div class="example-content ex-hide"><script>var app,viewModel;
 viewModel = {
     dt1: new u.DataTable({
         meta:{
@@ -41,8 +42,8 @@ app = u.createApp({
 var r = viewModel.dt1.createEmptyRow();
 r.setValue('f1','Hello World');
 
-}</script></div>
-<div class="example-content"><div data-bind="text:dt1.ref('f1')"></div>
+</script></div>
+<div class="examples-code"><pre><code>&lt;div data-bind="text:dt1.ref('f1')">&lt;/div></code></pre>
 </div>
 <div class="examples-code"><pre><code>var app,viewModel;
 viewModel = {
@@ -65,6 +66,4 @@ app = u.createApp({
 var r = viewModel.dt1.createEmptyRow();
 r.setValue('f1','Hello World');
 </code></pre>
-</div>
-<div class="examples-code"><pre><code>&lt;div data-bind="text:dt1.ref('f1')">&lt;/div></code></pre>
 </div>

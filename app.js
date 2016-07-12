@@ -216,7 +216,9 @@ function replaceMdFun(filePath,itemName){
 			var dir = pathArr[pathArr.length - 1];
 			// var Str = '### ' + dir + '\r\n';
 			var codeStr = '';
+			var styleStr = '';
 			var showStr = '';
+			var jsStr = '';
 			var headStr = '';
 			var l = files.length,now = 0;
 
@@ -234,11 +236,11 @@ function replaceMdFun(filePath,itemName){
 								if(data.toString().length > 0){
 									codeStr += '<div class="examples-code"><pre><code>' + data.toString().replace(/\</g,'&lt;') + '</code></pre>\r\n</div>\r\n';
 									if(cssIndex > -1){
-										showStr += '<div class="example-content"><style>' + data.toString() + '\r\n' + '</style></div>\r\n';
+										styleStr += '<div class="example-content ex-hide"><style>' + data.toString() + '\r\n' + '</style></div>\r\n';
 									}else if(htmlIndex > -1){
-										showStr += '<div class="example-content">' + data.toString() + '\r\n</div>\r\n';
+										showStr += '<div class="example-content">' + data.toString() + '</div>\r\n';
 									}else if(jsIndex > -1){
-										showStr += '<div class="example-content"><script>window.onload = function(){' + data.toString() + '\r\n' + '}</script></div>\r\n';
+										jsStr += '<div class="example-content ex-hide"><script>' + data.toString() + '\r\n' + '</script></div>\r\n';
 									}
 									
 								}
@@ -264,7 +266,7 @@ function replaceMdFun(filePath,itemName){
 								}
 							}
 							nowFilePath = nowFilePath + '/' + dir + '.txt';//snippets/temp/datatable/grid/base.txt
-							fs.writeFile(nowFilePath,headStr + showStr + codeStr,function(err){
+							fs.writeFile(nowFilePath,headStr + styleStr + showStr + jsStr + codeStr,function(err){
 					        	if(err){
 					        		console.log('write err:' + nowFilePath);
 					        	}
