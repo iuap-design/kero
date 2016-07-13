@@ -6,11 +6,17 @@
 # 依赖资源
 
 http://design.yyuap.com/static/uui/latest/css/font-awesome.css
+
 http://design.yyuap.com/static/uui/latest/css/u.css
+
 http://design.yyuap.com/static/uui/latest/css/grid.css
+
 http://design.yyuap.com/static/jquery/jquery-1.9.1.min.js
+
 http://design.yyuap.com/static/uui/latest/js/u-polyfill.js
+
 http://design.yyuap.com/static/uui/latest/js/u.js
+
 http://design.yyuap.com/static/uui/latest/js/u-grid.js
 
 # 如何使用
@@ -55,8 +61,7 @@ http://design.yyuap.com/static/uui/latest/js/u-grid.js
 - passwordRender
 - percentRender
 
-表格的详细API：
-
+表格的详细API：http://design.yyuap.com/dist/pages/plugins/grid.html
 
 2、创建viewModel
 	
@@ -104,6 +109,3 @@ http://design.yyuap.com/static/uui/latest/js/u-grid.js
 
 通过dataTable的setSimpleData方法将数据插入dataTable中。框架会自动将数据传入表格控件并显示。
 
-# 示例
-
-replaceExamp

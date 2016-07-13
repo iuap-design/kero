@@ -6,11 +6,17 @@
 # 依赖资源
 
 http://design.yyuap.com/static/uui/latest/css/font-awesome.css
+
 http://design.yyuap.com/static/uui/latest/css/u.css
+
 http://design.yyuap.com/static/uui/latest/css/grid.css
+
 http://design.yyuap.com/static/jquery/jquery-1.9.1.min.js
+
 http://design.yyuap.com/static/uui/latest/js/u-polyfill.js
+
 http://design.yyuap.com/static/uui/latest/js/u.js
+
 http://design.yyuap.com/static/uui/latest/js/u-grid.js
 
 # 如何使用
@@ -55,8 +61,7 @@ http://design.yyuap.com/static/uui/latest/js/u-grid.js
 - passwordRender
 - percentRender
 
-表格的详细API：
-
+表格的详细API：http://design.yyuap.com/dist/pages/plugins/grid.html
 
 2、创建viewModel
 	
@@ -104,86 +109,3 @@ http://design.yyuap.com/static/uui/latest/js/u-grid.js
 
 通过dataTable的setSimpleData方法将数据插入dataTable中。框架会自动将数据传入表格控件并显示。
 
-# 示例
-
-
-
-<div class="example-content"><div id="gridTest1" u-meta='{"id":"grid1","data":"dataTable","type":"grid","multiSelect":true,"editable":false,"onBeforeClickFun":"onBeforeClickFun1"}'>
-	<div options='{"field":"name","dataType":"String","title":"姓名","editType":"string","sortable":true,"canSwap":true}'></div>
-    <div options='{"field":"time","dataType":"time","title":"时间","editType":"datetime" ,"renderType":"timeRender","required":true,"sortable":true}'></div>
-	<div options='{"field":"currency","dataType":"String","title":"金额","editType":"float","editOptions":{"id":"currency1","type":"float","precision":"3","max":10000},"sumCol":true}'></div>
-</div></div>
-<div class="example-content ex-hide"><script>$(document).ready(function () {
-    viewModel = {
-        dataTable: new u.DataTable({
-            meta: {
-                "name": "",
-                "time":"",
-                "currency": ""
-            }
-        }, this),
-
-        onBeforeClickFun1:function(obj){
-            obj.gridObj.setGridEditType('default');
-            return true;
-        },
-    }
-
-    var app = u.createApp({
-        el: 'body',
-        model: viewModel
-    });
-
-    var data = [{
-                "name": "赵四",
-                "time": "12:22:00",
-                "currency": "200"
-            }, {
-                "name": "王一",
-                "time": "04:44:22",
-                "currency": "300"
-            }]
-    viewModel.dataTable.removeAllRows();
-    viewModel.dataTable.setSimpleData(data);
-});
-</script></div>
-<div class="examples-code"><pre><code>$(document).ready(function () {
-    viewModel = {
-        dataTable: new u.DataTable({
-            meta: {
-                "name": "",
-                "time":"",
-                "currency": ""
-            }
-        }, this),
-
-        onBeforeClickFun1:function(obj){
-            obj.gridObj.setGridEditType('default');
-            return true;
-        },
-    }
-
-    var app = u.createApp({
-        el: 'body',
-        model: viewModel
-    });
-
-    var data = [{
-                "name": "赵四",
-                "time": "12:22:00",
-                "currency": "200"
-            }, {
-                "name": "王一",
-                "time": "04:44:22",
-                "currency": "300"
-            }]
-    viewModel.dataTable.removeAllRows();
-    viewModel.dataTable.setSimpleData(data);
-});</code></pre>
-</div>
-<div class="examples-code"><pre><code>&lt;div id="gridTest1" u-meta='{"id":"grid1","data":"dataTable","type":"grid","multiSelect":true,"editable":false,"onBeforeClickFun":"onBeforeClickFun1"}'>
-	&lt;div options='{"field":"name","dataType":"String","title":"姓名","editType":"string","sortable":true,"canSwap":true}'>&lt;/div>
-    &lt;div options='{"field":"time","dataType":"time","title":"时间","editType":"datetime" ,"renderType":"timeRender","required":true,"sortable":true}'>&lt;/div>
-	&lt;div options='{"field":"currency","dataType":"String","title":"金额","editType":"float","editOptions":{"id":"currency1","type":"float","precision":"3","max":10000},"sumCol":true}'>&lt;/div>
-&lt;/div></code></pre>
-</div>
