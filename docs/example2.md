@@ -36,9 +36,6 @@ var r = viewModel.dt1.createEmptyRow();
 r.setValue('f1','Hello World');
 
 </script></div>
-<div class="examples-code"><pre><code>&lt;input  u-meta='{"type":"string","data":"dt1","field":"f1"}' />
-&lt;div  data-bind="text:dt1.ref('f1')">&lt;/div></code></pre>
-</div>
 <div class="examples-code"><pre><code>var app,viewModel;
 viewModel = {
     dt1: new u.DataTable({
@@ -60,4 +57,7 @@ app = u.createApp({
 var r = viewModel.dt1.createEmptyRow();
 r.setValue('f1','Hello World');
 </code></pre>
+</div>
+<div class="examples-code"><pre><code>&lt;input  u-meta='{"type":"string","data":"dt1","field":"f1"}' />
+&lt;div  data-bind="text:dt1.ref('f1')">&lt;/div></code></pre>
 </div>
