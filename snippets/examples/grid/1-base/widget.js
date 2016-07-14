@@ -3,7 +3,7 @@ $(document).ready(function () {
         dataTable: new u.DataTable({
             meta: {
                 "name": "",
-                "time":"",
+                "surname":"",
                 "currency": ""
             }
         }, this),
@@ -14,18 +14,18 @@ $(document).ready(function () {
         },
     }
 
-    var app = u.createApp({
+    app = u.createApp({
         el: 'body',
         model: viewModel
     });
 
     var data = [{
-                "name": "赵四",
-                "time": "12:22:00",
+                "name": "Teagan",
+                "surname": "Prohaska",
                 "currency": "200"
             }, {
-                "name": "王一",
-                "time": "04:44:22",
+                "name": "Andy",
+                "surname": "Gaylord",
                 "currency": "300"
             }]
     viewModel.dataTable.removeAllRows();
