@@ -23,10 +23,10 @@ http://design.yyuap.com/static/uui/latest/js/u-grid.js
 
 1、创建div
 
-    <div id="gridTest1" u-meta='{"id":"grid1","data":"dataTable","type":"grid","multiSelect":true,"editable":false,"onBeforeClickFun":"onBeforeClickFun1"}'>
-		<div options='{"field":"name","dataType":"String","title":"姓名","editType":"string","sortable":true,"canSwap":true}'></div>
-	    <div options='{"field":"time","dataType":"time","title":"时间","editType":"datetime" ,"renderType":"timeRender","required":true,"sortable":true}'></div>
-		<div options='{"field":"currency","dataType":"String","title":"金额","editType":"float","editOptions":{"id":"currency1","type":"float","precision":"3","max":10000},"sumCol":true}'></div>
+    <div id="gridTest1" u-meta='{"id":"grid1","data":"dataTable","type":"grid","multiSelect":true,"editable":true,"onBeforeClickFun":"onBeforeClickFun1"}'>
+		<div options='{"field":"name","dataType":"String","title":"名","editType":"string","sortable":true,"canSwap":true}'></div>
+	    <div options='{"field":"surname","dataType":"String","title":"姓氏","editType":"string" ,"renderType":"timeRender","sortable":true}'></div>
+		<div options='{"field":"currency","dataType":"String","title":"余额","editType":"float","editOptions":{"validType":"float","precision":"3","max":10000},"sumCol":true}'></div>
 	</div>
 
 示例中#gridTest1为表格控件的顶层div，u-meta中为表格控件的属性设置，其中data为dataTable的变量名，type固定为grid。子项div对应的每个column的属性设置，如果要设置编辑控件的属性，需要将属性设置到editOptions中。
@@ -109,3 +109,6 @@ http://design.yyuap.com/static/uui/latest/js/u-grid.js
 
 通过dataTable的setSimpleData方法将数据插入dataTable中。框架会自动将数据传入表格控件并显示。
 
+# 示例
+
+replaceExamp
