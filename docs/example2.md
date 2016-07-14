@@ -18,9 +18,7 @@ javascript片段同`hello world`示例，html片段说明
 viewModel = {
     dt1: new u.DataTable({
         meta:{
-            f1:{
-                maxLength:20
-            }
+            f1:{}
         }
     })
 };
@@ -41,9 +39,7 @@ r.setValue('f1','Hello World');
 viewModel = {
     dt1: new u.DataTable({
         meta:{
-            f1:{
-                maxLength:20
-            }
+            f1:{}
         }
     })
 };

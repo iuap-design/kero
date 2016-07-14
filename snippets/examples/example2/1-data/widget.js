@@ -2,9 +2,7 @@ var app,viewModel;
 viewModel = {
     dt1: new u.DataTable({
         meta:{
-            f1:{
-                maxLength:20
-            }
+            f1:{}
         }
     })
 };
