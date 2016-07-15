@@ -340,7 +340,7 @@ u.GridAdapter = u.BaseAdapter.extend({
 			}else if(rType == 'passwordRender'){
 				//通过grid的dataType为DateTime format处理
 				column.renderType = function(obj){
-					obj.element.innerHTML = '<input type="password" disable="true" readonly="readonly" style="border:0px;background:none;padding:0px;" value="' + obj.value + '" title=""><span class="fa fa-eye right-span" ></span>';
+					obj.element.innerHTML = '<input type="password" disable="true" role="grid-for-edit" readonly="readonly" style="border:0px;background:none;padding:0px;" value="' + obj.value + '" title=""><span class="fa fa-eye right-span" role="grid-for-edit"></span>';
 					var span = obj.element.querySelector('span');
 					var input = obj.element.querySelector('input');
 					input.value = obj.value;
@@ -942,8 +942,12 @@ u.GridAdapter = u.BaseAdapter.extend({
 			});
 		}
 		// input输入blur时显示下一个编辑控件
-		$('input',$(compDiv)).on('blur',function(e){
-			oThis.grid.nextEditShow();
+		$('input',$(compDiv)).on('keydown',function(e){
+			var keyCode = e.keyCode;
+            if( e.keyCode == 13 || e.keyCode == 9){// 回车
+                oThis.grid.nextEditShow();
+            }
+            u.stopEvent(e);
 		});
 		if (comp && comp.dataAdapter){
 			comp = comp.dataAdapter;
