@@ -14698,9 +14698,11 @@ Row.fn._getSimpleData = function(data){
                     _data[key] = _dateToUTCString(data[key].value)
                 }
             }
-        }else if(typeof data[key].value !== 'undefined'){
-            _data[key] = undefined;
-        }else{
+        }
+        // else if(typeof data[key].value !== 'undefined'){
+        //     _data[key] = undefined;
+        // }
+        else{
             _data[key] = this._getSimpleData(data[key])
         }
     }
