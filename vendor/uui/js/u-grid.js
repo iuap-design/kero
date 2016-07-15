@@ -100,7 +100,7 @@
 				columnMenu: true, // 是否存在列头操作按钮
 				canDrag: true, // 是否可以拖动
 				formMaxWidth: 300, // 整体宽度小于某一值之后以form展示
-				formMaxWidth:0,
+				// formMaxWidth:0,
 				maxHeaderLevel:1, // header的最高层级，用于计算header区域的高度
 				overWidthHiddenColumn:false, // 宽度不足时是否自动隐藏column
 				sortable: true, // 是否可以排序
