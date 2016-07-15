@@ -14,9 +14,8 @@
 
   ```
   u.isIE //IE浏览器返回true,其他返回false
+  
   ```
-
-  ​
 
 ## # isFF
 
