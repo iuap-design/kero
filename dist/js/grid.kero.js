@@ -340,7 +340,7 @@ u.GridAdapter = u.BaseAdapter.extend({
 			}else if(rType == 'passwordRender'){
 				//通过grid的dataType为DateTime format处理
 				column.renderType = function(obj){
-					obj.element.innerHTML = '<input type="password" disable="true" role="grid-for-edit" readonly="readonly" style="border:0px;background:none;padding:0px;" value="' + obj.value + '" title=""><span class="fa fa-eye right-span" role="grid-for-edit"></span>';
+					obj.element.innerHTML = '<input type="password" disable="true" role="grid-for-edit" readonly="readonly" style="border:0px;background:none;padding:0px;" value="' + obj.value + '" title=""><span class="uf uf-eyeopen right-span" role="grid-for-edit"></span>';
 					var span = obj.element.querySelector('span');
 					var input = obj.element.querySelector('input');
 					input.value = obj.value;
@@ -790,7 +790,7 @@ u.GridAdapter = u.BaseAdapter.extend({
 			//comp = new $.compManager.plugs.check(compDiv.find("input")[0],eOptions,viewModel);
 
 		}else if(eType == 'combo'){
-			// compDiv = $('<div class="input-group  form_date u-grid-edit-item-comb"><div  type="text" class="form-control grid-combox"></div><i class="input-group-addon" ><i class="fa fa-angle-down"></i></i></div>');
+			// compDiv = $('<div class="input-group  form_date u-grid-edit-item-comb"><div  type="text" class="form-control grid-combox"></div><i class="input-group-addon" ><i class="uf uf-anglearrowdown"></i></i></div>');
 			compDiv = $('<div class="eType-input"><input type="text" class="u-grid-edit-item-float"></div>');
 			//comp = new $.compManager.plugs.combo(compDiv[0],eOptions,viewModel);
 			//comp = new u.Combobox({
@@ -799,7 +799,7 @@ u.GridAdapter = u.BaseAdapter.extend({
 			//	model: viewModel
 			//});
 			if($.Combobox){ //兼容旧版本
-				compDiv = $('<div class="input-group  form_date u-grid-edit-item-comb"><div  type="text" class="form-control grid-combox"></div><i class="input-group-addon" ><i class="fa fa-angle-down"></i></i></div>');
+				compDiv = $('<div class="input-group  form_date u-grid-edit-item-comb"><div  type="text" class="form-control grid-combox"></div><i class="input-group-addon" ><i class="uf uf-anglearrowdown"></i></i></div>');
 				comp = new $.Combobox(compDiv[0],eOptions,viewModel)
 			}else{
 				comp = new u.ComboboxAdapter({
@@ -915,7 +915,7 @@ u.GridAdapter = u.BaseAdapter.extend({
 			//$.compManager.plugs.string(compDiv.find("input")[0],eOptions,viewModel);
 
 		}else if(eType == 'password'){
-			compDiv = $('<div><input type="text" class="u-grid-edit-item-string"><span class="fa fa-eye right-span"></span></div>');
+			compDiv = $('<div><input type="text" class="u-grid-edit-item-string"><span class="uf uf-eyeopen right-span"></span></div>');
 			if(!options.editType || options.editType =="default" ){
 				compDiv.addClass("eType-input")
 			}
