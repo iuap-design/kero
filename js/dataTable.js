@@ -411,11 +411,27 @@ DataTable.fn.updateMeta = function (meta) {
  *
  */
 DataTable.fn.setData = function (data,options) {
-    var newIndex = data.pageIndex || this.pageIndex(),
-        newSize = data.pageSize || this.pageSize(),
-        newTotalPages = data.totalPages || this.totalPages(),
-        newTotalRow = data.totalRow || data.rows.length,
-        select, focus,unSelect=options?options.unSelect:false; 
+    if(data.pageIndex || data.pageIndex === 0){
+        var newIndex = data.pageIndex;
+    }else{
+        var newIndex = this.pageIndex();
+    }
+    if(data.pageSize || data.pageSize === 0){
+        var newSize = data.pageSize;
+    }else{
+        var newSize = this.pageSize();
+    }
+    if(data.newTotalPages || data.newTotalPages === 0){
+        var newTotalPages = data.newTotalPages;
+    }else{
+        var newTotalPages = this.totalPages();
+    }
+    if(data.totalRow || data.totalRow === 0){
+        var newTotalRow = data.totalRow;
+    }else{
+        var newTotalRow = data.rows.length; //后续要考虑状态，del的不计算在内
+    }
+    var select, focus,unSelect=options?options.unSelect:false; 
         //currPage,
         //type = data.type;
 

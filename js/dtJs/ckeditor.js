@@ -1,9 +1,7 @@
 u.CkEditorAdapter = u.BaseAdapter.extend({
     mixins: [u.ValueMixin, u.EnableMixin,u.RequiredMixin, u.ValidateMixin],
-    initialize: function (comp, options) {
+    init: function () {
         var self = this;
-        u.EditorAdapter.superclass.initialize.apply(this, arguments);
-
         this.e_editor = this.id + "-ckeditor";
         this.render(this.options);
     },
@@ -12,9 +10,9 @@ u.CkEditorAdapter = u.BaseAdapter.extend({
         var cols = data.cols || 80;
         var rows = data.rows || 10;
         var self = this
-        var tpls = '<textarea cols="' + cols + '" id="'+ this.e_editor +'" name="editor" rows="' + rows + '"></textarea>';
+        var tpls = '<textarea cols="' + cols + '" id="'+ this.e_editor +'" name="' + this.e_editor + '_name' + '" rows="' + rows + '"></textarea>';
         $(this.element).append(tpls);
-        $( '#'+this.e_editor ).ckeditor(); 
+         CKEDITOR.replace(this.e_editor + '_name');
         var tmpeditor = CKEDITOR.instances[this.e_editor]
         this.tmpeditor = tmpeditor
         this.tmpeditor.on('blur',function(){
@@ -68,12 +66,8 @@ u.CkEditorAdapter = u.BaseAdapter.extend({
 
 });
 
-u.compMgr.addDataAdapter(
-    {
-        adapter: u.CkEditorAdapter,
-        name: 'u-ckeditor'
-    });
-
-
-
+u.compMgr.addDataAdapter({
+    adapter: u.CkEditorAdapter,
+    name: 'u-ckeditor'
+});
 

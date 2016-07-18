@@ -621,7 +621,7 @@ u.createApp = function () {
 
 var _getDataTables = function (app, viewModel) {
     for (var key in viewModel) {
-        if (viewModel[key] instanceof u.DataTable) {
+        if (viewModel[key] && viewModel[key] instanceof u.DataTable) {
             viewModel[key].id = key
             viewModel[key].parent = viewModel
             app.addDataTable(viewModel[key])

@@ -4070,7 +4070,7 @@ u.createApp = function () {
 
 var _getDataTables = function (app, viewModel) {
     for (var key in viewModel) {
-        if (viewModel[key] instanceof u.DataTable) {
+        if (viewModel[key] && viewModel[key] instanceof u.DataTable) {
             viewModel[key].id = key
             viewModel[key].parent = viewModel
             app.addDataTable(viewModel[key])
@@ -4491,11 +4491,27 @@ DataTable.fn.updateMeta = function (meta) {
  *
  */
 DataTable.fn.setData = function (data,options) {
-    var newIndex = data.pageIndex || this.pageIndex(),
-        newSize = data.pageSize || this.pageSize(),
-        newTotalPages = data.totalPages || this.totalPages(),
-        newTotalRow = data.totalRow || data.rows.length,
-        select, focus,unSelect=options?options.unSelect:false; 
+    if(data.pageIndex || data.pageIndex === 0){
+        var newIndex = data.pageIndex;
+    }else{
+        var newIndex = this.pageIndex();
+    }
+    if(data.pageSize || data.pageSize === 0){
+        var newSize = data.pageSize;
+    }else{
+        var newSize = this.pageSize();
+    }
+    if(data.newTotalPages || data.newTotalPages === 0){
+        var newTotalPages = data.newTotalPages;
+    }else{
+        var newTotalPages = this.totalPages();
+    }
+    if(data.totalRow || data.totalRow === 0){
+        var newTotalRow = data.totalRow;
+    }else{
+        var newTotalRow = data.rows.length; //后续要考虑状态，del的不计算在内
+    }
+    var select, focus,unSelect=options?options.unSelect:false; 
         //currPage,
         //type = data.type;
 
@@ -7208,6 +7224,80 @@ u.compMgr.addDataAdapter({
         adapter: u.CurrencyAdapter,
         name: 'currency'
     });
+
+
+u.CkEditorAdapter = u.BaseAdapter.extend({
+    mixins: [u.ValueMixin, u.EnableMixin,u.RequiredMixin, u.ValidateMixin],
+    init: function () {
+        var self = this;
+        this.e_editor = this.id + "-ckeditor";
+        this.render(this.options);
+    },
+
+    render: function(data){
+        var cols = data.cols || 80;
+        var rows = data.rows || 10;
+        var self = this
+        var tpls = '<textarea cols="' + cols + '" id="'+ this.e_editor +'" name="' + this.e_editor + '_name' + '" rows="' + rows + '"></textarea>';
+        $(this.element).append(tpls);
+         CKEDITOR.replace(this.e_editor + '_name');
+        var tmpeditor = CKEDITOR.instances[this.e_editor]
+        this.tmpeditor = tmpeditor
+        this.tmpeditor.on('blur',function(){
+            self.setValue(tmpeditor.getData())
+        });
+        
+        this.tmpeditor.on('focus',function(){
+            self.setShowValue(self.getValue())
+        });
+    },
+
+    modelValueChange: function(value) {
+        if (this.slice) return
+        value = value || ""
+        this.trueValue = value
+        this.showValue = value
+        this.setShowValue(this.showValue)
+    },
+
+    setValue: function(value) {
+        this.trueValue = value
+        this.showValue = value
+        this.setShowValue(this.showValue)
+        this.slice = true
+        this.dataModel.setValue(this.field, this.trueValue);
+        this.slice = false
+        this.trigger(Editor.EVENT_VALUE_CHANGE, this.trueValue)
+    },
+
+    getValue : function() {
+        return this.trueValue
+    },
+
+    setShowValue : function(showValue) {
+        this.showValue = showValue          
+        this.element.value = showValue
+        this.tmpeditor.setData(showValue)
+    },
+
+    getShowValue: function() {
+        return this.showValue
+    },
+
+    getContent: function(){
+        return $( '#'+this.e_editor ).html();
+    },
+
+    setContent: function(txt){
+        $( '#'+this.e_editor ).html(txt);
+    },
+
+});
+
+u.compMgr.addDataAdapter({
+    adapter: u.CkEditorAdapter,
+    name: 'u-ckeditor'
+});
 
 
 /**

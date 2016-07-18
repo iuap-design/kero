@@ -48,6 +48,7 @@ var globs = {
             'js/dtJs/integer.js',
             'js/dtJs/float.js',
             'js/dtJs/currency.js',
+            'js/dtJs/ckeditor.js',
             'js/dtJs/percent.js',
             'js/dtJs/string.js',
             'js/dtJs/textarea.js',
