@@ -946,8 +946,8 @@ u.GridAdapter = u.BaseAdapter.extend({
 			var keyCode = e.keyCode;
             if( e.keyCode == 13 || e.keyCode == 9){// 回车
                 oThis.grid.nextEditShow();
+                u.stopEvent(e);
             }
-            u.stopEvent(e);
 		});
 		if (comp && comp.dataAdapter){
 			comp = comp.dataAdapter;
