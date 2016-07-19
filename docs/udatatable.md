@@ -300,7 +300,7 @@
 ---
 * **isEnable**
 
-获取dataTable是否可编辑。如果传入field则获取对应field是否可变价
+获取dataTable是否可编辑。如果传入field则获取对应field是否可编辑
 
 	dataTable.isEnable() 或 dataTable.isEnable('filed1')
 
