@@ -1179,7 +1179,7 @@ DataTable.fn.setSimpleData = function(data,options){
  * 追加数据
  * @param data
  */
-DataTable.fn.addSimpleData = function(data){
+DataTable.fn.addSimpleData = function(data, status){
     if (!data){
         throw new Error("dataTable.addSimpleData param can't be null!");
     }
@@ -1187,7 +1187,7 @@ DataTable.fn.addSimpleData = function(data){
         data = [data];
     for (var i =0; i< data.length; i++){
         var r = this.createEmptyRow();
-        r.setSimpleData(data[i]);
+        r.setSimpleData(data[i],status);
     }
 
 }
@@ -3095,10 +3095,10 @@ Row.fn.setData = function (data, subscribe) {
 
 
 
-Row.fn.setSimpleData = function(data){
+Row.fn.setSimpleData = function(data, status){
     var allData = {};
     allData.data = data;
-    allData.status = 'nrm';
+    allData.status = status || 'nrm';
     this.setData(allData, true);
     this.currentRowChange(-this.currentRowChange());
 }
