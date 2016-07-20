@@ -41,7 +41,7 @@ u.GridAdapter = u.BaseAdapter.extend({
 		this.gridOptions.onBeforeClickFun = u.getFunction(viewModel,this.gridOptions.onBeforeClickFun);
 		this.gridOptions.onBeforeEditFun = u.getFunction(viewModel,this.gridOptions.onBeforeEditFun);
 		this.gridOptions.onRowHover = u.getFunction(viewModel,this.gridOptions.onRowHover);
-		
+		this.gridOptions.afterCreate = u.getFunction(viewModel,this.gridOptions.afterCreate);
 		/*
 		 * 处理column参数  item
 		 * div子项div存储column信息
