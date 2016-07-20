@@ -51,6 +51,12 @@ u.PaginationAdapter = u.BaseAdapter.extend({
             self.comp.update({totalCount: value})
         })
 
+        if(this.comp.options.pageList.length > 0){
+            this.comp.options.pageSize = options.pageList[0];
+            ///this.comp.trigger('sizeChange', options.pageList[0])
+            this.dataModel.pageSize(options.pageList[0]);
+        }
+
     },
 
     defaultPageChange: function (pageIndex) {

@@ -24,6 +24,14 @@ u.FloatAdapter = u.BaseAdapter.extend({
         u.on(this.element, 'focus', function(){
             if(self.enable){
                 self.onFocusin()
+                try{
+                    var e = event.srcElement; 
+                    var r = e.createTextRange(); 
+                    r.moveStart('character',e.value.length); 
+                    r.collapse(true); 
+                    r.select(); 
+                }catch(e){
+                }
             }
         })
 

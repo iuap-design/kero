@@ -1060,8 +1060,8 @@ DataTable.fn.setData = function (data,options) {
     }else{
         var newSize = this.pageSize();
     }
-    if(data.newTotalPages || data.newTotalPages === 0){
-        var newTotalPages = data.newTotalPages;
+    if(data.totalPages || data.totalPages === 0){
+        var newTotalPages = data.totalPages;
     }else{
         var newTotalPages = this.totalPages();
     }
@@ -3599,6 +3599,14 @@ u.IntegerAdapter = u.BaseAdapter.extend({
         u.on(this.element, 'focus', function(){
             if(self.enable){
                 self.setShowValue(self.getValue())
+                try{
+                    var e = event.srcElement; 
+                    var r = e.createTextRange(); 
+                    r.moveStart('character',e.value.length); 
+                    r.collapse(true); 
+                    r.select(); 
+                }catch(e){
+                }
             }
         })
 
@@ -3650,6 +3658,14 @@ u.FloatAdapter = u.BaseAdapter.extend({
         u.on(this.element, 'focus', function(){
             if(self.enable){
                 self.onFocusin()
+                try{
+                    var e = event.srcElement; 
+                    var r = e.createTextRange(); 
+                    r.moveStart('character',e.value.length); 
+                    r.collapse(true); 
+                    r.select(); 
+                }catch(e){
+                }
             }
         })
 
@@ -3907,6 +3923,14 @@ u.StringAdapter = u.BaseAdapter.extend({
         u.on(this.element, 'focus', function(){
             if(self.enable){
                 self.setShowValue(self.getValue())
+                try{
+                    var e = event.srcElement; 
+                    var r = e.createTextRange(); 
+                    r.moveStart('character',e.value.length); 
+                    r.collapse(true); 
+                    r.select(); 
+                }catch(e){
+                }
             }
         })
 
@@ -4662,6 +4686,12 @@ u.PaginationAdapter = u.BaseAdapter.extend({
         this.dataModel.totalRow.subscribe(function (value) {
             self.comp.update({totalCount: value})
         })
+
+        if(this.comp.options.pageList.length > 0){
+            this.comp.options.pageSize = options.pageList[0];
+            ///this.comp.trigger('sizeChange', options.pageList[0])
+            this.dataModel.pageSize(options.pageList[0]);
+        }
 
     },
 

@@ -421,8 +421,8 @@ DataTable.fn.setData = function (data,options) {
     }else{
         var newSize = this.pageSize();
     }
-    if(data.newTotalPages || data.newTotalPages === 0){
-        var newTotalPages = data.newTotalPages;
+    if(data.totalPages || data.totalPages === 0){
+        var newTotalPages = data.totalPages;
     }else{
         var newTotalPages = this.totalPages();
     }
