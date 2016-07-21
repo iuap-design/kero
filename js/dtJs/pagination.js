@@ -52,9 +52,9 @@ u.PaginationAdapter = u.BaseAdapter.extend({
         })
 
         if(this.comp.options.pageList.length > 0){
-            this.comp.options.pageSize = options.pageList[0];
+            this.comp.options.pageSize = this.comp.options.pageList[0];
             ///this.comp.trigger('sizeChange', options.pageList[0])
-            this.dataModel.pageSize(options.pageList[0]);
+            this.dataModel.pageSize(this.comp.options.pageList[0]);
         }
 
     },
