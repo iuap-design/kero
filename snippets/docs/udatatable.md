@@ -15,7 +15,7 @@
 `meta`: 字段信息集合，其中的key为字段名，value为字段属性信息，属性信息可自定义
 
 ---
-* **getSimpleData**
+## getSimpleData
 
 获取dataTable中的数据
 
@@ -44,7 +44,7 @@
 `fields`：获取指定字段的数据
 
 ---
-* **setSimpleData**
+## setSimpleData
 
 设置dataTable中的数据，将原有数据清除
 
@@ -55,7 +55,7 @@
 	])
 
 ---
-* **addSimpleData**
+## addSimpleData
 
 在dataTable中添加数据，原有数据不变
 
@@ -66,14 +66,14 @@
 	])
 
 ---
-* **clear**
+## clear
 
 清除dataTable中的所有数据
 
 
 	dataTable.clear()
 ---
-* **createEmptyRow**
+## createEmptyRow
 
 创建新行，并追加到dataTable行数据集合的最后
 
@@ -84,7 +84,7 @@
 `row`：  行对象	
 
 ---
-* **removeRow**
+## removeRow
 
 删除行
 
@@ -95,7 +95,7 @@
 `index` :要删除的行索引
 
 ---
-* **removeRowByRowId**
+## removeRowByRowId
 
 根据行的id来删除行
 
@@ -105,7 +105,7 @@
 `rowId` :要删除的行id	
 
 ---
-* **removeRows**
+## removeRows
 
 删除一组行数据
 
@@ -116,7 +116,7 @@
 `indices` : 要删除的行索引数组
 
 ---
-* **removeAllRows**
+## removeAllRows
 
 删除所有行
 
@@ -125,7 +125,7 @@
 
 ---
 
-* **setRowSelect**
+## setRowSelect
 
 设置行选中
 
@@ -137,7 +137,7 @@
 
 ---
 
-* **setRowsSelect**
+## setRowsSelect
 
 设置多行选中
 
@@ -149,7 +149,7 @@
 
 ---
 
-* **addRowSelect**
+## addRowSelect
 
 追加行选中
 
@@ -161,7 +161,7 @@
 
 ---
 
-* **addRowsSelect**
+## addRowsSelect
 
 追加行选中
 ​	
@@ -172,13 +172,13 @@
 `indices` : 要追加的行索引数组
 
 ---
-* **setAllRowsSelect**
+## setAllRowsSelect
 
 设置所有行为选中状态
 
 	dataTable.setAllRowsSelect()
 ---
-* **setRowUnSelect**
+## setRowUnSelect
 
 设置行为非选中状态
 
@@ -190,7 +190,7 @@
 
 ---
 
-* **setRowsUnSelect**
+## setRowsUnSelect
 
 设置多行为非选中状态
 
@@ -202,26 +202,26 @@
 
 ---
 
-* **setAllRowsUnSelect**
+## setAllRowsUnSelect
 
 设置所有行为非选中状态
 
 	dataTable.setAllRowsUnSelect()
 ---
 
-* **getSelectedRows**
+## getSelectedRows
 
 获取选中行
 
 	dataTable.getSelectedRows()
 ---
-* **getSelectedIndexs**
+## getSelectedIndexs
 
 获取选中行的index
 
 	dataTable.getSelectedIndexs()
 ---
-* **setRowFocus**
+## setRowFocus
 
 设置焦点行
 
@@ -233,7 +233,7 @@
 
 ---
 
-* **setRowUnFocus**
+## setRowUnFocus
 
 设置焦点行为非焦点状态
 
@@ -242,25 +242,25 @@
 
 ---
 
-* **getFocusRow**
+## getFocusRow
 
 获取焦点行
 
 	dataTable.getFocusRow()
 ---
-* **getFocusIndex**
+## getFocusIndex
 
 获取焦点行对应的index
 
 	dataTable.getFocusIndex()
 ---
-* **getCurrentRow**
+## getCurrentRow
 
 获取当前行。规则： 焦点行优先，没有焦点行时，取第一选中行
 
 	dataTable.getCurrentRow()
 ---
-* **getRow**
+## getRow
 
 根据索引获取Row对象
 
@@ -270,7 +270,7 @@
 `index` :要获取行的索引
 
 ---
-* **getRowByRowId**
+## getRowByRowId
 
 根据rowId获取Row对象
 
@@ -280,25 +280,25 @@
 `rowid` :要获取行的rowid
 
 ---
-* **getChangedRows**
+## getChangedRows
 
 根据所有发生变化的Row对象
 
 	dataTable.getChangedRows()
 ---
-* **getAllRows**
+## getAllRows
 
 根据所有的Row对象
 
 	dataTable.getAllRows()
 ---
-* **setEnable**
+## setEnable
 
 设置dataTable是否可编辑
 
 	dataTable.setEnable()
 ---
-* **isEnable**
+## isEnable
 
 获取dataTable是否可编辑。如果传入field则获取对应field是否可编辑
 
@@ -310,7 +310,7 @@
 `field` :判断field是否可编辑
 
 ---
-* **setValue**
+## setValue
 
 设置当前行的字段值
 
@@ -325,7 +325,7 @@
 
 ---
 
-* **getValue**  
+## getValue  
 
 获取当前行字段的值
 
@@ -341,7 +341,7 @@
 
 ---
 
-* **on**
+## on
 
 绑定事件监听
 
@@ -375,7 +375,7 @@
 
 ---
 
-* **getMeta**
+## getMeta
 
 获取字段的属性信息(如：字段类型、精度信息等)
 
@@ -393,7 +393,7 @@
 
 ---
 
-* **setMeta**
+## setMeta
 
 设置字段的属性信息
 
@@ -409,7 +409,7 @@
 
 ---
 
-* **ref**
+## ref
 
 以knockout语法做双向绑定，显示当前行的字段值
 
