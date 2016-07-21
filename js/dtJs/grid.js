@@ -938,6 +938,7 @@ u.GridAdapter = u.BaseAdapter.extend({
 		$('input',$(compDiv)).on('keydown',function(e){
 			var keyCode = e.keyCode;
             if( e.keyCode == 13 || e.keyCode == 9){// 回车
+            	this.blur(); //首先触发blur来将修改值反应到datatable中
                 oThis.grid.nextEditShow();
                 u.stopEvent(e);
             }
@@ -1004,19 +1005,24 @@ u.GridAdapter = u.BaseAdapter.extend({
 				field = columnOptions.field,
 				title = columnOptions.title,
 				required = columnOptions.required,
-				validType = columnOptions.editOptions.validType,
-				placement = columnOptions.editOptions.placement,
-				tipId = columnOptions.editOptions.tipId,
-				errorMsg = columnOptions.editOptions.errorMsg,
-				nullMsg = columnOptions.editOptions.nullMsg,
-                maxLength = columnOptions.editOptions.maxLength,
-                minLength = columnOptions.editOptions.minLength,
-                max = columnOptions.editOptions.max,
-                min = columnOptions.editOptions.min,
-                maxNotEq = columnOptions.editOptions.maxNotEq,
-                minNotEq = columnOptions.editOptions.minNotEq,
-                reg = columnOptions.editOptions.regExp,
-                columnPassedFlag = true,
+				validType,placement,tipId,errorMsg,nullMsg,maxLength,minLength,
+				max,min,maxNotEq,minNotEq,reg;
+			if(columnOptions.editOptions){
+				validType = columnOptions.editOptions.validType || '';
+				placement = columnOptions.editOptions.placement || '';
+				tipId = columnOptions.editOptions.tipId || '';
+				errorMsg = columnOptions.editOptions.errorMsg || '';
+				nullMsg = columnOptions.editOptions.nullMsg || '';
+                maxLength = columnOptions.editOptions.maxLength || '';
+                minLength = columnOptions.editOptions.minLength || '';
+                max = columnOptions.editOptions.max || '';
+                min = columnOptions.editOptions.min || '';
+                maxNotEq = columnOptions.editOptions.maxNotEq || '';
+                minNotEq = columnOptions.editOptions.minNotEq || '';
+                reg = columnOptions.editOptions.regExp || '';
+			}
+				
+            var columnPassedFlag = true,
                 columnMsg = '';
             var validate = new u.Validate({
             	el:this.element,
