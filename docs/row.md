@@ -1,7 +1,7 @@
 
 # u.Row
 
-* **setValue**
+## setValue
 
 设置当前行的字段值
 
@@ -15,7 +15,7 @@
 *value*:　值   
 
 ---
-* **getValue**  
+## getValue  
 
 获取当前行字段的值
 
@@ -27,7 +27,7 @@
 
 ----------
 
-* **setSimpleData**
+## setSimpleData
 
 设置Row中的数据
 
@@ -36,7 +36,7 @@
  
 ---
 
-* **getSimpleData**
+## getSimpleData
 
 获取Row中的数据
 
@@ -44,7 +44,7 @@
 	Row.getSimpleData()
  
 ---
-* **ref**
+## ref
 
 以knockout语法做双向绑定，显示此行的字段值
 

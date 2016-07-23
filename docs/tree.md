@@ -158,6 +158,10 @@ http://design.yyuap.com/static/uui/latest/js/u-tree.js
     viewModel.dataTable.setSimpleData(data);
 });
 </script></div>
+<div class="examples-code"><pre><code>&lt;div id="treeTest" class="ztree" u-meta='{"id":"tree2","data":"dataTable","type":"tree","idField":"id","pidField":"pid","nameField":"title","setting":"treeSetting"}'>
+&lt;/div>
+</code></pre>
+</div>
 <div class="examples-code"><pre><code>$(document).ready(function () {
     var viewModel = {
         dataTable: new u.DataTable({
@@ -210,9 +214,5 @@ http://design.yyuap.com/static/uui/latest/js/u-tree.js
     viewModel.dataTable.removeAllRows();
     viewModel.dataTable.setSimpleData(data);
 });</code></pre>
-</div>
-<div class="examples-code"><pre><code>&lt;div id="treeTest" class="ztree" u-meta='{"id":"tree2","data":"dataTable","type":"tree","idField":"id","pidField":"pid","nameField":"title","setting":"treeSetting"}'>
-&lt;/div>
-</code></pre>
 </div>
 
