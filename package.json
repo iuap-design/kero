@@ -1,5 +1,5 @@
 {
-  "name": "datatable",
+  "name": "kero",
   "version": "3.0.3",
   "description": "",
   "main": "gulpfile.js",
@@ -23,12 +23,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/iuap-design/datatable.git"
+    "url": "git+https://github.com/iuap-design/kero.git"
   },
   "author": "yonyou FED",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/iuap-design/datatable/issues"
+    "url": "https://github.com/iuap-design/kero/issues"
   },
-  "homepage": "https://github.com/iuap-design/datatable#readme"
+  "homepage": "https://github.com/iuap-design/kero#readme"
 }
