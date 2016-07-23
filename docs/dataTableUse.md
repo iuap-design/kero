@@ -245,6 +245,9 @@ viewModel.dt3.on('valueChange', function(){
 });
 
 </script></div>
+<div class="examples-code"><pre><code>&lt;!-- HTML -->
+&lt;input u-meta='{"data":"dt3","field":"f1"}' /></code></pre>
+</div>
 <div class="examples-code"><pre><code>// JS
 var app,viewModel;
 viewModel = {
@@ -272,9 +275,6 @@ viewModel.dt3.on('valueChange', function(){
     alert('dataTable原始值为:' + oldValue +'\n' + 'dataTable现在值为:' + newValue);
 });
 </code></pre>
-</div>
-<div class="examples-code"><pre><code>&lt;!-- HTML -->
-&lt;input u-meta='{"data":"dt3","field":"f1"}' /></code></pre>
 </div>
 
 

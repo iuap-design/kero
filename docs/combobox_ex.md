@@ -74,22 +74,6 @@ viewModel.dt1.setRowSelect(0);
 
 
 </script></div>
-<div class="examples-code"><pre><code>&lt;!-- 
-	HTML
-	u-meta:框架特有标记，框架通过识别此标记创建对应UI组件，以及进行数据绑定 
-	id,type.data,field为必选项
-	id:创建组件唯一标识
-	type:创建组件对应的类型
-	data:指定数据模型中的数据集
-	field:绑定数据集中对应的字段
-	datasource:绑定数据模型对应的数据
--->
-&lt;div id="combo1" class="u-combo u-text u-label-floating" u-meta='{"id":"dt1","type":"u-combobox","data":"dt1","field":"f1","datasource":"comboData"}'>
-    &lt;input class="u-input"/>
-    &lt;label class="u-label">label&lt;/label>
-    &lt;span class="u-combo-icon">&lt;/span>
-&lt;/div></code></pre>
-</div>
 <div class="examples-code"><pre><code>// JS
 
 /**
@@ -136,4 +120,20 @@ r.setValue('f1', "test1");
 viewModel.dt1.setRowSelect(0);
 
 </code></pre>
+</div>
+<div class="examples-code"><pre><code>&lt;!-- 
+	HTML
+	u-meta:框架特有标记，框架通过识别此标记创建对应UI组件，以及进行数据绑定 
+	id,type.data,field为必选项
+	id:创建组件唯一标识
+	type:创建组件对应的类型
+	data:指定数据模型中的数据集
+	field:绑定数据集中对应的字段
+	datasource:绑定数据模型对应的数据
+-->
+&lt;div id="combo1" class="u-combo u-text u-label-floating" u-meta='{"id":"dt1","type":"u-combobox","data":"dt1","field":"f1","datasource":"comboData"}'>
+    &lt;input class="u-input"/>
+    &lt;label class="u-label">label&lt;/label>
+    &lt;span class="u-combo-icon">&lt;/span>
+&lt;/div></code></pre>
 </div>
