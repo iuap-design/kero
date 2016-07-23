@@ -1,2 +1,8 @@
-<input  u-meta='{"type":"string","data":"dt1","field":"f1"}' />
-<div  data-bind="text:dt1.ref('f1')()"></div>
+<!-- 
+	HTML
+	u-meta:框架特有标记，框架通过识别此标记创建对应UI组件，以及进行数据绑定 
+	type:创建组件对应的类型
+	field:绑定数据集中对应的字段
+-->
+<input id="demo_input" u-meta='{"data":"dt1","field":"f1"}' />
+<div id="demo_div"></div>
