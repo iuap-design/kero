@@ -74,10 +74,13 @@ dataTable1.on('valueChange',function(event){
 
 
 <div class="example-content"><!-- HTML -->
-<input u-meta='{"data":"dt1","field":"f1"}' /></div>
+<div id="demo1">
+	<input u-meta='{"data":"dt1","field":"f1"}' />	
+</div>
+</div>
 <div class="example-content ex-hide"><script>// JS
-var app,viewModel;
-viewModel = {
+var app,viewModel1;
+viewModel1 = {
     dt1: new u.DataTable({
         meta:{
             f1:{
@@ -90,20 +93,23 @@ viewModel = {
 };
 
 app = u.createApp({
-    el:'body',
-    model:viewModel
+    el:'#demo1',
+    model:viewModel1
 });
 
-var r = viewModel.dt1.createEmptyRow();
+var r = viewModel1.dt1.createEmptyRow();
 r.setValue('f1','test txt');
 
 </script></div>
 <div class="examples-code"><pre><code>&lt;!-- HTML -->
-&lt;input u-meta='{"data":"dt1","field":"f1"}' /></code></pre>
+&lt;div id="demo1">
+	&lt;input u-meta='{"data":"dt1","field":"f1"}' />	
+&lt;/div>
+</code></pre>
 </div>
 <div class="examples-code"><pre><code>// JS
-var app,viewModel;
-viewModel = {
+var app,viewModel1;
+viewModel1 = {
     dt1: new u.DataTable({
         meta:{
             f1:{
@@ -116,11 +122,11 @@ viewModel = {
 };
 
 app = u.createApp({
-    el:'body',
-    model:viewModel
+    el:'#demo1',
+    model:viewModel1
 });
 
-var r = viewModel.dt1.createEmptyRow();
+var r = viewModel1.dt1.createEmptyRow();
 r.setValue('f1','test txt');
 </code></pre>
 </div>
@@ -131,20 +137,19 @@ r.setValue('f1','test txt');
 
 
 <div class="example-content"><!-- HTML -->
-<div class='u-datepicker' u-meta='{"data":"dt2","field":"f2"}'>
-    <input class="u-input" type="text">
-</div>
-
-<br>
-
-<div class='u-datepicker' u-meta='{"data":"dt2","field":"f3",}'>
-    <input class="u-input" type="text">
-    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
-	</span>
+<div id="demo2">
+	<div class='u-datepicker' u-meta='{"id":"date1","type":"u-date","data":"dt2","field":"f2"}'>
+	    <input class="u-input" type="text">
+	</div>
+	<div class='u-datepicker' u-meta='{"id":"datetime2","type":"u-date","data":"dt2","field":"f3"}'>
+	    <input class="u-input" type="text">
+	    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+		</span>
+	</div>	
 </div></div>
 <div class="example-content ex-hide"><script>// JS
-var app, viewModel;
-viewModel = {
+var app, viewModel2;
+viewModel2 = {
     dt2: new u.DataTable({
         meta: {
             f2: {
@@ -160,31 +165,31 @@ viewModel = {
 }
 
 app = u.createApp({
-    el: 'body',
-    model: viewModel
+    el: '#demo2',
+    model: viewModel2
 });
 
-var r = viewModel.dt2.createEmptyRow();
+var r = viewModel2.dt2.createEmptyRow();
 r.setValue('f2', "2016-6-30 12:13:22");
 r.setValue('f3', "2016-2-13 4:58:58");
+
 
 </script></div>
 <div class="examples-code"><pre><code>&lt;!-- HTML -->
-&lt;div class='u-datepicker' u-meta='{"data":"dt2","field":"f2"}'>
-    &lt;input class="u-input" type="text">
-&lt;/div>
-
-&lt;br>
-
-&lt;div class='u-datepicker' u-meta='{"data":"dt2","field":"f3",}'>
-    &lt;input class="u-input" type="text">
-    &lt;span class="input-group-addon">&lt;span class="glyphicon glyphicon-calendar">&lt;/span>
-	&lt;/span>
+&lt;div id="demo2">
+	&lt;div class='u-datepicker' u-meta='{"id":"date1","type":"u-date","data":"dt2","field":"f2"}'>
+	    &lt;input class="u-input" type="text">
+	&lt;/div>
+	&lt;div class='u-datepicker' u-meta='{"id":"datetime2","type":"u-date","data":"dt2","field":"f3"}'>
+	    &lt;input class="u-input" type="text">
+	    &lt;span class="input-group-addon">&lt;span class="glyphicon glyphicon-calendar">&lt;/span>
+		&lt;/span>
+	&lt;/div>	
 &lt;/div></code></pre>
 </div>
 <div class="examples-code"><pre><code>// JS
-var app, viewModel;
-viewModel = {
+var app, viewModel2;
+viewModel2 = {
     dt2: new u.DataTable({
         meta: {
             f2: {
@@ -200,13 +205,14 @@ viewModel = {
 }
 
 app = u.createApp({
-    el: 'body',
-    model: viewModel
+    el: '#demo2',
+    model: viewModel2
 });
 
-var r = viewModel.dt2.createEmptyRow();
+var r = viewModel2.dt2.createEmptyRow();
 r.setValue('f2', "2016-6-30 12:13:22");
 r.setValue('f3', "2016-2-13 4:58:58");
+
 </code></pre>
 </div>
 
@@ -216,10 +222,13 @@ input输入值变化后，弹框提示
 
 
 <div class="example-content"><!-- HTML -->
-<input u-meta='{"data":"dt3","field":"f1"}' /></div>
+<div id="demo3">
+	<input u-meta='{"data":"dt3","field":"f1"}' />	
+</div>
+</div>
 <div class="example-content ex-hide"><script>// JS
-var app,viewModel;
-viewModel = {
+var app,viewModel3;
+viewModel3 = {
     dt3: new u.DataTable({
         meta:{
             f1:{
@@ -230,15 +239,15 @@ viewModel = {
 };
 
 app = u.createApp({
-    el:'body',
-    model:viewModel
+    el:'#demo3',
+    model:viewModel3
 });
 
-var r = viewModel.dt3.createEmptyRow();
+var r = viewModel3.dt3.createEmptyRow();
 r.setValue('f1','test');
 
 // 绑定时间触发
-viewModel.dt3.on('valueChange', function(){
+viewModel3.dt3.on('valueChange', function(event){
     var oldValue = event.oldValue;
     var newValue = event.newValue;
     alert('dataTable原始值为:' + oldValue +'\n' + 'dataTable现在值为:' + newValue);
@@ -246,11 +255,14 @@ viewModel.dt3.on('valueChange', function(){
 
 </script></div>
 <div class="examples-code"><pre><code>&lt;!-- HTML -->
-&lt;input u-meta='{"data":"dt3","field":"f1"}' /></code></pre>
+&lt;div id="demo3">
+	&lt;input u-meta='{"data":"dt3","field":"f1"}' />	
+&lt;/div>
+</code></pre>
 </div>
 <div class="examples-code"><pre><code>// JS
-var app,viewModel;
-viewModel = {
+var app,viewModel3;
+viewModel3 = {
     dt3: new u.DataTable({
         meta:{
             f1:{
@@ -261,15 +273,15 @@ viewModel = {
 };
 
 app = u.createApp({
-    el:'body',
-    model:viewModel
+    el:'#demo3',
+    model:viewModel3
 });
 
-var r = viewModel.dt3.createEmptyRow();
+var r = viewModel3.dt3.createEmptyRow();
 r.setValue('f1','test');
 
 // 绑定时间触发
-viewModel.dt3.on('valueChange', function(){
+viewModel3.dt3.on('valueChange', function(event){
     var oldValue = event.oldValue;
     var newValue = event.newValue;
     alert('dataTable原始值为:' + oldValue +'\n' + 'dataTable现在值为:' + newValue);
