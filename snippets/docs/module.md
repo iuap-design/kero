@@ -1,18 +1,14 @@
-#  控件API
+#  数据模型
 
 
 ## 目录
 
-* [id](#id)
-* [data](#data)
-* [field](#field)
-* [type](#type)
-  * ​[数据](#数据)
-  * ​[日期](#日期)
-  * ​[文本域](#文本域)
-  * ​[选择下拉](#选择下拉)
-  * ​[进度条](#进度条)
-  * [树](#树)
+* [数据](#数据)
+* [日期](#日期)
+* [文本](#文本)
+* [选择下拉](#选择下拉)
+* [进度条](#进度条)
+* [树](#树)
 
 ```html
 <div class="u-text"  u-meta='{"id":"f1","data":"dt1","field":"f1","type":"u-text"}'>
@@ -20,123 +16,64 @@
 </div>
 ```
 
+`u-meta`为框架特有标记，框架通过识别此标记创建对应UI组件，以及进行数据绑定 ，`u-meta`中的必填项如下：
 
-## id
+## 数据模型
 
-元素对应的id
+| 标签    | 说明          |
+| ----- | ----------- |
+| id    | 创建组件唯一标识    |
+| type* | 创建组件对应的类型   |
+| data  | 指定数据模型中的数据集 |
+| field | 绑定数据集中对应的字段 |
 
-## data
-元素对应的dateTable
+* type用于创建对应的UI组件交互形式，完整类型见下。
 
->  通过`new u.DataTable()`创建dateTable,可添加field字段
+  ​
 
-## field
-元素对应的dateTable中的字段
-
-
-
-## type
-元素对应的类型:
+## Type类型
 
 ### 数据
 
-* `u-text` 表示元素为文本输入框
-
-  ```html
-  <div class="u-text"  u-meta='{"id":"f1","data":"dt1","field":"f1","type":"u-text"}'>
-      <input class="u-input"/>
-  </div>
-  ```
-
-  ​
-
-* `integer` 表示元素为整数数字输入框
-
-  ```html
-  <div class="u-text"  u-meta='{"id":"f1","data":"dt1","field":"f1","type":"integer"}'>
-      <input class="u-input"/>
-  </div>
-  ```
-
-  ​
-
-* `float` 表示元素为浮点数字输入框
-
-  ```html
-  <input  u-meta='{"id":"f2","data":"dt1","field":"f1","type":"float"}' />
-  ```
-
-  ​
-
-
+| 类型      | 说明      |
+| ------- | ------- |
+| integer | 整数数字输入框 |
+| float   | 浮点数字输入框 |
 
 ### 日期
 
-* `u-year` 表示元素为年份控件
-
-  ```html
-  <div class="" u-meta='{"id":"t1","data":"dt1","field":"f1","type":"u-year"}'>
-      <input class="u-input"/>
-  </div>
-  ```
-
-  ​
-
-* `u-month` 表示元素为月份输入框
-
-  ```html
-  <div class="" u-meta='{"id":"t1","data":"dt1","field":"f1","type":"u-month"}'>
-      <input class="u-input"/>
-  </div>
-  ```
-
-  ​
-
-* `u-yearmonth` 表示元素为年份月份控件
-
-  ```html
-  <div class="" u-meta='{"id":"t1","data":"dt1","field":"f1","type":"u-yearmonth"}'>
-      <input class="u-input"/>
-  </div>
-  ```
-
-  ​
-
-* `u-time`表示元素为时间控件，显示为输入面板进行value设置
-
-  ```html
-  <div class="" u-meta='{"id":"t1","data":"dt1","field":"f1","type":"u-time"}'>
-      <input class="u-input"/>
-  </div>
-  ```
-
-  ​
-
-* `u-clockpicker`同样为时间控件，显示为钟表形式进行value设置。
+| 类型            | 说明           |
+| ------------- | ------------ |
+| u-year        | 年份控件         |
+| u-month       | 月份输入框        |
+| u-yearmonth   | 年份月份控件       |
+| u-time        | 时间控件         |
+| u-clockpicker | 时间控件，显示为钟表形式 |
+| u-date        | 日期输入框        |
+| u-datetime*   | 日期时间输入框      |
 
 * `u-date` , `u-datetime` 表示元素为日期时间输入框
 
   > 时间日期有`format`属性，type为`u-date`时`format`默认为“YYYY-MM-DD”，type为`u-datetime`时`format`默认为“YYYY-MM-DD HH:mm:ss”
 
-  ```html
-  <div class="" u-meta='{"id":"t1","data":"dt1","field":"f1","type":"u-time"}'>
-      <input class="u-input"/>
-  </div>
-  ```
 
-  ​
 
-### 文本域
+### 文本
 
-* `textarea` 表示元素为文本域
+| 类型       | 说明    |
+| -------- | ----- |
+| textarea | 文本域   |
+| u-text   | 文本输入框 |
 
-  ```html
-  <textarea u-meta='{"id":"f1","data":"dt1","field":"f1","type":"textarea"}'></textarea>
-  ```
 
-  ​
 
 ### 选择下拉
+
+| 类型          | 说明   |
+| ----------- | ---- |
+| u-combobox* | 下拉框  |
+| u-checkbox* | 复选框  |
+| u-radio*    | 单选   |
 
 * `u-combobox` 表示元素为下拉框
 
@@ -184,6 +121,10 @@
 
 ### 进度条
 
+| 类型          | 说明   |
+| ----------- | ---- |
+| u-progress* | 进度条  |
+
 * `u-progress` 表示元素为进度条，通过设置data中field的值来控制进度条的进度
 
   ```html
@@ -191,8 +132,11 @@
   ```
 
 
-
 ### 树
+
+| 类型    | 说明   |
+| ----- | ---- |
+| tree* | 树控件  |
 
 * `tree` 表示元素为树控件
 
