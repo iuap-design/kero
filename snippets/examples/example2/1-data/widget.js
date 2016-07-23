@@ -4,7 +4,7 @@ var app,viewModel;
  * viewModel 创建数据模型
  * dt1 创建的数据集
  * f1 创建数据集中的字段
- * data:指定数据对应的类型
+ * type:指定数据对应的类型
  */
 viewModel = {
     dt1: new u.DataTable({

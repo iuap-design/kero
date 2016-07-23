@@ -98,6 +98,9 @@ var r = viewModel.dt1.createEmptyRow();
 r.setValue('f1','test txt');
 
 </script></div>
+<div class="examples-code"><pre><code>&lt;!-- HTML -->
+&lt;input u-meta='{"data":"dt1","field":"f1"}' /></code></pre>
+</div>
 <div class="examples-code"><pre><code>// JS
 var app,viewModel;
 viewModel = {
@@ -120,9 +123,6 @@ app = u.createApp({
 var r = viewModel.dt1.createEmptyRow();
 r.setValue('f1','test txt');
 </code></pre>
-</div>
-<div class="examples-code"><pre><code>&lt;!-- HTML -->
-&lt;input u-meta='{"data":"dt1","field":"f1"}' /></code></pre>
 </div>
 
 ##示例：时间、日期指定格式

@@ -15,10 +15,13 @@
 <div class="example-content"><!-- 
 	HTML
 	u-meta:框架特有标记，框架通过识别此标记创建对应UI组件，以及进行数据绑定 
+	id,type.data,field为必选项
+	id:创建组件唯一标识
 	type:创建组件对应的类型
+	data:指定数据模型中的数据集
 	field:绑定数据集中对应的字段
 -->
-<input id="demo_input" u-meta='{"data":"dt1","field":"f1"}' />
+<input id="demo_input" u-meta='{"id":"t1","type":"string","data":"dt1","field":"f1"}' />
 <div id="demo_div"></div></div>
 <div class="example-content ex-hide"><script>// JS
 var app,viewModel;
@@ -26,7 +29,7 @@ var app,viewModel;
  * viewModel 创建数据模型
  * dt1 创建的数据集
  * f1 创建数据集中的字段
- * data:指定数据对应的类型
+ * type:指定数据对应的类型
  */
 viewModel = {
     dt1: new u.DataTable({
@@ -67,22 +70,13 @@ var getDtValue = function() {
 demoInput.addEventListener('blur',getDtValue);
 getDtValue();
 </script></div>
-<div class="examples-code"><pre><code>&lt;!-- 
-	HTML
-	u-meta:框架特有标记，框架通过识别此标记创建对应UI组件，以及进行数据绑定 
-	type:创建组件对应的类型
-	field:绑定数据集中对应的字段
--->
-&lt;input id="demo_input" u-meta='{"data":"dt1","field":"f1"}' />
-&lt;div id="demo_div">&lt;/div></code></pre>
-</div>
 <div class="examples-code"><pre><code>// JS
 var app,viewModel;
 /**
  * viewModel 创建数据模型
  * dt1 创建的数据集
  * f1 创建数据集中的字段
- * data:指定数据对应的类型
+ * type:指定数据对应的类型
  */
 viewModel = {
     dt1: new u.DataTable({
@@ -122,4 +116,16 @@ var getDtValue = function() {
 };
 demoInput.addEventListener('blur',getDtValue);
 getDtValue();</code></pre>
+</div>
+<div class="examples-code"><pre><code>&lt;!-- 
+	HTML
+	u-meta:框架特有标记，框架通过识别此标记创建对应UI组件，以及进行数据绑定 
+	id,type.data,field为必选项
+	id:创建组件唯一标识
+	type:创建组件对应的类型
+	data:指定数据模型中的数据集
+	field:绑定数据集中对应的字段
+-->
+&lt;input id="demo_input" u-meta='{"id":"t1","type":"string","data":"dt1","field":"f1"}' />
+&lt;div id="demo_div">&lt;/div></code></pre>
 </div>
