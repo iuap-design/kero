@@ -15,15 +15,15 @@
 `meta`: 字段信息集合，其中的key为字段名，value为字段属性信息，属性信息可自定义
 
 ---
-* **getSimpleData**
+## getSimpleData
 
 获取dataTable中的数据
 
 	//默认获取所有数据
 	dataTable.getSimpleData()
-    
-    //获取选中行的字段： field1,field2数据
-    dataTable.getSimpleData({type:'select',fields:['field1,field2']})
+	
+	//获取选中行的字段： field1,field2数据
+	dataTable.getSimpleData({type:'select',fields:['field1,field2']})
 
 *return*：
 
@@ -33,52 +33,47 @@
 
 `type`：获取指定类型的数据
 
-| 类型 | 作用 |
-
-| all|所有行的数据|
-
-| current|当前行的数据|
-
-| focus|焦点行的数据|
-
-| select|被选中的行的数据|
-
-| change|发生改变的行的数据|
+| 类型      | 作用        |
+| ------- | --------- |
+| all     | 所有行的数据    |
+| current | 当前行的数据    |
+| focus   | 焦点行的数据    |
+| select  | 被选中的行的数据  |
+| change  | 发生改变的行的数据 |
 
 `fields`：获取指定字段的数据
 
 ---
-* **setSimpleData**
+## setSimpleData
 
 设置dataTable中的数据，将原有数据清除
 
-	
+
 	dataTable.setSimpleData([
-    	{"field1":"v1","field2":"v2"},
-    	{"field1":"v3","field2":"v4"}
-    ])
- 
+		{"field1":"v1","field2":"v2"},
+		{"field1":"v3","field2":"v4"}
+	])
+
 ---
-* **addSimpleData**
+## addSimpleData
 
 在dataTable中添加数据，原有数据不变
 
-	
+
 	dataTable.addSimpleData([
-    	{"field1":"v1","field2":"v2"},
-    	{"field1":"v3","field2":"v4"}
-    ])
- 
+		{"field1":"v1","field2":"v2"},
+		{"field1":"v3","field2":"v4"}
+	])
+
 ---
-* **clear**
+## clear
 
 清除dataTable中的所有数据
 
-	
+
 	dataTable.clear()
- 
 ---
-* **createEmptyRow**
+## createEmptyRow
 
 创建新行，并追加到dataTable行数据集合的最后
 
@@ -89,7 +84,7 @@
 `row`：  行对象	
 
 ---
-* **removeRow**
+## removeRow
 
 删除行
 
@@ -100,7 +95,7 @@
 `index` :要删除的行索引
 
 ---
-* **removeRowByRowId**
+## removeRowByRowId
 
 根据行的id来删除行
 
@@ -110,7 +105,7 @@
 `rowId` :要删除的行id	
 
 ---
-* **removeRows**
+## removeRows
 
 删除一组行数据
 
@@ -121,7 +116,7 @@
 `indices` : 要删除的行索引数组
 
 ---
-* **removeAllRows**
+## removeAllRows
 
 删除所有行
 
@@ -130,7 +125,7 @@
 
 ---
 
-* **setRowSelect**
+## setRowSelect
 
 设置行选中
 
@@ -139,10 +134,10 @@
 *params*:
 
 `index` :要选中的行索引
- 
+
 ---
 
-* **setRowsSelect**
+## setRowsSelect
 
 设置多行选中
 
@@ -154,7 +149,7 @@
 
 ---
 
-* **addRowSelect**
+## addRowSelect
 
 追加行选中
 
@@ -163,28 +158,27 @@
 *params*:
 
 `index` :要选中的行索引
- 
+
 ---
 
-* **addRowsSelect**
+## addRowsSelect
 
 追加行选中
-	
+​	
 	dataTable.addRowsSelect(indices)
 
 *params*:
 
 `indices` : 要追加的行索引数组
- 
+
 ---
-* **setAllRowsSelect**
+## setAllRowsSelect
 
 设置所有行为选中状态
 
 	dataTable.setAllRowsSelect()
-
 ---
-* **setRowUnSelect**
+## setRowUnSelect
 
 设置行为非选中状态
 
@@ -196,7 +190,7 @@
 
 ---
 
-* **setRowsUnSelect**
+## setRowsUnSelect
 
 设置多行为非选中状态
 
@@ -208,29 +202,26 @@
 
 ---
 
-* **setAllRowsUnSelect**
+## setAllRowsUnSelect
 
 设置所有行为非选中状态
 
 	dataTable.setAllRowsUnSelect()
-
 ---
 
-* **getSelectedRows**
+## getSelectedRows
 
 获取选中行
 
 	dataTable.getSelectedRows()
-
 ---
-* **getSelectedIndexs**
+## getSelectedIndexs
 
 获取选中行的index
 
 	dataTable.getSelectedIndexs()
-
 ---
-* **setRowFocus**
+## setRowFocus
 
 设置焦点行
 
@@ -239,10 +230,10 @@
 *params*:
 
 `index` :要设置焦点行的索引
- 
+
 ---
 
-* **setRowUnFocus**
+## setRowUnFocus
 
 设置焦点行为非焦点状态
 
@@ -251,28 +242,25 @@
 
 ---
 
-* **getFocusRow**
+## getFocusRow
 
 获取焦点行
 
 	dataTable.getFocusRow()
-
 ---
-* **getFocusIndex**
+## getFocusIndex
 
 获取焦点行对应的index
 
 	dataTable.getFocusIndex()
-
 ---
-* **getCurrentRow**
+## getCurrentRow
 
 获取当前行。规则： 焦点行优先，没有焦点行时，取第一选中行
 
 	dataTable.getCurrentRow()
-
 ---
-* **getRow**
+## getRow
 
 根据索引获取Row对象
 
@@ -282,7 +270,7 @@
 `index` :要获取行的索引
 
 ---
-* **getRowByRowId**
+## getRowByRowId
 
 根据rowId获取Row对象
 
@@ -292,40 +280,37 @@
 `rowid` :要获取行的rowid
 
 ---
-* **getChangedRows**
+## getChangedRows
 
 根据所有发生变化的Row对象
 
 	dataTable.getChangedRows()
-
 ---
-* **getAllRows**
+## getAllRows
 
 根据所有的Row对象
 
 	dataTable.getAllRows()
-
 ---
-* **setEnable**
+## setEnable
 
 设置dataTable是否可编辑
 
 	dataTable.setEnable()
-
 ---
-* **isEnable**
+## isEnable
 
-获取dataTable是否可编辑。如果传入field则获取对应field是否可变价
+获取dataTable是否可编辑。如果传入field则获取对应field是否可编辑
 
 	dataTable.isEnable() 或 dataTable.isEnable('filed1')
 
 > dataTable.isEnable()
-*params*:
+> *params*:
 
 `field` :判断field是否可编辑
 
 ---
-* **setValue**
+## setValue
 
 设置当前行的字段值
 
@@ -340,7 +325,7 @@
 
 ---
 
-* **getValue**  
+## getValue  
 
 获取当前行字段的值
 
@@ -356,7 +341,7 @@
 
 ---
 
-* **on**
+## on
 
 绑定事件监听
 
@@ -370,43 +355,27 @@
 
 支持的事件类型：
 
-|事件名称||事件说明||回调函数接受的参数|
-
-
-|valueChange||字段值发生变化事件||dataTable：此dataTable对应id；rowId：发生改变行的rowId；field：发生改变的field；oldValue：改变之前的值；newValue：改变之后的值；|
-
-|xxx.valueChange||某一字段值发生变化事件||dataTable：此dataTable对应id；rowId：发生改变行的rowId；field：发生改变的field；oldValue：改变之前的值；newValue：改变之后的值；|
-
-|select||行选中事件||indices：选中行对应的index；rowIds：选中行对应的rowId；|
-
-|unSelect||行反选事件||indices：选反选对应的index；rowIds：选反选对应的rowId；|
-
-|allSelect||选中所有行事件|||
-
-|allUnselect||反选所有行事件|||
-
-|insert||插入行事件||index：插入行对应的index；rows：所插入的行信息；|
-
-|update||行修改事件||index：修改行对应的index；rows：所修改的行信息；|
-
-|delete||行删除事件||indices：删除行对应的index；rowIds：删除行对应的rowId；deleteRows：所删除的行信息；|
-
-|deleteAll||删除所有行事件|||
-
-|focus||行获取焦点事件||index：焦点行对应的index；rowId：焦点行对应的rowId；|
-
-|unFocus||行取消焦点事件||index：取消焦点行对应的index；rowId：取消焦点行对应的rowId；|
-
-|enableChange||可修改属性改变事件||enable：是否可修改；|
-
-|metaChange||字段属性信息改变事件||dataTable：此dataTable对应id；field：发生属性改变的字段；meta：发生改变的属性；oldValue：发生改变之前的值；newValue：发生改变之后的值；|
-
-
-|rowMetaChange||Row对象字段属性信息改变事件||dataTable：此dataTable对应id；field：发生属性改变的字段；meta：发生改变的属性；oldValue：发生改变之前的值；newValue：发生改变之后的值；row：发生属性改变的Row对象|
+| 事件名称            | 事件说明            | 回调函数接受的参数                                |
+| --------------- | --------------- | ---------------------------------------- |
+| valueChange     | 字段值发生变化事件       | dataTable：此dataTable对应id；rowId：发生改变行的rowId；field：发生改变的field；oldValue：改变之前的值；newValue：改变之后的值； |
+| xxx.valueChange | 某一字段值发生变化事件     | dataTable：此dataTable对应id；rowId：发生改变行的rowId；field：发生改变的field；oldValue：改变之前的值；newValue：改变之后的值； |
+| select          | 行选中事件           | indices：选中行对应的index；rowIds：选中行对应的rowId；  |
+| unSelect        | 行反选事件           | indices：选反选对应的index；rowIds：选反选对应的rowId；  |
+| allSelect       | 选中所有行事件         |                                          |
+| allUnselect     | 反选所有行事件         |                                          |
+| insert          | 插入行事件           | index：插入行对应的index；rows：所插入的行信息；          |
+| update          | 行修改事件           | index：修改行对应的index；rows：所修改的行信息；          |
+| delete          | 行删除事件           | indices：删除行对应的index；rowIds：删除行对应的rowId；deleteRows：所删除的行信息； |
+| deleteAll       | 删除所有行事件         |                                          |
+| focus           | 行获取焦点事件         | index：焦点行对应的index；rowId：焦点行对应的rowId；     |
+| unFocus         | 行取消焦点事件         | index：取消焦点行对应的index；rowId：取消焦点行对应的rowId； |
+| enableChange    | 可修改属性改变事件       | enable：是否可修改；                            |
+| metaChange      | 字段属性信息改变事件      | dataTable：此dataTable对应id；field：发生属性改变的字段；meta：发生改变的属性；oldValue：发生改变之前的值；newValue：发生改变之后的值； |
+| rowMetaChange   | Row对象字段属性信息改变事件 | dataTable：此dataTable对应id；field：发生属性改变的字段；meta：发生改变的属性；oldValue：发生改变之前的值；newValue：发生改变之后的值；row：发生属性改变的Row对象 |
 
 ---
 
-* **getMeta**
+## getMeta
 
 获取字段的属性信息(如：字段类型、精度信息等)
 
@@ -424,7 +393,7 @@
 
 ---
 
-* **setMeta**
+## setMeta
 
 设置字段的属性信息
 
@@ -440,7 +409,7 @@
 
 ---
 
-* **ref**
+## ref
 
 以knockout语法做双向绑定，显示当前行的字段值
 

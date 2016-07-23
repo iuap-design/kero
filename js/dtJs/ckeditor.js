@@ -1,9 +1,7 @@
 u.CkEditorAdapter = u.BaseAdapter.extend({
     mixins: [u.ValueMixin, u.EnableMixin,u.RequiredMixin, u.ValidateMixin],
-    initialize: function (comp, options) {
+    init: function () {
         var self = this;
-        u.EditorAdapter.superclass.initialize.apply(this, arguments);
-
         this.e_editor = this.id + "-ckeditor";
         this.render(this.options);
     },
@@ -12,9 +10,9 @@ u.CkEditorAdapter = u.BaseAdapter.extend({
         var cols = data.cols || 80;
         var rows = data.rows || 10;
         var self = this
-        var tpls = '<textarea cols="' + cols + '" id="'+ this.e_editor +'" name="editor" rows="' + rows + '"></textarea>';
+        var tpls = '<textarea cols="' + cols + '" id="'+ this.e_editor +'" name="' + this.e_editor + '_name' + '" rows="' + rows + '"></textarea>';
         $(this.element).append(tpls);
-        $( '#'+this.e_editor ).ckeditor(); 
+        CKEDITOR.replace(this.e_editor + '_name');
         var tmpeditor = CKEDITOR.instances[this.e_editor]
         this.tmpeditor = tmpeditor
         this.tmpeditor.on('blur',function(){
@@ -41,7 +39,7 @@ u.CkEditorAdapter = u.BaseAdapter.extend({
         this.slice = true
         this.dataModel.setValue(this.field, this.trueValue);
         this.slice = false
-        this.trigger(Editor.EVENT_VALUE_CHANGE, this.trueValue)
+        //this.trigger(Editor.EVENT_VALUE_CHANGE, this.trueValue)
     },
 
     getValue : function() {
@@ -49,9 +47,20 @@ u.CkEditorAdapter = u.BaseAdapter.extend({
     },
 
     setShowValue : function(showValue) {
+        var self = this;
         this.showValue = showValue          
         this.element.value = showValue
-        this.tmpeditor.setData(showValue)
+        this.tmpeditor.setData(showValue);
+
+        //同一页面多次复制有些时候会不生效，setData为异步方法导致。
+        if(self.setShowValueInter)
+            clearInterval(self.setShowValueInter);
+        self.setShowValueInter = setInterval(function(){
+            if(self.tmpeditor.document && self.tmpeditor.document.$ && self.tmpeditor.document.$.body){
+                self.tmpeditor.document.$.body.innerHTML = showValue;
+                clearInterval(self.setShowValueInter);
+            }
+        },100);
     },
 
     getShowValue: function() {
@@ -68,12 +77,7 @@ u.CkEditorAdapter = u.BaseAdapter.extend({
 
 });
 
-u.compMgr.addDataAdapter(
-    {
-        adapter: u.CkEditorAdapter,
-        name: 'u-ckeditor'
-    });
-
-
-
-
+u.compMgr.addDataAdapter({
+    adapter: u.CkEditorAdapter,
+    name: 'u-ckeditor'
+});

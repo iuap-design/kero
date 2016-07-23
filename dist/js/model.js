@@ -629,7 +629,7 @@ u.createApp = function () {
 
 var _getDataTables = function (app, viewModel) {
     for (var key in viewModel) {
-        if (viewModel[key] instanceof u.DataTable) {
+        if (viewModel[key] && viewModel[key] instanceof u.DataTable) {
             viewModel[key].id = key
             viewModel[key].parent = viewModel
             app.addDataTable(viewModel[key])
@@ -1050,11 +1050,27 @@ DataTable.fn.updateMeta = function (meta) {
  *
  */
 DataTable.fn.setData = function (data,options) {
-    var newIndex = data.pageIndex || this.pageIndex(),
-        newSize = data.pageSize || this.pageSize(),
-        newTotalPages = data.totalPages || this.totalPages(),
-        newTotalRow = data.totalRow || data.rows.length,
-        select, focus,unSelect=options?options.unSelect:false; 
+    if(data.pageIndex || data.pageIndex === 0){
+        var newIndex = data.pageIndex;
+    }else{
+        var newIndex = this.pageIndex();
+    }
+    if(data.pageSize || data.pageSize === 0){
+        var newSize = data.pageSize;
+    }else{
+        var newSize = this.pageSize();
+    }
+    if(data.totalPages || data.totalPages === 0){
+        var newTotalPages = data.totalPages;
+    }else{
+        var newTotalPages = this.totalPages();
+    }
+    if(data.totalRow || data.totalRow === 0){
+        var newTotalRow = data.totalRow;
+    }else{
+        var newTotalRow = data.rows.length; //后续要考虑状态，del的不计算在内
+    }
+    var select, focus,unSelect=options?options.unSelect:false; 
         //currPage,
         //type = data.type;
 
@@ -1163,7 +1179,7 @@ DataTable.fn.setSimpleData = function(data,options){
  * 追加数据
  * @param data
  */
-DataTable.fn.addSimpleData = function(data){
+DataTable.fn.addSimpleData = function(data, status){
     if (!data){
         throw new Error("dataTable.addSimpleData param can't be null!");
     }
@@ -1171,7 +1187,7 @@ DataTable.fn.addSimpleData = function(data){
         data = [data];
     for (var i =0; i< data.length; i++){
         var r = this.createEmptyRow();
-        r.setSimpleData(data[i]);
+        r.setSimpleData(data[i],status);
     }
 
 }
@@ -3079,10 +3095,10 @@ Row.fn.setData = function (data, subscribe) {
 
 
 
-Row.fn.setSimpleData = function(data){
+Row.fn.setSimpleData = function(data, status){
     var allData = {};
     allData.data = data;
-    allData.status = 'nrm';
+    allData.status = status || 'nrm';
     this.setData(allData, true);
     this.currentRowChange(-this.currentRowChange());
 }
@@ -3173,9 +3189,11 @@ Row.fn._getSimpleData = function(data){
                     _data[key] = _dateToUTCString(data[key].value)
                 }
             }
-        }else if(typeof data[key].value !== 'undefined'){
-            _data[key] = undefined;
-        }else{
+        }
+        // else if(typeof data[key].value !== 'undefined'){
+        //     _data[key] = undefined;
+        // }
+        else{
             _data[key] = this._getSimpleData(data[key])
         }
     }
@@ -3581,6 +3599,14 @@ u.IntegerAdapter = u.BaseAdapter.extend({
         u.on(this.element, 'focus', function(){
             if(self.enable){
                 self.setShowValue(self.getValue())
+                try{
+                    var e = event.srcElement; 
+                    var r = e.createTextRange(); 
+                    r.moveStart('character',e.value.length); 
+                    r.collapse(true); 
+                    r.select(); 
+                }catch(e){
+                }
             }
         })
 
@@ -3632,6 +3658,14 @@ u.FloatAdapter = u.BaseAdapter.extend({
         u.on(this.element, 'focus', function(){
             if(self.enable){
                 self.onFocusin()
+                try{
+                    var e = event.srcElement; 
+                    var r = e.createTextRange(); 
+                    r.moveStart('character',e.value.length); 
+                    r.collapse(true); 
+                    r.select(); 
+                }catch(e){
+                }
             }
         })
 
@@ -3767,6 +3801,89 @@ u.compMgr.addDataAdapter({
     });
 
 
+u.CkEditorAdapter = u.BaseAdapter.extend({
+    mixins: [u.ValueMixin, u.EnableMixin,u.RequiredMixin, u.ValidateMixin],
+    init: function () {
+        var self = this;
+        this.e_editor = this.id + "-ckeditor";
+        this.render(this.options);
+    },
+
+    render: function(data){
+        var cols = data.cols || 80;
+        var rows = data.rows || 10;
+        var self = this
+        var tpls = '<textarea cols="' + cols + '" id="'+ this.e_editor +'" name="' + this.e_editor + '_name' + '" rows="' + rows + '"></textarea>';
+        $(this.element).append(tpls);
+        CKEDITOR.replace(this.e_editor + '_name');
+        var tmpeditor = CKEDITOR.instances[this.e_editor]
+        this.tmpeditor = tmpeditor
+        this.tmpeditor.on('blur',function(){
+            self.setValue(tmpeditor.getData())
+        });
+        
+        this.tmpeditor.on('focus',function(){
+            self.setShowValue(self.getValue())
+        });
+    },
+
+    modelValueChange: function(value) {
+        if (this.slice) return
+        value = value || ""
+        this.trueValue = value
+        this.showValue = value
+        this.setShowValue(this.showValue)
+    },
+
+    setValue: function(value) {
+        this.trueValue = value
+        this.showValue = value
+        this.setShowValue(this.showValue)
+        this.slice = true
+        this.dataModel.setValue(this.field, this.trueValue);
+        this.slice = false
+        //this.trigger(Editor.EVENT_VALUE_CHANGE, this.trueValue)
+    },
+
+    getValue : function() {
+        return this.trueValue
+    },
+
+    setShowValue : function(showValue) {
+        var self = this;
+        this.showValue = showValue          
+        this.element.value = showValue
+        this.tmpeditor.setData(showValue);
+
+        //同一页面多次复制有些时候会不生效，setData为异步方法导致。
+        if(self.setShowValueInter)
+            clearInterval(self.setShowValueInter);
+        self.setShowValueInter = setInterval(function(){
+            if(self.tmpeditor.document && self.tmpeditor.document.$ && self.tmpeditor.document.$.body){
+                self.tmpeditor.document.$.body.innerHTML = showValue;
+                clearInterval(self.setShowValueInter);
+            }
+        },100);
+    },
+
+    getShowValue: function() {
+        return this.showValue
+    },
+
+    getContent: function(){
+        return $( '#'+this.e_editor ).html();
+    },
+
+    setContent: function(txt){
+        $( '#'+this.e_editor ).html(txt);
+    },
+
+});
+
+u.compMgr.addDataAdapter({
+    adapter: u.CkEditorAdapter,
+    name: 'u-ckeditor'
+});
 /**
  * 百分比控件
  */
@@ -3806,15 +3923,16 @@ u.StringAdapter = u.BaseAdapter.extend({
         u.on(this.element, 'focus', function(){
             if(self.enable){
                 self.setShowValue(self.getValue())
+                try{
+                    var e = event.srcElement; 
+                    var r = e.createTextRange(); 
+                    r.moveStart('character',e.value.length); 
+                    r.collapse(true); 
+                    r.select(); 
+                }catch(e){
+                }
             }
         })
-
-        u.on(this.element, 'keydown',function(e){
-            var keyCode = e.keyCode;
-            if( e.keyCode == 13){// 回车
-                this.blur();
-            }
-        });
 
         u.on(this.element, 'blur',function(e){
             if(self.enable){
@@ -4517,64 +4635,75 @@ u.compMgr.addDataAdapter({
 });
 
 u.PaginationAdapter = u.BaseAdapter.extend({
-        initialize: function (comp, options) {
-            var self = this;
-            u.PaginationAdapter.superclass.initialize.apply(this, arguments);
+    initialize: function (comp, options) {
+        var self = this;
+        u.PaginationAdapter.superclass.initialize.apply(this, arguments);
 
-            //var Pagination = function(element, options, viewModel) {
+        //var Pagination = function(element, options, viewModel) {
 
-            if (!this.dataModel.pageSize() && this.options.pageSize)
-                this.dataModel.pageSize(this.options.pageSize)
-            this.options.pageSize = this.dataModel.pageSize() || this.options.pageSize;
-            //this.$element.pagination(options);
-            //this.comp = this.$element.data('u.pagination');
-            var options = u.extend({},{el:this.element,jumppage:true},this.options);
-            this.comp = new u.pagination(options);
-			this.element['u.pagination'] = this.comp;
-            this.comp.dataModel = this.dataModel;
-            this.pageChange = u.getFunction(this.viewModel, this.options['pageChange']);
-            this.sizeChange = u.getFunction(this.viewModel, this.options['sizeChange']);
+        if (!this.dataModel.pageSize() && this.options.pageSize)
+            this.dataModel.pageSize(this.options.pageSize)
+        this.options.pageSize = this.dataModel.pageSize() || this.options.pageSize;
+        //this.$element.pagination(options);
+        //this.comp = this.$element.data('u.pagination');
+        var options = u.extend({},{el:this.element,jumppage:true},this.options);
+        this.comp = new u.pagination(options);
+		this.element['u.pagination'] = this.comp;
+        this.comp.dataModel = this.dataModel;
+        this.pageChange = u.getFunction(this.viewModel, this.options['pageChange']);
+        this.sizeChange = u.getFunction(this.viewModel, this.options['sizeChange']);
 
-            this.comp.on('pageChange', function (pageIndex) {
-                if (typeof self.pageChange == 'function') {
-                    self.pageChange(pageIndex);
-                } else {
-                    self.defaultPageChange(pageIndex);
-                }
+        this.comp.on('pageChange', function (pageIndex) {
+            if (typeof self.pageChange == 'function') {
+                self.pageChange(pageIndex);
+            } else {
+                self.defaultPageChange(pageIndex);
+            }
 
-            });
-            this.comp.on('sizeChange', function (size, pageIndex) {
-                if (typeof self.sizeChange == 'function') {
-                    self.sizeChange(size, pageIndex);
-                } else {
-                    u.showMessage({msg:"没有注册sizeChange事件"});
-                }
-            });
+        });
+        this.comp.on('sizeChange', function (size, pageIndex) {
+            if (typeof self.sizeChange == 'function') {
+                self.sizeChange(size, pageIndex);
+            } else {
+                self.defaultSizeChange(size,pageIndex);
+                // u.showMessage({msg:"没有注册sizeChange事件"});
+            }
+        });
 
 
-            this.dataModel.totalPages.subscribe(function (value) {
-                self.comp.update({totalPages: value})
-            })
+        this.dataModel.totalPages.subscribe(function (value) {
+            self.comp.update({totalPages: value})
+        })
 
-            this.dataModel.pageSize.subscribe(function (value) {
-                self.comp.update({pageSize: value})
-            })
+        this.dataModel.pageSize.subscribe(function (value) {
+            self.comp.update({pageSize: value})
+        })
 
-            this.dataModel.pageIndex.subscribe(function (value) {
-                self.comp.update({currentPage: value + 1})
-            })
+        this.dataModel.pageIndex.subscribe(function (value) {
+            self.comp.update({currentPage: value + 1})
+        })
 
-            this.dataModel.totalRow.subscribe(function (value) {
-                self.comp.update({totalCount: value})
-            })
+        this.dataModel.totalRow.subscribe(function (value) {
+            self.comp.update({totalCount: value})
+        })
 
-        },
+        if(this.comp.options.pageList.length > 0){
+            this.comp.options.pageSize = this.comp.options.pageList[0];
+            ///this.comp.trigger('sizeChange', options.pageList[0])
+            this.dataModel.pageSize(this.comp.options.pageList[0]);
+        }
 
-        defaultPageChange: function (pageIndex) {
+    },
+
+    defaultPageChange: function (pageIndex) {
         if (this.dataModel.hasPage(pageIndex)) {
             this.dataModel.setCurrentPage(pageIndex)
         } else {
         }
+    },
+
+    defaultSizeChange: function(size,pageIndex){
+        this.dataModel.pageSize(size);
     },
 
     disableChangeSize: function () {
@@ -4645,8 +4774,15 @@ u.DateTimeAdapter = u.BaseAdapter.extend({
 					self.setValue(val);
 				}
 			}
+			this._span = this.element.querySelector("span");
 			this.element = this.element.querySelector("input");
 			this.element.setAttribute('readonly','readonly');
+			if (this._span){
+		        u.on(this._span, 'click', function(e){
+		            self.element.focus();
+		            u.stopEvent(e);
+		        });
+		    }
 			if(this.adapterType == 'date'){
 				$(this.element).mobiscroll().date(op);
 			}else{
@@ -4743,7 +4879,6 @@ u.DateTimeAdapter = u.BaseAdapter.extend({
     setEnable: function(enable){
         if (enable === true || enable === 'true') {
             this.enable = true;
-            this.element.removeAttribute('readonly');
             if(u.isMobile){
             	this.element.removeAttribute('disabled');
             }else{
@@ -4752,7 +4887,6 @@ u.DateTimeAdapter = u.BaseAdapter.extend({
             u.removeClass(this.element.parentNode,'disablecover');
         } else if (enable === false || enable === 'false') {
             this.enable = false;
-            this.element.setAttribute('readonly', 'readonly');
             if(u.isMobile){
             	this.element.setAttribute('disabled','disabled');
             }else{

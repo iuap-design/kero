@@ -70,7 +70,7 @@ meta中是模型的字段信息，字段名对应的对象为字段的属性定�
 
 	var json = dataTable.getSimpleData();
 
-获取到的json数据格式，与载入时的数据格式一致。一般是在提交数据时，调用此方法，把数据获取到后提交给后端。
+获取到的json数据格式，与载入时的数据格式一致。一般是在提交数据时，调用此方法，获取数据后提交给后端。
 在调用`getSimpleData`方法时可传递参数`type`来决定获取的数据类型。
 
 	var json = dataTable.getSimpleData({type:'select'});

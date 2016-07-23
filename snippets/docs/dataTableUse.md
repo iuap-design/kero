@@ -39,8 +39,6 @@
         f2:{type:'date',format:'YYYY/MM/DD'}
     });
 
-更多设置参见 [u.DataTable](http://design.yyuap.com/dist/pages/kero/udatatable.html)
-
 ---
 
 
@@ -56,4 +54,4 @@
 			newValue = event.newValue;
 	});
 
-更多事件说明参见 [dataTable API](core.html)
+更多设置参见 [u.DataTable](http://design.yyuap.com/dist/pages/kero/udatatable.html)

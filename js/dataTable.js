@@ -411,11 +411,27 @@ DataTable.fn.updateMeta = function (meta) {
  *
  */
 DataTable.fn.setData = function (data,options) {
-    var newIndex = data.pageIndex || this.pageIndex(),
-        newSize = data.pageSize || this.pageSize(),
-        newTotalPages = data.totalPages || this.totalPages(),
-        newTotalRow = data.totalRow || data.rows.length,
-        select, focus,unSelect=options?options.unSelect:false; 
+    if(data.pageIndex || data.pageIndex === 0){
+        var newIndex = data.pageIndex;
+    }else{
+        var newIndex = this.pageIndex();
+    }
+    if(data.pageSize || data.pageSize === 0){
+        var newSize = data.pageSize;
+    }else{
+        var newSize = this.pageSize();
+    }
+    if(data.totalPages || data.totalPages === 0){
+        var newTotalPages = data.totalPages;
+    }else{
+        var newTotalPages = this.totalPages();
+    }
+    if(data.totalRow || data.totalRow === 0){
+        var newTotalRow = data.totalRow;
+    }else{
+        var newTotalRow = data.rows.length; //后续要考虑状态，del的不计算在内
+    }
+    var select, focus,unSelect=options?options.unSelect:false; 
         //currPage,
         //type = data.type;
 
@@ -524,7 +540,7 @@ DataTable.fn.setSimpleData = function(data,options){
  * 追加数据
  * @param data
  */
-DataTable.fn.addSimpleData = function(data){
+DataTable.fn.addSimpleData = function(data, status){
     if (!data){
         throw new Error("dataTable.addSimpleData param can't be null!");
     }
@@ -532,7 +548,7 @@ DataTable.fn.addSimpleData = function(data){
         data = [data];
     for (var i =0; i< data.length; i++){
         var r = this.createEmptyRow();
-        r.setSimpleData(data[i]);
+        r.setSimpleData(data[i],status);
     }
 
 }
@@ -2440,10 +2456,10 @@ Row.fn.setData = function (data, subscribe) {
 
 
 
-Row.fn.setSimpleData = function(data){
+Row.fn.setSimpleData = function(data, status){
     var allData = {};
     allData.data = data;
-    allData.status = 'nrm';
+    allData.status = status || 'nrm';
     this.setData(allData, true);
     this.currentRowChange(-this.currentRowChange());
 }
@@ -2534,9 +2550,11 @@ Row.fn._getSimpleData = function(data){
                     _data[key] = _dateToUTCString(data[key].value)
                 }
             }
-        }else if(typeof data[key].value !== 'undefined'){
-            _data[key] = undefined;
-        }else{
+        }
+        // else if(typeof data[key].value !== 'undefined'){
+        //     _data[key] = undefined;
+        // }
+        else{
             _data[key] = this._getSimpleData(data[key])
         }
     }

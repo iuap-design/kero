@@ -41,7 +41,7 @@ u.GridAdapter = u.BaseAdapter.extend({
 		this.gridOptions.onBeforeClickFun = u.getFunction(viewModel,this.gridOptions.onBeforeClickFun);
 		this.gridOptions.onBeforeEditFun = u.getFunction(viewModel,this.gridOptions.onBeforeEditFun);
 		this.gridOptions.onRowHover = u.getFunction(viewModel,this.gridOptions.onRowHover);
-		
+		this.gridOptions.afterCreate = u.getFunction(viewModel,this.gridOptions.afterCreate);
 		/*
 		 * 处理column参数  item
 		 * div子项div存储column信息
@@ -333,7 +333,7 @@ u.GridAdapter = u.BaseAdapter.extend({
 			}else if(rType == 'passwordRender'){
 				//通过grid的dataType为DateTime format处理
 				column.renderType = function(obj){
-					obj.element.innerHTML = '<input type="password" disable="true" readonly="readonly" style="border:0px;background:none;padding:0px;" value="' + obj.value + '" title=""><span class="fa fa-eye right-span" ></span>';
+					obj.element.innerHTML = '<input type="password" disable="true" role="grid-for-edit" readonly="readonly" style="border:0px;background:none;padding:0px;" value="' + obj.value + '" title=""><span class="uf uf-eyeopen right-span" role="grid-for-edit"></span>';
 					var span = obj.element.querySelector('span');
 					var input = obj.element.querySelector('input');
 					input.value = obj.value;
@@ -783,7 +783,7 @@ u.GridAdapter = u.BaseAdapter.extend({
 			//comp = new $.compManager.plugs.check(compDiv.find("input")[0],eOptions,viewModel);
 
 		}else if(eType == 'combo'){
-			// compDiv = $('<div class="input-group  form_date u-grid-edit-item-comb"><div  type="text" class="form-control grid-combox"></div><i class="input-group-addon" ><i class="fa fa-angle-down"></i></i></div>');
+			// compDiv = $('<div class="input-group  form_date u-grid-edit-item-comb"><div  type="text" class="form-control grid-combox"></div><i class="input-group-addon" ><i class="uf uf-anglearrowdown"></i></i></div>');
 			compDiv = $('<div class="eType-input"><input type="text" class="u-grid-edit-item-float"></div>');
 			//comp = new $.compManager.plugs.combo(compDiv[0],eOptions,viewModel);
 			//comp = new u.Combobox({
@@ -792,7 +792,7 @@ u.GridAdapter = u.BaseAdapter.extend({
 			//	model: viewModel
 			//});
 			if($.Combobox){ //兼容旧版本
-				compDiv = $('<div class="input-group  form_date u-grid-edit-item-comb"><div  type="text" class="form-control grid-combox"></div><i class="input-group-addon" ><i class="fa fa-angle-down"></i></i></div>');
+				compDiv = $('<div class="input-group  form_date u-grid-edit-item-comb"><div  type="text" class="form-control grid-combox"></div><i class="input-group-addon" ><i class="uf uf-anglearrowdown"></i></i></div>');
 				comp = new $.Combobox(compDiv[0],eOptions,viewModel)
 			}else{
 				comp = new u.ComboboxAdapter({
@@ -908,7 +908,7 @@ u.GridAdapter = u.BaseAdapter.extend({
 			//$.compManager.plugs.string(compDiv.find("input")[0],eOptions,viewModel);
 
 		}else if(eType == 'password'){
-			compDiv = $('<div><input type="text" class="u-grid-edit-item-string"><span class="fa fa-eye right-span"></span></div>');
+			compDiv = $('<div><input type="text" class="u-grid-edit-item-string"><span class="uf uf-eyeopen right-span"></span></div>');
 			if(!options.editType || options.editType =="default" ){
 				compDiv.addClass("eType-input")
 			}
@@ -935,8 +935,13 @@ u.GridAdapter = u.BaseAdapter.extend({
 			});
 		}
 		// input输入blur时显示下一个编辑控件
-		$('input',$(compDiv)).on('blur',function(e){
-			oThis.grid.nextEditShow();
+		$('input',$(compDiv)).on('keydown',function(e){
+			var keyCode = e.keyCode;
+            if( e.keyCode == 13 || e.keyCode == 9){// 回车
+            	this.blur(); //首先触发blur来将修改值反应到datatable中
+                oThis.grid.nextEditShow();
+                u.stopEvent(e);
+            }
 		});
 		if (comp && comp.dataAdapter){
 			comp = comp.dataAdapter;
@@ -1000,19 +1005,24 @@ u.GridAdapter = u.BaseAdapter.extend({
 				field = columnOptions.field,
 				title = columnOptions.title,
 				required = columnOptions.required,
-				validType = columnOptions.editOptions.validType,
-				placement = columnOptions.editOptions.placement,
-				tipId = columnOptions.editOptions.tipId,
-				errorMsg = columnOptions.editOptions.errorMsg,
-				nullMsg = columnOptions.editOptions.nullMsg,
-                maxLength = columnOptions.editOptions.maxLength,
-                minLength = columnOptions.editOptions.minLength,
-                max = columnOptions.editOptions.max,
-                min = columnOptions.editOptions.min,
-                maxNotEq = columnOptions.editOptions.maxNotEq,
-                minNotEq = columnOptions.editOptions.minNotEq,
-                reg = columnOptions.editOptions.regExp,
-                columnPassedFlag = true,
+				validType,placement,tipId,errorMsg,nullMsg,maxLength,minLength,
+				max,min,maxNotEq,minNotEq,reg;
+			if(columnOptions.editOptions){
+				validType = columnOptions.editOptions.validType || '';
+				placement = columnOptions.editOptions.placement || '';
+				tipId = columnOptions.editOptions.tipId || '';
+				errorMsg = columnOptions.editOptions.errorMsg || '';
+				nullMsg = columnOptions.editOptions.nullMsg || '';
+                maxLength = columnOptions.editOptions.maxLength || '';
+                minLength = columnOptions.editOptions.minLength || '';
+                max = columnOptions.editOptions.max || '';
+                min = columnOptions.editOptions.min || '';
+                maxNotEq = columnOptions.editOptions.maxNotEq || '';
+                minNotEq = columnOptions.editOptions.minNotEq || '';
+                reg = columnOptions.editOptions.regExp || '';
+			}
+				
+            var columnPassedFlag = true,
                 columnMsg = '';
             var validate = new u.Validate({
             	el:this.element,
