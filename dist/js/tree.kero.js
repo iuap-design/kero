@@ -1,9 +1,9 @@
 /** 
- * datatable v3.0.3
+ * kero v3.0.3
  * 
  * author : yonyou FED
- * homepage : https://github.com/iuap-design/datatable#readme
- * bugs : https://github.com/iuap-design/datatable/issues
+ * homepage : https://github.com/iuap-design/kero#readme
+ * bugs : https://github.com/iuap-design/kero/issues
  **/ 
 u.TreeAdapter = u.BaseAdapter.extend({
 	

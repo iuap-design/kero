@@ -1,9 +1,9 @@
 /** 
- * datatable v3.0.3
+ * kero v3.0.3
  * 
  * author : yonyou FED
- * homepage : https://github.com/iuap-design/datatable#readme
- * bugs : https://github.com/iuap-design/datatable/issues
+ * homepage : https://github.com/iuap-design/kero#readme
+ * bugs : https://github.com/iuap-design/kero/issues
  **/ 
 
 var U_LANGUAGES = "i_languages";
@@ -6812,7 +6812,7 @@ u.ValidateMixin = {
     init: function(){
         this.placement = this.getOption('placement');
         this.tipId = this.getOption('tipId');
-		this.tipAliveTime = this.getOption('tipAliveTime');
+        this.tipAliveTime = this.getOption('tipAliveTime');
         this.errorMsg = this.getOption('errorMsg');
         this.nullMsg = this.getOption('nullMsg');
         this.regExp = this.getOption('regExp');
@@ -6875,6 +6875,7 @@ u.ValidateMixin = {
         }
     }
 }
+
 /**
  * Created by dingrf on 2016/4/6.
  */
@@ -8133,6 +8134,13 @@ u.PaginationAdapter = u.BaseAdapter.extend({
             ///this.comp.trigger('sizeChange', options.pageList[0])
             this.dataModel.pageSize(this.comp.options.pageList[0]);
         }
+
+
+        // 如果datatable已经创建则根据datatable设置分页组件
+        self.comp.update({totalPages: this.dataModel.totalPages()})
+        self.comp.update({pageSize: this.dataModel.pageSize()})
+        self.comp.update({currentPage: this.dataModel.pageIndex() + 1})
+        self.comp.update({totalCount: this.dataModel.totalRow()})
 
     },
 
