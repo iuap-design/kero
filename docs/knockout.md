@@ -42,11 +42,6 @@ var ViewModel = function(first, last) {
  
 ko.applyBindings(new ViewModel("Planet", "Earth")); // 通过ko.applyBindings执行knockout
 </script></div>
-<div class="examples-code"><pre><code>&lt;!-- ko通过data-bind绑定数据 -->
-&lt;p>First name: &lt;input data-bind="value: firstName" />&lt;/p>
-&lt;p>Last name: &lt;input data-bind="value: lastName" />&lt;/p>
-&lt;h2>Hello, &lt;span data-bind="text: fullName"> &lt;/span>!&lt;/h2></code></pre>
-</div>
 <div class="examples-code"><pre><code>// 定义ViewModel
 var ViewModel = function(first, last) {
 	// ko.observable可实时监听数据，实现绑定
@@ -60,6 +55,11 @@ var ViewModel = function(first, last) {
 };
  
 ko.applyBindings(new ViewModel("Planet", "Earth")); // 通过ko.applyBindings执行knockout</code></pre>
+</div>
+<div class="examples-code"><pre><code>&lt;!-- ko通过data-bind绑定数据 -->
+&lt;p>First name: &lt;input data-bind="value: firstName" />&lt;/p>
+&lt;p>Last name: &lt;input data-bind="value: lastName" />&lt;/p>
+&lt;h2>Hello, &lt;span data-bind="text: fullName"> &lt;/span>!&lt;/h2></code></pre>
 </div>
 
 
