@@ -1,6 +1,6 @@
 // JS
-var app,viewModel;
-viewModel = {
+var app,viewModel3;
+viewModel3 = {
     dt3: new u.DataTable({
         meta:{
             f1:{
@@ -11,15 +11,15 @@ viewModel = {
 };
 
 app = u.createApp({
-    el:'body',
-    model:viewModel
+    el:'#demo3',
+    model:viewModel3
 });
 
-var r = viewModel.dt3.createEmptyRow();
+var r = viewModel3.dt3.createEmptyRow();
 r.setValue('f1','test');
 
 // 绑定时间触发
-viewModel.dt3.on('valueChange', function(){
+viewModel3.dt3.on('valueChange', function(event){
     var oldValue = event.oldValue;
     var newValue = event.newValue;
     alert('dataTable原始值为:' + oldValue +'\n' + 'dataTable现在值为:' + newValue);

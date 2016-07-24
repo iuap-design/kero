@@ -1,6 +1,6 @@
 // JS
-var app,viewModel;
-viewModel = {
+var app,viewModel1;
+viewModel1 = {
     dt1: new u.DataTable({
         meta:{
             f1:{
@@ -13,9 +13,9 @@ viewModel = {
 };
 
 app = u.createApp({
-    el:'body',
-    model:viewModel
+    el:'#demo1',
+    model:viewModel1
 });
 
-var r = viewModel.dt1.createEmptyRow();
+var r = viewModel1.dt1.createEmptyRow();
 r.setValue('f1','test txt');

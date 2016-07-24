@@ -76,18 +76,6 @@ var getDtValue = function() {
 demoInput.addEventListener('blur',getDtValue);
 getDtValue();
 </script></div>
-<div class="examples-code"><pre><code>&lt;!-- 
-	HTML
-	u-meta:框架特有标记，框架通过识别此标记创建对应UI组件，以及进行数据绑定 
-	id,type.data,field为必选项
-	id:创建组件唯一标识
-	type:创建组件对应的类型
-	data:指定数据模型中的数据集
-	field:绑定数据集中对应的字段
--->
-&lt;input id="demo_input" u-meta='{"id":"t1","type":"string","data":"dt1","field":"f1"}' />
-&lt;div id="demo_div">&lt;/div></code></pre>
-</div>
 <div class="examples-code"><pre><code>// JS
 var app,viewModel;
 /**
@@ -134,6 +122,18 @@ var getDtValue = function() {
 };
 demoInput.addEventListener('blur',getDtValue);
 getDtValue();</code></pre>
+</div>
+<div class="examples-code"><pre><code>&lt;!-- 
+	HTML
+	u-meta:框架特有标记，框架通过识别此标记创建对应UI组件，以及进行数据绑定 
+	id,type.data,field为必选项
+	id:创建组件唯一标识
+	type:创建组件对应的类型
+	data:指定数据模型中的数据集
+	field:绑定数据集中对应的字段
+-->
+&lt;input id="demo_input" u-meta='{"id":"t1","type":"string","data":"dt1","field":"f1"}' />
+&lt;div id="demo_div">&lt;/div></code></pre>
 </div>
 
 
