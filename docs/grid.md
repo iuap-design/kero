@@ -153,6 +153,12 @@ http://design.yyuap.com/static/uui/latest/js/u-grid.js
     viewModel.dataTable.setSimpleData(data);
 });
 </script></div>
+<div class="examples-code"><pre><code>&lt;div id="gridTest1" u-meta='{"id":"grid1","data":"dataTable","type":"grid","multiSelect":true,"editable":true,"onBeforeClickFun":"onBeforeClickFun1"}'>
+	&lt;div options='{"field":"name","dataType":"String","title":"名","editType":"string","sortable":true,"canSwap":true}'>&lt;/div>
+    &lt;div options='{"field":"surname","dataType":"String","title":"姓氏","editType":"string" ,"renderType":"timeRender","sortable":true}'>&lt;/div>
+	&lt;div options='{"field":"currency","dataType":"String","title":"余额","editType":"float","editOptions":{"validType":"float","precision":"3","max":10000},"sumCol":true}'>&lt;/div>
+&lt;/div></code></pre>
+</div>
 <div class="examples-code"><pre><code>$(document).ready(function () {
 	// ����viewModel,����dataTable�Լ�grid��ʹ�õ�function����
     viewModel = {
@@ -187,11 +193,5 @@ http://design.yyuap.com/static/uui/latest/js/u-grid.js
     viewModel.dataTable.removeAllRows();
     viewModel.dataTable.setSimpleData(data);
 });</code></pre>
-</div>
-<div class="examples-code"><pre><code>&lt;div id="gridTest1" u-meta='{"id":"grid1","data":"dataTable","type":"grid","multiSelect":true,"editable":true,"onBeforeClickFun":"onBeforeClickFun1"}'>
-	&lt;div options='{"field":"name","dataType":"String","title":"名","editType":"string","sortable":true,"canSwap":true}'>&lt;/div>
-    &lt;div options='{"field":"surname","dataType":"String","title":"姓氏","editType":"string" ,"renderType":"timeRender","sortable":true}'>&lt;/div>
-	&lt;div options='{"field":"currency","dataType":"String","title":"余额","editType":"float","editOptions":{"validType":"float","precision":"3","max":10000},"sumCol":true}'>&lt;/div>
-&lt;/div></code></pre>
 </div>
 

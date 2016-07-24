@@ -1,6 +1,6 @@
-# Ö÷×Ó±í
+# ä¸»å­è¡¨
 
-# ÒÀÀµ×ÊÔ´
+# ä¾èµ–èµ„æº
 
 http://design.yyuap.com/static/uui/latest/css/font-awesome.css
 
@@ -16,24 +16,24 @@ http://design.yyuap.com/static/uui/latest/js/u.js
 
 http://design.yyuap.com/static/uui/latest/js/u-grid.js
 
-# ÈçºÎÊ¹ÓÃ
+# å¦‚ä½•ä½¿ç”¨
 
-1¡¢´´½¨Ö÷×Ó±íDOMÔªËØ
+1ã€åˆ›å»ºä¸»å­è¡¨DOMå…ƒç´ 
 
 	<div class="u-container-fluid u-widget-bg">
 	    <div class="u-row">
 		<div class="u-col-md-12">
 		    <div class="u-widget  u-widget-right">
 			<div class="u-widget-heading">
-			    <h3 class="u-widget-title">Ö÷±í</h3>
+			    <h3 class="u-widget-title">ä¸»è¡¨</h3>
 			</div>
 			<div class="u-widget-body" style="margin-bottom: 30px">
 			    <div id="mainGridDiv" u-meta='{"id":"mainGrid","data":"mainDataTable","type":"grid","onRowSelected":"mainGridRowSelect"}'>
-				<div options='{"field":"name","dataType":"String","title":"ĞÕÃû"}'></div>
-				<div options='{"field":"tel","dataType":"String","title":"ÊÖ»ú"}'></div>
-				<div options='{"field":"email","dataType":"String","title":"ÓÊ¼ş"}'></div>
-				<div options='{"field":"depart","dataType":"String","title":"²¿ÃÅ"}'></div>
-				<div options='{"field":"company","dataType":"String","title":"¹«Ë¾"}'></div>
+				<div options='{"field":"name","dataType":"String","title":"å§“å"}'></div>
+				<div options='{"field":"tel","dataType":"String","title":"æ‰‹æœº"}'></div>
+				<div options='{"field":"email","dataType":"String","title":"é‚®ä»¶"}'></div>
+				<div options='{"field":"depart","dataType":"String","title":"éƒ¨é—¨"}'></div>
+				<div options='{"field":"company","dataType":"String","title":"å…¬å¸"}'></div>
 			    </div>
 			</div>
 		    </div>
@@ -41,15 +41,15 @@ http://design.yyuap.com/static/uui/latest/js/u-grid.js
 		<div class="u-col-md-12">
 		    <div class="u-widget  u-widget-right">
 			<div class="u-widget-heading">
-			    <h3 class="u-widget-title">×Ó±í</h3>
+			    <h3 class="u-widget-title">å­è¡¨</h3>
 			</div>
 			<div class="u-widget-body" style="margin-bottom: 30px">
 			    <div id="childGridDiv" u-meta='{"id":"childGrid","data":"childDataTable","type":"grid"}'>
-				<div options='{"field":"name","dataType":"String","title":"±¨ÏúÈË"}'></div>
-				<div options='{"field":"date","dataType":"String","title":"ÈÕÆÚ"}'></div>
-				<div options='{"field":"type","dataType":"String","title":"·ÑÓÃÀàĞÍ"}'></div>
-				<div options='{"field":"detail","dataType":"String","title":"ÊÂÓÉ"}'></div>
-				<div options='{"field":"count","dataType":"String","title":"±¨Ïú½ğ¶î"}'></div>
+				<div options='{"field":"name","dataType":"String","title":"æŠ¥é”€äºº"}'></div>
+				<div options='{"field":"date","dataType":"String","title":"æ—¥æœŸ"}'></div>
+				<div options='{"field":"type","dataType":"String","title":"è´¹ç”¨ç±»å‹"}'></div>
+				<div options='{"field":"detail","dataType":"String","title":"äº‹ç”±"}'></div>
+				<div options='{"field":"count","dataType":"String","title":"æŠ¥é”€é‡‘é¢"}'></div>
 			    </div>
 			</div>
 		    </div>
@@ -57,11 +57,11 @@ http://design.yyuap.com/static/uui/latest/js/u-grid.js
 	    </div>
 	</div>
 
- #mainGridDiv ÎªÖ÷±í¶ÔÓ¦µÄ±í¸ñ¿Ø¼şµÄ¶¥²ãdiv£¬#childGridDivÎª×Ó±í¶ÔÓ¦µÄ±í¸ñ¿Ø¼şµÄ¶¥²ãdiv¡£
-2¡¢´´½¨viewModel
+ #mainGridDiv ä¸ºä¸»è¡¨å¯¹åº”çš„è¡¨æ ¼æ§ä»¶çš„é¡¶å±‚divï¼Œ#childGridDivä¸ºå­è¡¨å¯¹åº”çš„è¡¨æ ¼æ§ä»¶çš„é¡¶å±‚divã€‚
+2ã€åˆ›å»ºviewModel
 
 	viewModel = {
-		// Ö÷±í¶ÔÓ¦µÄdataTable
+		// ä¸»è¡¨å¯¹åº”çš„dataTable
 		mainDataTable: new u.DataTable({
 		    meta: {
 				"name": "",
@@ -71,7 +71,7 @@ http://design.yyuap.com/static/uui/latest/js/u-grid.js
 				"company": "",
 		    }
 		}),
-		// ×Ó±í¶ÔÓ¦µÄdataTable
+		// å­è¡¨å¯¹åº”çš„dataTable
 		childDataTable: new u.DataTable({
 		    meta: {
 				"name": "",
@@ -81,7 +81,7 @@ http://design.yyuap.com/static/uui/latest/js/u-grid.js
 				"count": "",
 		    }
 		}),
-		//Ö÷±í¶ÔÓ¦µÄ±í¸ñ¿Ø¼şÑ¡ÖĞĞĞÊ±Ö´ĞĞµÄfunction
+		//ä¸»è¡¨å¯¹åº”çš„è¡¨æ ¼æ§ä»¶é€‰ä¸­è¡Œæ—¶æ‰§è¡Œçš„function
 		mainGridRowSelect: function(obj){
 				var filterName = obj.rowObj.value.name;
 				var newData = filterData(childData,filterName);
@@ -89,13 +89,13 @@ http://design.yyuap.com/static/uui/latest/js/u-grid.js
 				viewModel.childDataTable.setSimpleData(newData);
 		}
 	}
- mainDataTableÎªÖ÷±í¶ÔÓ¦µÄdataTable£¬childDataTableÎª×Ó±í¶ÔÓ¦µÄdataTable£¬mainGridRowSelectÎªÖ÷±í¶ÔÓ¦µÄ±í¸ñ¿Ø¼şÑ¡ÖĞĞĞÊ±Ö´ĞĞµÄfunction¡£
- 3¡¢´´½¨×Ó±í¹ıÂËfunction
+ mainDataTableä¸ºä¸»è¡¨å¯¹åº”çš„dataTableï¼ŒchildDataTableä¸ºå­è¡¨å¯¹åº”çš„dataTableï¼ŒmainGridRowSelectä¸ºä¸»è¡¨å¯¹åº”çš„è¡¨æ ¼æ§ä»¶é€‰ä¸­è¡Œæ—¶æ‰§è¡Œçš„functionã€‚
+ 3ã€åˆ›å»ºå­è¡¨è¿‡æ»¤function
 
 	/**
-	 ## ×Ó±íÊı¾İĞ£Ñé£º
-	 *  data: ×Ó±íÊı¾İ¼¯ºÏ
-	 *  filtername: ¹ıÂË²Ù×÷Æ¥ÅäÖµ
+	 ## å­è¡¨æ•°æ®æ ¡éªŒï¼š
+	 *  data: å­è¡¨æ•°æ®é›†åˆ
+	 *  filtername: è¿‡æ»¤æ“ä½œåŒ¹é…å€¼
 	 */
 	filterData = function(data,filtername){
         var temp = []
@@ -106,110 +106,110 @@ http://design.yyuap.com/static/uui/latest/js/u-grid.js
         }
         return temp;
     }
- 4¡¢´´½¨app
+ 4ã€åˆ›å»ºapp
  
 	var app = u.createApp({
 		el: 'body',
 		model: viewModel
 	});
 	
-5¡¢´´½¨Ö÷×Ó±íÊı¾İ¼¯ºÏ²¢ÎªÖ÷±íÌí¼ÓÊı¾İ
+5ã€åˆ›å»ºä¸»å­è¡¨æ•°æ®é›†åˆå¹¶ä¸ºä¸»è¡¨æ·»åŠ æ•°æ®
 
-	// ´´½¨Ö÷×Ó±íÊı¾İĞÅÏ¢
+	// åˆ›å»ºä¸»å­è¡¨æ•°æ®ä¿¡æ¯
 	var mainData = [{
             email: "li@126.com",
             depart: "UAPweb",
             company: "UAP",
-            name: 'ÕÅÈı',
+            name: 'å¼ ä¸‰',
             tel: '13610068888'
         }, {
             email: "li@126.com",
             depart: "UAPweb",
             company: "UAP",
-            name: 'ÀîËÄ',
+            name: 'æå››',
             tel: '13610068888'
         }, {
             email: "li@126.com",
             depart: "UAPweb",
             company: "UAP",
-            name: 'ÍõÎå',
+            name: 'ç‹äº”',
             tel: '13610068888'
         }, {
             email: "li@126.com",
             depart: "UAPweb",
             company: "UAP",
-            name: '¹ùÁù',
+            name: 'éƒ­å…­',
             tel: '13610068888'
         }, {
             email: "li@126.com",
             depart: "UAPweb",
             company: "UAP",
-            name: 'ÌïÆß',
+            name: 'ç”°ä¸ƒ',
             tel: '13610068888'
         }];
 	var childData = [{
             date: "2015-05-15 00:00:00",
-            type: "¼Ó°à´ò³µ·ÑÓÃ",
-            detail: "¼Ó°à",
-            name: 'ÀîËÄ',
+            type: "åŠ ç­æ‰“è½¦è´¹ç”¨",
+            detail: "åŠ ç­",
+            name: 'æå››',
             count: '60'
         }, {
             date: "2015-05-15 00:00:00",
-            type: "¼Ó°à´ò³µ·ÑÓÃ",
-            detail: "¼Ó°à",
-            name: 'ÀîËÄ',
+            type: "åŠ ç­æ‰“è½¦è´¹ç”¨",
+            detail: "åŠ ç­",
+            name: 'æå››',
             count: '60'
         }, {
             date: "2015-05-15 00:00:00",
-            type: "¼Ó°à´ò³µ·ÑÓÃ",
-            detail: "¼Ó°à",
-            name: 'ÀîËÄ',
+            type: "åŠ ç­æ‰“è½¦è´¹ç”¨",
+            detail: "åŠ ç­",
+            name: 'æå››',
             count: '60'
         }, {
             date: "2015-05-15 00:00:00",
-            type: "¼Ó°à´ò³µ·ÑÓÃ",
-            detail: "¼Ó°à",
-            name: 'ÕÅÈı',
+            type: "åŠ ç­æ‰“è½¦è´¹ç”¨",
+            detail: "åŠ ç­",
+            name: 'å¼ ä¸‰',
             count: '60'
         }, {
             date: "2015-05-15 00:00:00",
-            type: "¼Ó°à´ò³µ·ÑÓÃ",
-            detail: "¼Ó°à",
-            name: 'ÕÅÈı',
+            type: "åŠ ç­æ‰“è½¦è´¹ç”¨",
+            detail: "åŠ ç­",
+            name: 'å¼ ä¸‰',
             count: '60'
         }, {
             date: "2015-05-15 00:00:00",
-            type: "¼Ó°à´ò³µ·ÑÓÃ",
-            detail: "¼Ó°à",
-            name: 'ÍõÎå',
+            type: "åŠ ç­æ‰“è½¦è´¹ç”¨",
+            detail: "åŠ ç­",
+            name: 'ç‹äº”',
             count: '60'
         }, {
             date: "2015-05-15 00:00:00",
-            type: "¼Ó°à´ò³µ·ÑÓÃ",
-            detail: "¼Ó°à",
-            name: '¹ùÁù',
+            type: "åŠ ç­æ‰“è½¦è´¹ç”¨",
+            detail: "åŠ ç­",
+            name: 'éƒ­å…­',
             count: '60'
         }, {
             date: "2015-05-15 00:00:00",
-            type: "¼Ó°à´ò³µ·ÑÓÃ",
-            detail: "¼Ó°à",
-            name: '¹ùÁù',
+            type: "åŠ ç­æ‰“è½¦è´¹ç”¨",
+            detail: "åŠ ç­",
+            name: 'éƒ­å…­',
             count: '60'
         }, {
             date: "2015-05-15 00:00:00",
-            type: "¼Ó°à´ò³µ·ÑÓÃ",
-            detail: "¼Ó°à",
-            name: 'ÌïÆß',
+            type: "åŠ ç­æ‰“è½¦è´¹ç”¨",
+            detail: "åŠ ç­",
+            name: 'ç”°ä¸ƒ',
             count: '60'
         }, {
             date: "2015-05-15 00:00:00",
-            type: "¼Ó°à´ò³µ·ÑÓÃ",
-            detail: "¼Ó°à",
-            name: 'ÌïÆß',
+            type: "åŠ ç­æ‰“è½¦è´¹ç”¨",
+            detail: "åŠ ç­",
+            name: 'ç”°ä¸ƒ',
             count: '60'
         }];
-    // ÎªÖ÷±íÌí¼ÓÊı¾İ
+    // ä¸ºä¸»è¡¨æ·»åŠ æ•°æ®
 	viewModel.mainDataTable.setSimpleData(mainData);
-# Ê¾Àı
+# ç¤ºä¾‹
 
 replaceExamp
