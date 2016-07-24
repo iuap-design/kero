@@ -25,7 +25,7 @@ http://design.yyuap.com/static/uui/latest/js/u-grid.js
 		<div class="u-col-md-12">
 		    <div class="u-widget  u-widget-right">
 			<div class="u-widget-heading">
-			    <h3 class="u-widget-title">主表</h3>
+			    <div class="u-widget-title">主表</div>
 			</div>
 			<div class="u-widget-body" style="margin-bottom: 30px">
 			    <div id="mainGridDiv" u-meta='{"id":"mainGrid","data":"mainDataTable","type":"grid","onRowSelected":"mainGridRowSelect"}'>
@@ -41,7 +41,7 @@ http://design.yyuap.com/static/uui/latest/js/u-grid.js
 		<div class="u-col-md-12">
 		    <div class="u-widget  u-widget-right">
 			<div class="u-widget-heading">
-			    <h3 class="u-widget-title">子表</h3>
+			    <div class="u-widget-title">子表</div>
 			</div>
 			<div class="u-widget-body" style="margin-bottom: 30px">
 			    <div id="childGridDiv" u-meta='{"id":"childGrid","data":"childDataTable","type":"grid"}'>
@@ -57,7 +57,7 @@ http://design.yyuap.com/static/uui/latest/js/u-grid.js
 	    </div>
 	</div>
 
- #mainGridDiv 为主表对应的表格控件的顶层div，#childGridDiv为子表对应的表格控件的顶层div。
+DOM说明：#mainGridDiv 为主表对应的表格控件的顶层div，#childGridDiv为子表对应的表格控件的顶层div。
 2、创建viewModel
 
 	viewModel = {
@@ -93,7 +93,7 @@ http://design.yyuap.com/static/uui/latest/js/u-grid.js
  3、创建子表过滤function
 
 	/**
-	 ## 子表数据校验：
+	 * 子表数据校验：
 	 *  data: 子表数据集合
 	 *  filtername: 过滤操作匹配值
 	 */
