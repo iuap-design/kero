@@ -68,6 +68,69 @@ dataTable1.on('valueChange',function(event){
 ## Example
 
 
+##示例：input输入框
+
+输入长度6-12字符之间
+
+
+<div class="example-content"><!-- HTML -->
+<div id="demo1">
+	<input u-meta='{"data":"dt1","field":"f1"}' />	
+</div>
+</div>
+<div class="example-content ex-hide"><script>// JS
+var app,viewModel1;
+viewModel1 = {
+    dt1: new u.DataTable({
+        meta:{
+            f1:{
+                type:'string',
+                minLength:6,
+                maxLength:12
+            }
+        }
+    })
+};
+
+app = u.createApp({
+    el:'#demo1',
+    model:viewModel1
+});
+
+var r = viewModel1.dt1.createEmptyRow();
+r.setValue('f1','test txt');
+
+</script></div>
+<div class="examples-code"><pre><code>&lt;!-- HTML -->
+&lt;div id="demo1">
+	&lt;input u-meta='{"data":"dt1","field":"f1"}' />	
+&lt;/div>
+</code></pre>
+</div>
+<div class="examples-code"><pre><code>// JS
+var app,viewModel1;
+viewModel1 = {
+    dt1: new u.DataTable({
+        meta:{
+            f1:{
+                type:'string',
+                minLength:6,
+                maxLength:12
+            }
+        }
+    })
+};
+
+app = u.createApp({
+    el:'#demo1',
+    model:viewModel1
+});
+
+var r = viewModel1.dt1.createEmptyRow();
+r.setValue('f1','test txt');
+</code></pre>
+</div>
+
 ##示例：时间、日期指定格式
 
 输入指定格式
@@ -150,69 +213,6 @@ var r = viewModel2.dt2.createEmptyRow();
 r.setValue('f2', "2016-6-30 12:13:22");
 r.setValue('f3', "2016-2-13 4:58:58");
 
-</code></pre>
-</div>
-
-##示例：input输入框
-
-输入长度6-12字符之间
-
-
-<div class="example-content"><!-- HTML -->
-<div id="demo1">
-	<input u-meta='{"data":"dt1","field":"f1"}' />	
-</div>
-</div>
-<div class="example-content ex-hide"><script>// JS
-var app,viewModel1;
-viewModel1 = {
-    dt1: new u.DataTable({
-        meta:{
-            f1:{
-                type:'string',
-                minLength:6,
-                maxLength:12
-            }
-        }
-    })
-};
-
-app = u.createApp({
-    el:'#demo1',
-    model:viewModel1
-});
-
-var r = viewModel1.dt1.createEmptyRow();
-r.setValue('f1','test txt');
-
-</script></div>
-<div class="examples-code"><pre><code>&lt;!-- HTML -->
-&lt;div id="demo1">
-	&lt;input u-meta='{"data":"dt1","field":"f1"}' />	
-&lt;/div>
-</code></pre>
-</div>
-<div class="examples-code"><pre><code>// JS
-var app,viewModel1;
-viewModel1 = {
-    dt1: new u.DataTable({
-        meta:{
-            f1:{
-                type:'string',
-                minLength:6,
-                maxLength:12
-            }
-        }
-    })
-};
-
-app = u.createApp({
-    el:'#demo1',
-    model:viewModel1
-});
-
-var r = viewModel1.dt1.createEmptyRow();
-r.setValue('f1','test txt');
 </code></pre>
 </div>
 

@@ -399,43 +399,6 @@ DOM说明：#mainGridDiv 为主表对应的表格控件的顶层div，#childGrid
 	viewModel.mainDataTable.setSimpleData(mainData);
 });
 </script></div>
-<div class="examples-code"><pre><code>&lt;div class="u-container-fluid u-widget-bg">
-    &lt;div class="u-row">
-        &lt;div class="u-col-md-12">
-            &lt;div class="u-widget  u-widget-right">
-                &lt;div class="u-widget-heading">
-                    &lt;div class="u-widget-title">主表&lt;/div>
-                &lt;/div>
-                &lt;div class="u-widget-body" style="margin-bottom: 30px">
-                    &lt;div id="mainGridDiv" u-meta='{"id":"mainGrid","data":"mainDataTable","type":"grid","onRowSelected":"mainGridRowSelect"}'>
-						&lt;div options='{"field":"name","dataType":"String","title":"姓名"}'>&lt;/div>
-						&lt;div options='{"field":"tel","dataType":"String","title":"手机"}'>&lt;/div>
-						&lt;div options='{"field":"email","dataType":"String","title":"邮件"}'>&lt;/div>
-						&lt;div options='{"field":"depart","dataType":"String","title":"部门"}'>&lt;/div>
-						&lt;div options='{"field":"company","dataType":"String","title":"公司"}'>&lt;/div>
-					&lt;/div>
-                &lt;/div>
-            &lt;/div>
-        &lt;/div>
-        &lt;div class="u-col-md-12">
-            &lt;div class="u-widget  u-widget-right">
-                &lt;div class="u-widget-heading">
-                    &lt;div class="u-widget-title">子表&lt;/div>
-                &lt;/div>
-                &lt;div class="u-widget-body" style="margin-bottom: 30px">
-                    &lt;div id="childGridDiv" u-meta='{"id":"childGrid","data":"childDataTable","type":"grid"}'>
-						&lt;div options='{"field":"name","dataType":"String","title":"报销人"}'>&lt;/div>
-						&lt;div options='{"field":"date","dataType":"String","title":"日期"}'>&lt;/div>
-						&lt;div options='{"field":"type","dataType":"String","title":"费用类型"}'>&lt;/div>
-						&lt;div options='{"field":"detail","dataType":"String","title":"事由"}'>&lt;/div>
-						&lt;div options='{"field":"count","dataType":"String","title":"报销金额"}'>&lt;/div>
-					&lt;/div>
-                &lt;/div>
-            &lt;/div>
-        &lt;/div>
-    &lt;/div>
-&lt;/div></code></pre>
-</div>
 <div class="examples-code"><pre><code>﻿$(document).ready(function () {
     
 	// 创建viewModel,包含主子表对应dataTable以及grid中使用的function变量
@@ -584,5 +547,42 @@ DOM说明：#mainGridDiv 为主表对应的表格控件的顶层div，#childGrid
 	// 为主表添加数据
 	viewModel.mainDataTable.setSimpleData(mainData);
 });</code></pre>
+</div>
+<div class="examples-code"><pre><code>&lt;div class="u-container-fluid u-widget-bg">
+    &lt;div class="u-row">
+        &lt;div class="u-col-md-12">
+            &lt;div class="u-widget  u-widget-right">
+                &lt;div class="u-widget-heading">
+                    &lt;div class="u-widget-title">主表&lt;/div>
+                &lt;/div>
+                &lt;div class="u-widget-body" style="margin-bottom: 30px">
+                    &lt;div id="mainGridDiv" u-meta='{"id":"mainGrid","data":"mainDataTable","type":"grid","onRowSelected":"mainGridRowSelect"}'>
+						&lt;div options='{"field":"name","dataType":"String","title":"姓名"}'>&lt;/div>
+						&lt;div options='{"field":"tel","dataType":"String","title":"手机"}'>&lt;/div>
+						&lt;div options='{"field":"email","dataType":"String","title":"邮件"}'>&lt;/div>
+						&lt;div options='{"field":"depart","dataType":"String","title":"部门"}'>&lt;/div>
+						&lt;div options='{"field":"company","dataType":"String","title":"公司"}'>&lt;/div>
+					&lt;/div>
+                &lt;/div>
+            &lt;/div>
+        &lt;/div>
+        &lt;div class="u-col-md-12">
+            &lt;div class="u-widget  u-widget-right">
+                &lt;div class="u-widget-heading">
+                    &lt;div class="u-widget-title">子表&lt;/div>
+                &lt;/div>
+                &lt;div class="u-widget-body" style="margin-bottom: 30px">
+                    &lt;div id="childGridDiv" u-meta='{"id":"childGrid","data":"childDataTable","type":"grid"}'>
+						&lt;div options='{"field":"name","dataType":"String","title":"报销人"}'>&lt;/div>
+						&lt;div options='{"field":"date","dataType":"String","title":"日期"}'>&lt;/div>
+						&lt;div options='{"field":"type","dataType":"String","title":"费用类型"}'>&lt;/div>
+						&lt;div options='{"field":"detail","dataType":"String","title":"事由"}'>&lt;/div>
+						&lt;div options='{"field":"count","dataType":"String","title":"报销金额"}'>&lt;/div>
+					&lt;/div>
+                &lt;/div>
+            &lt;/div>
+        &lt;/div>
+    &lt;/div>
+&lt;/div></code></pre>
 </div>
 
