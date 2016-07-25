@@ -79,6 +79,9 @@ var demoDiv = document.getElementById('demo_div');
 var dtVal = viewModel.dt1.getValue('f1');
 demoDiv.innerHTML = dtVal;
 </script></div>
+<div class="examples-code"><pre><code>&lt;!-- HTML -->
+&lt;div id="demo_div">&lt;/div></code></pre>
+</div>
 <div class="examples-code"><pre><code>// JS
 var app,viewModel;
 
@@ -117,8 +120,5 @@ r.setValue('f1','Hello World');
 var demoDiv = document.getElementById('demo_div');
 var dtVal = viewModel.dt1.getValue('f1');
 demoDiv.innerHTML = dtVal;</code></pre>
-</div>
-<div class="examples-code"><pre><code>&lt;!-- HTML -->
-&lt;div id="demo_div">&lt;/div></code></pre>
 </div>
 
