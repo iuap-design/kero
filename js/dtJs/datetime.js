@@ -62,7 +62,7 @@ u.DateTimeAdapter = u.BaseAdapter.extend({
 				$(this.element).mobiscroll().datetime(op);
 			}
 		}else{
-			this.comp = new u.DateTimePicker({el:this.element,format:this.maskerMeta.format});
+			this.comp = new u.DateTimePicker({el:this.element,format:this.maskerMeta.format,showFix:this.options.showFix});
 		}
 		
 		this.element['u.DateTimePicker'] = this.comp;
