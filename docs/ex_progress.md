@@ -1,9 +1,9 @@
-# 月份选择
+# 进度条
 
-本例展示:月份UI控件绑定默认数据。
+本例实现NeoUI组件progress数据绑定。
 
 
-##Month
+##Progress
 
 本例实现如下效果：
 
@@ -20,11 +20,9 @@
 	type:创建组件对应的类型
 	data:指定数据模型中的数据集
 	field:绑定数据集中对应的字段
-	format:日期控件特有属性。type为u-date时format默认为“YYYY-MM-DD”，type为u-datetime时format默认为“YYYY-MM-DD HH:mm:ss”
+	datasource:绑定数据
 -->
-<div class="" u-meta='{"id":"umonth","type":"u-month","data":"dt1","field":"f1"}'>
-    <input class="u-input"/>
-</div>
+<div class="u-progress" u-meta='{"id":"c1","type":"u-progress","data":"dt1","field":"f1"}'></div>
 </div>
 <div class="example-content ex-hide"><script>// JS
 
@@ -34,13 +32,13 @@
  * f1 创建数据集中的字段
  * type:指定数据对应的类型
  */
-var app, viewModel;
+var app,viewModel;
 viewModel = {
     dt1: new u.DataTable({
-        meta: {
-            f1: {}
+        meta:{
+            f1:{}
         }
-    }),
+    })
 };
 
 /**
@@ -49,14 +47,13 @@ viewModel = {
  * model 指定服务对应的数据模型
  */
 app = u.createApp({
-    el: 'body',
-    model: viewModel
+    el:'body',
+    model:viewModel
 });
 
 // 创建空行,绑定默认值
 var r = viewModel.dt1.createEmptyRow();
-r.setValue('f1', "11");
-viewModel.dt1.setRowSelect(0);
+r.setValue('f1',44);
 
 
 
@@ -69,11 +66,9 @@ viewModel.dt1.setRowSelect(0);
 	type:创建组件对应的类型
 	data:指定数据模型中的数据集
 	field:绑定数据集中对应的字段
-	format:日期控件特有属性。type为u-date时format默认为“YYYY-MM-DD”，type为u-datetime时format默认为“YYYY-MM-DD HH:mm:ss”
+	datasource:绑定数据
 -->
-&lt;div class="" u-meta='{"id":"umonth","type":"u-month","data":"dt1","field":"f1"}'>
-    &lt;input class="u-input"/>
-&lt;/div>
+&lt;div class="u-progress" u-meta='{"id":"c1","type":"u-progress","data":"dt1","field":"f1"}'>&lt;/div>
 </code></pre>
 </div>
 <div class="examples-code"><pre><code>// JS
@@ -84,13 +79,13 @@ viewModel.dt1.setRowSelect(0);
  * f1 创建数据集中的字段
  * type:指定数据对应的类型
  */
-var app, viewModel;
+var app,viewModel;
 viewModel = {
     dt1: new u.DataTable({
-        meta: {
-            f1: {}
+        meta:{
+            f1:{}
         }
-    }),
+    })
 };
 
 /**
@@ -99,14 +94,13 @@ viewModel = {
  * model 指定服务对应的数据模型
  */
 app = u.createApp({
-    el: 'body',
-    model: viewModel
+    el:'body',
+    model:viewModel
 });
 
 // 创建空行,绑定默认值
 var r = viewModel.dt1.createEmptyRow();
-r.setValue('f1', "11");
-viewModel.dt1.setRowSelect(0);
+r.setValue('f1',44);
 
 
 </code></pre>
