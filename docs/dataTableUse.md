@@ -1,4 +1,4 @@
-# 基本设置
+# 基础设置
 
 设置基本的校验、格式化、添加事件监听。
 
@@ -44,7 +44,6 @@ var dataTable1 = new u.DataTable({
 });
 ```
 
-
 ---
 
 
@@ -61,6 +60,7 @@ dataTable1.on('valueChange',function(event){
 		newValue = event.newValue;
 });
 ```
+
 
 更多设置参见 [u.DataTable](http://design.yyuap.com/dist/pages/kero/udatatable.html)
 ---
