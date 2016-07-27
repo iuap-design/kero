@@ -4,13 +4,17 @@ u.CheckboxAdapter = u.BaseAdapter.extend({
         var self = this;
         // u.CheckboxAdapter.superclass.initialize.apply(this, arguments); 
         this.isGroup = this.options['isGroup'] === true || this.options['isGroup'] === 'true';
-        if (this.options['datasource']) {
-            this.isGroup = true;
-            var datasource = u.getJSObject(this.viewModel, this.options['datasource']);
+        if(this.options['datasource'] || this.options['hasOther']){
+            // 存在datasource或者有其他选项，将当前dom元素保存，以后用于复制新的dom元素
             this.checkboxTemplateArray = [];
             for (var i= 0, count = this.element.childNodes.length; i< count; i++){
                 this.checkboxTemplateArray.push(this.element.childNodes[i]);
             }
+        }
+        if (this.options['datasource']) {
+            this.isGroup = true;
+            var datasource = u.getJSObject(this.viewModel, this.options['datasource']);
+            
             this.setComboData(datasource);
         }else{
             if(this.element['u.Checkbox']) {
@@ -46,6 +50,65 @@ u.CheckboxAdapter = u.BaseAdapter.extend({
                     }
                 }
             });
+        }
+        // 如果存在其他
+        if(this.options['hasOther']){
+            var node = null;
+            for(var j=0; j<this.checkboxTemplateArray.length; j++){
+                this.element.appendChild(this.checkboxTemplateArray[j].cloneNode(true));
+            }
+            var LabelS = this.element.querySelectorAll('.u-checkbox');
+            self.lastLabel = LabelS[LabelS.length -1];
+            var allCheckS = this.element.querySelectorAll('[type=checkbox]');
+            self.lastCheck = allCheckS[allCheckS.length -1];
+            var nameDivs = this.element.querySelectorAll('[data-role=name]');
+            self.lastNameDiv = nameDivs[nameDivs.length -1];
+            self.lastNameDiv.innerHTML = '其他';
+            self.otherInput = u.makeDOM('<input type="text">');
+            self.lastNameDiv.parentNode.appendChild(self.otherInput);
+            self.lastCheck.value = '';
+           
+
+            var comp;
+            if(self.lastLabel['u.Checkbox']) {
+                comp = self.lastLabel['u.Checkbox'];
+            } else {
+                comp = new u.Checkbox(self.lastLabel);
+            }
+            self.lastLabel['u.Checkbox'] = comp;
+            self.otherComp = comp;
+            comp.on('change', function(){
+                if (self.slice) return;
+                var modelValue = self.dataModel.getValue(self.field);
+                modelValue = modelValue ? modelValue : '';
+                var valueArr = modelValue == '' ? [] : modelValue.split(',');
+                if (comp._inputElement.checked) {
+                    var oldIndex = valueArr.indexOf(comp._inputElement.oldValue)
+                    if(oldIndex > -1){
+                        valueArr.splice(oldIndex, 1);
+                    }
+                    if(comp._inputElement.value)
+                        valueArr.push(comp._inputElement.value)
+                } else {
+                    var index = valueArr.indexOf(comp._inputElement.value);
+                    if(index > -1){
+                        valueArr.splice(index, 1);
+                    }
+                }
+                //self.slice = true;
+                self.dataModel.setValue(self.field, valueArr.join(','));
+                //self.slice = false;
+            });
+            
+            u.on(self.otherInput,'blur',function(e){
+                self.lastCheck.oldValue = self.lastCheck.value;
+                self.lastCheck.value = this.value;
+                self.otherComp.trigger('change');
+
+            })
+            u.on(self.otherInput,'click',function(e){
+                u.stopEvent(e)
+            })
         }
 
         if(this.dataModel){
@@ -97,16 +160,35 @@ u.CheckboxAdapter = u.BaseAdapter.extend({
     modelValueChange: function (val) {
         var self = this;
         if (this.slice) return;
+        
         if (this.isGroup){
             this.trueValue = val;
+            if(this.options.hasOther){
+                otherVal = '';
+                if(val)
+                    otherVal = val + ',';
+            }
             this.element.querySelectorAll('.u-checkbox').forEach(function (ele) {
                 var comp =  ele['u.Checkbox'];
-                if (comp._inputElement.checked != (val + ',').indexOf(comp._inputElement.value) > -1){
+                var inputValue = comp._inputElement.value;
+                if (inputValue && comp._inputElement.checked != (val + ',').indexOf(inputValue + ',') > -1){
                     self.slice = true;
                     comp.toggle();
                     self.slice = false;
                 }
+                if(inputValue && (val + ',').indexOf(inputValue + ',') > -1){
+                    if(self.options.hasOther){
+                        otherVal = otherVal.replace(inputValue + ',','');
+                    }
+                }
             })
+            if(this.options.hasOther){
+                otherVal = otherVal.replace(/\,/g,'');
+                if(otherVal){
+                    self.lastCheck.value = otherVal;
+                    self.otherInput.value = otherVal;
+                }
+            }
         }else{
             if (this.comp._inputElement.checked != (val === this.checkedValue)){
                 this.slice = true;

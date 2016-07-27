@@ -49,6 +49,24 @@ u.GridAdapter = u.BaseAdapter.extend({
 		this.gridOptions.onBeforeEditFun = u.getFunction(viewModel,this.gridOptions.onBeforeEditFun);
 		this.gridOptions.onRowHover = u.getFunction(viewModel,this.gridOptions.onRowHover);
 		this.gridOptions.afterCreate = u.getFunction(viewModel,this.gridOptions.afterCreate);
+
+		/*扩展onBeforeEditFun，如果点击的是单选或者复选的话则不执行原有的编辑处理，直接通过此js进行处理*/
+		var customOnBeforeEditFun = this.gridOptions.onBeforeEditFun;
+		var newOnBeforeEditFun = function(obj){
+			var colIndex = obj.colIndex;
+			var $tr = obj.$tr;
+			
+			if($($tr.find('td')[colIndex]).find('[type=radio]').length > 0 || $($tr.find('td')[colIndex]).find('[type=checkbox]').length > 0){
+				return false;
+			}else{
+				if(typeof customOnBeforeEditFun == 'function'){
+					return customOnBeforeEditFun(obj);
+				}else{
+					return true;
+				}
+			}
+		}
+		this.gridOptions.onBeforeEditFun = newOnBeforeEditFun;
 		/*
 		 * 处理column参数  item
 		 * div子项div存储column信息
@@ -125,8 +143,20 @@ u.GridAdapter = u.BaseAdapter.extend({
 					if(obj.value == 'Y'){
 						checkStr = 'checked';
 					}
-					var htmlStr = '<input type="checkbox"   style="cursor:default;" disabled ' + checkStr +'>'
+					var htmlStr = '<input type="checkbox"   style="cursor:default;" ' + checkStr +'>'
 					obj.element.innerHTML = htmlStr;
+
+					var grid = obj.gridObj
+					var datatable = grid.dataTable
+					var rowId = obj.row.value['$_#_@_id'];
+
+					var row = datatable.getRowByRowId(rowId);
+					$(obj.element).find('input').on('click',function(){
+						var value = this.checked?"Y":"N";
+						var column = obj.gridCompColumn
+						var field = column.options.field	
+						row.setValue(field,value);
+					})
 
 					// 根据惊道需求增加renderType之后的处理,此处只针对grid.js中的默认render进行处理，非默认通过renderType进行处理
 					if(typeof afterRType == 'function'){
@@ -285,10 +315,10 @@ u.GridAdapter = u.BaseAdapter.extend({
 					$(params.element).append(compDiv)
 
 					for(var i = 0;i < ds.length;i++){
-						if(ds[i].pk==value)
-							compDiv.append('<input name="'+column.field+params.row.value['$_#_@_id']+'" type="radio" value="'+ds[i].pk +'" checked="true" /><i data-role="name">' +ds[i].name+ '</i>')
+						if(ds[i].value==value)
+							compDiv.append('<input name="'+column.field+params.row.value['$_#_@_id']+'" type="radio" value="'+ds[i].value +'" checked="true" /><i data-role="name">' +ds[i].name+ '</i>')
 						else
-							compDiv.append('<input name="'+column.field+params.row.value['$_#_@_id']+'" type="radio" value="'+ds[i].pk +'"/><i data-role="name">' +ds[i].name+ '</i>')
+							compDiv.append('<input name="'+column.field+params.row.value['$_#_@_id']+'" type="radio" value="'+ds[i].value +'"/><i data-role="name">' +ds[i].name+ '</i>')
 					}
 					compDiv.find(":radio").each(function() {
 
