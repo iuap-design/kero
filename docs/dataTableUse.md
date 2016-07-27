@@ -63,6 +63,7 @@ dataTable1.on('valueChange',function(event){
 
 
 更多设置参见 [u.DataTable](http://design.yyuap.com/dist/pages/kero/udatatable.html)
+
 ---
 
 ## Example
