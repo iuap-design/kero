@@ -19,6 +19,13 @@
 
 获取dataTable中的数据
 
+	//创建dataTable
+	var dataTable = new u.DataTable(
+		meta:{
+			field1:{type:'string'}
+		}
+	)
+	
 	//默认获取所有数据
 	dataTable.getSimpleData()
 	

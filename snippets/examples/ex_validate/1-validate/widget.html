@@ -1,0 +1,31 @@
+<!-- 
+	HTML
+	u-meta:框架特有标记，框架通过识别此标记创建对应UI组件，以及进行数据绑定 
+	id,type.data,field为必选项
+	id:创建组件唯一标识
+	type:创建组件对应的类型
+	data:指定数据模型中的数据集
+	field:绑定数据集中对应的字段
+-->
+<div class="u-form-group">
+    <label>验证输入不为空且需要为数值</label>
+    <div class="u-input-group u-has-feedback" u-meta='{"type":"u-text","data":"dt1","field":"otherSupportMoney"}'>
+        <div class="u-input-group-before" style="color: red;">*</div>
+        <input type="text" class="u-form-control">
+    </div>
+    <label>验证编码不能为空：</label>
+    <div class="u-input-group u-has-feedback" u-meta='{"type":"u-text","data":"dt1","field":"otherSupportCode"}'>
+        <div class="u-input-group-before" style="color: red;">*</div>
+        <input type="text" class="u-form-control">
+    </div>
+    <label>显示默认值：</label>
+    <div class="u-input-group u-has-feedback" u-meta='{"type":"u-text","data":"dt1","field":"isValid"}'>
+        <div class="u-input-group-before" style="color: red;">*</div>
+        <input type="text" class="u-form-control">
+    </div>
+    <label>显示默认值(函数)：</label>
+    <div class="u-input-group u-has-feedback" u-meta='{"type":"u-text","data":"dt1","field":"isDefault"}'>
+        <div class="u-input-group-before" style="color: red;">*</div>
+        <input type="text" class="u-form-control">
+    </div>
+</div>

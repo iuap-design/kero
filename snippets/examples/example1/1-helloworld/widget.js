@@ -1,3 +1,4 @@
+// JS
 var app,viewModel;
 viewModel = {
     dt1: new u.DataTable({
@@ -17,3 +18,7 @@ app = u.createApp({
 
 var r = viewModel.dt1.createEmptyRow();
 r.setValue('f1','Hello World');
+
+var demoDiv = document.getElementById('demo_div');
+var dtVal = viewModel.dt1.getValue('f1');
+demoDiv.innerHTML = dtVal;

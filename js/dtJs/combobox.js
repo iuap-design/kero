@@ -6,8 +6,9 @@ u.ComboboxAdapter = u.BaseAdapter.extend({
         this.datasource = u.getJSObject(this.viewModel, this.options['datasource']);
         this.mutil = this.options.mutil || false;
         this.onlySelect = this.options.onlySelect || false;
+        this.showFix = this.options.showFix || false;
         this.validType = 'combobox';
-        this.comp = new u.Combo({el:this.element,mutilSelect:this.mutil,onlySelect:this.onlySelect});
+        this.comp = new u.Combo({el:this.element,mutilSelect:this.mutil,onlySelect:this.onlySelect,showFix:this.showFix});
         this.element['u.Combo'] = this.comp;
         if (this.datasource){
             this.comp.setComboData(this.datasource);
