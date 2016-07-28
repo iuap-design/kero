@@ -59,11 +59,11 @@ u.PaginationAdapter = u.BaseAdapter.extend({
 
 
         // 如果datatable已经创建则根据datatable设置分页组件
-        self.comp.update({totalPages: this.dataModel.totalPages()})
-        self.comp.update({pageSize: this.dataModel.pageSize()})
-        self.comp.update({currentPage: this.dataModel.pageIndex() + 1})
-        self.comp.update({totalCount: this.dataModel.totalRow()})
-
+        // self.comp.update({totalPages: this.dataModel.totalPages()})
+        // self.comp.update({pageSize: this.dataModel.pageSize()})
+        // self.comp.update({currentPage: this.dataModel.pageIndex() + 1})
+        // self.comp.update({totalCount: this.dataModel.totalRow()})
+        self.comp.update({totalPages: this.dataModel.totalPages(),pageSize: this.dataModel.pageSize(),currentPage: this.dataModel.pageIndex() + 1,totalCount: this.dataModel.totalRow()})
     },
 
     defaultPageChange: function (pageIndex) {

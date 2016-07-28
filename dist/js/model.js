@@ -3568,7 +3568,13 @@ u.BaseAdapter = u.Class.create({
         }
     },
     getOption: function(key){
-        return this.dataModel.getRowMeta(this.field, key) || this.options[key];
+        var rs = this.dataModel.getRowMeta(this.field, key);
+        if (rs===0){
+            return 0;
+        }else {
+            return rs || this.options[key];
+        }
+        
     },
     init: function(){
 
@@ -3644,8 +3650,18 @@ u.FloatAdapter = u.BaseAdapter.extend({
         this.maskerMeta = u.core.getMaskerMeta('float') || {};
         this.validType = 'float';
         this.maskerMeta.precision = this.getOption('precision') || this.maskerMeta.precision;
-        this.max = this.getOption('max') || "10000000000000000000";
-        this.min = this.getOption('min') || "-10000000000000000000";
+        this.max = this.getOption('max') ;
+        this.min = this.getOption('min') ;
+        //如果max为false并且不为0
+        if(!this.max && this.max !=== 0) {
+            this.max = "10000000000000000000";
+        }
+        //如果min为false并且不为0
+        if(!this.min && this.min !===0) {
+            this.min = "-10000000000000000000";
+        }
+        // this.max = this.getOption('max') || "10000000000000000000";
+        // this.min = this.getOption('min') || "-10000000000000000000";
         this.maxNotEq = this.getOption('maxNotEq');
         this.minNotEq = this.getOption('minNotEq');
 
@@ -4696,11 +4712,11 @@ u.PaginationAdapter = u.BaseAdapter.extend({
 
 
         // 如果datatable已经创建则根据datatable设置分页组件
-        self.comp.update({totalPages: this.dataModel.totalPages()})
-        self.comp.update({pageSize: this.dataModel.pageSize()})
-        self.comp.update({currentPage: this.dataModel.pageIndex() + 1})
-        self.comp.update({totalCount: this.dataModel.totalRow()})
-
+        // self.comp.update({totalPages: this.dataModel.totalPages()})
+        // self.comp.update({pageSize: this.dataModel.pageSize()})
+        // self.comp.update({currentPage: this.dataModel.pageIndex() + 1})
+        // self.comp.update({totalCount: this.dataModel.totalRow()})
+        self.comp.update({totalPages: this.dataModel.totalPages(),pageSize: this.dataModel.pageSize(),currentPage: this.dataModel.pageIndex() + 1,totalCount: this.dataModel.totalRow()})
     },
 
     defaultPageChange: function (pageIndex) {

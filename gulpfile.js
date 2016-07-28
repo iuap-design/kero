@@ -24,11 +24,11 @@ var errHandle = function ( err ) {
     // 报错信息
     var message = err.message;
     // 出错代码位置
-    var loc = err.loc;
+    // var loc = err.loc;
 
-    var logInfo = '报错文件：' + fileName + '报错类型：' + name + '出错代码位置：' + loc.line + ',' + loc.column;
+    // var logInfo = '报错文件：' + fileName + '报错类型：' + name + '出错代码位置：' + loc.line + ',' + loc.column;
 
-    util.log( logInfo );
+    // util.log( logInfo );
 
     this.end();
 }

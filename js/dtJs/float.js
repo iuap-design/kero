@@ -9,8 +9,18 @@ u.FloatAdapter = u.BaseAdapter.extend({
         this.maskerMeta = u.core.getMaskerMeta('float') || {};
         this.validType = 'float';
         this.maskerMeta.precision = this.getOption('precision') || this.maskerMeta.precision;
-        this.max = this.getOption('max') || "10000000000000000000";
-        this.min = this.getOption('min') || "-10000000000000000000";
+        this.max = this.getOption('max') ;
+        this.min = this.getOption('min') ;
+        //如果max为false并且不为0
+        if(!this.max && this.max !=== 0) {
+            this.max = "10000000000000000000";
+        }
+        //如果min为false并且不为0
+        if(!this.min && this.min !===0) {
+            this.min = "-10000000000000000000";
+        }
+        // this.max = this.getOption('max') || "10000000000000000000";
+        // this.min = this.getOption('min') || "-10000000000000000000";
         this.maxNotEq = this.getOption('maxNotEq');
         this.minNotEq = this.getOption('minNotEq');
 

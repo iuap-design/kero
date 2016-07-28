@@ -57,7 +57,13 @@ u.BaseAdapter = u.Class.create({
         }
     },
     getOption: function(key){
-        return this.dataModel.getRowMeta(this.field, key) || this.options[key];
+        var rs = this.dataModel.getRowMeta(this.field, key);
+        if (rs===0){
+            return 0;
+        }else {
+            return rs || this.options[key];
+        }
+        
     },
     init: function(){
 
