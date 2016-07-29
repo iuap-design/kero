@@ -91,7 +91,7 @@ function copyExamp(path,pathLength){
 								}else{
 									htmlStr = data.toString();
 								}
-								var ctx = 'http://iuap.yonyou.com/fe'
+								var ctx = 'http://design.yyuap.com/static/'
 								var tpl = [
 							        '<!DOCTYPE html>',
 							        '<html lang="en">',
@@ -99,22 +99,22 @@ function copyExamp(path,pathLength){
 							        '<meta charset="UTF-8">',
 							        '<meta name="viewport" content="width=device-width, initial-scale=1">',
 							       	'<title>Title</title>',
-									'<link rel="stylesheet" href="'+ ctx +'/vendor/font-awesome/css/font-awesome.css">',
-							       	'<link rel="stylesheet" type="text/css" href="'+ ctx +'/vendor/uui/css/u.css">',
-							       	'<link rel="stylesheet" type="text/css" href="'+ ctx +'/vendor/uui/css/u-extend.css">',
-								    '<link rel="stylesheet" type="text/css" href="'+ ctx +'/vendor/uui/css/tree.css">',
-							        '<link rel="stylesheet" type="text/css" href="'+ ctx +'/vendor/uui/css/grid.css">',
+									'<link rel="stylesheet" href="'+ ctx +'/font-awesome/css/font-awesome.css">',
+							       	'<link rel="stylesheet" type="text/css" href="'+ ctx +'/uui/latest/css/u.css">',
+							       	'<link rel="stylesheet" type="text/css" href="'+ ctx +'/uui/latest/css/u-extend.css">',
+								    '<link rel="stylesheet" type="text/css" href="'+ ctx +'/uui/latest/css/tree.css">',
+							        '<link rel="stylesheet" type="text/css" href="'+ ctx +'/uui/latest/css/grid.css">',
 							        '<link rel="stylesheet" type="text/css" href="widget.css">',
 							        '</head>',
 							        '<body>',
 							        htmlStr,
-							        '<script src="'+ ctx +'/vendor/jquery/jquery-1.11.2.js"></script>',
-							    	'<script src="'+ ctx +'/vendor/knockout/knockout-3.2.0.debug.js"></script>',
-							        '<script src="'+ ctx +'/vendor/uui/js/u-polyfill.js"></script>',
-							        '<script src="'+ ctx +'/vendor/uui/js/u.js"></script>',
-							        '<script src="'+ ctx +'/vendor/uui/js/u-tree.js"></script>',
-							        '<script src="'+ ctx +'/vendor/uui/js/u-grid.js"></script>',
-									'<script src="'+ ctx +'/vendor/requirejs/require.debug.js"></script>',
+							        '<script src="'+ ctx +'/jquery/jquery-1.11.2.js"></script>',
+							    	'<script src="'+ ctx +'/knockout/knockout-3.2.0.debug.js"></script>',
+							        '<script src="'+ ctx +'/uui/latest/js/u-polyfill.js"></script>',
+							        '<script src="'+ ctx +'/uui/latest/js/u.js"></script>',
+							        '<script src="'+ ctx +'/uui/latest/js/u-tree.js"></script>',
+							        '<script src="'+ ctx +'/uui/latest/js/u-grid.js"></script>',
+									'<script src="'+ ctx +'/requirejs/require.debug.js"></script>',
 									'<script src="widget.js"></script>',
 							        '</body>',
 							        '</html>'
