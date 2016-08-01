@@ -6,7 +6,7 @@ var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
 var minifycss = require('gulp-minify-css');
 var util = require('gulp-util');
-var makeumd = require('./makeumd.js');
+var version = require('./version.js');
 
 /**
  * 公共错误处理函数
@@ -100,7 +100,7 @@ gulp.task('js-init', function() {
 });
 
 gulp.task('js', ['js-init'], function(){
-     makeumd.init([
+     version.init([
             'dist/js/model.js',
             'dist/js/model.min.js',
         ]);
@@ -117,7 +117,7 @@ gulp.task('ujs-init', ['js-init'], function(){
 });
 
 gulp.task('ujs', ['ujs-init'], function(){
-     makeumd.init([
+     version.init([
             'dist/js/u-model.js',
             'dist/js/u-model.min.js',
         ]);
@@ -136,7 +136,7 @@ gulp.task('tree-init', function() {
 });
 
 gulp.task('tree', ['tree-init'], function(){
-     makeumd.init([
+     version.init([
             'dist/js/tree.kero.js',
             'dist/js/tree.kero.min.js',
         ]);
@@ -154,7 +154,7 @@ gulp.task('grid-init', function() {
 });
 
 gulp.task('grid', ['grid-init'], function(){
-     makeumd.init([
+     version.init([
             'dist/js/grid.kero.js',
             'dist/js/grid.kero.min.js',
         ]);
