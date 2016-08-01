@@ -53,7 +53,51 @@ var setMeta = function (fieldName, key, value) {
         });
     }
 }
+
+
+/**
+ * example: meta: {supplier: {meta: {precision:'3', default: '0239900x', display:'显示名称'}}}
+ */
+var updateMeta = function (meta) {
+    if (!meta) {
+        return;
+    }
+    for (var fieldKey in meta) {
+        for (var propKey in meta[fieldKey]) {
+            var oldValue = this.meta[fieldKey][propKey]
+            var newValue = meta[fieldKey][propKey]
+            if (propKey === 'default') {
+                if (!this.meta[fieldKey]['default']) {
+                    this.meta[fieldKey]['default'] = {}
+                }
+                this.meta[fieldKey]['default'].value = meta[fieldKey][propKey]
+            } else if (propKey === 'display') {
+                if (!this.meta[fieldKey]['default']) {
+                    this.meta[fieldKey]['default'] = {}
+                }
+                this.meta[fieldKey]['default'].display = meta[fieldKey][propKey]
+            } else {
+                this.meta[fieldKey][propKey] = meta[fieldKey][propKey]
+            }
+            if (this.metaChange[fieldKey + '.' + propKey])
+                this.metaChange[fieldKey + '.' + propKey](-this.metaChange[fieldKey + '.' + propKey]());
+
+            this.trigger(DataTable.ON_META_CHANGE, {
+                eventType: 'dataTableEvent',
+                dataTable: this.id,
+                field: fieldKey,
+                meta: propKey,
+                oldValue: oldValue,
+                newValue: newValue
+            });
+        }
+
+    }
+    //this.metaChange(- this.metaChange())
+}
+
 export {
 	getMeta,
-	setMeta
+	setMeta,
+    updateMeta
 }

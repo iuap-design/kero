@@ -31,7 +31,8 @@ import {
 
 import {
     getMeta,
-    setMeta
+    setMeta,
+    updateMeta
 } from './meta'
 
 class DataTable extends Events{
@@ -75,6 +76,10 @@ class DataTable extends Events{
         this.addParams = addParams;
         this.getParam = getParam;
 
+        // meta
+        this.getMeta = getMeta;
+        this.setMeta = setMeta;,
+        this.updateMeta = updateMeta;
 
     }
 }
