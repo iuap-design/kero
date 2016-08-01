@@ -4,7 +4,7 @@
  * Date   : 2016-07-29 09:34:01
  */
  
-var createComp = function(ele,viewModel){
+const createComp = function(ele,viewModel){
     var options = JSON.parse(ele.getAttribute('u-meta'));
     if (options && options['type']) {
         var comp = u.compMgr.createDataAdapter({el:ele,options:options,model:viewModel,app:this});
@@ -13,7 +13,7 @@ var createComp = function(ele,viewModel){
     return comp;
 }
 
-var getComp = function (compId) {
+const getComp = function (compId) {
     var returnComp = null;
     u.each(this.elements, function (i, element) {
         if (typeof element === 'string'){
@@ -35,7 +35,7 @@ var getComp = function (compId) {
     return returnComp;
 }
 
-var getCompsByDataTable = function (dataTableId, element) {
+const getCompsByDataTable = function (dataTableId, element) {
     var comps = this.getComps(element),
         targetComps = []
     for (var i = 0; i < comps.length; i++) {
@@ -50,7 +50,7 @@ var getCompsByDataTable = function (dataTableId, element) {
  * @param {String} type
  * @param {object} element
  */
-var getCompsByType = function (type, element) {
+const getCompsByType = function (type, element) {
     var elements = element ? element : this.elements;
     var returnComps = [];
     if (!u.isArray(elements))
@@ -74,7 +74,7 @@ var getCompsByType = function (type, element) {
  * 获取某区域中的所有控件
  * @param {object} element
  */
-var getComps = function (element) {
+const getComps = function (element) {
     var elements = element ? element : this.elements;
     var returnComps = [];
     if(typeof elements == 'string'){
@@ -101,7 +101,7 @@ var getComps = function (element) {
  * 将comp显示到顶端（此方法只支持body上存在滚动条的情况）
  * @param {object} comp对象
  */
-var showComp = function(comp){
+const showComp = function(comp){
     var ele = comp.element,off = u.getOffset(ele),scroll = u.getScroll(ele),
         top = off.top - scroll.top,bodyHeight = document.body.clientHeight,
         nowTop = document.body.scrollTop;

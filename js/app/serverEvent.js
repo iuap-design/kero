@@ -4,7 +4,7 @@
  * Date	  : 2016-07-29 09:34:01
  */
  
-var serverEvent = function () {
+const serverEvent = function () {
     return new ServerEvent(this)
 }
 

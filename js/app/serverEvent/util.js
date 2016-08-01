@@ -5,19 +5,19 @@
  */
 
 
-ServerEvent.fn.setCompression = function (compression) {
+const setCompression = function (compression) {
     if (!iweb.browser.isIE8 && !window.pako && compression == true)
         iweb.log.error("can't compression, please include  pako!")
     else
         this.compression = compression
 }
 
-ServerEvent.fn.addParameter = function (key, value) {
+const addParameter = function (key, value) {
     this.params[key] = value
     return this
 }
 
-ServerEvent.fn.setEvent = function (event) {
+const setEvent = function (event) {
     this.event = _formatEvent(event)
     return this
 }
@@ -26,7 +26,7 @@ var _formatEvent = function (event) {
     return event
 }
 
-ServerEvent.fn.getData = function () {
+const getData = function () {
     var envJson = ko.utils.stringifyJson(this.app.getEnvironment()),
         datasJson = ko.utils.stringifyJson(this.datas, function replacer(key, value) {
           if (typeof value === "undefined" || value == null) {
@@ -57,7 +57,7 @@ ServerEvent.fn.getData = function () {
 
 
 
-ServerEvent.fn.updateDom = function () {
+const updateDom = function () {
     u.each(dom, function (i, n) {
         var vo = n.two
         var key = n.one;

@@ -9,7 +9,7 @@
  * 控件数据校验
  * @param {Object} element
  */
-var compsValidate = function (element, retUnpass) {
+const compsValidate = function (element, retUnpass) {
     var comps = this.getComps(element),
         passed = true,
         unpassed=[];
@@ -25,7 +25,7 @@ var compsValidate = function (element, retUnpass) {
     return passed
 }
 
-var compsValidateMultiParam = function(options){
+const compsValidateMultiParam = function(options){
     var element = options.element,
         comps = this.getComps(element),
         passed = true,

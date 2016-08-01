@@ -5,7 +5,7 @@
  */
 
 
-var setEnable = function (enable) {
+const setEnable = function (enable) {
     u.each(this.elements, function (i, element) {
         if(element){
             element.querySelectorAll('[u-meta]').each(function () {

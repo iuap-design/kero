@@ -4,7 +4,7 @@
  * Date	  : 2016-07-29 09:34:01
  */
 
-var addDataTable = function (dataTableId, rule) {
+const addDataTable = function (dataTableId, rule) {
     var dataTable = this.app.getDataTable(dataTableId)
     this.datas[dataTableId] = dataTable.getDataByRule(rule)
     return this
@@ -15,7 +15,7 @@ var addDataTable = function (dataTableId, rule) {
  * @param {Object} dataTabels
  * 格式1: ['dt1',{'dt2':'all'}]，格式2：['dt1', 'dt2']，格式3: ['dt1', 'dt2'], 'all'
  */
-var addDataTables = function (dataTables) {
+const addDataTables = function (dataTables) {
     if (arguments.length == 2) {
         for (var i = 0; i < dataTables.length; i++) {
             var rule;
@@ -41,14 +41,14 @@ var addDataTables = function (dataTables) {
     return this
 }
 
-var addAllDataTables = function (rule) {
+const addAllDataTables = function (rule) {
     var dts = this.app.dataTables
     for (var i = 0; i < dts.length; i++) {
         this.addDataTable(dts[i].id, rule)
     }
 }
 
-var updateDataTables = function (dataTables, deferred) {
+const updateDataTables = function (dataTables, deferred) {
     for (var key in dataTables) {
         var dt = this.app.getDataTable(key)
         if (dt) {

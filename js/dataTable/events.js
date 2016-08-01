@@ -10,7 +10,7 @@
  * 2. on([u.DataTable.ON_INSERT, u.DataTable.ON_DELETE], function() {}) // 数组
  * 3. on({u.DataTable.ON_INSERT: function() {}, u.DataTable.ON_DELETE: function() {}}) // map
  */
-var on = function (name, callback, one) {
+const on = function (name, callback, one) {
     var self = this, origCb = callback;
     if(Object.prototype.toString.call(name) == '[object Array]') {
         // 数组
@@ -44,7 +44,7 @@ var on = function (name, callback, one) {
  * 解绑事件
  * 
 **/
-var off = function (name, callback) {
+const off = function (name, callback) {
     if(Object.prototype.toString.call(name) == '[object Array]') {
         // 数组
         for(var i in name) {
@@ -76,14 +76,14 @@ var off = function (name, callback) {
 /**
  * 
 **/
-var one = function (name, callback) {
+const one = function (name, callback) {
     this.on(name, callback, 1);
 }
 
 /**
  * 触发事件
  */
-var trigger = function (name) {
+const trigger = function (name) {
     name = name.toLowerCase()
     if (!this._events || !this._events[name]) return this;
     var args = Array.prototype.slice.call(arguments, 1);
@@ -95,7 +95,7 @@ var trigger = function (name) {
 }
 
 
-var getEvent = function (name) {
+const getEvent = function (name) {
     name = name.toLowerCase()
     this._events || (this._events = {})
     return this._events[name]

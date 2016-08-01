@@ -5,27 +5,8 @@
  */
 
 
-/**
- * 获取meta信息，先取row上的信息，没有时，取dataTable上的信息
- * @param {Object} fieldName
- * @param {Object} key
- * @param {Object} row
- */
-var getMeta = function (fieldName, key) {
-    if (arguments.length === 0)
-        return this.meta;
-    else if (arguments.length === 1)
-        return this.meta[fieldName];
 
-    if(this.meta[fieldName] && typeof this.meta[fieldName][key] !== 'undefined'){
-        return this.meta[fieldName][key];
-    }else{
-        return null;
-    }
-    
-}
-
-var setMeta = function (fieldName, key, value) {
+const setMeta = function (fieldName, key, value) {
     if(!this.meta[fieldName])
         return;
     var oldValue = this.meta[fieldName][key]
@@ -33,7 +14,6 @@ var setMeta = function (fieldName, key, value) {
     this.meta[fieldName][key] = value
     if (this.metaChange[fieldName + '.' + key])
         this.metaChange[fieldName + '.' + key](-this.metaChange[fieldName + '.' + key]());
-    //this.metaChange(- this.metaChange())
     if (key == 'enable')
         this.enableChange(-this.enableChange())
     this.trigger(DataTable.ON_META_CHANGE, {
@@ -58,7 +38,7 @@ var setMeta = function (fieldName, key, value) {
 /**
  * example: meta: {supplier: {meta: {precision:'3', default: '0239900x', display:'显示名称'}}}
  */
-var updateMeta = function (meta) {
+const updateMeta = function (meta) {
     if (!meta) {
         return;
     }
@@ -93,11 +73,9 @@ var updateMeta = function (meta) {
         }
 
     }
-    //this.metaChange(- this.metaChange())
 }
 
 export {
-	getMeta,
 	setMeta,
     updateMeta
 }

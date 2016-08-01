@@ -5,15 +5,15 @@
  */
 
 
-var getEnvironment = function () {
+const getEnvironment = function () {
     return window.iweb.Core.collectEnvironment()
 }
 
-var setClientAttribute = function (k, v) {
+const setClientAttribute = function (k, v) {
     window.iweb.Core.setClientAttribute(k, v)
 }
 
-var getClientAttribute = function (k) {
+const getClientAttribute = function (k) {
     return window.iweb.Core.getClientAttributes()[k]
 }
 

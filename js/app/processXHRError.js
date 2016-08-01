@@ -4,7 +4,7 @@
  * Date   : 2016-07-29 09:34:01
  */
 
-var processXHRError = function (rsl, state, xhr) {
+const processXHRError = function (rsl, state, xhr) {
     if (typeof rsl === 'string')
         rsl = JSON.parse(rsl)
     if (xhr.getResponseHeader && xhr.getResponseHeader("X-Error")) {

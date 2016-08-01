@@ -4,7 +4,7 @@
  * Date   : 2016-07-29 09:34:01
  */
 
-var init = function (viewModel, element, doApplyBindings) {
+const init = function (viewModel, element, doApplyBindings) {
     var self = this;
     element = element || document.body;
     if (!u.isArray(element)) {
@@ -38,7 +38,7 @@ var init = function (viewModel, element, doApplyBindings) {
     _getDataTables(this, viewModel);
 }
 
-var _getDataTables = function (app, viewModel) {
+const _getDataTables = function (app, viewModel) {
     for (var key in viewModel) {
         if (viewModel[key] && viewModel[key] instanceof u.DataTable) {
             viewModel[key].id = key

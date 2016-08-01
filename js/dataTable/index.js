@@ -37,11 +37,74 @@ import {
 
 import {
     setData,
+    getData,
+    getDataByRule,
+    clear
+} from './data';
+
+import {
     getSimpleData,
     setSimpleData,
-    addSimpleData,
-    clear
-} from '.data';
+    addSimpleData
+} from './simpleData';
+
+import {
+    setRows,
+    addRow,
+    addRows,
+    insertRow,
+    insertRows,
+    createEmptyRow
+} from './addRow';
+
+import {
+    copyRow,
+    copyRows
+} from './copyRow';
+
+import {
+    removeRowByRowId,
+    removeRow,
+    removeAllRows,
+    removeRows
+} from './removeRow';
+
+import {
+    setRowDelete,
+    setAllRowsDelete,
+    setRowsDelete
+} from './rowDelete';
+
+import {
+    toggleAllSelect,
+    updateSelectedIndices
+} from './rowUpdateSelect';
+
+import {
+    setAllRowsSelect,
+    setRowSelect,
+    setRowsSelect,
+    addRowSelect,
+    addRowsSelect
+} from './rowSelect';
+
+import {
+    setAllRowsUnSelect,
+    setRowUnSelect,
+    setRowsUnSelect
+} from './rowUnSelect';
+
+import {
+    getSelectedIndex,
+    getSelectedIndices,
+    getSelectedIndexs
+} from './getSelect';
+
+import {
+    getSelectedIndex,
+    getSelectedIndices,
+    getSelectedIndexs
+} from './ref';
 
 class DataTable extends Events{
     constructor(options){
@@ -91,11 +154,59 @@ class DataTable extends Events{
 
         // data
         this.setData = setData;
+        this.getData = getData;
+        this.getDataByRule = getDataByRule;
+        this.addSimpleData = addSimpleData;
+
+        // simpleData
         this.getSimpleData = getSimpleData;
         this.setSimpleData = setSimpleData;
         this.addSimpleData = addSimpleData;
-        this.clear = clear;
 
+    
+        // addRow
+        this.setRows = setRows;
+        this.addRow = addRow;
+        this.addRows = addRows;
+        this.insertRow = insertRow;
+        this.insertRows = insertRows;
+        this.createEmptyRow = createEmptyRow;
+
+        // copyRow
+        this.copyRow = copyRow;
+        this.copyRows = copyRows;
+
+        // removeRow
+        this.removeRowByRowId = removeRowByRowId;
+        this.removeRow = removeRow;
+        this.removeAllRows = removeAllRows;
+        this.removeRows = removeRows;
+
+        // rowDelete
+        this.setRowDelete = setRowDelete;
+        this.setAllRowsDelete = setAllRowsDelete;
+        this.setRowsDelete = setRowsDelete;
+
+        // rowUpdateSelect
+        this.toggleAllSelect = toggleAllSelect;
+        this.updateSelectedIndices = updateSelectedIndices;
+
+        // rowSelect
+        this.setAllRowsSelect = setAllRowsSelect;
+        this.setRowSelect = setRowSelect;
+        this.setRowsSelect = setRowsSelect;
+        this.addRowSelect = addRowSelect;
+        this.addRowsSelect = addRowsSelect;
+
+        // rowUnSelect
+        this.setAllRowsUnSelect = setAllRowsUnSelect;
+        this.setRowUnSelect = setRowUnSelect;
+        this.setRowsUnSelect = setRowsUnSelect;
+
+        // getSelect
+        this.getSelectedIndex = getSelectedIndex;
+        this.getSelectedIndices = getSelectedIndices;
+        this.getSelectedIndexs = getSelectedIndexs;
     }
 }
 

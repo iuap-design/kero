@@ -4,7 +4,7 @@
  * Date	  : 2016-07-29 09:34:01
  */
 
-var setAdjustMetaFunc = function (adjustFunc) {
+const setAdjustMetaFunc = function (adjustFunc) {
     this.adjustFunc = adjustFunc
 }
 

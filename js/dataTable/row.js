@@ -8,7 +8,7 @@
  * 设置行数据
  * @param {Object} rows
  */
-var setRows = function (rows) {
+const setRows = function (rows) {
     var insertRows = [], _id;
     for (var i = 0; i < rows.length; i++) {
         var r = rows[i]
@@ -44,7 +44,6 @@ var setRows = function (rows) {
                 row = new Row({parent: this, id: _id})
                 row.setData(rows[i])
                 insertRows.push(row)
-//                  this.addRow(row)
             }
         }
     }
@@ -56,27 +55,25 @@ var setRows = function (rows) {
 /**
  *追加行
  */
-DataTable.fn.addRow = function (row) {
+const addRow = function (row) {
     this.insertRow(this.rows().length, row)
 }
 
 /**
  *追加多行
  */
-DataTable.fn.addRows = function (rows) {
+const addRows = function (rows) {
     this.insertRows(this.rows().length, rows)
 }
 
-DataTable.fn.insertRow = function (index, row) {
+const insertRow = function (index, row) {
     if (!row) {
         row = new Row({parent: this})
     }
     this.insertRows(index, [row])
 }
 
-DataTable.fn.insertRows = function (index, rows) {
-//		if (this.onBeforeRowInsert(index,rows) == false)
-//			return
+const insertRows = function (index, rows) {
     var args = [index, 0]
     for (var i = 0; i < rows.length; i++) {
         args.push(rows[i]);
@@ -91,7 +88,6 @@ DataTable.fn.insertRows = function (index, rows) {
         rows: rows
     })
     if (this.ns){
-        //var fName = this.parent.ns + '.' + fieldName;
         if (this.root.valueChange[this.ns])
             this.root.valueChange[this.ns](-this.root.valueChange[this.ns]());
     }
@@ -100,10 +96,19 @@ DataTable.fn.insertRows = function (index, rows) {
 /**
  * 创建空行
  */
-DataTable.fn.createEmptyRow = function () {
+const createEmptyRow = function () {
     var r = new Row({parent: this})
     this.addRow(r)
     if (!this.getCurrentRow())
         this.setRowSelect(r);
     return r
+}
+
+export {
+    setRows,
+    addRow,
+    addRows,
+    insertRow,
+    insertRows,
+    createEmptyRow
 }

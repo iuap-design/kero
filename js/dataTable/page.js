@@ -5,7 +5,7 @@
  */
 
  
-DataTable.fn.setCurrentPage = function (pageIndex, notCacheCurrentPage) {
+const setCurrentPage = function (pageIndex, notCacheCurrentPage) {
     if (pageIndex != this.pageIndex() && notCacheCurrentPage != true)
         this.cacheCurrentPage();
     this.pageIndex(pageIndex)
@@ -21,7 +21,7 @@ DataTable.fn.setCurrentPage = function (pageIndex, notCacheCurrentPage) {
 /**
  * 更新分页数据
  */
-DataTable.fn.updatePages = function (pages) {
+const updatePages = function (pages) {
     var pageSize = this.pageSize(), pageIndex = 0, page, r, row;
     var page, index, i, rows, focus, selectIndices, status, j, row, originRow;
     for (i = 0; i < pages.length; i++) {
@@ -75,7 +75,7 @@ DataTable.fn.updatePages = function (pages) {
  * 前端分页方法，不建议使用，建议在后端进行分页
  * @param allRows
  */
-DataTable.fn.setPages = function (allRows) {
+const setPages = function (allRows) {
     var pageSize = this.pageSize(), pageIndex = 0, page;
     this.cachedPages = [];
     for (var i = 0; i < allRows.length; i++) {
@@ -92,44 +92,36 @@ DataTable.fn.setPages = function (allRows) {
     this.totalPages(pageIndex + 1);
 }
 
-DataTable.fn.hasPage = function (pageIndex) {
-    //return (this.pageCache && this.cachedPages[pageIndex]  && this.cachedPages[pageIndex].pageSize == this.pageSize()) ? true : false
+const hasPage = function (pageIndex) {
     return (this.pageCache && this.cachedPages[pageIndex]) ? true : false
 }
 
-DataTable.fn.getPage = function (pageIndex) {
-    if (this.pageCache) {
-        return this.cachedPages[pageIndex]
-    }
-    return -1;
-}
-
-DataTable.fn.getPages = function () {
-    if (this.pageCache) {
-        return this.cachedPages
-    }
-    return [];
-}
-
-
-DataTable.fn.clearCache = function () {
+const clearCache = function () {
     this.cachedPages = []
 }
 
-DataTable.fn.cacheCurrentPage = function () {
+const cacheCurrentPage = function () {
     if (this.pageCache && this.pageIndex() > -1) {
         var page = new Page({parent: this});
         page.focus = this.getFocusIndex();
         page.selectedIndices = this.selectedIndices().slice();
-        var rows = this.rows.peek() //.slice();
+        var rows = this.rows.peek();
         for (var i = 0; i < rows.length; i++) {
             var r = rows[i].getData();
             r.rowId = r.id;
             delete r.id;
             page.rows.push(r)
         }
-        //page.rows = this.rows().slice();
         this.cachedPages[this.pageIndex()] = page
     }
 }
 
+
+export {
+    setCurrentPage,
+    updatePages,
+    setPages,
+    hasPage,
+    clearCache,
+    cacheCurrentPage
+}

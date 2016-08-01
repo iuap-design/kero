@@ -4,12 +4,12 @@
  * Date   : 2016-07-29 09:34:01
  */
 
-var ajax = function (params) {
+const ajax = function (params) {
     params = this._wrapAjax(params)
     u.ajax(params)
 }
 
-var _wrapAjax = function (params) {
+const _wrapAjax = function (params) {
     var self = this
     this.serverEventObj = this.serverEvent();
     var orignSuccess = params.success
@@ -49,7 +49,7 @@ var _wrapAjax = function (params) {
     return params
 }
 
-var _successFunc = function (data, deferred) {
+const _successFunc = function (data, deferred) {
     deferred.resolve();
 }
 

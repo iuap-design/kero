@@ -5,22 +5,18 @@
  */
 
 
-var addParam = function (key, value) {
+const addParam = function (key, value) {
     this.params[key] = value
 }
 
-var addParams = function (params) {
+const addParams = function (params) {
     for (var key in params) {
         this.params[key] = params[key]
     }
 }
 
-var getParam = function (key) {
-    return this.params[key]
-}
 
 export {
 	addParam,
-	addParams,
-	getParam
+	addParams
 }

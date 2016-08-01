@@ -5,7 +5,7 @@
  */
 
 
-ServerEvent.fn.fire = function (p) {
+const fire = function (p) {
     var self = this
 //		params = $.extend(ServerEvent.DEFAULT, params);
     var data = this.getData();
@@ -66,7 +66,7 @@ ServerEvent.fn.fire = function (p) {
 
 }
 
-ServerEvent.fn._successFunc = function (data, deferred) {
+const _successFunc = function (data, deferred) {
     if (typeof data === 'string')
         data = JSON.parse(data)
     var dataTables = data.dataTables
@@ -79,7 +79,7 @@ ServerEvent.fn._successFunc = function (data, deferred) {
 
 
 
-ServerEvent.fn.setSuccessFunc = function (func) {
+const setSuccessFunc = function (func) {
     this._successFunc = func
 }
 

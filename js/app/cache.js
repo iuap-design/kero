@@ -4,45 +4,45 @@
  * Date   : 2016-07-29 09:34:01
  */
 
-var setUserCache = function (key, value) {
+const setUserCache = function (key, value) {
     var userCode = this.getEnvironment().usercode;
     if (!userCode)return;
     localStorage.setItem(userCode + key, value);
 }
 
-var getUserCache = function (key) {
+const getUserCache = function (key) {
     var userCode = this.getEnvironment().usercode;
     if (!userCode)return;
     return localStorage.getItem(userCode + key);
 }
 
-var removeUserCache = function (key) {
+const removeUserCache = function (key) {
     var userCode = this.getEnvironment().usercode;
     if (!userCode)return;
     localStorage.removeItem(userCode + key);
 }
 
-var setCache = function (key, value) {
+const setCache = function (key, value) {
     localStorage.setItem(key, value);
 }
 
-var getCache = function (key) {
+const getCache = function (key) {
     return localStorage.getItem(key);
 }
 
-var removeCache = function (key) {
+const removeCache = function (key) {
     localStorage.removeItem(key)
 }
 
-var setSessionCache = function (key, value) {
+const setSessionCache = function (key, value) {
     sessionStorage.setItem(key, value)
 }
 
-var getSessionCache = function (key) {
+const getSessionCache = function (key) {
     return sessionStorage.getItem(key)
 }
 
-var removeSessionCache = function (key) {
+const removeSessionCache = function (key) {
     sessionStorage.removeItem(key)
 }
 

@@ -4,15 +4,15 @@
  * Date	  : 2016-07-29 09:34:01
  */
 
-var addDataTable = function (dataTable) {
+const addDataTable = function (dataTable) {
     this.dataTables[dataTable.id] = dataTable
     return this
 }
-var getDataTable = function (id) {
+const getDataTable = function (id) {
     return this.dataTables[id]
 }
 
-var getDataTables = function () {
+const getDataTables = function () {
     return this.dataTables
 }
 
