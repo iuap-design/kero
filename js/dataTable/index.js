@@ -33,7 +33,15 @@ import {
     getMeta,
     setMeta,
     updateMeta
-} from './meta'
+} from './meta';
+
+import {
+    setData,
+    getSimpleData,
+    setSimpleData,
+    addSimpleData,
+    clear
+} from '.data';
 
 class DataTable extends Events{
     constructor(options){
@@ -78,8 +86,15 @@ class DataTable extends Events{
 
         // meta
         this.getMeta = getMeta;
-        this.setMeta = setMeta;,
+        this.setMeta = setMeta;
         this.updateMeta = updateMeta;
+
+        // data
+        this.setData = setData;
+        this.getSimpleData = getSimpleData;
+        this.setSimpleData = setSimpleData;
+        this.addSimpleData = addSimpleData;
+        this.clear = clear;
 
     }
 }

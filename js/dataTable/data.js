@@ -8,7 +8,7 @@
  *设置数据
  *
  */
-DataTable.fn.setData = function (data,options) {
+var setData = function (data,options) {
     if(data.pageIndex || data.pageIndex === 0){
         var newIndex = data.pageIndex;
     }else{
@@ -68,7 +68,7 @@ DataTable.fn.setData = function (data,options) {
 /**
  * 获取数据,只取字段名与字段值
  */
-DataTable.fn.getSimpleData = function(options){
+var getSimpleData = function(options){
     options = options || {}
     var rows,_rowData = [], type = options['type'] || 'all', fields = options['fields'] || null;
 
@@ -97,7 +97,7 @@ DataTable.fn.getSimpleData = function(options){
  * @param {array} data
  *options{} unSelect为true：不选中，为false则选中，默认选中0行
  */
-DataTable.fn.setSimpleData = function(data,options){
+var setSimpleData = function(data,options){
     //this.clear();
     this.removeAllRows();
     this.cachedPages = [];
@@ -138,7 +138,7 @@ DataTable.fn.setSimpleData = function(data,options){
  * 追加数据
  * @param data
  */
-DataTable.fn.addSimpleData = function(data, status){
+var addSimpleData = function(data, status){
     if (!data){
         throw new Error("dataTable.addSimpleData param can't be null!");
     }
@@ -149,4 +149,26 @@ DataTable.fn.addSimpleData = function(data, status){
         r.setSimpleData(data[i],status);
     }
 
+}
+
+/**
+ * 清空datatable的所有数据以及分页数据以及index
+ */
+var clear = function () {
+    this.removeAllRows();
+    this.cachedPages = [];
+    this.totalPages(1);
+    this.pageIndex(0);
+    this.focusIndex(-1);
+    this.selectedIndices([]);
+}
+
+
+
+export {
+    setData,
+    getSimpleData,
+    setSimpleData,
+    addSimpleData,
+    clear
 }
