@@ -6816,6 +6816,7 @@ u.RequiredMixin = {
 
 u.ValidateMixin = {
     init: function(){
+        this.showFix = this.getOption('showFix');
         this.placement = this.getOption('placement');
         this.tipId = this.getOption('tipId');
         this.tipAliveTime = this.getOption('tipAliveTime');
@@ -6847,7 +6848,8 @@ u.ValidateMixin = {
                 min: this.min,
                 maxNotEq: this.maxNotEq,
                 minNotEq: this.minNotEq,
-                reg: this.regExp
+                reg: this.regExp,
+                showFix: this.showFix
             });
         // };
 
