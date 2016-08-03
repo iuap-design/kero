@@ -119,7 +119,7 @@ http://design.yyuap.com/static/uui/latest/js/u-grid.js
 	<div options='{"field":"currency","dataType":"String","title":"余额","editType":"float","editOptions":{"validType":"float","precision":"3","max":10000},"sumCol":true}'></div>
 </div></div>
 <div class="example-content ex-hide"><script>$(document).ready(function () {
-	// ����viewModel,����dataTable�Լ�grid��ʹ�õ�function����
+	// 创建viewModel,包含dataTable以及grid中使用的function变量
     viewModel = {
         dataTable: new u.DataTable({
             meta: {
@@ -128,18 +128,18 @@ http://design.yyuap.com/static/uui/latest/js/u-grid.js
                 "currency": ""
             }
         }),
-		// ����������֮ǰ�������¼�
+		// 表格点击行之前触发的事件
         onBeforeClickFun1:function(obj){
             obj.gridObj.setGridEditType('default');
             return true;
         },
     }
-	// ����APP
+	// 创建APP
     app = u.createApp({
         el: 'body',
         model: viewModel
     });
-	// �������ݵ�dataTable��
+	// 添加数据到dataTable中
     var data = [{
                 "name": "Teagan",
                 "surname": "Prohaska",
@@ -160,7 +160,7 @@ http://design.yyuap.com/static/uui/latest/js/u-grid.js
 &lt;/div></code></pre>
 </div>
 <div class="examples-code"><pre><code>$(document).ready(function () {
-	// ����viewModel,����dataTable�Լ�grid��ʹ�õ�function����
+	// 创建viewModel,包含dataTable以及grid中使用的function变量
     viewModel = {
         dataTable: new u.DataTable({
             meta: {
@@ -169,18 +169,18 @@ http://design.yyuap.com/static/uui/latest/js/u-grid.js
                 "currency": ""
             }
         }),
-		// ����������֮ǰ�������¼�
+		// 表格点击行之前触发的事件
         onBeforeClickFun1:function(obj){
             obj.gridObj.setGridEditType('default');
             return true;
         },
     }
-	// ����APP
+	// 创建APP
     app = u.createApp({
         el: 'body',
         model: viewModel
     });
-	// �������ݵ�dataTable��
+	// 添加数据到dataTable中
     var data = [{
                 "name": "Teagan",
                 "surname": "Prohaska",
