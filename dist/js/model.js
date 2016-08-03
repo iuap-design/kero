@@ -169,6 +169,12 @@ App.fn.compsValidateMultiParam = function(options){
     for(var i = 0; i < comps.length; i++){
         if (comps[i].doValidate){
             result = comps[i].doValidate({trueValue:true, showMsg:showMsg});
+            // 如果passed为true,result.passed为false说明第一次出现错误校验
+            if(passed && !result.passed){
+                var off= u.getOffset(comps[i].element);
+                //滚动到第一次出现错误的地方
+                window.scrollTo(0,off.top-30);
+            }
             passed = result.passed && passed;
             if(!result.passed){
                 notPassedArr.push(result);
@@ -3369,6 +3375,7 @@ u.RequiredMixin = {
 
 u.ValidateMixin = {
     init: function(){
+        this.showFix = this.getOption('showFix');
         this.placement = this.getOption('placement');
         this.tipId = this.getOption('tipId');
         this.tipAliveTime = this.getOption('tipAliveTime');
@@ -3400,7 +3407,8 @@ u.ValidateMixin = {
                 min: this.min,
                 maxNotEq: this.maxNotEq,
                 minNotEq: this.minNotEq,
-                reg: this.regExp
+                reg: this.regExp,
+                showFix: this.showFix
             });
         // };
 
