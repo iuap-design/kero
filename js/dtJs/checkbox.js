@@ -87,13 +87,24 @@ u.CheckboxAdapter = u.BaseAdapter.extend({
                     if(oldIndex > -1){
                         valueArr.splice(oldIndex, 1);
                     }
-                    if(comp._inputElement.value)
+                    if(comp._inputElement.value){
                         valueArr.push(comp._inputElement.value)
+                    }
+
+                    // 选中后可编辑
+                    comp.element.querySelectorAll('input[type="text"]').forEach(function(ele){
+                        ele.removeAttribute('disabled');
+                    });
                 } else {
                     var index = valueArr.indexOf(comp._inputElement.value);
                     if(index > -1){
                         valueArr.splice(index, 1);
                     }
+
+                    // 未选中则不可编辑
+                    comp.element.querySelectorAll('input[type="text"]').forEach(function(ele){
+                        ele.setAttribute('disabled','true');
+                    });
                 }
                 //self.slice = true;
                 self.dataModel.setValue(self.field, valueArr.join(','));

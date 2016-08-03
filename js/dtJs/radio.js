@@ -59,7 +59,18 @@ u.RadioAdapter = u.BaseAdapter.extend({
             comp.on('change', function(){
                 if (comp._btnElement.checked){
                     self.dataModel.setValue(self.field, comp._btnElement.value);
+
+                    // 选中后可编辑
+                    comp.element.querySelectorAll('input[type="text"]').forEach(function(ele){
+                        ele.removeAttribute('disabled');
+                    });
+                } else {
+                    comp.element.querySelectorAll('input[type="text"]').forEach(function(ele){
+                        ele.setAttribute('disabled',true);
+                    });
                 }
+
+                
             });
             
             u.on(self.otherInput,'blur',function(e){
@@ -106,6 +117,30 @@ u.RadioAdapter = u.BaseAdapter.extend({
                 if (comp._btnElement.checked){
                     self.dataModel.setValue(self.field, comp._btnElement.value);
                 }
+
+                // 其他元素input输入框不能进行编辑
+                var allChild = comp.element.parentNode.children;
+                var siblingAry =[];
+                for(var i=0; i<allChild.length; i++){
+                    if(allChild[i] == comp.element){
+
+                    } else {
+                        siblingAry.push(allChild[i])
+                    }
+                }
+                siblingAry.forEach(function(children){
+                    var childinput = children.querySelectorAll('input[type="text"]')
+                    if(childinput){
+                        childinput.forEach(function(inputele){
+                            inputele.setAttribute('disabled','true')
+                        });
+                    }
+                });
+
+
+
+
+
             });
         })
     },
