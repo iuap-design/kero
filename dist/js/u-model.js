@@ -381,15 +381,15 @@ u.extend(u, {
 			top = top + eleHeight;
 		}
         
-        // if((left + panelWidth) > bodyWidth)
-        //     left = bodyWidth - panelWidth;
-        // if(left < 0)
-        //     left = 0;
+        if((left + panelWidth) > bodyWidth)
+            left = bodyWidth - panelWidth;
+        if(left < 0)
+            left = 0;
 
-        // if((top + panelHeight) > bodyHeight)
-        //     top = bodyHeight - panelHeight;
-        // if(top < 0)
-        //     top = 0;
+        if((top + panelHeight) > bodyHeight)
+            top = bodyHeight - panelHeight;
+        if(top < 0)
+            top = 0;
         panel.style.left = left + 'px';
         panel.style.top = top + 'px';
 	},
