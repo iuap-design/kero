@@ -64,7 +64,7 @@ u.CheckboxAdapter = u.BaseAdapter.extend({
             var nameDivs = this.element.querySelectorAll('[data-role=name]');
             self.lastNameDiv = nameDivs[nameDivs.length -1];
             self.lastNameDiv.innerHTML = '其他';
-            self.otherInput = u.makeDOM('<input type="text">');
+            self.otherInput = u.makeDOM('<input disabled type="text">');
             self.lastNameDiv.parentNode.appendChild(self.otherInput);
             self.lastCheck.value = '';
            
