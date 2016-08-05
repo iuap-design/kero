@@ -7822,8 +7822,9 @@ u.ComboboxAdapter = u.BaseAdapter.extend({
         if (value === null || typeof value == "undefined")
             value = "";
         this.comp.setValue(value);
-        // this.trueValue = this.formater ? this.formater.format(value) : value;
-        // this.element.trueValue = this.trueValue;
+        //下面两句会在校验中用到
+        this.trueValue = this.formater ? this.formater.format(value) : value;
+        this.element.trueValue = this.trueValue;
         // this.showValue = this.masker ? this.masker.format(this.trueValue).value : this.trueValue;
         // this.setShowValue(this.showValue);
     },
