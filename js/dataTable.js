@@ -140,14 +140,6 @@ DataTable.fn.getAllDatas = function () {
 
 
 
-DataTable.fn.getRowMeta = function (fieldName, key) {
-    var row = this.getCurrentRow()
-    if (row)
-        return row.getMeta(fieldName, key)
-    else
-        return this.getMeta(fieldName, key)
-}
-
 DataTable.fn.isEnable = function (fieldName) {
     var fieldEnable = this.getMeta(fieldName, 'enable')
     if (typeof fieldEnable == 'undefined' || fieldEnable == null)

@@ -25,6 +25,16 @@ const getMeta = function (fieldName, key) {
     
 }
 
+
+const getRowMeta = function (fieldName, key) {
+    var row = this.getCurrentRow()
+    if (row)
+        return row.getMeta(fieldName, key)
+    else
+        return this.getMeta(fieldName, key)
+}
+
 export {
-	getMeta
+	getMeta,
+    getRowMeta
 }
