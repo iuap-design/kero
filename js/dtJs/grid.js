@@ -769,6 +769,7 @@ u.GridAdapter = u.BaseAdapter.extend({
 	},
 	createDefaultEdit:function(eType,eOptions,options,viewModel,column){
 		var oThis = this;
+		eOptions.showFix = true;
 		if(eType == 'string'){
 			compDiv = $('<div><input type="text" class="u-grid-edit-item-string"></div>');
 			if(!options.editType || options.editType =="default" ){
@@ -821,7 +822,6 @@ u.GridAdapter = u.BaseAdapter.extend({
 			//	options:eOptions,
 			//	model: viewModel
 			//});
-			eOptions.showFix = true;
 			if($.Combobox){ //兼容旧版本
 				compDiv = $('<div class="input-group  form_date u-grid-edit-item-comb"><div  type="text" class="form-control grid-combox"></div><i class="input-group-addon" ><i class="uf uf-anglearrowdown"></i></i></div>');
 				comp = new $.Combobox(compDiv[0],eOptions,viewModel)
@@ -883,7 +883,6 @@ u.GridAdapter = u.BaseAdapter.extend({
 
 		}else if(eType == 'datetime'){
 			compDiv = $('<div class="input-group u-grid-edit-item-datetime" ><input class="form-control" /><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span></div>');
-			eOptions.showFix = true;
 			//comp = new $.compManager.plugs.datetime(compDiv[0],eOptions,viewModel);
 			if($.DateTime){
 				comp = new $.DateTime(compDiv[0],eOptions,viewModel);
@@ -904,7 +903,6 @@ u.GridAdapter = u.BaseAdapter.extend({
 
 		}else if(eType == 'date'){
 			compDiv = $('<div class="input-group u-grid-edit-item-date" ><input class="form-control" /><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span></div>');
-			eOptions.showFix = true;
 			//comp = new $.compManager.plugs.date(compDiv[0],eOptions,viewModel);
 			if($.DateComp){
 				comp = new $.DateComp(compDiv[0],eOptions,viewModel);
