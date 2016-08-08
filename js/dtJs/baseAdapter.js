@@ -1,12 +1,18 @@
 /**
- * Created by dingrf on 2016/1/15.
+ * Module : Kero adapter 基类
+ * Author : Kvkens(yueming@yonyou.com)
+ * Date	  : 2016-08-08 15:31:46
  */
+import {Class} from 'neoui-sparrow/lib/class';
+import {getJSObject} from 'neoui-sparrow/lib/util';
+
+
 
 /**
  * adapter基类
  */
 
-u.BaseAdapter = u.Class.create({
+var BaseAdapter = Class.create({
     /**
      *
      * @param comp
@@ -46,7 +52,7 @@ u.BaseAdapter = u.Class.create({
         if (!this.options || !this.options["data"]) return;
         this.field = this.options["field"];
         var dtId = this.options["data"];
-        this.dataModel = u.getJSObject(this.viewModel, this.options["data"]);
+        this.dataModel = getJSObject(this.viewModel, this.options["data"]);
         if (this.dataModel){
             var opt = {};
             if (this.options.type === 'u-date'){
@@ -69,3 +75,5 @@ u.BaseAdapter = u.Class.create({
 
     }
 });
+
+export {BaseAdapter};

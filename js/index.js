@@ -5,5 +5,11 @@
  */
 
 
-import { u } from 'neoui-sparrow';
-console.log(u.addClass(document.querySelector("body"),"Wrap"));
+//import { u } from 'neoui-sparrow';
+//console.log(u.addClass(document.querySelector("body"),"Wrap"));
+
+
+import {BaseAdapter} from './dtJs/baseAdapter';
+
+
+console.log(BaseAdapter);
