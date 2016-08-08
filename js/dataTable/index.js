@@ -24,29 +24,109 @@ class Events{
 }
 
 import {
-    addParam,
-    addParams,
-    getParam
-} from './param';
-
-import {
-    getMeta,
-    setMeta,
-    updateMeta
-} from './meta';
+    copyRow,
+    copyRows
+} from './copyRow'; 
 
 import {
     setData,
-    getData,
-    getDataByRule,
-    clear
-} from './data';
+    setValue
+} from './data'; 
+
+import{
+    isEnable,
+    setEnable
+} from './enable'; 
+
+import{
+    getCurrentRow,
+    getCurrentIndex
+} from './getCurrent'; 
 
 import {
-    getSimpleData,
-    setSimpleData,
-    addSimpleData
-} from './simpleData';
+    getData,
+    getDataByRule,
+    getRow,
+    getRowByRowId,
+    getRowIndex,
+    getRowsByField,
+    getRowByField,
+    getAllRows,
+    getAllPageRows,
+    getChangedDatas,
+    getChangedRows,
+    getValue,
+    getIndexByRowId,
+    getAllDatas,
+    getRowIdsByIndices
+} from './getData'; 
+
+import {
+    getFocusRow,
+    getFocusIndex
+} from './getFocus'; 
+
+import {
+    getMeta,
+    getRowMeta
+} from './getMeta'; 
+
+import {
+    getPage,
+    getPages
+} from './getPage'; 
+
+import {
+    getParam
+} from './getParam'; 
+
+import {
+    getSelectedIndex,
+    getSelectedIndices,
+    getSelectedIndexs,
+    getSelectedDatas,
+    getSelectedRows
+} from './getSelect'; 
+
+import {
+    getSimpleData
+} from './getSimpleData'; 
+
+import {
+    setMeta,
+    updateMeta,
+    createField
+} from './meta'; 
+
+import {
+    setCurrentPage,
+    updatePages,
+    setPages,
+    hasPage,
+    clearCache,
+    cacheCurrentPage
+} from './page'; 
+
+import {
+    addParam,
+    addParams
+} from './param'; 
+
+import {
+    refSelectedRows,
+    ref,
+    refMeta,
+    refRowMeta,
+    refEnable
+} from './ref'; 
+
+import {
+    removeRowByRowId,
+    removeRow,
+    removeAllRows,
+    removeRows,
+    clear
+} from './removeRow'; 
 
 import {
     setRows,
@@ -55,56 +135,46 @@ import {
     insertRow,
     insertRows,
     createEmptyRow
-} from './addRow';
+} from './row'; 
 
 import {
-    copyRow,
-    copyRows
-} from './copyRow';
-
-import {
-    removeRowByRowId,
-    removeRow,
-    removeAllRows,
-    removeRows
-} from './removeRow';
+    updateCurrIndex
+} from './rowCurrent'; 
 
 import {
     setRowDelete,
     setAllRowsDelete,
     setRowsDelete
-} from './rowDelete';
-
-import {
-    toggleAllSelect,
-    updateSelectedIndices
-} from './rowUpdateSelect';
+} from './rowDelete'; 
 
 import {
     setAllRowsSelect,
     setRowSelect,
     setRowsSelect,
     addRowSelect,
-    addRowsSelect
-} from './rowSelect';
-
-import {
+    addRowsSelect,
     setAllRowsUnSelect,
     setRowUnSelect,
-    setRowsUnSelect
-} from './rowUnSelect';
+    setRowsUnSelect,
+    toggleAllSelect,
+    updateSelectedIndices
+} from './rowSelect'; 
 
 import {
-    getSelectedIndex,
-    getSelectedIndices,
-    getSelectedIndexs
-} from './getSelect';
+    setRowFocus,
+    setRowUnFocus,
+    updateFocusIndex
+} from './rowFocus'; 
 
 import {
-    getSelectedIndex,
-    getSelectedIndices,
-    getSelectedIndexs
-} from './ref';
+    setSimpleData,
+    addSimpleData
+} from './simpleData'; 
+
+import {
+    isChanged
+} from './util'; 
+
 
 class DataTable extends Events{
     constructor(options){
@@ -142,71 +212,135 @@ class DataTable extends Events{
             this.ns = '';
         }
 
-        // param
-        this.addParam = addParam;
-        this.addParams = addParams;
-        this.getParam = getParam;
+        
+        //copyRow
+        this.copyRow= copyRow;
+        this.copyRows= copyRows;
 
-        // meta
-        this.getMeta = getMeta;
-        this.setMeta = setMeta;
-        this.updateMeta = updateMeta;
+        //data
+        this.setData= setData;
+        this.setValue= setValue;
 
-        // data
-        this.setData = setData;
-        this.getData = getData;
-        this.getDataByRule = getDataByRule;
-        this.addSimpleData = addSimpleData;
+        //enable
+        this.isEnable= isEnable;
+        this.setEnable= setEnable;
 
-        // simpleData
-        this.getSimpleData = getSimpleData;
-        this.setSimpleData = setSimpleData;
-        this.addSimpleData = addSimpleData;
+        //getData
+        this.getData= getData;
+        this.getDataByRule= getDataByRule;
+        this.getRow= getRow;
+        this.getRowByRowId= getRowByRowId;
+        this.getRowIndex= getRowIndex;
+        this.getRowsByField= getRowsByField;
+        this.getRowByField= getRowByField;
+        this.getAllRows= getAllRows;
+        this.getAllPageRows= getAllPageRows;
+        this.getChangedDatas= getChangedDatas;
+        this.getChangedRows= getChangedRows;
+        this.getValue= getValue;
+        this.getIndexByRowId= getIndexByRowId;
+        this.getAllDatas= getAllDatas;
+        this.getRowIdsByIndices= getRowIdsByIndices;
 
-    
-        // addRow
-        this.setRows = setRows;
-        this.addRow = addRow;
-        this.addRows = addRows;
-        this.insertRow = insertRow;
-        this.insertRows = insertRows;
-        this.createEmptyRow = createEmptyRow;
+        //getCurrent
+        this.getCurrentRow= getCurrentRow;
+        this.getCurrentIndex= getCurrentIndex;
 
-        // copyRow
-        this.copyRow = copyRow;
-        this.copyRows = copyRows;
+        //getFocus
+        this.getFocusRow= getFocusRow;
+        this.getFocusIndex= getFocusIndex;
 
-        // removeRow
-        this.removeRowByRowId = removeRowByRowId;
-        this.removeRow = removeRow;
-        this.removeAllRows = removeAllRows;
-        this.removeRows = removeRows;
+        //getMeta
+        this.getMeta= getMeta;
+        this.getRowMeta= getRowMeta;
 
-        // rowDelete
-        this.setRowDelete = setRowDelete;
-        this.setAllRowsDelete = setAllRowsDelete;
-        this.setRowsDelete = setRowsDelete;
+        //getPage
+        this.getPage= getPage;
+        this.getPages= getPages;
 
-        // rowUpdateSelect
-        this.toggleAllSelect = toggleAllSelect;
-        this.updateSelectedIndices = updateSelectedIndices;
+        //getParam
+        this.getParam= getParam;
 
-        // rowSelect
-        this.setAllRowsSelect = setAllRowsSelect;
-        this.setRowSelect = setRowSelect;
-        this.setRowsSelect = setRowsSelect;
-        this.addRowSelect = addRowSelect;
-        this.addRowsSelect = addRowsSelect;
+        //getSelect
+        this.getSelectedIndex= getSelectedIndex;
+        this.getSelectedIndices= getSelectedIndices;
+        this.getSelectedIndexs= getSelectedIndexs;
+        this.getSelectedDatas= getSelectedDatas;
+        this.getSelectedRows= getSelectedRows;
 
-        // rowUnSelect
-        this.setAllRowsUnSelect = setAllRowsUnSelect;
-        this.setRowUnSelect = setRowUnSelect;
-        this.setRowsUnSelect = setRowsUnSelect;
+        //getSimpleData
+        this.getSimpleData= getSimpleData;
 
-        // getSelect
-        this.getSelectedIndex = getSelectedIndex;
-        this.getSelectedIndices = getSelectedIndices;
-        this.getSelectedIndexs = getSelectedIndexs;
+        //meta
+        this.setMeta= setMeta;
+        this.updateMeta= updateMeta;
+        this.createField= createField;
+
+        //page
+        this.setCurrentPage= setCurrentPage;
+        this.updatePages= updatePages;
+        this.setPages= setPages;
+        this.hasPage= hasPage;
+        this.clearCache= clearCache;
+        this.cacheCurrentPage= cacheCurrentPage;
+
+        //param
+        this.addParam= addParam;
+        this.addParams= addParams;
+
+        //ref
+        this.refSelectedRows= refSelectedRows;
+        this.ref= ref;
+        this.refMeta= refMeta;
+        this.refRowMeta= refRowMeta;
+        this.refEnable= refEnable;
+
+        //row
+        this.setRows= setRows;
+        this.addRow= addRow;
+        this.addRows= addRows;
+        this.insertRow= insertRow;
+        this.insertRows= insertRows;
+        this.createEmptyRow= createEmptyRow;
+
+        //removeRow
+        this.removeRowByRowId= removeRowByRowId;
+        this.removeRow= removeRow;
+        this.removeAllRows= removeAllRows;
+        this.removeRows= removeRows;
+        this.clear= clear;
+
+        //rowCurrent
+        this.updateCurrIndex= updateCurrIndex;
+
+        //rowDelete
+        this.setRowDelete= setRowDelete;
+        this.setAllRowsDelete= setAllRowsDelete;
+        this.setRowsDelete= setRowsDelete;
+
+        //rowFocus
+        this.setRowFocus= setRowFocus;
+        this.setRowUnFocus= setRowUnFocus;
+        this.updateFocusIndex= updateFocusIndex;
+
+        //rowSelect
+        this.setAllRowsSelect= setAllRowsSelect;
+        this.setRowSelect= setRowSelect;
+        this.setRowsSelect= setRowsSelect;
+        this.addRowSelect= addRowSelect;
+        this.addRowsSelect= addRowsSelect;
+        this.setAllRowsUnSelect= setAllRowsUnSelect;
+        this.setRowUnSelect= setRowUnSelect;
+        this.setRowsUnSelect= setRowsUnSelect;
+        this.toggleAllSelect= toggleAllSelect;
+        this.updateSelectedIndices= updateSelectedIndices;
+
+        //simpleData
+        this.setSimpleData= setSimpleData;
+        this.addSimpleData= addSimpleData;
+
+        //util
+        this.isChanged= isChanged;
     }
 }
 
@@ -269,66 +403,3 @@ DataTable.createMetaItems = function (metas) {
     }
     return newMetas
 }
-
-
-class Page{
-    constructor(options){
-        this.focus = options['focus'] || null;
-        this.selectedIndices = options['selectedIndices'] || null;
-        this.rows = options['rows'] || []
-        this.parent = options['parent'] || null;
-    }
-}
-
-class Row extends Events{
-    constructor(options){
-        super();
-        var self = this;
-        this.rowId = options['id'] || Row.getRandomRowId()
-        this.status = Row.STATUS.NEW
-        this.parent = options['parent']
-        this.initValue = null
-        this.data = {}
-        this.metaChange = {}//ko.observable(1)
-        this.valueChange = {};
-        this.currentRowChange = ko.observable(1);
-        this.selected = ko.pureComputed({
-            read: function () {
-                var index = this.parent.getRowIndex(this);
-                var selectindices = this.parent.getSelectedIndices();
-                return selectindices.indexOf(index) != -1;
-            },
-            owner: this
-
-        })
-        this.focused = ko.pureComputed({
-            read: function () {
-                var index = this.parent.getRowIndex(this);
-                var focusIndex = this.parent.getFocusIndex()
-                return focusIndex == index;
-            },
-            owner: this
-
-        })
-        this.init()
-    }
-}
-
-Row.STATUS = {
-    NORMAL: 'nrm',
-    UPDATE: 'upd',
-    NEW: 'new',
-    DELETE: 'del',
-    FALSE_DELETE: 'fdel'
-}
-
-/*
- * 生成随机行id
- * @private
- */
-Row.getRandomRowId = function () {
-    var _id = setTimeout(function () {})
-    return  _id + '';
-};
-
-export {App,Page}
