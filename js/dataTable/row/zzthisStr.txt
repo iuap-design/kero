@@ -1,0 +1,47 @@
+
+//data
+this.setValue= setValue;
+this.setChildValue= setChildValue;
+this.setChildSimpleDataByRowId= setChildSimpleDataByRowId;
+this.setData= setData;
+this.updateRow= updateRow;
+
+//getData
+this.getValue= getValue;
+this.getChildValue= getChildValue;
+this.getData= getData;
+this.getEmptyData= getEmptyData;
+
+//getMeta
+this.getMeta= getMeta;
+
+//getSimpleData
+this.getSimpleData= getSimpleData;
+
+//init
+this.init= init;
+
+//meta
+this.setMeta= setMeta;
+
+//ref
+this.ref= ref;
+this.refMeta= refMeta;
+this.refCombo= refCombo;
+this.refDate= refDate;
+this.refEnum= refEnum;
+
+//rowSelect
+this.toggleSelect= toggleSelect;
+this.singleSelect= singleSelect;
+this.multiSelect= multiSelect;
+
+//simpleData
+this.setSimpleData= setSimpleData;
+
+//util
+this.eq= eq;
+this._dateToUTCString= _dateToUTCString;
+this._triggerChange= _triggerChange;
+this.formatValue= formatValue;
+this.//需要最终产出_getField= //需要最终产出_getField;

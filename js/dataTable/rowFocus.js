@@ -70,3 +70,9 @@ const updateFocusIndex = function (opIndex, opType, num) {
         }
     }
 }
+
+export {
+    setRowFocus,
+    setRowUnFocus,
+    updateFocusIndex
+}

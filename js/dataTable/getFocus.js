@@ -21,3 +21,8 @@ const getFocusRow = function () {
 const getFocusIndex = function () {
     return this.focusIndex()
 }
+
+export {
+	getFocusRow,
+	getFocusIndex
+}
