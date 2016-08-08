@@ -1,8 +1,10 @@
 /**
- * Created by dingrf on 2016/4/6.
+ * Module : Kero Enable Mixin
+ * Author : Kvkens(yueming@yonyou.com)
+ * Date	  : 2016-08-08 16:32:54
  */
 
-u.RequiredMixin = {
+var RequiredMixin = {
     init: function(){
         var self = this;
         this.required = this.getOption('required');
@@ -22,3 +24,5 @@ u.RequiredMixin = {
         },
     }
 }
+
+export {RequiredMixin};

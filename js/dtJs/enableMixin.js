@@ -1,8 +1,11 @@
 /**
- * Created by dingrf on 2016/4/5.
+ * Module : Kero Enable Mixin
+ * Author : Kvkens(yueming@yonyou.com)
+ * Date	  : 2016-08-08 16:32:54
  */
+import {addClass,removeClass} from 'neoui-sparrow/lib/dom';
 
-u.EnableMixin = {
+var EnableMixin = {
     init: function(){
         var self = this;
         //处理只读
@@ -20,12 +23,14 @@ u.EnableMixin = {
                 if (enable === true || enable === 'true') {
                     this.enable = true;
                     this.element.removeAttribute('readonly');
-                    u.removeClass(this.element.parentNode,'disablecover');
+                    removeClass(this.element.parentNode,'disablecover');
                 } else if (enable === false || enable === 'false') {
                     this.enable = false;
                     this.element.setAttribute('readonly', 'readonly');
-                    u.addClass(this.element.parentNode,'disablecover');
+                    addClass(this.element.parentNode,'disablecover');
                 }
         }
     }
 }
+
+export {EnableMixin};

@@ -1,9 +1,11 @@
 /**
- * Created by dingrf on 2016/4/6.
+ * Module : Kero Value Mixin
+ * Author : Kvkens(yueming@yonyou.com)
+ * Date	  : 2016-08-08 15:58:49
  */
 
 
-u.ValueMixin = {
+var ValueMixin = {
     init: function(){
         var self = this;
         this.dataModel.ref(this.field).subscribe(function(value) {
@@ -72,3 +74,5 @@ u.ValueMixin = {
         },
     }
 }
+
+export {ValueMixin};

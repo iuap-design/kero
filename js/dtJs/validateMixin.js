@@ -1,8 +1,11 @@
 /**
- * Created by dingrf on 2016/4/6.
+ * Module : Kero Validate Mixin
+ * Author : Kvkens(yueming@yonyou.com)
+ * Date	  : 2016-08-08 15:58:49
  */
+import {Validate} from './';
 
-u.ValidateMixin = {
+var ValidateMixin = {
     init: function(){
         this.placement = this.getOption('placement');
         this.tipId = this.getOption('tipId');
@@ -15,7 +18,7 @@ u.ValidateMixin = {
         this.notipFlag=this.getOption('notipFlag');
 
         // if (this.validType) {
-            this.validate = new u.Validate({
+            this.validate = new Validate({
                 el: this.element,
                 single: true,
                 validMode: 'manually',
@@ -69,3 +72,6 @@ u.ValidateMixin = {
         }
     }
 }
+
+
+export {ValidateMixin};
