@@ -121,7 +121,176 @@ const getDataByRule = function (rule) {
     return returnData
 }
 
+
+
+const getRow = function (index) {
+    //return this.rows()[index]   //modify by licza.   improve performance
+    return this.rows.peek()[index]
+};
+
+/**
+ * 根据rowid取row对象
+ * @param rowid
+ * @returns {*}
+ */
+const getRowByRowId = function (rowid) {
+    var rows = this.rows.peek();
+    for (var i = 0, count = rows.length; i < count; i++) {
+        if (rows[i].rowId == rowid)
+            return rows[i]
+    }
+    return null
+}
+
+/**
+ * 取行索引
+ * @param row
+ * @returns {*}
+ */
+const getRowIndex = function (row){
+    var rows = this.rows.peek();
+    for (var i = 0, count = rows.length; i < count; i++) {
+        if (rows[i].rowId === row.rowId)
+            return i;
+    }
+    return -1;
+};
+
+const getRowsByField = function(field,value){
+    var rows = this.rows.peek();
+    var returnRows = new Array();
+    for (var i = 0, count = rows.length; i < count; i++) {
+        if (rows[i].getValue(field) === value)
+            returnRows.push(rows[i]);
+    }
+    return returnRows;
+}
+
+const getRowByField = function(field,value){
+    var rows = this.rows.peek();
+    for (var i = 0, count = rows.length; i < count; i++) {
+        if (rows[i].getValue(field) === value)
+            return rows[i]
+    }
+    return null;
+}
+
+const getAllRows = function () {
+    return this.rows.peek();
+}
+
+const getAllPageRows = function () {
+    var datas = [], rows;
+    for (var i = 0; i < this.totalPages(); i++) {
+        rows = [];
+        if (i == this.pageIndex()) {
+            rows = this.getData();
+        } else {
+            var page = this.cachedPages[i];
+            if (page) {
+                rows = page.getData();
+            }
+        }
+        for (var j = 0; j < rows.length; j++) {
+            datas.push(rows[j]);
+        }
+    }
+    return datas;
+}
+
+
+/**
+ * 获取变动的数据(新增、修改)
+ */
+const getChangedDatas = function (withEmptyRow) {
+    var datas = [], rows = this.rows();
+    for (var i = 0, count = rows.length; i < count; i++) {
+        if (rows[i] && rows[i].status != Row.STATUS.NORMAL) {
+            datas.push(rows[i].getData())
+        }
+        else if (withEmptyRow == true) {
+            datas.push(rows[i].getEmptyData())
+        }
+    }
+    return datas
+};
+
+/**
+ * 取改变的行
+ */
+const getChangedRows = function(){
+    var changedRows = [], rows = this.rows.peek();
+    for (var i = 0, count = rows.length; i < count; i++) {
+        if (rows[i] && rows[i].status != Row.STATUS.NORMAL) {
+            changedRows.push(rows[i])
+        }
+    }
+    return changedRows
+}
+
+
+const getValue = function (fieldName, row) {
+    row = row || this.getCurrentRow()
+    if (row)
+        return row.getValue(fieldName)
+    else
+        return ''
+}
+
+
+/**
+ * 根据行号获取行索引
+ * @param {String} rowId
+ */
+const getIndexByRowId = function (rowId) {
+    var rows = this.rows();
+    for (var i = 0, count = rows.length; i < count; i++) {
+        if (rows[i].rowId == rowId)
+            return i
+    }
+    return -1
+}
+
+/**
+ * 获取所有行数据
+ */
+const getAllDatas = function () {
+    var rows = this.getAllRows()
+    var datas = []
+    for (var i = 0, count = rows.length; i < count; i++)
+        if (rows[i])
+            datas.push(rows[i].getData())
+    return datas
+}
+
+
+/**
+ * 根据索引取rowid
+ * @param {Object} indices
+ */
+const getRowIdsByIndices = function (indices) {
+    var rowIds = []
+    for (var i = 0; i < indices.length; i++) {
+        rowIds.push(this.getRow(indices[i]).rowId)
+    }
+    return rowIds
+}
+
+
 export {
     getData,
-    getDataByRule
+    getDataByRule,
+    getRow,
+    getRowByRowId,
+    getRowIndex,
+    getRowsByField,
+    getRowByField,
+    getAllRows,
+    getAllPageRows,
+    getChangedDatas,
+    getChangedRows,
+    getValue,
+    getIndexByRowId,
+    getAllDatas,
+    getRowIdsByIndices
 }

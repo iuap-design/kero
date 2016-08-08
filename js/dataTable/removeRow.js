@@ -3,7 +3,7 @@
  * Author : liuyk(liuyk@yonyou.com)
  * Date   : 2016-08-01 14:34:01
  */
-
+import {_formatToIndicesArray} from './util';
 
 const removeRowByRowId = function (rowId) {
     var index = this.getIndexByRowId(rowId)
@@ -27,7 +27,7 @@ const removeAllRows = function () {
 }
 
 const removeRows = function (indices) {
-    indices = this._formatToIndicesArray(indices)
+    indices = _formatToIndicesArray(indices)
     indices = indices.sort()
     var rowIds = [], rows = this.rows(), deleteRows = [];
     for (var i = indices.length - 1; i >= 0; i--) {

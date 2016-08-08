@@ -4,7 +4,7 @@
  * Author : liuyk(liuyk@yonyou.com)
  * Date   : 2016-08-01 14:34:01
  */
-
+import {_formatToIndicesArray} from './util';
 
 /**
  * 设置行删除
@@ -33,7 +33,7 @@ const setAllRowsDelete = function () {
  * @param {Array} indices
  */
 const setRowsDelete = function (indices) {
-    indices = this._formatToIndicesArray(indices)
+    indices = _formatToIndicesArray(indices)
     for (var i = 0; i < indices.length; i++) {
         var row = this.getRow(indices[i])
         if (row.status == Row.STATUS.NEW) {

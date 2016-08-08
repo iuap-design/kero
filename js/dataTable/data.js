@@ -63,6 +63,21 @@ const setData = function (data,options) {
         this.setRowFocus(focus)
 };
 
+
+
+const setValue = function (fieldName, value, row, ctx) {
+    if (arguments.length === 1){
+        value = fieldName;
+        fieldName = '$data';
+    }
+
+    row = row ? row : this.getCurrentRow()
+    if (row)
+        row.setValue(fieldName, value, ctx)
+}
+
+
 export {
-    setData
+    setData,
+    setValue
 }

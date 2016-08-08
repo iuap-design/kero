@@ -265,16 +265,70 @@ DataTable.createMetaItems = function (metas) {
         var meta = metas[key]
         if (typeof meta == 'string')
             meta = {}
-        //if (meta['type'] && meta['type'] === 'child'){
-        //
-        //}
         newMetas[key] = u.extend({}, DataTable.META_DEFAULTS, meta)
     }
-    //默认创建一个$data字段
-    // if (u.isEmptyObject(newMetas)){
-    //     newMetas['$data'] = {};
-    // }
     return newMetas
 }
 
-export {App}
+
+class Page{
+    constructor(options){
+        this.focus = options['focus'] || null;
+        this.selectedIndices = options['selectedIndices'] || null;
+        this.rows = options['rows'] || []
+        this.parent = options['parent'] || null;
+    }
+}
+
+class Row extends Events{
+    constructor(options){
+        super();
+        var self = this;
+        this.rowId = options['id'] || Row.getRandomRowId()
+        this.status = Row.STATUS.NEW
+        this.parent = options['parent']
+        this.initValue = null
+        this.data = {}
+        this.metaChange = {}//ko.observable(1)
+        this.valueChange = {};
+        this.currentRowChange = ko.observable(1);
+        this.selected = ko.pureComputed({
+            read: function () {
+                var index = this.parent.getRowIndex(this);
+                var selectindices = this.parent.getSelectedIndices();
+                return selectindices.indexOf(index) != -1;
+            },
+            owner: this
+
+        })
+        this.focused = ko.pureComputed({
+            read: function () {
+                var index = this.parent.getRowIndex(this);
+                var focusIndex = this.parent.getFocusIndex()
+                return focusIndex == index;
+            },
+            owner: this
+
+        })
+        this.init()
+    }
+}
+
+Row.STATUS = {
+    NORMAL: 'nrm',
+    UPDATE: 'upd',
+    NEW: 'new',
+    DELETE: 'del',
+    FALSE_DELETE: 'fdel'
+}
+
+/*
+ * 生成随机行id
+ * @private
+ */
+Row.getRandomRowId = function () {
+    var _id = setTimeout(function () {})
+    return  _id + '';
+};
+
+export {App,Page}

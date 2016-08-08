@@ -75,7 +75,73 @@ const updateMeta = function (meta) {
     }
 }
 
+
+
+
+/**
+ * 字段不存在时，创建字段
+ * @param fieldName
+ * @param options
+ */
+const createField = function(fieldName, options){
+    //字段不主动定义，则不创建
+    if (this.root.strict == true)
+        return;
+    //有子表的情况不创建字段
+    if (fieldName.indexOf('.') != -1){
+        var fNames = fieldName.split('.');
+        var _name = fNames[0];
+        for(var i= 0, count = fNames.length; i< count; i++){
+            if (this.meta[_name] && this.meta[_name]['type'] === 'child')
+                return;
+            if ((i+1) < count)
+                _name = _name + '.' + fNames[i+1]
+        }
+    }
+    if (!this.meta[fieldName]){
+        this.meta[fieldName] = {}
+    }
+    if (typeof options === 'object'){
+        if(options['meta']){
+            for(var key in options['meta']){
+                //if (!this.meta[fieldName][key]){
+                this.meta[fieldName]['meta'][key] = options['meta'][key];
+                //}
+            }
+        }else{
+            for(var key in options){
+                //if (!this.meta[fieldName][key]){
+                this.meta[fieldName][key] = options[key];
+                //}
+            }
+        }
+    }
+    // 在顶层dataTable上定义field信息
+    if (this.root !== this){
+        var nsArr = this.ns.split('.')
+        var _fieldMeta = this.root.meta
+        for (var i = 0; i< nsArr.length; i++){
+            _fieldMeta[nsArr[i]] = _fieldMeta[nsArr[i]] || {}
+            _fieldMeta[nsArr[i]]['type'] = _fieldMeta[nsArr[i]]['type'] || 'child';
+            _fieldMeta[nsArr[i]]['meta'] = _fieldMeta[nsArr[i]]['meta'] || {};
+            _fieldMeta =  _fieldMeta[nsArr[i]]['meta'];
+        }
+        if (!_fieldMeta[fieldName]){
+            _fieldMeta[fieldName] = {}
+        }
+        if (typeof options === 'object'){
+            for(var key in options){
+                if (!_fieldMeta[fieldName][key]){
+                    _fieldMeta[fieldName][key] = options[key];
+                }
+            }
+        }
+    }
+
+}
+
 export {
 	setMeta,
-    updateMeta
+    updateMeta,
+    createField
 }
