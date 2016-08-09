@@ -104,7 +104,8 @@ u.RadioAdapter = u.BaseAdapter.extend({
         var allName = this.element.querySelectorAll('.u-radio-label');
         for (var k = 0; k < allRadio.length; k++) {
             allRadio[k].value = comboData[k].pk || comboData[k].value;
-            allName[k].innerHTML = comboData[k].name
+            allName[k].innerHTML = comboData[k].name;
+            allName[k].title = comboData[k].name;
         }
 
         this.radioInputName = allRadio[0].name;

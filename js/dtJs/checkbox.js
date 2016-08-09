@@ -140,7 +140,8 @@ u.CheckboxAdapter = u.BaseAdapter.extend({
         var allName = this.element.querySelectorAll('[data-role=name]');
         for (var k = 0; k < allCheck.length; k++) {
             allCheck[k].value = comboData[k].pk || comboData[k].value;
-            allName[k].innerHTML = comboData[k].name
+            allName[k].innerHTML = comboData[k].name;
+            allName[k].title = comboData[k].name;
         }
         this.element.querySelectorAll('.u-checkbox').forEach(function (ele) {
             var comp;
