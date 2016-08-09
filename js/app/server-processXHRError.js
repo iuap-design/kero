@@ -4,6 +4,7 @@
  * Date   : 2016-07-29 09:34:01
  */
 
+import {showMessageDialog} from 'neoui/lib/neoui-message';
 
 const processXHRError = function (self, rsl, state, xhr) {
     if (typeof rsl === 'string')
@@ -12,8 +13,8 @@ const processXHRError = function (self, rsl, state, xhr) {
         if (self.orignError)
             self.orignError.call(self, rsl, state, xhr)
         else {
-            if (u.showMessageDialog)
-                u.showMessageDialog({type: "info", title: "提示", msg: rsl["message"], backdrop: true});
+            if (showMessageDialog)
+                showMessageDialog({type: "info", title: "提示", msg: rsl["message"], backdrop: true});
             else
                 alert(rsl["message"])
             if (rsl["operate"]) {

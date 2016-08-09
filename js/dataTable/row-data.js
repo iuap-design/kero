@@ -4,6 +4,8 @@
  * Date   : 2016-08-08 13:54:01
  */
 import {eq,_triggerChange, _getField} from './util'
+import {showMessageDialog} from 'neoui/lib/neoui-message';
+import {isArray} from 'neoui-sparrow/lib/util';
  /**
  *设置row中某一列的值
  */
@@ -93,7 +95,7 @@ const _setData = function(sourceData, targetData, subscribe, parentKey){
         }
         else {
             if (valueObj.error) {
-                u.showMessageDialog({title: "警告", msg: valueObj.error, backdrop: true});
+                showMessageDialog({title: "警告", msg: valueObj.error, backdrop: true});
             } else if (valueObj.value || valueObj.value === null  || valueObj.meta || valueObj.value === '' || valueObj.value === '0' || valueObj.value === 0){
                 var oldValue = targetData[key]['value'];
                 targetData[key]['value'] = this.formatValue(key, valueObj.value)
@@ -103,7 +105,7 @@ const _setData = function(sourceData, targetData, subscribe, parentKey){
                 for (var k in valueObj.meta) {
                     this.setMeta(key, k, valueObj.meta[k])
                 }
-            }else if (u.isArray(valueObj)){
+            }else if (isArray(valueObj)){
                 targetData[key].isChild = true;
                 //ns 是多级数据时的空间名： 最顶层的dataTable没有ns。  f1.f2.f3
                 var _key = _parentKey == null ? key : _parentKey + '.' + key;
@@ -173,7 +175,7 @@ const setData = function (data, subscribe) {
         else{
             var valueObj = sourceData[key];
             if (valueObj.error) {
-                u.showMessageDialog({title: "警告", msg: valueObj.error, backdrop: true});
+                showMessageDialog({title: "警告", msg: valueObj.error, backdrop: true});
             } else if (valueObj.value || valueObj.value === null || valueObj.meta){
                 oldValue = targetData[key]['value'];
                 targetData[key]['value'] = this.formatValue(key, valueObj.value)

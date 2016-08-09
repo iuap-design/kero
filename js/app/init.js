@@ -3,15 +3,18 @@
  * Author : liuyk(liuyk@yonyou.com)
  * Date   : 2016-07-29 09:34:01
  */
+import {compMgr} from 'neoui-sparrow/lib/compMgr';
+import {each, isArray} from 'neoui-sparrow/lib/util';
+import {hotkeys} from 'neoui-sparrow/lib/util/hotKeys';
 
 const init = function (viewModel, element, doApplyBindings) {
     var self = this;
     element = element || document.body;
-    if (!u.isArray(element)) {
+    if (!isArray(element)) {
         element = [element];
     }
     this.elements = element;
-    u.each(this.elements, function (i, element) {
+    each(this.elements, function (i, element) {
         if (typeof element === 'string'){
             element = document.querySelector(element);
         }
@@ -22,17 +25,17 @@ const init = function (viewModel, element, doApplyBindings) {
                 if (options && options['type']) {
                     if (self.adjustFunc)
                         self.adjustFunc.call(self, options);
-                    var comp = u.compMgr.createDataAdapter({el:ele,options:options,model:viewModel,app:self});
+                    var comp = compMgr.createDataAdapter({el:ele,options:options,model:viewModel,app:self});
                     ele['u-meta'] = comp;
                 }
             })
         }
 
-        if (u.hotkeys)
-            u.hotkeys.scan(element);
+        if (hotkeys)
+            hotkeys.scan(element);
             if (typeof doApplyBindings == 'undefined' || doApplyBindings == true)
                 ko.applyBindings(viewModel, element);
-        u.compMgr.updateComp(element);
+        compMgr.updateComp(element);
     });
 
     _getDataTables(this, viewModel);

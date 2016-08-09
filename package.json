@@ -6,7 +6,9 @@
   "scripts": {
     "build": "webpack --colors --progress --mode=build",
     "dev": "webpack --progress --colors  --mode=dev",
-    "test": "mocha --compilers js:babel-core/register --colors -w ./test/*.spec.js"
+    "test": "mocha --compilers js:babel-core/register --colors -w ./test/*.spec.js",
+    "es": "babel js -d lib",
+    "prod": "npm run es && npm run build"
   },
   "directories": {
     "doc": "docs",

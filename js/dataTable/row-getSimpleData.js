@@ -4,12 +4,13 @@
  * Date   : 2016-08-08 13:54:01
  */
 import {_dateToUTCString} from './util';
+import {isEmptyObject} from 'neoui-sparrow/lib/util';
 
 const _getSimpleData = function(data){
     var _data = {};
     var meta = this.parent.getMeta() || {};
     for(var key in data){
-        if (key === 'meta' || u.isEmptyObject(data[key])){
+        if (key === 'meta' || isEmptyObject(data[key])){
             continue;
         }else if (data[key].isChild) {
             _data[key] = data[key].value?data[key].value.getSimpleData():{};

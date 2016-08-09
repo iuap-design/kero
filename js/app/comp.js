@@ -3,11 +3,14 @@
  * Author : liuyk(liuyk@yonyou.com)
  * Date   : 2016-07-29 09:34:01
  */
- 
+import {compMgr} from 'neoui-sparrow/lib/compMgr';
+import {each, isArray} from 'neoui-sparrow/lib/util';
+import {getOffset, getScroll} from 'neoui-sparrow/lib/dom';
+
 const createComp = function(ele,viewModel){
     var options = JSON.parse(ele.getAttribute('u-meta'));
     if (options && options['type']) {
-        var comp = u.compMgr.createDataAdapter({el:ele,options:options,model:viewModel,app:this});
+        var comp = compMgr.createDataAdapter({el:ele,options:options,model:viewModel,app:this});
         ele['u-meta'] = comp;
     }
     return comp;
@@ -15,7 +18,7 @@ const createComp = function(ele,viewModel){
 
 const getComp = function (compId) {
     var returnComp = null;
-    u.each(this.elements, function (i, element) {
+    each(this.elements, function (i, element) {
         if (typeof element === 'string'){
             element = document.querySelector(element);
         }
@@ -53,9 +56,9 @@ const getCompsByDataTable = function (dataTableId, element) {
 const getCompsByType = function (type, element) {
     var elements = element ? element : this.elements;
     var returnComps = [];
-    if (!u.isArray(elements))
+    if (!isArray(elements))
         elements = [elements];
-    u.each(elements, function (i, element) {
+    each(elements, function (i, element) {
         if(element){
             element.querySelectorAll('[u-meta]').forEach(function (ele) {
                 if (ele['u-meta']) {
@@ -80,9 +83,9 @@ const getComps = function (element) {
     if(typeof elements == 'string'){
     	elements = document.querySelectorAll(elements);
     }
-    if (!u.isArray(elements) && !(elements instanceof NodeList))
+    if (!isArray(elements) && !(elements instanceof NodeList))
         elements = [elements];
-    u.each(elements, function (i, element) {
+    each(elements, function (i, element) {
         if(element){
             element.querySelectorAll('[u-meta]').forEach(function (ele) {
                 if (ele['u-meta']) {
@@ -102,7 +105,7 @@ const getComps = function (element) {
  * @param {object} comp对象
  */
 const showComp = function(comp){
-    var ele = comp.element,off = u.getOffset(ele),scroll = u.getScroll(ele),
+    var ele = comp.element,off = getOffset(ele),scroll = getScroll(ele),
         top = off.top - scroll.top,bodyHeight = document.body.clientHeight,
         nowTop = document.body.scrollTop;
     if(top > bodyHeight || top < 0){

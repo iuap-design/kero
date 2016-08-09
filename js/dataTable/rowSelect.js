@@ -3,6 +3,7 @@
  * Author : liuyk(liuyk@yonyou.com)
  * Date   : 2016-08-01 14:34:01
  */
+import {isArray, isNumber} from 'neoui-sparrow/lib/util';
 import {_formatToIndicesArray} from './util';
 const setAllRowsSelect = function () {
     var indices = new Array(this.rows().length)
@@ -33,7 +34,7 @@ const setRowsSelect = function (indices) {
     }
     indices = _formatToIndicesArray(indices);
     var sIns = this.selectedIndices();
-    if (u.isArray(indices) && u.isArray(sIns) && indices.join() == sIns.join()) {
+    if (isArray(indices) && isArray(sIns) && indices.join() == sIns.join()) {
         // 避免与控件循环触发
         return;
     }
@@ -152,7 +153,7 @@ const setRowsUnSelect = function (indices) {
  * @param {Object} type   增加或减少  + -
  */
 const updateSelectedIndices = function (index, type, num) {
-    if (!u.isNumber(num)) {
+    if (!isNumber(num)) {
         num = 1
     }
     var selectedIndices = this.selectedIndices().slice()

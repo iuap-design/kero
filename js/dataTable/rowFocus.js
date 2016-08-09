@@ -3,7 +3,7 @@
  * Author : liuyk(liuyk@yonyou.com)
  * Date   : 2016-08-08 09:59:01
  */
-
+import {isNumber} from 'neoui-sparrow/lib/util';
 
 /**
  * 设置焦点行
@@ -55,7 +55,7 @@ const setRowUnFocus = function () {
 
 
 const updateFocusIndex = function (opIndex, opType, num) {
-    if (!u.isNumber(num)) {
+    if (!isNumber(num)) {
         num = 1
     }
     if (opIndex <= this.focusIndex() && this.focusIndex() != -1) {

@@ -3,7 +3,7 @@
  * Author : liuyk(liuyk@yonyou.com)
  * Date	  : 2016-08-01 14:34:01
  */
-
+import {isArray} from 'neoui-sparrow/lib/util';
 
 /**
  * 设置数据, 只设置字段值
@@ -22,7 +22,7 @@ const setSimpleData = function(data,options){
     }
     
     var rows = [];
-    if (!u.isArray(data))
+    if (!isArray(data))
         data = [data];
     for (var i =0; i< data.length; i++){
         var _data = data[i];
@@ -52,7 +52,7 @@ const addSimpleData = function(data, status){
     if (!data){
         throw new Error("dataTable.addSimpleData param can't be null!");
     }
-    if (!u.isArray(data))
+    if (!isArray(data))
         data = [data];
     for (var i =0; i< data.length; i++){
         var r = this.createEmptyRow();

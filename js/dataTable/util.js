@@ -3,7 +3,7 @@
  * Author : liuyk(liuyk@yonyou.com)
  * Date   : 2016-08-08 09:59:01
  */
-
+import {isArray} from 'neoui-sparrow/lib/util';
 
 const isChanged = function () {
     var rows = this.getAllRows()
@@ -19,7 +19,7 @@ const _formatToIndicesArray = function (indices) {
         indices = [indices]
     } else if (indices instanceof Row) {
         indices = this.getIndexByRowId(indices.rowId)
-    } else if (u.isArray(indices) && indices.length > 0 && indices[0] instanceof Row) {
+    } else if (isArray(indices) && indices.length > 0 && indices[0] instanceof Row) {
         for (var i = 0; i < indices.length; i++) {
             indices[i] = this.getIndexByRowId(indices[i].rowId)
         }

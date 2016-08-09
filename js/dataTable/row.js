@@ -3,6 +3,7 @@
  * Author : liuyk(liuyk@yonyou.com)
  * Date	  : 2016-08-01 14:34:01
  */
+import {isEmptyObject} from 'neoui-sparrow/lib/util';
 
 /**
  * 设置行数据
@@ -22,7 +23,7 @@ const setRows = function (rows) {
             var row = this.getRowByRowId(_id)
             if (row) {
                 row.updateRow(r);
-                if (!u.isEmptyObject(r.data)) {
+                if (!isEmptyObject(r.data)) {
                     this.trigger(DataTable.ON_UPDATE, {
                         index: i,
                         rows: [row]

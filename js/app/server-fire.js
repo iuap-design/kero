@@ -3,11 +3,11 @@
  * Author : liuyk(liuyk@yonyou.com)
  * Date	  : 2016-07-29 09:34:01
  */
-
+import {extend} from 'neoui-sparrow/lib/extend';
+import {ajax} from 'neoui-sparrow/lib/ajax';
 
 const fire = function (p) {
     var self = this
-//		params = $.extend(ServerEvent.DEFAULT, params);
     var data = this.getData();
     data.parameters = ko.utils.stringifyJson(this.params)
     var params = {
@@ -61,8 +61,8 @@ const fire = function (p) {
             deferred.reject();
         }
     }
-    params.data = u.extend(params.data, data);
-    u.ajax(params)
+    params.data = extend(params.data, data);
+    ajax(params)
 
 }
 

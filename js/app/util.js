@@ -4,9 +4,9 @@
  * Date   : 2016-07-29 09:34:01
  */
 
-
+import {each} from 'neoui-sparrow/lib/util';
 const setEnable = function (enable) {
-    u.each(this.elements, function (i, element) {
+    each(this.elements, function (i, element) {
         if(element){
             element.querySelectorAll('[u-meta]').each(function () {
                 if (this['u-meta']) {

@@ -3,9 +3,11 @@
  * Author : liuyk(liuyk@yonyou.com)
  * Date   : 2016-08-08 13:54:01
  */
+import {getJSObject} from 'neoui-sparrow/lib/util';
+import {date} from 'neoui-sparrow/lib/util/dateUtils';
+import {_getField} from './util';
 
- import {_getField} from './util';
- const ref = function (fieldName) {
+const ref = function (fieldName) {
     this.parent.createField(fieldName);
     if (!this.valueChange[fieldName])
         this.valueChange[fieldName] = ko.observable(1);
@@ -48,7 +50,7 @@ const refCombo = function (fieldName, datasource) {
         read: function () {
             this.valueChange[fieldName]();
             this.currentRowChange();
-            var ds = u.getJSObject(this.parent.parent, datasource)
+            var ds = getJSObject(this.parent.parent, datasource)
             if (_getField(fieldName)['value'] === undefined || _getField(fieldName)['value'] === "") return "";
             var v = _getField(fieldName)['value'];
             var valArr = typeof v === 'string' ? v.split(',') : [v];
@@ -83,7 +85,7 @@ const refDate = function (fieldName, format) {
             if (!_getField(fieldName)['value']) return "";
             var valArr = _getField(fieldName)['value']
             if (!valArr) return "";
-            valArr = u.date.format(valArr, format); //moment(valArr).format(format)
+            valArr = date.format(valArr, format); //moment(valArr).format(format)
             return valArr;
         },
         write: function (value) {

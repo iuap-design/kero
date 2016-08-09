@@ -4,7 +4,7 @@
  * Date   : 2016-08-08 09:59:01
  */
 
-
+import {showMessageDialog} from 'neoui/lib/neoui-message';
 
 const setRowValue = function (rowIndex, fieldName, value) {
     var row = this.rows[rowIndex]
@@ -32,7 +32,7 @@ const updateRow = function (originRow, newRow) {
 //					this.setValue(key, valueObj.value)
 
                 if (valueObj.error) {
-                    u.showMessageDialog({title: "警告", msg: valueObj.error, backdrop: true});
+                    showMessageDialog({title: "警告", msg: valueObj.error, backdrop: true});
                 } else {
                     //this.setValue(key, this.formatValue(key, valueObj.value), null)
                     originRow.data[key]['value'] = valueObj.value

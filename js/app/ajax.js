@@ -4,9 +4,11 @@
  * Date   : 2016-07-29 09:34:01
  */
 
+ import {ajax} from 'neoui-sparrow/lib/ajax';
+
 const ajax = function (params) {
     params = this._wrapAjax(params)
-    u.ajax(params)
+    ajax(params)
 }
 
 const _wrapAjax = function (params) {

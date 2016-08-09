@@ -3,6 +3,7 @@
  * Author : liuyk(liuyk@yonyou.com)
  * Date	  : 2016-07-29 09:34:01
  */
+import {isArray} from 'neoui-sparrow/lib/util';
 
 const addDataTable = function (dataTableId, rule) {
     var dataTable = this.app.getDataTable(dataTableId)
@@ -21,7 +22,7 @@ const addDataTables = function (dataTables) {
             var rule;
             if (typeof arguments[1] == 'string') {
                 rule = arguments[1]
-            } else if (u.isArray(arguments[1])) {
+            } else if (isArray(arguments[1])) {
                 rule = arguments[1][i]
             }
             this.addDataTable(dataTables[i], rule)

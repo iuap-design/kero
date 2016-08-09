@@ -3,7 +3,8 @@
  * Author : liuyk(liuyk@yonyou.com)
  * Date   : 2016-07-29 09:34:01
  */
-
+import {each} from 'neoui-sparrow/lib/util';
+import {trigger} from 'neoui-sparrow/lib/event';
 
 const setCompression = function (compression) {
     if (!iweb.browser.isIE8 && !window.pako && compression == true)
@@ -58,7 +59,7 @@ const getData = function () {
 
 
 const updateDom = function () {
-    u.each(dom, function (i, n) {
+    each(dom, function (i, n) {
         var vo = n.two
         var key = n.one;
         _updateDom(key, vo)
@@ -72,11 +73,11 @@ function _updateDom(key, vos) {
         for (var key in vo) {
             var props = vo[key]
             if (key == 'trigger') {
-                u.trigger(key,props[0]);
+                trigger(key,props[0]);
             }
             else {
                 if (u.isArray(props)) {
-                    u.each(props, function (i, n) {
+                    each(props, function (i, n) {
                         key[i](n)
                     });
                 }
