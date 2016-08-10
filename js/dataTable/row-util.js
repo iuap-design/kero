@@ -5,7 +5,7 @@
  */
 import {isNumber} from 'neoui-sparrow/lib/util';
 
-var eq = function (a, b) {
+const eq = function (a, b) {
     if ((a === null || a === undefined || a === '') && (b === null || b === undefined || b === '')) return true;
     if (isNumber(a) && isNumber(b) && parseFloat(a) == parseFloat(b)) return true;
     if (a + '' == b + '')  return true;
@@ -13,7 +13,7 @@ var eq = function (a, b) {
 }
 
 
-var _formatDate = function (value) {
+const _formatDate = function (value) {
     if (!value) return value
     var date = new Date();
     date.setTime(value);
@@ -37,7 +37,7 @@ var _formatDate = function (value) {
     return formatString;
 }
 
-var _dateToUTCString = function (date) {
+const _dateToUTCString = function (date) {
     if (!date) return ''
     if(typeof date==='number')
         return date
@@ -48,7 +48,7 @@ var _dateToUTCString = function (date) {
     return utcString;
 }
 
-Row.fn._triggerChange = function(fieldName, oldValue, ctx){
+const _triggerChange = function(fieldName, oldValue, ctx){
     this._getField(fieldName).changed = true
     if (this.status != Row.STATUS.NEW)
         this.status = Row.STATUS.UPDATE
@@ -85,7 +85,7 @@ Row.fn._triggerChange = function(fieldName, oldValue, ctx){
  * @param {Object} field
  * @param {Object} value
  */
-Row.fn.formatValue = function (field, value) {
+const formatValue = function (field, value) {
     var type = this.parent.getMeta(field, 'type')
     if (!type) return value
     if (type == 'date' || type == 'datetime') {
@@ -95,7 +95,7 @@ Row.fn.formatValue = function (field, value) {
 }
 
 
-Row.fn._findField = function(fieldName){
+const _findField = function(fieldName){
     var rat = this.data[fieldName];
     if (!rat) {
         var fnames = fieldName.split('.'); //多级field
@@ -114,7 +114,7 @@ Row.fn._findField = function(fieldName){
 
 }
 
-Row.fn._getField = function (fieldName) {
+const _getField = function (fieldName) {
     var rat = this._findField(fieldName);
     if (!rat) {
         var msg = 'field:' + fieldName + ' not exist in dataTable:' + this.parent.root.id + '!'

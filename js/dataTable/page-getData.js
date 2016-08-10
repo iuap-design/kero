@@ -27,13 +27,7 @@ const getSelectDatas = function () {
     return datas
 }
 
-const getRowByRowId = function (rowid) {
-    for (var i = 0, count = this.rows.length; i < count; i++) {
-        if (this.rows.rowId == rowid)
-            return this.rows[i]
-    }
-    return null
-}
+
 
 const getSelectRows = function () {
     var rows = [];
@@ -45,7 +39,7 @@ const getSelectRows = function () {
 
 const getRowByRowId = function (rowid) {
     for (var i = 0, count = this.rows.length; i < count; i++) {
-        if (this.rows[i].rowId == rowid)
+        if (this.rows.rowId == rowid)
             return this.rows[i]
     }
     return null
@@ -62,7 +56,6 @@ const getRowValue = function (rowIndex, fieldName) {
 export {
 	getData,
 	getSelectDatas,
-	getRowByRowId,
 	getSelectRows,
 	getRowByRowId,
 	getRowValue
