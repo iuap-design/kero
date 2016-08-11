@@ -381,15 +381,15 @@ u.extend(u, {
 			top = top + eleHeight;
 		}
         
-        // if((left + panelWidth) > bodyWidth)
-        //     left = bodyWidth - panelWidth;
-        // if(left < 0)
-        //     left = 0;
+        if((left + panelWidth) > bodyWidth)
+            left = bodyWidth - panelWidth;
+        if(left < 0)
+            left = 0;
 
-        // if((top + panelHeight) > bodyHeight)
-        //     top = bodyHeight - panelHeight;
-        // if(top < 0)
-        //     top = 0;
+        if((top + panelHeight) > bodyHeight)
+            top = bodyHeight - panelHeight;
+        if(top < 0)
+            top = 0;
         panel.style.left = left + 'px';
         panel.style.top = top + 'px';
 	},
@@ -7569,7 +7569,7 @@ u.CheckboxAdapter = u.BaseAdapter.extend({
             var nameDivs = this.element.querySelectorAll('[data-role=name]');
             self.lastNameDiv = nameDivs[nameDivs.length -1];
             self.lastNameDiv.innerHTML = '其他';
-            self.otherInput = u.makeDOM('<input type="text">');
+            self.otherInput = u.makeDOM('<input disabled type="text">');
             self.lastNameDiv.parentNode.appendChild(self.otherInput);
             self.lastCheck.value = '';
            
@@ -7645,7 +7645,8 @@ u.CheckboxAdapter = u.BaseAdapter.extend({
         var allName = this.element.querySelectorAll('[data-role=name]');
         for (var k = 0; k < allCheck.length; k++) {
             allCheck[k].value = comboData[k].pk || comboData[k].value;
-            allName[k].innerHTML = comboData[k].name
+            allName[k].innerHTML = comboData[k].name;
+            allName[k].title = comboData[k].name;
         }
         this.element.querySelectorAll('.u-checkbox').forEach(function (ele) {
             var comp;
@@ -7835,6 +7836,9 @@ u.ComboboxAdapter = u.BaseAdapter.extend({
         if (value === null || typeof value == "undefined")
             value = "";
         this.comp.setValue(value);
+
+        //下面两句会在校验中用到
+
         this.trueValue = this.formater ? this.formater.format(value) : value;
         this.element.trueValue = this.trueValue;
         // this.showValue = this.masker ? this.masker.format(this.trueValue).value : this.trueValue;
@@ -7934,7 +7938,7 @@ u.RadioAdapter = u.BaseAdapter.extend({
             var nameDivs = this.element.querySelectorAll('.u-radio-label');
             self.lastNameDiv = nameDivs[nameDivs.length -1];
             self.lastNameDiv.innerHTML = '其他';
-            self.otherInput = u.makeDOM('<input type="text" style="height:32px;box-sizing:border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;">');
+            self.otherInput = u.makeDOM('<input disabled type="text" style="height:32px;box-sizing:border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;">');
             self.lastNameDiv.parentNode.appendChild(self.otherInput);
             self.lastRadio.value = '';
            
@@ -7995,7 +7999,8 @@ u.RadioAdapter = u.BaseAdapter.extend({
         var allName = this.element.querySelectorAll('.u-radio-label');
         for (var k = 0; k < allRadio.length; k++) {
             allRadio[k].value = comboData[k].pk || comboData[k].value;
-            allName[k].innerHTML = comboData[k].name
+            allName[k].innerHTML = comboData[k].name;
+            allName[k].title = comboData[k].name;
         }
 
         this.radioInputName = allRadio[0].name;
@@ -8027,11 +8032,6 @@ u.RadioAdapter = u.BaseAdapter.extend({
                         });
                     }
                 });
-
-
-
-
-
             });
         })
     },
@@ -8046,6 +8046,7 @@ u.RadioAdapter = u.BaseAdapter.extend({
                 var inptuValue = comp._btnElement.value;
                 if (inptuValue && inptuValue == value) {
                     fetch = true;
+                    u.addClass(comp.element,'is-checked')
                     comp._btnElement.click();
                 }
             })
@@ -8053,13 +8054,21 @@ u.RadioAdapter = u.BaseAdapter.extend({
             if (this.eleValue == value){
                 fetch = true;
                 this.slice = true;
+                u.addClass(this.comp.element,'is-checked')
                 this.comp._btnElement.click();
                 this.slice = false;
             }
         }
         if(this.options.hasOther && !fetch && value){
+            if(!this.enable){
+                this.lastRadio.removeAttribute('disabled');
+            }
+            u.addClass(this.lastLabel,'is-checked')
             this.lastRadio.checked = true;
             this.otherInput.value = value;
+            if(!this.enable){
+                this.lastRadio.setAttribute('disabled',true);
+            }
         }
     },
 
