@@ -4,7 +4,7 @@
  * Date   : 2016-07-29 09:34:01
  */
 
-import {ajax as uAjax} from 'neoui-sparrow/lib/ajax';
+import {ajax as uAjax} from 'neoui-sparrow/js/ajax';
 
 const ajax = function (params) {
     params = this._wrapAjax(params)

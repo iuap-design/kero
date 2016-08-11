@@ -59,7 +59,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.u = undefined;
+	exports.DataTable = exports.u = undefined;
 	
 	var _indexApp = __webpack_require__(1);
 	
@@ -94,6 +94,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	u.Row = _indexRow.Row;
 	
 	exports.u = u;
+	exports.DataTable = _indexDataTable.DataTable;
 
 /***/ },
 /* 1 */
@@ -3302,7 +3303,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+	    value: true
 	});
 	exports.Events = undefined;
 	
@@ -3318,13 +3319,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	
 	var Events = function Events() {
-	  _classCallCheck(this, Events);
+	    _classCallCheck(this, Events);
 	
-	  this.on = _events.on;
-	  this.off = _events.off;
-	  this.one = _events.one;
-	  this.trigger = _events.trigger;
-	  this.getEvent = _events.getEvent;
+	    this.on = _events.on;
+	    this.off = _events.off;
+	    this.one = _events.one;
+	    this.trigger = _events.trigger;
+	    this.getEvent = _events.getEvent;
 	};
 	
 	exports.Events = Events;

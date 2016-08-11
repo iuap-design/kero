@@ -3,9 +3,9 @@
  * Author : liuyk(liuyk@yonyou.com)
  * Date   : 2016-08-08 13:54:01
  */
-import {eq,_triggerChange, _getField} from './util'
-import {showMessageDialog} from 'neoui/lib/neoui-message';
-import {isArray} from 'neoui-sparrow/lib/util';
+import {eq,_triggerChange, _getField} from './util';
+import {showMessageDialog} from 'neoui/js/neoui-message';
+import {isArray} from 'neoui-sparrow/js/util';
  /**
  *设置row中某一列的值
  */

@@ -3,7 +3,7 @@
  * Author : liuyk(liuyk@yonyou.com)
  * Date   : 2016-08-01 14:34:01
  */
-import {isArray, isNumber} from 'neoui-sparrow/lib/util';
+import {isArray, isNumber} from 'neoui-sparrow/js/util';
 import {_formatToIndicesArray} from './util';
 const setAllRowsSelect = function () {
     var indices = new Array(this.rows().length)

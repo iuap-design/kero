@@ -3,9 +3,9 @@
  * Author : liuyk(liuyk@yonyou.com)
  * Date   : 2016-07-29 09:34:01
  */
-import {compMgr} from 'neoui-sparrow/lib/compMgr';
-import {each, isArray} from 'neoui-sparrow/lib/util';
-import {getOffset, getScroll} from 'neoui-sparrow/lib/dom';
+import {compMgr} from 'neoui-sparrow/js/compMgr';
+import {each, isArray} from 'neoui-sparrow/js/util';
+import {getOffset, getScroll} from 'neoui-sparrow/js/dom';
 
 const createComp = function(ele,viewModel){
     var options = JSON.parse(ele.getAttribute('u-meta'));

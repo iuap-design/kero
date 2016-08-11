@@ -3,7 +3,7 @@
  * Author : liuyk(liuyk@yonyou.com)
  * Date	  : 2016-07-29 09:34:01
  */
-import {isArray} from 'neoui-sparrow/lib/util';
+import {isArray} from 'neoui-sparrow/js/util';
 
 const addDataTable = function (dataTableId, rule) {
     var dataTable = this.app.getDataTable(dataTableId)

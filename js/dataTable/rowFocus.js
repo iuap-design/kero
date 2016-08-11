@@ -3,7 +3,7 @@
  * Author : liuyk(liuyk@yonyou.com)
  * Date   : 2016-08-08 09:59:01
  */
-import {isNumber} from 'neoui-sparrow/lib/util';
+import {isNumber} from 'neoui-sparrow/js/util';
 
 /**
  * 设置焦点行

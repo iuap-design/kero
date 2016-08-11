@@ -3,8 +3,8 @@
  * Author : liuyk(liuyk@yonyou.com)
  * Date   : 2016-08-08 13:54:01
  */
-import {getJSObject} from 'neoui-sparrow/lib/util';
-import {date} from 'neoui-sparrow/lib/util/dateUtils';
+import {getJSObject} from 'neoui-sparrow/js/util';
+import {date} from 'neoui-sparrow/js/util/dateUtils';
 import {_getField} from './util';
 
 const ref = function (fieldName) {

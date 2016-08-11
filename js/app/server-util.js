@@ -3,8 +3,8 @@
  * Author : liuyk(liuyk@yonyou.com)
  * Date   : 2016-07-29 09:34:01
  */
-import {each} from 'neoui-sparrow/lib/util';
-import {trigger} from 'neoui-sparrow/lib/event';
+import {each} from 'neoui-sparrow/js/util';
+import {trigger} from 'neoui-sparrow/js/event';
 
 const setCompression = function (compression) {
     if (!iweb.browser.isIE8 && !window.pako && compression == true)

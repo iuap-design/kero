@@ -3,7 +3,7 @@
  * Author : liuyk(liuyk@yonyou.com)
  * Date   : 2016-08-08 13:54:01
  */
-import {isNumber} from 'neoui-sparrow/lib/util';
+import {isNumber} from 'neoui-sparrow/js/util';
 
 const eq = function (a, b) {
     if ((a === null || a === undefined || a === '') && (b === null || b === undefined || b === '')) return true;

@@ -3,7 +3,7 @@
  * Author : liuyk(liuyk@yonyou.com)
  * Date	  : 2016-08-01 14:34:01
  */
-import {isEmptyObject} from 'neoui-sparrow/lib/util';
+import {isEmptyObject} from 'neoui-sparrow/js/util';
 
 /**
  * 设置行数据

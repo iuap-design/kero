@@ -4,7 +4,7 @@
  * Date   : 2016-07-29 09:34:01
  */
 
-import {each} from 'neoui-sparrow/lib/util';
+import {each} from 'neoui-sparrow/js/util';
 const setEnable = function (enable) {
     each(this.elements, function (i, element) {
         if(element){

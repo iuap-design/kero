@@ -1,6 +1,6 @@
 {
   "name": "kero",
-  "version": "3.1.0",
+  "version": "3.1.2",
   "description": "",
   "main": "gulpfile.js",
   "scripts": {
@@ -8,7 +8,7 @@
     "dev": "webpack --progress --colors  --mode=dev",
     "test": "mocha --compilers js:babel-core/register --colors -w ./test/*.spec.js",
     "es": "babel js -d lib",
-    "prod": "npm run es && npm run build" 
+    "prod": "npm run es && npm run build"
   },
   "directories": {
     "doc": "docs",
@@ -21,7 +21,8 @@
     "gulp-rename": "^1.2.2",
     "gulp-uglify": "^1.5.3",
     "gulp-util": "^3.0.7",
-    "neoui-sparrow": "^1.1.11"
+    "neoui": "^3.1.2",
+    "neoui-sparrow": "^1.2.2"
   },
   "devDependencies": {
     "babel-cli": "^6.11.4",

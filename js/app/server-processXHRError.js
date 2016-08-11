@@ -4,7 +4,7 @@
  * Date   : 2016-07-29 09:34:01
  */
 
-import {showMessageDialog} from 'neoui/lib/neoui-message';
+import {showMessageDialog} from 'neoui/js/neoui-message';
 
 const processXHRError = function (self, rsl, state, xhr) {
     if (typeof rsl === 'string')
