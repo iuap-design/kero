@@ -71,16 +71,14 @@ u.TreeAdapter = u.BaseAdapter.extend({
 					//添加focusNode样式
 					$('#'+node.tId).addClass('focusNode');
 					$('#'+node.tId+'_a').addClass('focusNode');
-					if (oThis.tree.setting.view.selectedMulti != true) {
-						// 获取到节点的idValue
-						var idValue = node.id;
-						// 根据idValue查找到对应数据的rowId
-						var rowId = oThis.getRowIdByIdValue(idValue);
-						var index = oThis.dataTable.getIndexByRowId(rowId);
-						oThis.dataTable.setRowSelect(index);
-						if (oThis.events.onClick) {
-							u.getFunction(viewModel, oThis.events.onClick)(e, id, node);
-						}
+					// 获取到节点的idValue
+					var idValue = node.id;
+					// 根据idValue查找到对应数据的rowId
+					var rowId = oThis.getRowIdByIdValue(idValue);
+					var index = oThis.dataTable.getIndexByRowId(rowId);
+					oThis.dataTable.setRowSelect(index);
+					if (oThis.events.onClick) {
+						u.getFunction(viewModel, oThis.events.onClick)(e, id, node);
 					}
 
 				}
