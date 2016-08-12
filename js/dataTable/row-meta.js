@@ -3,7 +3,7 @@
  * Author : liuyk(liuyk@yonyou.com)
  * Date   : 2016-08-08 13:54:01
  */
-import {eq, _getField} from './util'
+import {eq, _getField} from './util';
 
 /**
  *设置row中某一列的属性

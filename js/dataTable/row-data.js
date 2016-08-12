@@ -4,7 +4,6 @@
  * Date   : 2016-08-08 13:54:01
  */
 import {eq,_triggerChange, _getField} from './util';
-import {showMessageDialog} from 'neoui/js/neoui-message';
 import {isArray} from 'neoui-sparrow/js/util';
  /**
  *设置row中某一列的值
@@ -95,7 +94,10 @@ const _setData = function(sourceData, targetData, subscribe, parentKey){
         }
         else {
             if (valueObj.error) {
-                showMessageDialog({title: "警告", msg: valueObj.error, backdrop: true});
+                if(u.showMessageDialog)
+                    u.showMessageDialog({title: "警告", msg: valueObj.error, backdrop: true});
+                else
+                    alert(valueObj.error);
             } else if (valueObj.value || valueObj.value === null  || valueObj.meta || valueObj.value === '' || valueObj.value === '0' || valueObj.value === 0){
                 var oldValue = targetData[key]['value'];
                 targetData[key]['value'] = this.formatValue(key, valueObj.value)
@@ -175,7 +177,10 @@ const setData = function (data, subscribe) {
         else{
             var valueObj = sourceData[key];
             if (valueObj.error) {
-                showMessageDialog({title: "警告", msg: valueObj.error, backdrop: true});
+                if(u.showMessageDialog)
+                    u.showMessageDialog({title: "警告", msg: valueObj.error, backdrop: true});
+                else
+                    alert(valueObj.error);
             } else if (valueObj.value || valueObj.value === null || valueObj.meta){
                 oldValue = targetData[key]['value'];
                 targetData[key]['value'] = this.formatValue(key, valueObj.value)

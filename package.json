@@ -21,7 +21,6 @@
     "gulp-rename": "^1.2.2",
     "gulp-uglify": "^1.5.3",
     "gulp-util": "^3.0.7",
-    "neoui": "^3.1.4",
     "neoui-sparrow": "^1.2.2"
   },
   "devDependencies": {
