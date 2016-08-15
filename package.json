@@ -8,7 +8,8 @@
     "dev": "webpack --progress --colors  --mode=dev",
     "test": "mocha --compilers js:babel-core/register --colors -w ./test/*.spec.js",
     "es": "babel js -d lib",
-    "prod": "npm run es && npm run build"
+    "prod": "npm run es && npm run build",
+    "product": "npm run build && npm run dev"
   },
   "directories": {
     "doc": "docs",
