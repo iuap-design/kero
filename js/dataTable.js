@@ -852,7 +852,7 @@ DataTable.fn.setRowDelete = function (index) {
     if (index instanceof Row) {
         index = this.getIndexByRowId(index.rowId)
     }
-    this.setRowDelete([index])
+    this.setRowsDelete([index])
 }
 
 /**
