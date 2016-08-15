@@ -6316,7 +6316,7 @@ dialogMode.prototype.create = function(){
 dialogMode.prototype.close = function(){
 	if(this.contentDom){
 		this.contentDom.style.display = 'none';
-		this.contentDomParent.appendChild(this.contentDom);
+		this.contentDomParent&&this.contentDomParent.appendChild(this.contentDom);
 	}
 	document.body.removeChild(this.templateDom);
     document.body.removeChild(this.overlayDiv);
