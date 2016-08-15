@@ -451,7 +451,7 @@ DataTable.fn.setData = function (data,options) {
         }
     } else {
         select = data.select||(!unSelect?[0]:[]);
-        focus = data.focus;
+        focus = data.focus !== undefined ? data.focus : data.current;
         this.setRows(data.rows)
     }
     this.pageIndex(newIndex)
@@ -463,7 +463,7 @@ DataTable.fn.setData = function (data,options) {
 
     if (select && select.length > 0 && this.rows().length > 0)
         this.setRowsSelect(select)
-    if (focus)
+    if (focus !== undefined)
         this.setRowFocus(focus)
 };
 
