@@ -130,5 +130,6 @@ export {
 	_dateToUTCString,
 	_triggerChange,
 	formatValue, //需要最终产出
-	_getField
+	_getField,
+    _findField
 }

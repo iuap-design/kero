@@ -59,7 +59,9 @@ import {
 } from './row-simpleData'; 
 
 import {
-    formatValue, //需要最终产出
+    formatValue, //需要最终产出,
+    _findField,
+    _getField
 } from './row-util'; 
 
 
@@ -137,8 +139,10 @@ class Row extends Events{
 
         //util
         this.formatValue= formatValue;
+        this._findField = _findField;
+        this._getField = _getField;
 
-        this.init()
+        this.init();
     }
 }
 
@@ -158,6 +162,8 @@ Row.getRandomRowId = function () {
     var _id = setTimeout(function () {})
     return  _id + '';
 };
+
+
 
 export {
     Row

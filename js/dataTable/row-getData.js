@@ -3,7 +3,7 @@
  * Author : liuyk(liuyk@yonyou.com)
  * Date   : 2016-08-08 13:54:01
  */
-import {_dateToUTCString,_getField} from './util';
+import {_dateToUTCString,_getField} from './row-util';
 /**
  *获取row中某一列的值
  */

@@ -70,7 +70,8 @@ import {
 class App {
     constructor(){
 		// init
-        this.init = init; 
+        this.init = init;
+        this.dataTables = {};
         // adjustMetaFunc
         this.adjustMetaFunc = adjustMetaFunc;
         // dataTable 
