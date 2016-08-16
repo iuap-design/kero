@@ -48,8 +48,8 @@ const _dateToUTCString = function (date) {
     return utcString;
 }
 
-const _triggerChange = function(fieldName, oldValue, ctx){
-    this._getField(fieldName).changed = true
+const _triggerChange = function(rowObj,fieldName, oldValue, ctx){
+    _getField(rowObj, fieldName).changed = true
     if (this.status != Row.STATUS.NEW)
         this.status = Row.STATUS.UPDATE
     if (this.valueChange[fieldName])
@@ -95,12 +95,12 @@ const formatValue = function (field, value) {
 }
 
 
-const _findField = function(fieldName){
-    var rat = this.data[fieldName];
+const _findField = function(rowObj, fieldName){
+    var rat = rowObj.data[fieldName];
     if (!rat) {
         var fnames = fieldName.split('.'); //多级field
         if (fnames.length > 1){
-            var tempField = this.data
+            var tempField = rowObj.data;
             for (var i = 0; i < fnames.length; i++){
                 tempField = tempField[fnames[i]];
                 if (!tempField){
@@ -114,10 +114,10 @@ const _findField = function(fieldName){
 
 }
 
-const _getField = function (fieldName) {
-    var rat = this._findField(fieldName);
+const _getField = function (rowObj, fieldName) {
+    var rat = _findField(rowObj, fieldName);
     if (!rat) {
-        var msg = 'field:' + fieldName + ' not exist in dataTable:' + this.parent.root.id + '!'
+        var msg = 'field:' + fieldName + ' not exist in dataTable:' + rowObj.parent.root.id + '!'
         console.error(msg);
         throw new Error(msg);
     }

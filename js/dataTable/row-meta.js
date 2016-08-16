@@ -3,15 +3,15 @@
  * Author : liuyk(liuyk@yonyou.com)
  * Date   : 2016-08-08 13:54:01
  */
-import {eq, _getField} from './util';
+import {eq, _getField} from './row-util';
 
 /**
  *设置row中某一列的属性
  */
 const setMeta = function (fieldName, key, value) {
-    var meta = _getField(fieldName).meta
+    var meta = _getField(this, fieldName).meta
     if (!meta)
-        meta = _getField(fieldName).meta = {}
+        meta = _getField(this, fieldName).meta = {}
     var oldValue = meta[key]
     if (eq(oldValue, value)) return;
     meta[key] = value

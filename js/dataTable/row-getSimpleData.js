@@ -3,7 +3,7 @@
  * Author : liuyk(liuyk@yonyou.com)
  * Date   : 2016-08-08 13:54:01
  */
-import {_dateToUTCString} from './util';
+import {_dateToUTCString} from './row-util';
 import {isEmptyObject} from 'neoui-sparrow/js/util';
 
 const _getSimpleData = function(data){

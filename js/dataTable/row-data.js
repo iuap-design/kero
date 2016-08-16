@@ -3,7 +3,7 @@
  * Author : liuyk(liuyk@yonyou.com)
  * Date   : 2016-08-08 13:54:01
  */
-import {eq,_triggerChange, _getField} from './util';
+import {eq,_triggerChange, _getField} from './row-util';
 import {isArray} from 'neoui-sparrow/js/util';
  /**
  *设置row中某一列的值
@@ -17,7 +17,7 @@ const setValue = function (fieldName, value, ctx, options) {
     if(typeof oldValue == 'undefined' || oldValue === null)
         oldValue = ''
     if (eq(oldValue, value)) return;
-    _getField(fieldName)['value'] = value;
+    _getField(this, fieldName)['value'] = value;
     _triggerChange(fieldName, oldValue, ctx);
 }
 

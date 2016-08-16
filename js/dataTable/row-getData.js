@@ -8,7 +8,7 @@ import {_dateToUTCString,_getField} from './row-util';
  *获取row中某一列的值
  */
 const getValue = function (fieldName) {
-    return _getField(fieldName)['value']
+    return _getField(this,fieldName)['value']
 }
 
 /**

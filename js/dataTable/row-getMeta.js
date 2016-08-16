@@ -4,7 +4,7 @@
  * Date   : 2016-08-08 13:54:01
  */
 
- import {_getField} from './util';
+ import {_getField} from './row-util';
 /**
  *获取row中某一列的属性
  */
@@ -16,7 +16,7 @@ const getMeta = function (fieldName, key, fetchParent) {
         }
         return mt
     }
-    var meta = _getField(fieldName).meta
+    var meta = _getField(this, fieldName).meta
     if (meta && meta[key] !== undefined && meta[key] !== null && meta[key] !== '')
         return meta[key]
     else if (typeof fetchParent == 'undefined' || fetchParent != false)

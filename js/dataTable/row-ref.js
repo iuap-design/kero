@@ -5,7 +5,7 @@
  */
 import {getJSObject} from 'neoui-sparrow/js/util';
 import {date} from 'neoui-sparrow/js/util/dateUtils';
-import {_getField} from './util';
+import {_getField} from './row-util';
 
 const ref = function (fieldName) {
     this.parent.createField(fieldName);
@@ -51,8 +51,8 @@ const refCombo = function (fieldName, datasource) {
             this.valueChange[fieldName]();
             this.currentRowChange();
             var ds = getJSObject(this.parent.parent, datasource)
-            if (_getField(fieldName)['value'] === undefined || _getField(fieldName)['value'] === "") return "";
-            var v = _getField(fieldName)['value'];
+            if (_getField(this, fieldName)['value'] === undefined || _getField(this, fieldName)['value'] === "") return "";
+            var v = _getField(this, fieldName)['value'];
             var valArr = typeof v === 'string' ? v.split(',') : [v];
 
             var nameArr = []
@@ -82,8 +82,8 @@ const refDate = function (fieldName, format) {
         read: function () {
             this.valueChange[fieldName]();
             this.currentRowChange();
-            if (!_getField(fieldName)['value']) return "";
-            var valArr = _getField(fieldName)['value']
+            if (!_getField(this, fieldName)['value']) return "";
+            var valArr = _getField(this, fieldName)['value']
             if (!valArr) return "";
             valArr = date.format(valArr, format); //moment(valArr).format(format)
             return valArr;
@@ -105,8 +105,8 @@ const refEnum = function (fieldName) {
         read: function () {
             this.valueChange[fieldName]();
             this.currentRowChange();
-            if (!_getField(fieldName)['value']) return "";
-            var valArr = _getField(fieldName)['value']
+            if (!_getField(this, fieldName)['value']) return "";
+            var valArr = _getField(this, fieldName)['value']
             if (!valArr) return "";
             if(valArr == "N")
                 valArr = "否";
