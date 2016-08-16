@@ -24,7 +24,6 @@
 -->
 <div id="combo1" class="u-combo u-text u-label-floating" u-meta='{"id":"dt1","type":"u-combobox","data":"dt1","field":"f1","datasource":"comboData"}'>
     <input class="u-input"/>
-    <label class="u-label">label</label>
     <span class="u-combo-icon"></span>
 </div></div>
 <div class="example-content ex-hide"><script>// JS
@@ -86,7 +85,6 @@ viewModel.dt1.setRowSelect(0);
 -->
 &lt;div id="combo1" class="u-combo u-text u-label-floating" u-meta='{"id":"dt1","type":"u-combobox","data":"dt1","field":"f1","datasource":"comboData"}'>
     &lt;input class="u-input"/>
-    &lt;label class="u-label">label&lt;/label>
     &lt;span class="u-combo-icon">&lt;/span>
 &lt;/div></code></pre>
 </div>
