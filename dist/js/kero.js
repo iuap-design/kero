@@ -143,6 +143,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  // init
 	  this.init = _init.init;
+	  this.dataTables = {};
 	  // adjustMetaFunc
 	  this.adjustMetaFunc = _adjustMetaFunc.adjustMetaFunc;
 	  // dataTable 
@@ -528,7 +529,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	 * Module : Sparrow dom
 	 * Author : Kvkens(yueming@yonyou.com)
-	 * Date	  : 2016-07-27 21:46:50
+	 * Date	  : 2016-08-16 13:59:17
 	 */
 	var removeClass = function removeClass(element, value) {
 		if (typeof element.classList === 'undefined') {
@@ -694,21 +695,28 @@ return /******/ (function(modules) { // webpackBootstrap
 		var ele = obj.ele,
 		    panel = obj.panel,
 		    position = obj.position,
-		    off = getOffset(ele),
-		    scroll = getScroll(ele),
-		    offLeft = off.left,
-		    offTop = off.top,
-		    scrollLeft = scroll.left,
-		    scrollTop = scroll.top,
-		    eleWidth = ele.offsetWidth,
-		    eleHeight = ele.offsetHeight,
-		    panelWidth = panel.offsetWidth,
-		    panelHeight = panel.offsetHeight,
-		    bodyWidth = document.body.clientWidth,
+
+		// off = u.getOffset(ele),scroll = u.getScroll(ele),
+		// offLeft = off.left,offTop = off.top,
+		// scrollLeft = scroll.left,scrollTop = scroll.top,
+		// eleWidth = ele.offsetWidth,eleHeight = ele.offsetHeight,
+		// panelWidth = panel.offsetWidth,panelHeight = panel.offsetHeight,
+		bodyWidth = document.body.clientWidth,
 		    bodyHeight = document.body.clientHeight,
 		    position = position || 'top',
-		    left = offLeft - scrollLeft,
-		    top = offTop - scrollTop;
+
+		// left = offLeft - scrollLeft,top = offTop - scrollTop,
+		eleRect = obj.ele.getBoundingClientRect(),
+		    panelRect = obj.panel.getBoundingClientRect(),
+		    eleWidth = eleRect.width,
+		    eleHeight = eleRect.height,
+		    left = eleRect.left,
+		    top = eleRect.top,
+		    panelWidth = panelRect.width,
+		    panelHeight = panelRect.height,
+		    docWidth = document.documentElement.clientWidth,
+		    docHeight = document.documentElement.clientHeight;
+
 		// 基准点为Ele的左上角
 		// 后续根据需要完善
 		if (position == 'left') {
@@ -728,15 +736,14 @@ return /******/ (function(modules) { // webpackBootstrap
 			top = top + eleHeight;
 		}
 
-		// if((left + panelWidth) > bodyWidth)
-		//     left = bodyWidth - panelWidth;
-		// if(left < 0)
-		//     left = 0;
+		if (left + panelWidth > docWidth) left = docWidth - panelWidth - 10;
+		if (left < 0) left = 0;
 
-		// if((top + panelHeight) > bodyHeight)
-		//     top = bodyHeight - panelHeight;
-		// if(top < 0)
-		//     top = 0;
+		if (top + panelHeight > docHeight) {
+			top = docHeight - panelHeight - 10;
+		}
+
+		if (top < 0) top = 0;
 		panel.style.left = left + 'px';
 		panel.style.top = top + 'px';
 	};
@@ -4548,7 +4555,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 	var removeRows = function removeRows(indices) {
-	    indices = (0, _util._formatToIndicesArray)(indices);
+	    indices = (0, _util._formatToIndicesArray)(this, indices);
 	    indices = indices.sort();
 	    var rowIds = [],
 	        rows = this.rows(),
@@ -4619,14 +4626,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    */
 
 
-	var _formatToIndicesArray = function _formatToIndicesArray(indices) {
+	var _formatToIndicesArray = function _formatToIndicesArray(dataTableObj, indices) {
 	    if (typeof indices == 'string' || typeof indices == 'number') {
 	        indices = [indices];
 	    } else if (indices instanceof Row) {
-	        indices = this.getIndexByRowId(indices.rowId);
+	        indices = dataTableObj.getIndexByRowId(indices.rowId);
 	    } else if ((0, _util.isArray)(indices) && indices.length > 0 && indices[0] instanceof Row) {
 	        for (var i = 0; i < indices.length; i++) {
-	            indices[i] = this.getIndexByRowId(indices[i].rowId);
+	            indices[i] = dataTableObj.getIndexByRowId(indices[i].rowId);
 	        }
 	    }
 	    return indices;
@@ -4828,7 +4835,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @param {Array} indices
 	 */
 	var setRowsDelete = function setRowsDelete(indices) {
-	    indices = (0, _util._formatToIndicesArray)(indices);
+	    indices = (0, _util._formatToIndicesArray)(this, indices);
 	    for (var i = 0; i < indices.length; i++) {
 	        var row = this.getRow(indices[i]);
 	        if (row.status == Row.STATUS.NEW) {
@@ -4898,7 +4905,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.setAllRowsUnSelect({ quiet: true });
 	        return;
 	    }
-	    indices = (0, _util2._formatToIndicesArray)(indices);
+	    indices = (0, _util2._formatToIndicesArray)(this, indices);
 	    var sIns = this.selectedIndices();
 	    if ((0, _util.isArray)(indices) && (0, _util.isArray)(sIns) && indices.join() == sIns.join()) {
 	        // 避免与控件循环触发
@@ -4932,7 +4939,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * 添加选中行，不会清空之前已选中的行
 	 */
 	var addRowsSelect = function addRowsSelect(indices) {
-	    indices = (0, _util2._formatToIndicesArray)(indices);
+	    indices = (0, _util2._formatToIndicesArray)(this, indices);
 	    var selectedIndices = this.selectedIndices().slice();
 	    for (var i = 0; i < indices.length; i++) {
 	        var ind = indices[i],
@@ -4978,7 +4985,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 	var setRowsUnSelect = function setRowsUnSelect(indices) {
-	    indices = (0, _util2._formatToIndicesArray)(indices);
+	    indices = (0, _util2._formatToIndicesArray)(this, indices);
 	    var selectedIndices = this.selectedIndices().slice();
 
 	    // 避免与控件循环触发
@@ -5473,23 +5480,23 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _rowData = __webpack_require__(61);
 
-	var _rowGetData = __webpack_require__(62);
+	var _rowGetData = __webpack_require__(63);
 
-	var _rowGetMeta = __webpack_require__(63);
+	var _rowGetMeta = __webpack_require__(64);
 
-	var _rowGetSimpleData = __webpack_require__(64);
+	var _rowGetSimpleData = __webpack_require__(65);
 
-	var _rowInit = __webpack_require__(65);
+	var _rowInit = __webpack_require__(66);
 
-	var _rowMeta = __webpack_require__(66);
+	var _rowMeta = __webpack_require__(67);
 
-	var _rowRef = __webpack_require__(67);
+	var _rowRef = __webpack_require__(68);
 
-	var _rowRowSelect = __webpack_require__(71);
+	var _rowRowSelect = __webpack_require__(72);
 
-	var _rowSimpleData = __webpack_require__(72);
+	var _rowSimpleData = __webpack_require__(73);
 
-	var _rowUtil = __webpack_require__(73);
+	var _rowUtil = __webpack_require__(62);
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -5624,9 +5631,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	                                                                                                                                                                                                                                                   */
 
 
-	var _util = __webpack_require__(47);
+	var _rowUtil = __webpack_require__(62);
 
-	var _util2 = __webpack_require__(9);
+	var _util = __webpack_require__(9);
 
 	/**
 	*设置row中某一列的值
@@ -5638,9 +5645,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    var oldValue = this.getValue(fieldName);
 	    if (typeof oldValue == 'undefined' || oldValue === null) oldValue = '';
-	    if ((0, _util.eq)(oldValue, value)) return;
-	    (0, _util._getField)(fieldName)['value'] = value;
-	    (0, _util._triggerChange)(fieldName, oldValue, ctx);
+	    if ((0, _rowUtil.eq)(oldValue, value)) return;
+	    (0, _rowUtil._getField)(this, fieldName)['value'] = value;
+	    (0, _rowUtil._triggerChange)(this, fieldName, oldValue, ctx);
 	};
 
 	var setChildValue = function setChildValue(fieldName, value) {
@@ -5695,44 +5702,44 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @param {[type]} subscribe  
 	 * @param {[type]} parentKey  [父项key，数据项为数组时获取meta值用]
 	 */
-	var _setData = function _setData(sourceData, targetData, subscribe, parentKey) {
+	var _setData = function _setData(rowObj, sourceData, targetData, subscribe, parentKey) {
 	    for (var key in sourceData) {
 	        var _parentKey = parentKey || null;
 	        //if (targetData[key]) {
 	        targetData[key] = targetData[key] || {};
 	        var valueObj = sourceData[key];
-	        if ((typeof valueObj === 'undefined' ? 'undefined' : _typeof(valueObj)) != 'object') this.parent.createField(key);
+	        if ((typeof valueObj === 'undefined' ? 'undefined' : _typeof(valueObj)) != 'object') rowObj.parent.createField(key);
 	        //if (typeof this.parent.meta[key] === 'undefined') continue;
 	        if (valueObj == null || (typeof valueObj === 'undefined' ? 'undefined' : _typeof(valueObj)) != 'object') {
-	            targetData[key]['value'] = this.formatValue(key, valueObj);
+	            targetData[key]['value'] = rowObj.formatValue(key, valueObj);
 	            if (subscribe === true && oldValue !== targetData[key]['value']) {
-	                (0, _util._triggerChange)(key, oldValue);
+	                (0, _rowUtil._triggerChange)(rowObj, key, oldValue);
 	            }
 	        } else {
 	            if (valueObj.error) {
 	                if (u.showMessageDialog) u.showMessageDialog({ title: "警告", msg: valueObj.error, backdrop: true });else alert(valueObj.error);
 	            } else if (valueObj.value || valueObj.value === null || valueObj.meta || valueObj.value === '' || valueObj.value === '0' || valueObj.value === 0) {
 	                var oldValue = targetData[key]['value'];
-	                targetData[key]['value'] = this.formatValue(key, valueObj.value);
+	                targetData[key]['value'] = rowObj.formatValue(key, valueObj.value);
 	                if (subscribe === true && oldValue !== targetData[key]['value']) {
-	                    (0, _util._triggerChange)(key, oldValue);
+	                    (0, _rowUtil._triggerChange)(rowObj, key, oldValue);
 	                }
 	                for (var k in valueObj.meta) {
-	                    this.setMeta(key, k, valueObj.meta[k]);
+	                    rowObj.setMeta(key, k, valueObj.meta[k]);
 	                }
-	            } else if ((0, _util2.isArray)(valueObj)) {
+	            } else if ((0, _util.isArray)(valueObj)) {
 	                targetData[key].isChild = true;
 	                //ns 是多级数据时的空间名： 最顶层的dataTable没有ns。  f1.f2.f3
 	                var _key = _parentKey == null ? key : _parentKey + '.' + key;
-	                var ns = this.parent.ns === '' ? key : this.parent.ns + '.' + _key;
-	                if (this.parent.meta[_key]) {
-	                    var meta = this.parent.meta[_key]['meta'];
-	                    targetData[key].value = new u.DataTable({ root: this.parent.root, ns: ns, meta: meta });
+	                var ns = rowObj.parent.ns === '' ? key : rowObj.parent.ns + '.' + _key;
+	                if (rowObj.parent.meta[_key]) {
+	                    var meta = rowObj.parent.meta[_key]['meta'];
+	                    targetData[key].value = new u.DataTable({ root: rowObj.parent.root, ns: ns, meta: meta });
 	                    targetData[key].value.setSimpleData(valueObj);
 	                }
 	            } else {
 	                _parentKey = _parentKey == null ? key : _parentKey + '.' + key;
-	                this._setData(valueObj, targetData[key], null, _parentKey);
+	                _setData(rowObj, valueObj, targetData[key], null, _parentKey);
 	            }
 	        }
 	        //}
@@ -5748,7 +5755,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var sourceData = data.data,
 	        targetData = this.data;
 	    if (this.parent.root.strict != true) {
-	        this._setData(sourceData, targetData, subscribe);
+	        _setData(this, sourceData, targetData, subscribe);
 	        return;
 	    }
 
@@ -5798,7 +5805,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    }
 	                }
 	        if (subscribe === true && oldValue !== newValue) {
-	            (0, _util._triggerChange)(key, oldValue);
+	            (0, _rowUtil._triggerChange)(this, key, oldValue);
 	        }
 	    }
 	};
@@ -5822,15 +5829,149 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+	exports._findField = exports._getField = exports.formatValue = exports._triggerChange = exports._dateToUTCString = exports.eq = undefined;
+
+	var _util = __webpack_require__(9);
+
+	var eq = function eq(a, b) {
+	    if ((a === null || a === undefined || a === '') && (b === null || b === undefined || b === '')) return true;
+	    if ((0, _util.isNumber)(a) && (0, _util.isNumber)(b) && parseFloat(a) == parseFloat(b)) return true;
+	    if (a + '' == b + '') return true;
+	    return false;
+	}; /**
+	    * Module : kero dataTable row util
+	    * Author : liuyk(liuyk@yonyou.com)
+	    * Date   : 2016-08-08 13:54:01
+	    */
+
+
+	var _formatDate = function _formatDate(value) {
+	    if (!value) return value;
+	    var date = new Date();
+	    date.setTime(value);
+	    //如果不能转为Date 直接返回原值
+	    if (isNaN(date)) {
+	        return value;
+	    }
+	    var year = date.getFullYear();
+	    var month = date.getMonth() + 1;
+	    if (parseInt(month) < 10) month = "0" + month;
+	    var day = date.getDate();
+	    if (parseInt(day) < 10) day = "0" + day;
+	    var hours = date.getHours();
+	    if (parseInt(hours) < 10) hours = "0" + hours;
+	    var minutes = date.getMinutes();
+	    if (parseInt(minutes) < 10) minutes = "0" + minutes;
+	    var seconds = date.getSeconds();
+	    if (parseInt(seconds) < 10) seconds = "0" + seconds;
+	    var mill = date.getMilliseconds();
+	    var formatString = year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds; //+ "." + mill;
+	    return formatString;
+	};
+
+	var _dateToUTCString = function _dateToUTCString(date) {
+	    if (!date) return '';
+	    if (typeof date === 'number') return date;
+	    if (date.indexOf("-") > -1) date = date.replace(/\-/g, "/");
+	    var utcString = Date.parse(date);
+	    if (isNaN(utcString)) return "";
+	    return utcString;
+	};
+
+	var _triggerChange = function _triggerChange(rowObj, fieldName, oldValue, ctx) {
+	    _getField(rowObj, fieldName).changed = true;
+	    if (rowObj.status != Row.STATUS.NEW) rowObj.status = Row.STATUS.UPDATE;
+	    if (rowObj.valueChange[fieldName]) rowObj.valueChange[fieldName](-rowObj.valueChange[fieldName]());
+	    if (rowObj.parent.getCurrentRow() == rowObj && rowObj.parent.valueChange[fieldName]) {
+	        rowObj.parent.valueChange[fieldName](-rowObj.parent.valueChange[fieldName]());
+	    }
+	    if (rowObj.parent.ns) {
+	        var fName = rowObj.parent.ns + '.' + fieldName;
+	        if (rowObj.parent.root.valueChange[fName]) rowObj.parent.root.valueChange[fName](-rowObj.parent.root.valueChange[fName]());
+	    }
+
+	    var event = {
+	        eventType: 'dataTableEvent',
+	        dataTable: rowObj.parent.id,
+	        rowId: rowObj.rowId,
+	        field: fieldName,
+	        oldValue: oldValue,
+	        newValue: rowObj.getValue(fieldName),
+	        ctx: ctx || ""
+	    };
+	    rowObj.parent.trigger(DataTable.ON_VALUE_CHANGE, event);
+	    rowObj.parent.trigger(fieldName + "." + DataTable.ON_VALUE_CHANGE, event);
+	    if (rowObj == rowObj.parent.getCurrentRow()) rowObj.parent.trigger(fieldName + "." + DataTable.ON_CURRENT_VALUE_CHANGE, event);
+	};
+
+	/**
+	 * 格式化数据值
+	 * @private
+	 * @param {Object} field
+	 * @param {Object} value
+	 */
+	var formatValue = function formatValue(field, value) {
+	    var type = this.parent.getMeta(field, 'type');
+	    if (!type) return value;
+	    if (type == 'date' || type == 'datetime') {
+	        return _formatDate(value);
+	    }
+	    return value;
+	};
+
+	var _findField = function _findField(rowObj, fieldName) {
+	    var rat = rowObj.data[fieldName];
+	    if (!rat) {
+	        var fnames = fieldName.split('.'); //多级field
+	        if (fnames.length > 1) {
+	            var tempField = rowObj.data;
+	            for (var i = 0; i < fnames.length; i++) {
+	                tempField = tempField[fnames[i]];
+	                if (!tempField) {
+	                    break;
+	                }
+	            }
+	            rat = tempField;
+	        }
+	    }
+	    return rat || null;
+	};
+
+	var _getField = function _getField(rowObj, fieldName) {
+	    var rat = _findField(rowObj, fieldName);
+	    if (!rat) {
+	        var msg = 'field:' + fieldName + ' not exist in dataTable:' + rowObj.parent.root.id + '!';
+	        console.error(msg);
+	        throw new Error(msg);
+	    }
+	    return rat;
+	};
+
+	exports.eq = eq;
+	exports._dateToUTCString = _dateToUTCString;
+	exports._triggerChange = _triggerChange;
+	exports.formatValue = formatValue;
+	exports._getField = _getField;
+	exports._findField = _findField;
+
+/***/ },
+/* 63 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 	exports.getEmptyData = exports.getData = exports.getChildValue = exports.getValue = undefined;
 
-	var _util = __webpack_require__(47);
+	var _rowUtil = __webpack_require__(62);
 
 	/**
 	 *获取row中某一列的值
 	 */
 	var getValue = function getValue(fieldName) {
-	    return (0, _util._getField)(fieldName)['value'];
+	    return (0, _rowUtil._getField)(this, fieldName)['value'];
 	};
 
 	/**
@@ -5883,9 +6024,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    for (var i = 0, count = keys.length; i < count; i++) {
 	                        _keyValue = _keyValue[keys[i]];
 	                    }
-	                    _keyValue.value = (0, _util._dateToUTCString)(_keyValue.value);
+	                    _keyValue.value = (0, _rowUtil._dateToUTCString)(_keyValue.value);
 	                } else {
-	                    data[key].value = (0, _util._dateToUTCString)(data[key].value);
+	                    data[key].value = (0, _rowUtil._dateToUTCString)(data[key].value);
 	                }
 	            } else if (meta[key].type == 'child') {
 	                var chiddt = this.getValue(key),
@@ -5911,7 +6052,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.getEmptyData = getEmptyData;
 
 /***/ },
-/* 63 */
+/* 64 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5921,7 +6062,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.getMeta = undefined;
 
-	var _util = __webpack_require__(47);
+	var _rowUtil = __webpack_require__(62);
 
 	/**
 	 *获取row中某一列的属性
@@ -5934,7 +6075,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        return mt;
 	    }
-	    var meta = (0, _util._getField)(fieldName).meta;
+	    var meta = (0, _rowUtil._getField)(this, fieldName).meta;
 	    if (meta && meta[key] !== undefined && meta[key] !== null && meta[key] !== '') return meta[key];else if (typeof fetchParent == 'undefined' || fetchParent != false) return this.parent.getMeta(fieldName, key);
 	    return undefined;
 	}; /**
@@ -5946,7 +6087,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.getMeta = getMeta;
 
 /***/ },
-/* 64 */
+/* 65 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5956,20 +6097,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.getSimpleData = undefined;
 
-	var _util = __webpack_require__(47);
+	var _rowUtil = __webpack_require__(62);
 
-	var _util2 = __webpack_require__(9);
+	var _util = __webpack_require__(9);
 
 	/**
 	 * Module : kero dataTable row getSimpleData
 	 * Author : liuyk(liuyk@yonyou.com)
 	 * Date   : 2016-08-08 13:54:01
 	 */
-	var _getSimpleData = function _getSimpleData(data) {
+	var _getSimpleData = function _getSimpleData(rowObj, data) {
 	    var _data = {};
-	    var meta = this.parent.getMeta() || {};
+	    var meta = rowObj.parent.getMeta() || {};
 	    for (var key in data) {
-	        if (key === 'meta' || (0, _util2.isEmptyObject)(data[key])) {
+	        if (key === 'meta' || (0, _util.isEmptyObject)(data[key])) {
 	            continue;
 	        } else if (data[key].isChild) {
 	            _data[key] = data[key].value ? data[key].value.getSimpleData() : {};
@@ -5986,11 +6127,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	            if (meta[key] && meta[key].type) {
 	                if (meta[key].type == 'date' || meta[key].type == 'datetime') {
 
-	                    _data[key] = (0, _util._dateToUTCString)(data[key].value);
+	                    _data[key] = (0, _rowUtil._dateToUTCString)(data[key].value);
 	                }
 	            }
 	        } else {
-	            _data[key] = this._getSimpleData(data[key]);
+	            _data[key] = _getSimpleData(rowObj, data[key]);
 	        }
 	    }
 	    return _data;
@@ -6001,7 +6142,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var fields = options['fields'] || null;
 	    var meta = this.parent.getMeta();
 	    var data = this.data;
-	    var _data = this._getSimpleData(data); //{};
+	    var _data = _getSimpleData(this, data); //{};
 	    var _fieldsData = {};
 	    if (fields) {
 	        for (var key in _data) {
@@ -6017,7 +6158,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.getSimpleData = getSimpleData;
 
 /***/ },
-/* 65 */
+/* 66 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -6085,7 +6226,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.init = init;
 
 /***/ },
-/* 66 */
+/* 67 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6095,16 +6236,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.setMeta = undefined;
 
-	var _util = __webpack_require__(47);
+	var _rowUtil = __webpack_require__(62);
 
 	/**
 	 *设置row中某一列的属性
 	 */
 	var setMeta = function setMeta(fieldName, key, value) {
-	    var meta = (0, _util._getField)(fieldName).meta;
-	    if (!meta) meta = (0, _util._getField)(fieldName).meta = {};
+	    var meta = (0, _rowUtil._getField)(this, fieldName).meta;
+	    if (!meta) meta = (0, _rowUtil._getField)(this, fieldName).meta = {};
 	    var oldValue = meta[key];
-	    if ((0, _util.eq)(oldValue, value)) return;
+	    if ((0, _rowUtil.eq)(oldValue, value)) return;
 	    meta[key] = value;
 	    //this.metaChange(- this.metaChange())
 	    if (this.metaChange[fieldName + '.' + key]) {
@@ -6149,7 +6290,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.setMeta = setMeta;
 
 /***/ },
-/* 67 */
+/* 68 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6161,9 +6302,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _util = __webpack_require__(9);
 
-	var _dateUtils = __webpack_require__(68);
+	var _dateUtils = __webpack_require__(69);
 
-	var _util2 = __webpack_require__(47);
+	var _rowUtil = __webpack_require__(62);
 
 	var ref = function ref(fieldName) {
 	    this.parent.createField(fieldName);
@@ -6209,8 +6350,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            this.valueChange[fieldName]();
 	            this.currentRowChange();
 	            var ds = (0, _util.getJSObject)(this.parent.parent, datasource);
-	            if ((0, _util2._getField)(fieldName)['value'] === undefined || (0, _util2._getField)(fieldName)['value'] === "") return "";
-	            var v = (0, _util2._getField)(fieldName)['value'];
+	            if ((0, _rowUtil._getField)(this, fieldName)['value'] === undefined || (0, _rowUtil._getField)(this, fieldName)['value'] === "") return "";
+	            var v = (0, _rowUtil._getField)(this, fieldName)['value'];
 	            var valArr = typeof v === 'string' ? v.split(',') : [v];
 
 	            var nameArr = [];
@@ -6239,8 +6380,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        read: function read() {
 	            this.valueChange[fieldName]();
 	            this.currentRowChange();
-	            if (!(0, _util2._getField)(fieldName)['value']) return "";
-	            var valArr = (0, _util2._getField)(fieldName)['value'];
+	            if (!(0, _rowUtil._getField)(this, fieldName)['value']) return "";
+	            var valArr = (0, _rowUtil._getField)(this, fieldName)['value'];
 	            if (!valArr) return "";
 	            valArr = _dateUtils.date.format(valArr, format); //moment(valArr).format(format)
 	            return valArr;
@@ -6261,8 +6402,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        read: function read() {
 	            this.valueChange[fieldName]();
 	            this.currentRowChange();
-	            if (!(0, _util2._getField)(fieldName)['value']) return "";
-	            var valArr = (0, _util2._getField)(fieldName)['value'];
+	            if (!(0, _rowUtil._getField)(this, fieldName)['value']) return "";
+	            var valArr = (0, _rowUtil._getField)(this, fieldName)['value'];
 	            if (!valArr) return "";
 	            if (valArr == "N") valArr = "否";else if (valArr == "Y") valArr = "是";
 	            return valArr;
@@ -6282,7 +6423,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.refEnum = refEnum;
 
 /***/ },
-/* 68 */
+/* 69 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6292,7 +6433,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.date = undefined;
 
-	var _core = __webpack_require__(69);
+	var _core = __webpack_require__(70);
 
 	var u = {}; /**
 	             * Module : Sparrow date util
@@ -6541,7 +6682,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.date = date;
 
 /***/ },
-/* 69 */
+/* 70 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6560,15 +6701,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _extend = __webpack_require__(7);
 
-	var _extend2 = _interopRequireDefault(_extend);
-
 	var _util = __webpack_require__(9);
 
-	var _cookies = __webpack_require__(70);
+	var _cookies = __webpack_require__(71);
 
 	var _enumerables = __webpack_require__(8);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var environment = {};
 	/**
@@ -6709,7 +6846,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		if (typeof getMetaFunc == 'function') {
 			var meta = getMetaFunc.call(this);
 			return meta[type];
-		} else return (0, _extend2.default)({}, maskerMeta[type]);
+		} else return (0, _extend.extend)({}, maskerMeta[type]);
 	};
 	environment.languages = (0, _cookies.getCookie)(_enumerables.U_LANGUAGES) ? (0, _cookies.getCookie)(_enumerables.U_LANGUAGES).split(',') : navigator.language ? navigator.language : 'zh-CN';
 	if (environment.languages == 'zh-cn') environment.languages = 'zh-CN';
@@ -6732,7 +6869,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.core = core;
 
 /***/ },
-/* 70 */
+/* 71 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -6768,7 +6905,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.getCookie = getCookie;
 
 /***/ },
-/* 71 */
+/* 72 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -6808,7 +6945,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.multiSelect = multiSelect;
 
 /***/ },
-/* 72 */
+/* 73 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -6831,139 +6968,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 	exports.setSimpleData = setSimpleData;
-
-/***/ },
-/* 73 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports._getField = exports.formatValue = exports._triggerChange = exports._dateToUTCString = exports.eq = undefined;
-
-	var _util = __webpack_require__(9);
-
-	var eq = function eq(a, b) {
-	    if ((a === null || a === undefined || a === '') && (b === null || b === undefined || b === '')) return true;
-	    if ((0, _util.isNumber)(a) && (0, _util.isNumber)(b) && parseFloat(a) == parseFloat(b)) return true;
-	    if (a + '' == b + '') return true;
-	    return false;
-	}; /**
-	    * Module : kero dataTable row util
-	    * Author : liuyk(liuyk@yonyou.com)
-	    * Date   : 2016-08-08 13:54:01
-	    */
-
-
-	var _formatDate = function _formatDate(value) {
-	    if (!value) return value;
-	    var date = new Date();
-	    date.setTime(value);
-	    //如果不能转为Date 直接返回原值
-	    if (isNaN(date)) {
-	        return value;
-	    }
-	    var year = date.getFullYear();
-	    var month = date.getMonth() + 1;
-	    if (parseInt(month) < 10) month = "0" + month;
-	    var day = date.getDate();
-	    if (parseInt(day) < 10) day = "0" + day;
-	    var hours = date.getHours();
-	    if (parseInt(hours) < 10) hours = "0" + hours;
-	    var minutes = date.getMinutes();
-	    if (parseInt(minutes) < 10) minutes = "0" + minutes;
-	    var seconds = date.getSeconds();
-	    if (parseInt(seconds) < 10) seconds = "0" + seconds;
-	    var mill = date.getMilliseconds();
-	    var formatString = year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds; //+ "." + mill;
-	    return formatString;
-	};
-
-	var _dateToUTCString = function _dateToUTCString(date) {
-	    if (!date) return '';
-	    if (typeof date === 'number') return date;
-	    if (date.indexOf("-") > -1) date = date.replace(/\-/g, "/");
-	    var utcString = Date.parse(date);
-	    if (isNaN(utcString)) return "";
-	    return utcString;
-	};
-
-	var _triggerChange = function _triggerChange(fieldName, oldValue, ctx) {
-	    this._getField(fieldName).changed = true;
-	    if (this.status != Row.STATUS.NEW) this.status = Row.STATUS.UPDATE;
-	    if (this.valueChange[fieldName]) this.valueChange[fieldName](-this.valueChange[fieldName]());
-	    if (this.parent.getCurrentRow() == this && this.parent.valueChange[fieldName]) {
-	        this.parent.valueChange[fieldName](-this.parent.valueChange[fieldName]());
-	    }
-	    if (this.parent.ns) {
-	        var fName = this.parent.ns + '.' + fieldName;
-	        if (this.parent.root.valueChange[fName]) this.parent.root.valueChange[fName](-this.parent.root.valueChange[fName]());
-	    }
-
-	    var event = {
-	        eventType: 'dataTableEvent',
-	        dataTable: this.parent.id,
-	        rowId: this.rowId,
-	        field: fieldName,
-	        oldValue: oldValue,
-	        newValue: this.getValue(fieldName),
-	        ctx: ctx || ""
-	    };
-	    this.parent.trigger(DataTable.ON_VALUE_CHANGE, event);
-	    this.parent.trigger(fieldName + "." + DataTable.ON_VALUE_CHANGE, event);
-	    if (this == this.parent.getCurrentRow()) this.parent.trigger(fieldName + "." + DataTable.ON_CURRENT_VALUE_CHANGE, event);
-	};
-
-	/**
-	 * 格式化数据值
-	 * @private
-	 * @param {Object} field
-	 * @param {Object} value
-	 */
-	var formatValue = function formatValue(field, value) {
-	    var type = this.parent.getMeta(field, 'type');
-	    if (!type) return value;
-	    if (type == 'date' || type == 'datetime') {
-	        return _formatDate(value);
-	    }
-	    return value;
-	};
-
-	var _findField = function _findField(fieldName) {
-	    var rat = this.data[fieldName];
-	    if (!rat) {
-	        var fnames = fieldName.split('.'); //多级field
-	        if (fnames.length > 1) {
-	            var tempField = this.data;
-	            for (var i = 0; i < fnames.length; i++) {
-	                tempField = tempField[fnames[i]];
-	                if (!tempField) {
-	                    break;
-	                }
-	            }
-	            rat = tempField;
-	        }
-	    }
-	    return rat || null;
-	};
-
-	var _getField = function _getField(fieldName) {
-	    var rat = this._findField(fieldName);
-	    if (!rat) {
-	        var msg = 'field:' + fieldName + ' not exist in dataTable:' + this.parent.root.id + '!';
-	        console.error(msg);
-	        throw new Error(msg);
-	    }
-	    return rat;
-	};
-
-	exports.eq = eq;
-	exports._dateToUTCString = _dateToUTCString;
-	exports._triggerChange = _triggerChange;
-	exports.formatValue = formatValue;
-	exports._getField = _getField;
 
 /***/ }
 /******/ ])
