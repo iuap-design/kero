@@ -33,7 +33,7 @@ const setAllRowsDelete = function () {
  * @param {Array} indices
  */
 const setRowsDelete = function (indices) {
-    indices = _formatToIndicesArray(indices)
+    indices = _formatToIndicesArray(this, indices)
     for (var i = 0; i < indices.length; i++) {
         var row = this.getRow(indices[i])
         if (row.status == Row.STATUS.NEW) {

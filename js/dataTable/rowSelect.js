@@ -32,7 +32,7 @@ const setRowsSelect = function (indices) {
         this.setAllRowsUnSelect({quiet: true})
         return;
     }
-    indices = _formatToIndicesArray(indices);
+    indices = _formatToIndicesArray(this, indices);
     var sIns = this.selectedIndices();
     if (isArray(indices) && isArray(sIns) && indices.join() == sIns.join()) {
         // 避免与控件循环触发
@@ -69,7 +69,7 @@ const addRowSelect = function (index) {
  * 添加选中行，不会清空之前已选中的行
  */
 const addRowsSelect = function (indices) {
-    indices = _formatToIndicesArray(indices)
+    indices = _formatToIndicesArray(this, indices)
     var selectedIndices = this.selectedIndices().slice()
     for (var i = 0; i < indices.length; i++) {
         var ind = indices[i], toAdd = true
@@ -114,7 +114,7 @@ const setRowUnSelect = function (index) {
 }
 
 const setRowsUnSelect = function (indices) {
-    indices = _formatToIndicesArray(indices)
+    indices = _formatToIndicesArray(this, indices)
     var selectedIndices = this.selectedIndices().slice()
 
     // 避免与控件循环触发

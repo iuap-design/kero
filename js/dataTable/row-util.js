@@ -50,32 +50,32 @@ const _dateToUTCString = function (date) {
 
 const _triggerChange = function(rowObj,fieldName, oldValue, ctx){
     _getField(rowObj, fieldName).changed = true
-    if (this.status != Row.STATUS.NEW)
-        this.status = Row.STATUS.UPDATE
-    if (this.valueChange[fieldName])
-        this.valueChange[fieldName](-this.valueChange[fieldName]())
-    if (this.parent.getCurrentRow() == this && this.parent.valueChange[fieldName]){
-        this.parent.valueChange[fieldName](-this.parent.valueChange[fieldName]());
+    if (rowObj.status != Row.STATUS.NEW)
+        rowObj.status = Row.STATUS.UPDATE
+    if (rowObj.valueChange[fieldName])
+        rowObj.valueChange[fieldName](-rowObj.valueChange[fieldName]())
+    if (rowObj.parent.getCurrentRow() == rowObj && rowObj.parent.valueChange[fieldName]){
+        rowObj.parent.valueChange[fieldName](-rowObj.parent.valueChange[fieldName]());
     }
-    if (this.parent.ns){
-        var fName = this.parent.ns + '.' + fieldName;
-        if (this.parent.root.valueChange[fName])
-            this.parent.root.valueChange[fName](-this.parent.root.valueChange[fName]());
+    if (rowObj.parent.ns){
+        var fName = rowObj.parent.ns + '.' + fieldName;
+        if (rowObj.parent.root.valueChange[fName])
+            rowObj.parent.root.valueChange[fName](-rowObj.parent.root.valueChange[fName]());
     }
 
     var event = {
         eventType: 'dataTableEvent',
-        dataTable: this.parent.id,
-        rowId: this.rowId,
+        dataTable: rowObj.parent.id,
+        rowId: rowObj.rowId,
         field: fieldName,
         oldValue: oldValue,
-        newValue: this.getValue(fieldName),
+        newValue: rowObj.getValue(fieldName),
         ctx: ctx || ""
     }
-    this.parent.trigger(DataTable.ON_VALUE_CHANGE, event);
-    this.parent.trigger(fieldName + "." + DataTable.ON_VALUE_CHANGE, event);
-    if (this == this.parent.getCurrentRow())
-        this.parent.trigger(fieldName + "." + DataTable.ON_CURRENT_VALUE_CHANGE, event);
+    rowObj.parent.trigger(DataTable.ON_VALUE_CHANGE, event);
+    rowObj.parent.trigger(fieldName + "." + DataTable.ON_VALUE_CHANGE, event);
+    if (rowObj == rowObj.parent.getCurrentRow())
+        rowObj.parent.trigger(fieldName + "." + DataTable.ON_CURRENT_VALUE_CHANGE, event);
 
 };
 

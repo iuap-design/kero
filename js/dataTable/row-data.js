@@ -18,7 +18,7 @@ const setValue = function (fieldName, value, ctx, options) {
         oldValue = ''
     if (eq(oldValue, value)) return;
     _getField(this, fieldName)['value'] = value;
-    _triggerChange(fieldName, oldValue, ctx);
+    _triggerChange(this, fieldName, oldValue, ctx);
 }
 
 const setChildValue = function(fieldName, value){
@@ -77,19 +77,19 @@ const setChildSimpleDataByRowId = function(rowId, data){
  * @param {[type]} subscribe  
  * @param {[type]} parentKey  [父项key，数据项为数组时获取meta值用]
  */
-const _setData = function(sourceData, targetData, subscribe, parentKey){
+const _setData = function(rowObj, sourceData, targetData, subscribe, parentKey){
     for (var key in sourceData) {
     	var _parentKey = parentKey || null;
         //if (targetData[key]) {
         targetData[key] = targetData[key] || {};
         var valueObj = sourceData[key]
         if (typeof valueObj != 'object')
-            this.parent.createField(key);
+            rowObj.parent.createField(key);
         //if (typeof this.parent.meta[key] === 'undefined') continue;
         if (valueObj == null ||  typeof valueObj != 'object'){
-            targetData[key]['value'] = this.formatValue(key, valueObj)
+            targetData[key]['value'] = rowObj.formatValue(key, valueObj)
             if (subscribe === true && (oldValue !== targetData[key]['value'])){
-                    _triggerChange(key, oldValue);
+                    _triggerChange(rowObj, key, oldValue);
                 }
         }
         else {
@@ -100,26 +100,26 @@ const _setData = function(sourceData, targetData, subscribe, parentKey){
                     alert(valueObj.error);
             } else if (valueObj.value || valueObj.value === null  || valueObj.meta || valueObj.value === '' || valueObj.value === '0' || valueObj.value === 0){
                 var oldValue = targetData[key]['value'];
-                targetData[key]['value'] = this.formatValue(key, valueObj.value)
+                targetData[key]['value'] = rowObj.formatValue(key, valueObj.value)
                 if (subscribe === true && (oldValue !== targetData[key]['value'])){
-                    _triggerChange(key, oldValue);
+                    _triggerChange(rowObj, key, oldValue);
                 }
                 for (var k in valueObj.meta) {
-                    this.setMeta(key, k, valueObj.meta[k])
+                    rowObj.setMeta(key, k, valueObj.meta[k])
                 }
             }else if (isArray(valueObj)){
                 targetData[key].isChild = true;
                 //ns 是多级数据时的空间名： 最顶层的dataTable没有ns。  f1.f2.f3
                 var _key = _parentKey == null ? key : _parentKey + '.' + key;
-                var ns = this.parent.ns === '' ? key : this.parent.ns + '.' + _key
-              if(this.parent.meta[_key]){
-            	var meta = this.parent.meta[_key]['meta']
-                targetData[key].value = new u.DataTable({root:this.parent.root,ns:ns,meta:meta});
+                var ns = rowObj.parent.ns === '' ? key : rowObj.parent.ns + '.' + _key
+              if(rowObj.parent.meta[_key]){
+            	var meta = rowObj.parent.meta[_key]['meta']
+                targetData[key].value = new u.DataTable({root:rowObj.parent.root,ns:ns,meta:meta});
                 targetData[key].value.setSimpleData(valueObj);
               }
             }else{
             	_parentKey = _parentKey == null ? key : _parentKey + '.' + key;
-                this._setData(valueObj, targetData[key], null, _parentKey);
+                _setData(rowObj, valueObj, targetData[key], null, _parentKey);
             }
         }
         //}
@@ -136,7 +136,7 @@ const setData = function (data, subscribe) {
     var sourceData = data.data,
         targetData = this.data;
     if (this.parent.root.strict != true){
-        this._setData(sourceData, targetData,subscribe);
+        _setData(this, sourceData, targetData,subscribe);
         return;
     }
 
@@ -191,7 +191,7 @@ const setData = function (data, subscribe) {
             }
         }
         if (subscribe === true && (oldValue !== newValue)){
-            _triggerChange(key, oldValue);
+            _triggerChange(this, key, oldValue);
         }
 
     }

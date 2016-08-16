@@ -60,8 +60,6 @@ import {
 
 import {
     formatValue, //需要最终产出,
-    _findField,
-    _getField
 } from './row-util'; 
 
 
@@ -139,8 +137,7 @@ class Row extends Events{
 
         //util
         this.formatValue= formatValue;
-        this._findField = _findField;
-        this._getField = _getField;
+        
 
         this.init();
     }

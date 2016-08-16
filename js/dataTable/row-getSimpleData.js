@@ -6,9 +6,9 @@
 import {_dateToUTCString} from './row-util';
 import {isEmptyObject} from 'neoui-sparrow/js/util';
 
-const _getSimpleData = function(data){
+const _getSimpleData = function(rowObj, data){
     var _data = {};
-    var meta = this.parent.getMeta() || {};
+    var meta = rowObj.parent.getMeta() || {};
     for(var key in data){
         if (key === 'meta' || isEmptyObject(data[key])){
             continue;
@@ -31,7 +31,7 @@ const _getSimpleData = function(data){
             }
         }
         else{
-            _data[key] = this._getSimpleData(data[key])
+            _data[key] = _getSimpleData(rowObj, data[key])
         }
     }
     return _data;
@@ -43,7 +43,7 @@ const getSimpleData = function(options){
     var fields = options['fields'] || null;
     var meta = this.parent.getMeta();
     var data = this.data;
-    var _data = this._getSimpleData(data); //{};
+    var _data = _getSimpleData(this, data); //{};
     var _fieldsData = {};
     if (fields){
         for (var key in _data){
