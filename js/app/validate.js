@@ -4,7 +4,8 @@
  * Date   : 2016-07-29 09:34:01
  */
 
-
+import {env} from 'neoui-sparrow/js/env';
+import {getOffset} from 'neoui-sparrow/js/dom';
 /**
  * 控件数据校验
  * @param {Object} element
@@ -36,9 +37,12 @@ const compsValidateMultiParam = function(options){
             result = comps[i].doValidate({trueValue:true, showMsg:showMsg});
             // 如果passed为true,result.passed为false说明第一次出现错误校验
             if(passed && !result.passed){
-                var off= u.getOffset(comps[i].element);
+                var off= getOffset(comps[i].element);
                 //滚动到第一次出现错误的地方
                 window.scrollTo(0,off.top-30);
+                if(env.isIPAD){ // ipad上面云表单提交校验的时候没有滚动到对应位置
+                    window.top.scrollTo(0,off.top-30);
+                }
             }
             passed = result.passed && passed;
             if(!result.passed){
