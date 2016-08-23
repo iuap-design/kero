@@ -2938,6 +2938,8 @@
 	});
 	exports.DataTable = undefined;
 
+	var _extend = __webpack_require__(7);
+
 	var _indexEvents = __webpack_require__(29);
 
 	var _copyRow = __webpack_require__(31);
@@ -3224,7 +3226,7 @@
 	    for (var key in metas) {
 	        var meta = metas[key];
 	        if (typeof meta == 'string') meta = {};
-	        newMetas[key] = u.extend({}, DataTable.META_DEFAULTS, meta);
+	        newMetas[key] = (0, _extend.extend)({}, DataTable.META_DEFAULTS, meta);
 	    }
 	    return newMetas;
 	};

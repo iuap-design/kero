@@ -4,6 +4,8 @@
  * Date   : 2016-08-09 15:24:46
  */
 
+ import {extend} from 'neoui-sparrow/js/extend';
+
 import {
     Events
 } from './indexEvents';
@@ -384,7 +386,7 @@ DataTable.createMetaItems = function (metas) {
         var meta = metas[key]
         if (typeof meta == 'string')
             meta = {}
-        newMetas[key] = u.extend({}, DataTable.META_DEFAULTS, meta)
+        newMetas[key] = extend({}, DataTable.META_DEFAULTS, meta)
     }
     return newMetas
 }
