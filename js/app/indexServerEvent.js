@@ -36,8 +36,8 @@ class ServerEvent {
         this.datas = {}
         this.params = {}
         this.event = null
-        this.ent = window.iweb.Core.collectEnvironment()
-        if (!iweb.debugMode) {  //此处需要修改
+        this.ent = u.core.collectEnvironment()
+        if (!u.debugMode) {  //此处需要修改
             this.compression = true
         }
 		

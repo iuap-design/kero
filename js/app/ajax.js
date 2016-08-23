@@ -45,9 +45,9 @@ const _wrapAjax = function (params) {
         }
     }
     if (params.data)
-        params.data.environment = ko.utils.stringifyJson(window.iweb.Core.collectEnvironment());
+        params.data.environment = ko.utils.stringifyJson(u.core.collectEnvironment());
     else
-        params.data = {environment: ko.utils.stringifyJson(window.iweb.Core.collectEnvironment())}
+        params.data = {environment: ko.utils.stringifyJson(u.core.collectEnvironment())}
     return params
 }
 

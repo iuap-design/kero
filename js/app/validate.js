@@ -34,7 +34,7 @@ const compsValidateMultiParam = function(options){
         notPassedArr = new Array();
     for(var i = 0; i < comps.length; i++){
         if (comps[i].doValidate){
-            result = comps[i].doValidate({trueValue:true, showMsg:showMsg});
+            var result = comps[i].doValidate({trueValue:true, showMsg:showMsg});
             // 如果passed为true,result.passed为false说明第一次出现错误校验
             if(passed && !result.passed){
                 var off= getOffset(comps[i].element);

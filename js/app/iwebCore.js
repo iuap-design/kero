@@ -6,15 +6,15 @@
 
 
 const getEnvironment = function () {
-    return window.iweb.Core.collectEnvironment()
+    return u.core.collectEnvironment()
 }
 
 const setClientAttribute = function (k, v) {
-    window.iweb.Core.setClientAttribute(k, v)
+    u.core.setClientAttribute(k, v)
 }
 
 const getClientAttribute = function (k) {
-    return window.iweb.Core.getClientAttributes()[k]
+    return u.core.getClientAttributes()[k]
 }
 
 export {

@@ -5,10 +5,11 @@
  */
 import {each} from 'neoui-sparrow/js/util';
 import {trigger} from 'neoui-sparrow/js/event';
+import {env} from 'neoui-sparrow/js/env';
 
 const setCompression = function (compression) {
-    if (!iweb.browser.isIE8 && !window.pako && compression == true)
-        iweb.log.error("can't compression, please include  pako!")
+    if (!env.isIE8 && !window.pako && compression == true)
+        alert("can't compression, please include  pako!")
     else
         this.compression = compression
 }
@@ -41,7 +42,7 @@ const getData = function () {
         datasJson = window.trimServerEventData(datasJson);
     }
     if (this.compression) {
-        if (!iweb.browser.isIE8 && window.pako) {
+        if (!env.isIE8 && window.pako) {
             envJson = encodeBase64(window.pako.gzip(envJson));
             datasJson = encodeBase64(window.pako.gzip(datasJson));
             compression = true
