@@ -1,7 +1,7 @@
 var fs = require('fs');
 var file = require('file');
 var join = require('path').join;
-var basePath = 'snippets/examples'; 
+var basePath = 'snippets/examples';
 var docPath = 'snippets/docs';
 /* 初始化处理 begin */
 function deleteFolderRecursive(path) {
@@ -79,7 +79,7 @@ function copyExamp(path,pathLength){
 							// 创建读取流
 		                    readable = fs.createReadStream( tmpPath );
 		                    // 创建写入流
-		                    writable = fs.createWriteStream( 'examples/' + tmpPath.substring(pathLength) );   
+		                    writable = fs.createWriteStream( 'examples/' + tmpPath.substring(pathLength) );
 		                    // 通过管道来传输流
 		                    readable.pipe(writable);
 						}
@@ -91,7 +91,7 @@ function copyExamp(path,pathLength){
 								}else{
 									htmlStr = data.toString();
 								}
-								var ctx = 'http://iuap.yonyou.com/fe'
+								var ctx = 'http://design.yyuap.com/static/'
 								var tpl = [
 							        '<!DOCTYPE html>',
 							        '<html lang="en">',
@@ -99,22 +99,22 @@ function copyExamp(path,pathLength){
 							        '<meta charset="UTF-8">',
 							        '<meta name="viewport" content="width=device-width, initial-scale=1">',
 							       	'<title>Title</title>',
-									'<link rel="stylesheet" href="'+ ctx +'/vendor/font-awesome/css/font-awesome.css">',
-							       	'<link rel="stylesheet" type="text/css" href="'+ ctx +'/vendor/uui/css/u.css">',
-							       	'<link rel="stylesheet" type="text/css" href="'+ ctx +'/vendor/uui/css/u-extend.css">',
-								    '<link rel="stylesheet" type="text/css" href="'+ ctx +'/vendor/uui/css/tree.css">',
-							        '<link rel="stylesheet" type="text/css" href="'+ ctx +'/vendor/uui/css/grid.css">',
+									'<link rel="stylesheet" href="'+ ctx +'/font-awesome/css/font-awesome.css">',
+							       	'<link rel="stylesheet" type="text/css" href="'+ ctx +'/uui/latest/css/u.css">',
+							       	'<link rel="stylesheet" type="text/css" href="'+ ctx +'/uui/latest/css/u-extend.css">',
+								    '<link rel="stylesheet" type="text/css" href="'+ ctx +'/uui/latest/css/tree.css">',
+							        '<link rel="stylesheet" type="text/css" href="'+ ctx +'/uui/latest/css/grid.css">',
 							        '<link rel="stylesheet" type="text/css" href="widget.css">',
 							        '</head>',
 							        '<body>',
 							        htmlStr,
-							        '<script src="'+ ctx +'/vendor/jquery/jquery-1.11.2.js"></script>',
-							    	'<script src="'+ ctx +'/vendor/knockout/knockout-3.2.0.debug.js"></script>',
-							        '<script src="'+ ctx +'/vendor/uui/js/u-polyfill.js"></script>',
-							        '<script src="'+ ctx +'/vendor/uui/js/u.js"></script>',
-							        '<script src="'+ ctx +'/vendor/uui/js/u-tree.js"></script>',
-							        '<script src="'+ ctx +'/vendor/uui/js/u-grid.js"></script>',
-									'<script src="'+ ctx +'/vendor/requirejs/require.debug.js"></script>',
+							        '<script src="'+ ctx +'/jquery/jquery-1.11.2.js"></script>',
+							    	'<script src="'+ ctx +'/knockout/knockout-3.2.0.debug.js"></script>',
+							        '<script src="'+ ctx +'/uui/latest/js/u-polyfill.js"></script>',
+							        '<script src="'+ ctx +'/uui/latest/js/u.js"></script>',
+							        '<script src="'+ ctx +'/uui/latest/js/u-tree.js"></script>',
+							        '<script src="'+ ctx +'/uui/latest/js/u-grid.js"></script>',
+									'<script src="'+ ctx +'/requirejs/require.debug.js"></script>',
 									'<script src="widget.js"></script>',
 							        '</body>',
 							        '</html>'
@@ -174,7 +174,7 @@ function copyDocs(path){
 								replaceMdFun(filePath,itemName);
 					        })
 						}
-						
+
 					}
 					// 子项为目录创建目录
 					if(stat.isDirectory()){
@@ -203,7 +203,7 @@ copyDocs(docPath)
 function replaceMdFun(filePath,itemName){
 	//filePath:snippets/docs/grid.md
 	var exampPath = filePath.replace('docs','examples').replace('.md','');// snippets/examples/badge
-	var exampPathArr  = exampPath.split('/');			
+	var exampPathArr  = exampPath.split('/');
 	var mdName = exampPathArr[exampPathArr.length - 1]; //获取md文件的名称
 	var replaceStr = '';
 	var existPath = fs.existsSync(exampPath);
@@ -226,7 +226,7 @@ function replaceMdFun(filePath,itemName){
 			var l = files.length,now = 0;
 			if(files && l > 0){
 				files.forEach(function(item){
-					var tmpPath = bPath + '\\' + item; 
+					var tmpPath = bPath + '\\' + item;
 					tmpPath = tmpPath.replace(/\\/g,'/'); //snippets/examples/badge/widget.css
 					fs.stat(tmpPath,function(err, stat){
 						var cssIndex = item.indexOf('.css');
@@ -244,9 +244,9 @@ function replaceMdFun(filePath,itemName){
 									}else if(jsIndex > -1){
 										jsStr += '<div class="example-content ex-hide"><script>' + data.toString() + '\r\n' + '</script></div>\r\n';
 									}
-									
+
 								}
-									
+
 					        })
 						}
 						if(mdIndex > -1){
@@ -281,21 +281,21 @@ function replaceMdFun(filePath,itemName){
 		});*/
 
 		// 新方法-使用node基本API实现，用于后续自定义优化
-		// console.log(exampPath); 
+		// console.log(exampPath);
 		// snippets/examples/buttongroup
 		var path = exampPath.replace(/\\/g,'/');
 		var pathArr = path.split('/');
 		var dir = pathArr[pathArr.length - 1];
 
 		var fileNameAry = fs.readdirSync(exampPath).sort();
-		// console.log(fileNameAry); 
+		// console.log(fileNameAry);
 		// [ '1-base', '2-nest', '3-size', '4-color' ]
 
 		fileNameAry.forEach(function(path) {
-			// console.log(path); 
+			// console.log(path);
 			// ['1-base']
 			var fpath = join(exampPath,path);
-			
+
 			var ff = fs.statSync(fpath);
 			if(ff.isDirectory()){
 				// 开始
@@ -320,11 +320,11 @@ function replaceMdFun(filePath,itemName){
 					if(files && l > 0){
 						// 读取文件夹中每个文件，并合并
 						files.forEach(function(item){
-							var tmpPath = exampPath + '\\' + path +'\\'+item; 
+							var tmpPath = exampPath + '\\' + path +'\\'+item;
 							tmpPath = tmpPath.replace(/\\/g,'/');
 							// console.log(tmpPath);
 							// snippets/examples/badge/1-base/widget.css
-
+							console.log(item)
 							var cssIndex = item.indexOf('.css');
 							var htmlIndex = item.indexOf('.html');
 							var jsIndex = item.indexOf('.js');
@@ -340,18 +340,20 @@ function replaceMdFun(filePath,itemName){
 									}else if(jsIndex > -1){
 										jsStr += '<div class="example-content ex-hide"><script>' + readPage.toString() + '\r\n' + '</script></div>\r\n';
 									}
-									
+
 								}
-								
-							}
-							if(mdIndex > -1){
+
+							}else if(mdIndex > -1){
 								var readMd = fs.readFileSync(tmpPath);
 								headStr += '\r\n' + readMd.toString().replace(/&#65279;/g,'') + '\r\n';
+								now++;
+							}else{
+								// 对于说明.md之后的其他的再次增加1，避免多次添加demo
 								now++;
 							}
 							// console.log(headStr);
 							// console.log('______________');
-							// 
+							//
 							// 生成到temp文件夹 开始
 							var nowFilePath = filePath.replace('docs','temp').replace('.md','');//snippets/temp/datatable/grid
 							var existPath =fs.existsSync(nowFilePath);
@@ -359,7 +361,7 @@ function replaceMdFun(filePath,itemName){
 								fs.mkdirSync(nowFilePath);
 							}
 							if(now == 1){
-								// console.log(headStr);
+								console.log(headStr);
 								nowFilePath = nowFilePath + '/' + dir + '.txt';//snippets/temp/datatable/grid/base.txt
 								fs.appendFileSync(nowFilePath,headStr + styleStr + showStr + jsStr + codeStr, 'utf8');
 							}
@@ -373,7 +375,7 @@ function replaceMdFun(filePath,itemName){
 			}
 		});
 
-		
+
 		// 延迟执行保证testa目录下的文件已经生成
 		setTimeout(function(){
 			var tempPath = filePath.replace('docs','temp').replace('.md','');
@@ -395,7 +397,7 @@ function replaceMdFun(filePath,itemName){
 							now++;
 						})
 					})
-					
+
 				}
 				var iii = setInterval(function(){
 					if(l == now){
@@ -410,12 +412,10 @@ function replaceMdFun(filePath,itemName){
 					}
 				},100);
 			})
-		},5000);	
+		},5000);
 	}
 
 
 
 }
 /* 处理docs文件夹 end*/
-
-
