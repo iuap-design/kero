@@ -85,5 +85,6 @@ const setSuccessFunc = function (func) {
 
 export {
 	fire,
+    _successFunc,
 	setSuccessFunc
 }

@@ -14,7 +14,8 @@ import {
 
 import {
     fire,
-    setSuccessFunc
+    setSuccessFunc,
+    _successFunc
 } from './server-fire';
 
 import {
@@ -50,6 +51,7 @@ class ServerEvent {
         // fire
         this.fire = fire; 
         this.setSuccessFunc = setSuccessFunc; 
+        this._successFunc = _successFunc;
 
         // processXHRError
         this.processXHRError = processXHRError;
