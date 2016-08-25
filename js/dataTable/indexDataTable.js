@@ -162,10 +162,25 @@ import {
     isChanged
 } from './util'; 
 
+import {
+    on,
+    off,
+    one,
+    trigger,
+    getEvent
+} from './events';
 
-class DataTable extends Events{
+class DataTable{
+// class DataTable extends Events{
     constructor(options){
-        super();
+        // IE9下转化之后的代码有问题，无法获得superClass方法
+        // super();
+        this.on = on;
+        this.off = off;
+        this.one = one;
+        this.trigger = trigger;
+        this.getEvent = getEvent;
+
         options = options || {};
         this.id = options['id'];
         this.strict = options['strict'] || false;
