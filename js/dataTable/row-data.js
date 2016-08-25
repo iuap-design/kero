@@ -87,7 +87,10 @@ const _setData = function(rowObj, sourceData, targetData, subscribe, parentKey){
             rowObj.parent.createField(key);
         //if (typeof this.parent.meta[key] === 'undefined') continue;
         if (valueObj == null ||  typeof valueObj != 'object'){
-            targetData[key]['value'] = rowObj.formatValue(key, valueObj)
+            // 子表的话只有valueObj为datatable的时候才赋值
+            if(!targetData[key].isChild){
+                targetData[key]['value'] = rowObj.formatValue(key, valueObj)
+            }
             if (subscribe === true && (oldValue !== targetData[key]['value'])){
                     _triggerChange(rowObj, key, oldValue);
                 }
