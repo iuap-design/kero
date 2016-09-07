@@ -38,6 +38,15 @@ const setRowsSelect = function (indices) {
         // 避免与控件循环触发
         return;
     }
+
+    if(u.isArray(indices)) {
+        var rowNum = this.rows().length
+        for(var i=0;i<indices.length;i++) {
+            if(indices[i]<0 || indices[i] >= rowNum)
+                indices.splice(i, 1);
+        }
+    }
+
     this.setAllRowsUnSelect({quiet: true});
     try{
         this.selectedIndices(indices);
