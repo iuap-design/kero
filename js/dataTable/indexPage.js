@@ -7,7 +7,7 @@
 import {
 	setRowValue,
 	updateRow
-} from './page-data'; 
+} from './page-data';
 
 import {
 	getData,
@@ -15,19 +15,19 @@ import {
 	getSelectRows,
 	getRowByRowId,
 	getRowValue
-} from './page-getData'; 
+} from './page-getData';
 
 import{
 	getRowMeta
-} from './page-getMeta'; 
+} from './page-getMeta';
 
 import {
 	setRowMeta
-} from './page-meta'; 
+} from './page-meta';
 
 import {
 	removeRowByRowId
-} from './page-removeRow'; 
+} from './page-removeRow';
 
 
 class Page{
@@ -37,29 +37,30 @@ class Page{
         this.rows = options['rows'] || []
         this.parent = options['parent'] || null;
 
-        
-		//data
-		this.setRowValue= setRowValue;
-		this.updateRow= updateRow;
 
-		//getData
-		this.getData= getData;
-		this.getSelectDatas= getSelectDatas;
-		this.getSelectRows= getSelectRows;
-		this.getRowByRowId= getRowByRowId;
-		this.getRowValue= getRowValue;
-
-		//getMeta
-		this.getRowMeta= getRowMeta;
-
-		//meta
-		this.setRowMeta= setRowMeta;
-
-		//removeRow
-		this.removeRowByRowId= removeRowByRowId;
 
     }
 }
+
+//data
+Page.prototype.setRowValue= setRowValue;
+Page.prototype.updateRow= updateRow;
+
+//getData
+Page.prototype.getData= getData;
+Page.prototype.getSelectDatas= getSelectDatas;
+Page.prototype.getSelectRows= getSelectRows;
+Page.prototype.getRowByRowId= getRowByRowId;
+Page.prototype.getRowValue= getRowValue;
+
+//getMeta
+Page.prototype.getRowMeta= getRowMeta;
+
+//meta
+Page.prototype.setRowMeta= setRowMeta;
+
+//removeRow
+Page.prototype.removeRowByRowId= removeRowByRowId;
 
 
 export {

@@ -16,14 +16,16 @@ import {
 
 class Events{
     constructor(){
-        this.on = on;
-        this.off = off;
-        this.one = one;
-        this.trigger = trigger;
-        this.getEvent = getEvent;
+
     }
 }
 
+Events.prototype.on = on;
+Events.prototype.off = off;
+Events.prototype.one = one;
+Events.prototype.trigger = trigger;
+Events.prototype.getEvent = getEvent;
+
 export {
-   Events 
+   Events
 }

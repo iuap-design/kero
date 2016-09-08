@@ -13,22 +13,22 @@ import {
 import {
     copyRow,
     copyRows
-} from './copyRow'; 
+} from './copyRow';
 
 import {
     setData,
     setValue
-} from './data'; 
+} from './data';
 
 import{
     isEnable,
     setEnable
-} from './enable'; 
+} from './enable';
 
 import{
     getCurrentRow,
     getCurrentIndex
-} from './getCurrent'; 
+} from './getCurrent';
 
 import {
     getData,
@@ -46,26 +46,26 @@ import {
     getIndexByRowId,
     getAllDatas,
     getRowIdsByIndices
-} from './getData'; 
+} from './getData';
 
 import {
     getFocusRow,
     getFocusIndex
-} from './getFocus'; 
+} from './getFocus';
 
 import {
     getMeta,
     getRowMeta
-} from './getMeta'; 
+} from './getMeta';
 
 import {
     getPage,
     getPages
-} from './getPage'; 
+} from './getPage';
 
 import {
     getParam
-} from './getParam'; 
+} from './getParam';
 
 import {
     getSelectedIndex,
@@ -73,17 +73,17 @@ import {
     getSelectedIndexs,
     getSelectedDatas,
     getSelectedRows
-} from './getSelect'; 
+} from './getSelect';
 
 import {
     getSimpleData
-} from './getSimpleData'; 
+} from './getSimpleData';
 
 import {
     setMeta,
     updateMeta,
     createField
-} from './meta'; 
+} from './meta';
 
 import {
     setCurrentPage,
@@ -92,12 +92,12 @@ import {
     hasPage,
     clearCache,
     cacheCurrentPage
-} from './page'; 
+} from './page';
 
 import {
     addParam,
     addParams
-} from './param'; 
+} from './param';
 
 import {
     refSelectedRows,
@@ -105,7 +105,7 @@ import {
     refMeta,
     refRowMeta,
     refEnable
-} from './ref'; 
+} from './ref';
 
 import {
     removeRowByRowId,
@@ -113,7 +113,7 @@ import {
     removeAllRows,
     removeRows,
     clear
-} from './removeRow'; 
+} from './removeRow';
 
 import {
     setRows,
@@ -122,17 +122,17 @@ import {
     insertRow,
     insertRows,
     createEmptyRow
-} from './row'; 
+} from './row';
 
 import {
     updateCurrIndex
-} from './rowCurrent'; 
+} from './rowCurrent';
 
 import {
     setRowDelete,
     setAllRowsDelete,
     setRowsDelete
-} from './rowDelete'; 
+} from './rowDelete';
 
 import {
     setAllRowsSelect,
@@ -145,22 +145,22 @@ import {
     setRowsUnSelect,
     toggleAllSelect,
     updateSelectedIndices
-} from './rowSelect'; 
+} from './rowSelect';
 
 import {
     setRowFocus,
     setRowUnFocus,
     updateFocusIndex
-} from './rowFocus'; 
+} from './rowFocus';
 
 import {
     setSimpleData,
     addSimpleData
-} from './simpleData'; 
+} from './simpleData';
 
 import {
     isChanged
-} from './util'; 
+} from './util';
 
 import {
     on,
@@ -214,137 +214,139 @@ class DataTable{
             this.ns = '';
         }
 
-        
-        //copyRow
-        this.copyRow= copyRow;
-        this.copyRows= copyRows;
 
-        //data
-        this.setData= setData;
-        this.setValue= setValue;
 
-        //enable
-        this.isEnable= isEnable;
-        this.setEnable= setEnable;
-
-        //getData
-        this.getData= getData;
-        this.getDataByRule= getDataByRule;
-        this.getRow= getRow;
-        this.getRowByRowId= getRowByRowId;
-        this.getRowIndex= getRowIndex;
-        this.getRowsByField= getRowsByField;
-        this.getRowByField= getRowByField;
-        this.getAllRows= getAllRows;
-        this.getAllPageRows= getAllPageRows;
-        this.getChangedDatas= getChangedDatas;
-        this.getChangedRows= getChangedRows;
-        this.getValue= getValue;
-        this.getIndexByRowId= getIndexByRowId;
-        this.getAllDatas= getAllDatas;
-        this.getRowIdsByIndices= getRowIdsByIndices;
-
-        //getCurrent
-        this.getCurrentRow= getCurrentRow;
-        this.getCurrentIndex= getCurrentIndex;
-
-        //getFocus
-        this.getFocusRow= getFocusRow;
-        this.getFocusIndex= getFocusIndex;
-
-        //getMeta
-        this.getMeta= getMeta;
-        this.getRowMeta= getRowMeta;
-
-        //getPage
-        this.getPage= getPage;
-        this.getPages= getPages;
-
-        //getParam
-        this.getParam= getParam;
-
-        //getSelect
-        this.getSelectedIndex= getSelectedIndex;
-        this.getSelectedIndices= getSelectedIndices;
-        this.getSelectedIndexs= getSelectedIndexs;
-        this.getSelectedDatas= getSelectedDatas;
-        this.getSelectedRows= getSelectedRows;
-
-        //getSimpleData
-        this.getSimpleData= getSimpleData;
-
-        //meta
-        this.setMeta= setMeta;
-        this.updateMeta= updateMeta;
-        this.createField= createField;
-
-        //page
-        this.setCurrentPage= setCurrentPage;
-        this.updatePages= updatePages;
-        this.setPages= setPages;
-        this.hasPage= hasPage;
-        this.clearCache= clearCache;
-        this.cacheCurrentPage= cacheCurrentPage;
-
-        //param
-        this.addParam= addParam;
-        this.addParams= addParams;
-
-        //ref
-        this.refSelectedRows= refSelectedRows;
-        this.ref= ref;
-        this.refMeta= refMeta;
-        this.refRowMeta= refRowMeta;
-        this.refEnable= refEnable;
-
-        //row
-        this.setRows= setRows;
-        this.addRow= addRow;
-        this.addRows= addRows;
-        this.insertRow= insertRow;
-        this.insertRows= insertRows;
-        this.createEmptyRow= createEmptyRow;
-
-        //removeRow
-        this.removeRowByRowId= removeRowByRowId;
-        this.removeRow= removeRow;
-        this.removeAllRows= removeAllRows;
-        this.removeRows= removeRows;
-        this.clear= clear;
-
-        //rowCurrent
-        this.updateCurrIndex= updateCurrIndex;
-
-        //rowDelete
-        this.setRowDelete= setRowDelete;
-        this.setAllRowsDelete= setAllRowsDelete;
-        this.setRowsDelete= setRowsDelete;
-
-        //rowFocus
-        this.setRowFocus= setRowFocus;
-        this.setRowUnFocus= setRowUnFocus;
-        this.updateFocusIndex= updateFocusIndex;
-
-        //rowSelect
-        this.setAllRowsSelect= setAllRowsSelect;
-        this.setRowSelect= setRowSelect;
-        this.setRowsSelect= setRowsSelect;
-        this.addRowSelect= addRowSelect;
-        this.addRowsSelect= addRowsSelect;
-        this.setAllRowsUnSelect= setAllRowsUnSelect;
-        this.setRowUnSelect= setRowUnSelect;
-        this.setRowsUnSelect= setRowsUnSelect;
-        this.toggleAllSelect= toggleAllSelect;
-        this.updateSelectedIndices= updateSelectedIndices;
-
-        //simpleData
-        this.setSimpleData= setSimpleData;
-        this.addSimpleData= addSimpleData;
-
-        //util
-        this.isChanged= isChanged;
     }
 }
+
+//copyRow
+DataTable.prototype.copyRow= copyRow;
+DataTable.prototype.copyRows= copyRows;
+
+//data
+DataTable.prototype.setData= setData;
+DataTable.prototype.setValue= setValue;
+
+//enable
+DataTable.prototype.isEnable= isEnable;
+DataTable.prototype.setEnable= setEnable;
+
+//getData
+DataTable.prototype.getData= getData;
+DataTable.prototype.getDataByRule= getDataByRule;
+DataTable.prototype.getRow= getRow;
+DataTable.prototype.getRowByRowId= getRowByRowId;
+DataTable.prototype.getRowIndex= getRowIndex;
+DataTable.prototype.getRowsByField= getRowsByField;
+DataTable.prototype.getRowByField= getRowByField;
+DataTable.prototype.getAllRows= getAllRows;
+DataTable.prototype.getAllPageRows= getAllPageRows;
+DataTable.prototype.getChangedDatas= getChangedDatas;
+DataTable.prototype.getChangedRows= getChangedRows;
+DataTable.prototype.getValue= getValue;
+DataTable.prototype.getIndexByRowId= getIndexByRowId;
+DataTable.prototype.getAllDatas= getAllDatas;
+DataTable.prototype.getRowIdsByIndices= getRowIdsByIndices;
+
+//getCurrent
+DataTable.prototype.getCurrentRow= getCurrentRow;
+DataTable.prototype.getCurrentIndex= getCurrentIndex;
+
+//getFocus
+DataTable.prototype.getFocusRow= getFocusRow;
+DataTable.prototype.getFocusIndex= getFocusIndex;
+
+//getMeta
+DataTable.prototype.getMeta= getMeta;
+DataTable.prototype.getRowMeta= getRowMeta;
+
+//getPage
+DataTable.prototype.getPage= getPage;
+DataTable.prototype.getPages= getPages;
+
+//getParam
+DataTable.prototype.getParam= getParam;
+
+//getSelect
+DataTable.prototype.getSelectedIndex= getSelectedIndex;
+DataTable.prototype.getSelectedIndices= getSelectedIndices;
+DataTable.prototype.getSelectedIndexs= getSelectedIndexs;
+DataTable.prototype.getSelectedDatas= getSelectedDatas;
+DataTable.prototype.getSelectedRows= getSelectedRows;
+
+//getSimpleData
+DataTable.prototype.getSimpleData= getSimpleData;
+
+//meta
+DataTable.prototype.setMeta= setMeta;
+DataTable.prototype.updateMeta= updateMeta;
+DataTable.prototype.createField= createField;
+
+//page
+DataTable.prototype.setCurrentPage= setCurrentPage;
+DataTable.prototype.updatePages= updatePages;
+DataTable.prototype.setPages= setPages;
+DataTable.prototype.hasPage= hasPage;
+DataTable.prototype.clearCache= clearCache;
+DataTable.prototype.cacheCurrentPage= cacheCurrentPage;
+
+//param
+DataTable.prototype.addParam= addParam;
+DataTable.prototype.addParams= addParams;
+
+//ref
+DataTable.prototype.refSelectedRows= refSelectedRows;
+DataTable.prototype.ref= ref;
+DataTable.prototype.refMeta= refMeta;
+DataTable.prototype.refRowMeta= refRowMeta;
+DataTable.prototype.refEnable= refEnable;
+
+//row
+DataTable.prototype.setRows= setRows;
+DataTable.prototype.addRow= addRow;
+DataTable.prototype.addRows= addRows;
+DataTable.prototype.insertRow= insertRow;
+DataTable.prototype.insertRows= insertRows;
+DataTable.prototype.createEmptyRow= createEmptyRow;
+
+//removeRow
+DataTable.prototype.removeRowByRowId= removeRowByRowId;
+DataTable.prototype.removeRow= removeRow;
+DataTable.prototype.removeAllRows= removeAllRows;
+DataTable.prototype.removeRows= removeRows;
+DataTable.prototype.clear= clear;
+
+//rowCurrent
+DataTable.prototype.updateCurrIndex= updateCurrIndex;
+
+//rowDelete
+DataTable.prototype.setRowDelete= setRowDelete;
+DataTable.prototype.setAllRowsDelete= setAllRowsDelete;
+DataTable.prototype.setRowsDelete= setRowsDelete;
+
+//rowFocus
+DataTable.prototype.setRowFocus= setRowFocus;
+DataTable.prototype.setRowUnFocus= setRowUnFocus;
+DataTable.prototype.updateFocusIndex= updateFocusIndex;
+
+//rowSelect
+DataTable.prototype.setAllRowsSelect= setAllRowsSelect;
+DataTable.prototype.setRowSelect= setRowSelect;
+DataTable.prototype.setRowsSelect= setRowsSelect;
+DataTable.prototype.addRowSelect= addRowSelect;
+DataTable.prototype.addRowsSelect= addRowsSelect;
+DataTable.prototype.setAllRowsUnSelect= setAllRowsUnSelect;
+DataTable.prototype.setRowUnSelect= setRowUnSelect;
+DataTable.prototype.setRowsUnSelect= setRowsUnSelect;
+DataTable.prototype.toggleAllSelect= toggleAllSelect;
+DataTable.prototype.updateSelectedIndices= updateSelectedIndices;
+
+//simpleData
+DataTable.prototype.setSimpleData= setSimpleData;
+DataTable.prototype.addSimpleData= addSimpleData;
+
+//util
+DataTable.prototype.isChanged= isChanged;
 
 DataTable.DEFAULTS = {
     pageSize: 20,
