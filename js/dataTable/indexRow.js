@@ -143,6 +143,9 @@ class Row extends Events{
     }
 }
 
+
+Row.fn.formatValue
+
 Row.STATUS = {
     NORMAL: 'nrm',
     UPDATE: 'upd',

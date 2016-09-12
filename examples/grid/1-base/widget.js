@@ -1,5 +1,5 @@
 $(document).ready(function () {
-	// ´´½¨viewModel,°üº¬dataTableÒÔ¼°gridÖĞÊ¹ÓÃµÄfunction±äÁ¿
+	// åˆ›å»ºviewModel,åŒ…å«dataTableä»¥åŠgridä¸­ä½¿ç”¨çš„functionå˜é‡
     viewModel = {
         dataTable: new u.DataTable({
             meta: {
@@ -8,18 +8,18 @@ $(document).ready(function () {
                 "currency": ""
             }
         }),
-		// ±í¸ñµã»÷ĞĞÖ®Ç°´¥·¢µÄÊÂ¼ş
+		// è¡¨æ ¼ç‚¹å‡»è¡Œä¹‹å‰è§¦å‘çš„äº‹ä»¶
         onBeforeClickFun1:function(obj){
             obj.gridObj.setGridEditType('default');
             return true;
         },
     }
-	// ´´½¨APP
+	// åˆ›å»ºAPP
     app = u.createApp({
         el: 'body',
         model: viewModel
     });
-	// Ìí¼ÓÊı¾İµ½dataTableÖĞ
+	// æ·»åŠ æ•°æ®åˆ°dataTableä¸­
     var data = [{
                 "name": "Teagan",
                 "surname": "Prohaska",
