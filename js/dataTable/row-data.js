@@ -72,19 +72,25 @@ const setChildSimpleDataByRowId = function(rowId, data){
 
 /**
  * [_setData description]
- * @param {[type]} sourceData 
- * @param {[type]} targetData 
- * @param {[type]} subscribe  
+ * @param {[type]} sourceData
+ * @param {[type]} targetData
+ * @param {[type]} subscribe
  * @param {[type]} parentKey  [父项key，数据项为数组时获取meta值用]
  */
-const _setData = function(rowObj, sourceData, targetData, subscribe, parentKey){
+const _setData = function(rowObj, sourceData, targetData, subscribe, parentKey, options){
     for (var key in sourceData) {
     	var _parentKey = parentKey || null;
         //if (targetData[key]) {
         targetData[key] = targetData[key] || {};
         var valueObj = sourceData[key]
-        if (typeof valueObj != 'object')
-            rowObj.parent.createField(key);
+        if (typeof valueObj != 'object'){
+            if(typeof options == 'object'){
+                if(options.fieldFlag) {
+                    rowObj.parent.createField(key);
+                }
+            }
+        }
+
         //if (typeof this.parent.meta[key] === 'undefined') continue;
         if (valueObj == null ||  typeof valueObj != 'object'){
             // 子表的话只有valueObj为datatable的时候才赋值
@@ -122,7 +128,7 @@ const _setData = function(rowObj, sourceData, targetData, subscribe, parentKey){
               }
             }else{
             	_parentKey = _parentKey == null ? key : _parentKey + '.' + key;
-                _setData(rowObj, valueObj, targetData[key], null, _parentKey);
+                _setData(rowObj, valueObj, targetData[key], null, _parentKey, options);
             }
         }
         //}
@@ -132,14 +138,14 @@ const _setData = function(rowObj, sourceData, targetData, subscribe, parentKey){
 
 /**
  *设置Row数据
- *@subscribe 是否触发监听  
+ *@subscribe 是否触发监听
  */
-const setData = function (data, subscribe) {
+const setData = function (data, subscribe, options) {
     this.status = data.status
     var sourceData = data.data,
         targetData = this.data;
     if (this.parent.root.strict != true){
-        _setData(this, sourceData, targetData,subscribe);
+        _setData(this, sourceData, targetData,subscribe,null,options);
         return;
     }
 

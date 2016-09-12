@@ -20,7 +20,7 @@ const setSimpleData = function(data,options){
         // throw new Error("dataTable.setSimpleData param can't be null!");
         return;
     }
-    
+
     var rows = [];
     if (!isArray(data))
         data = [data];
@@ -39,6 +39,11 @@ const setSimpleData = function(data,options){
     }
     var _data = {
         rows: rows
+    }
+    if(options) {
+        if(typeof options.fieldFlag == undefined){
+            options.fieldFlag = true;
+        }
     }
     this.setData(_data,options);
 };
