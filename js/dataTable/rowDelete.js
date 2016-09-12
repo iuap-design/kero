@@ -34,23 +34,25 @@ const setAllRowsDelete = function () {
  */
 const setRowsDelete = function (indices) {
     indices = _formatToIndicesArray(this, indices)
+    var rowIds = this.getRowIdsByIndices(indices)
+    this.trigger(DataTable.ON_DELETE, {
+            falseDelete: true,
+            indices: indices,
+            rowIds: rowIds
+    })
     for (var i = 0; i < indices.length; i++) {
         var row = this.getRow(indices[i])
         if (row.status == Row.STATUS.NEW) {
-            this.rows(this.rows().splice(indices[i], 1));
+            this.rows().splice(indices[i], 1);
             this.updateSelectedIndices(indices[i], '-')
             this.updateFocusIndex(index, '-')
         }
         else {
             row.status = Row.STATUS.FALSE_DELETE
+            var temprows = this.rows().splice(indices[i], 1)
+            this.rows().push(temprows[0]);
         }
     }
-    var rowIds = this.getRowIdsByIndices(indices)
-    this.trigger(DataTable.ON_ROW_DELETE, {
-        falseDelete: true,
-        indices: indices,
-        rowIds: rowIds
-    })
 }
 
 export {

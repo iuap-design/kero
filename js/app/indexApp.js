@@ -14,15 +14,15 @@ import {
 } from './adjustMetaFunc';
 
 import {
-	addDataTable, 
-	getDataTable, 
+	addDataTable,
+	getDataTable,
 	getDataTables
 } from './dataTable';
 
 import {
-	createComp, 
-	getComp, 
-	getCompsByDataTable, 
+	createComp,
+	getComp,
+	getCompsByDataTable,
 	getCompsByType,
 	getComps,
 	showComp
@@ -72,44 +72,46 @@ class App {
 		// init
         this.init = init;
         this.dataTables = {};
-        // adjustMetaFunc
-        this.adjustMetaFunc = adjustMetaFunc;
-        // dataTable 
-        this.addDataTable = addDataTable; 
-        this.getDataTable = getDataTable; 
-        this.getDataTables = getDataTables; 
-        // comp
-        this.createComp = createComp;
-        this.getComp = getComp;
-        this.getCompsByDataTable = getCompsByDataTable;
-        this.getCompsByType = getCompsByType;
-        this.getComps = getComps;
-        this.showComp = showComp;
-        // validate
-        this.compsValidate = compsValidate;
-        this.compsValidateMultiParam = compsValidateMultiParam;
-        // cache
-        this.setUserCache = setUserCache;
-        this.getUserCache = getUserCache;
-        this.removeUserCache = removeUserCache;
-        this.setCache = setCache;
-        this.getCache = getCache;
-        this.removeCache = removeCache;
-        this.setSessionCache = setSessionCache;
-        this.getSessionCache = getSessionCache;
-        this.removeSessionCache = removeSessionCache;
-        // iwebCode
-        this.getEnvironment = getEnvironment;
-        this.setClientAttribute = setClientAttribute;
-        this.getClientAttribute = getClientAttribute;
-        // ajax
-        this.ajax = ajax;
-        // serverEvent
-        this.serverEvent = serverEvent;
-        // util
-        this.setEnable = setEnable;
+
     }
 }
+
+// adjustMetaFunc
+App.prototype.adjustMetaFunc = adjustMetaFunc;
+// dataTable
+App.prototype.addDataTable = addDataTable;
+App.prototype.getDataTable = getDataTable;
+App.prototype.getDataTables = getDataTables;
+// comp
+App.prototype.createComp = createComp;
+App.prototype.getComp = getComp;
+App.prototype.getCompsByDataTable = getCompsByDataTable;
+App.prototype.getCompsByType = getCompsByType;
+App.prototype.getComps = getComps;
+App.prototype.showComp = showComp;
+// validate
+App.prototype.compsValidate = compsValidate;
+App.prototype.compsValidateMultiParam = compsValidateMultiParam;
+// cache
+App.prototype.setUserCache = setUserCache;
+App.prototype.getUserCache = getUserCache;
+App.prototype.removeUserCache = removeUserCache;
+App.prototype.setCache = setCache;
+App.prototype.getCache = getCache;
+App.prototype.removeCache = removeCache;
+App.prototype.setSessionCache = setSessionCache;
+App.prototype.getSessionCache = getSessionCache;
+App.prototype.removeSessionCache = removeSessionCache;
+// iwebCode
+App.prototype.getEnvironment = getEnvironment;
+App.prototype.setClientAttribute = setClientAttribute;
+App.prototype.getClientAttribute = getClientAttribute;
+// ajax
+App.prototype.ajax = ajax;
+// serverEvent
+App.prototype.serverEvent = serverEvent;
+// util
+App.prototype.setEnable = setEnable;
 
 const createApp = function () {
     var app = new App();

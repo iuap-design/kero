@@ -41,29 +41,31 @@ class ServerEvent {
         if (!u.debugMode) {  //此处需要修改
             this.compression = true
         }
-		
-        // dataTable 
-        this.addDataTable = addDataTable; 
-        this.addDataTables = addDataTables; 
-        this.addAllDataTables = addAllDataTables; 
-        this.updateDataTables = updateDataTables;
 
-        // fire
-        this.fire = fire; 
-        this.setSuccessFunc = setSuccessFunc; 
-        this._successFunc = _successFunc;
 
-        // processXHRError
-        this.processXHRError = processXHRError;
-
-        //util
-        this.setCompression = setCompression;
-        this.addParameter = addParameter;
-        this.setEvent = setEvent;
-        this.getData = getData;
-        this.updateDom = updateDom;
     }
 }
+
+// dataTable
+ServerEvent.prototype.addDataTable = addDataTable;
+ServerEvent.prototype.addDataTables = addDataTables;
+ServerEvent.prototype.addAllDataTables = addAllDataTables;
+ServerEvent.prototype.updateDataTables = updateDataTables;
+
+// fire
+ServerEvent.prototype.fire = fire;
+ServerEvent.prototype.setSuccessFunc = setSuccessFunc;
+ServerEvent.prototype._successFunc = _successFunc;
+
+// processXHRError
+ServerEvent.prototype.processXHRError = processXHRError;
+
+//util
+ServerEvent.prototype.setCompression = setCompression;
+ServerEvent.prototype.addParameter = addParameter;
+ServerEvent.prototype.setEvent = setEvent;
+ServerEvent.prototype.getData = getData;
+ServerEvent.prototype.updateDom = updateDom;
 
 ServerEvent.DEFAULT = {
     async: true,

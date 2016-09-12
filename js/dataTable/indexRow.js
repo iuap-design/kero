@@ -15,30 +15,30 @@ import {
     setChildSimpleDataByRowId,
     setData,
     updateRow
-} from './row-data'; 
+} from './row-data';
 
 import {
     getValue,
     getChildValue,
     getData,
     getEmptyData
-} from './row-getData'; 
+} from './row-getData';
 
 import {
     getMeta
-} from './row-getMeta'; 
+} from './row-getMeta';
 
 import {
     getSimpleData
-} from './row-getSimpleData'; 
+} from './row-getSimpleData';
 
 import {
     init
-} from './row-init'; 
+} from './row-init';
 
 import {
     setMeta
-} from './row-meta'; 
+} from './row-meta';
 
 import {
     ref,
@@ -46,21 +46,21 @@ import {
     refCombo,
     refDate,
     refEnum
-} from './row-ref'; 
+} from './row-ref';
 
 import{
     toggleSelect,
     singleSelect,
     multiSelect
-} from './row-rowSelect'; 
+} from './row-rowSelect';
 
 import {
     setSimpleData
-} from './row-simpleData'; 
+} from './row-simpleData';
 
 import {
     formatValue, //需要最终产出,
-} from './row-util'; 
+} from './row-util';
 
 
 class Row extends Events{
@@ -94,54 +94,56 @@ class Row extends Events{
 
         })
 
-        
-        //data
-        this.setValue= setValue;
-        this.setChildValue= setChildValue;
-        this.setChildSimpleDataByRowId= setChildSimpleDataByRowId;
-        this.setData= setData;
-        this.updateRow= updateRow;
 
-        //getData
-        this.getValue= getValue;
-        this.getChildValue= getChildValue;
-        this.getData= getData;
-        this.getEmptyData= getEmptyData;
 
-        //getMeta
-        this.getMeta= getMeta;
 
-        //getSimpleData
-        this.getSimpleData= getSimpleData;
-
-        //init
-        this.init= init;
-
-        //meta
-        this.setMeta= setMeta;
-
-        //ref
-        this.ref= ref;
-        this.refMeta= refMeta;
-        this.refCombo= refCombo;
-        this.refDate= refDate;
-        this.refEnum= refEnum;
-
-        //rowSelect
-        this.toggleSelect= toggleSelect;
-        this.singleSelect= singleSelect;
-        this.multiSelect= multiSelect;
-
-        //simpleData
-        this.setSimpleData= setSimpleData;
-
-        //util
-        this.formatValue= formatValue;
-        
 
         this.init();
     }
 }
+
+//data
+Row.prototype.setValue= setValue;
+Row.prototype.setChildValue= setChildValue;
+Row.prototype.setChildSimpleDataByRowId= setChildSimpleDataByRowId;
+Row.prototype.setData= setData;
+Row.prototype.updateRow= updateRow;
+
+//getData
+Row.prototype.getValue= getValue;
+Row.prototype.getChildValue= getChildValue;
+Row.prototype.getData= getData;
+Row.prototype.getEmptyData= getEmptyData;
+
+//getMeta
+Row.prototype.getMeta= getMeta;
+
+//getSimpleData
+Row.prototype.getSimpleData= getSimpleData;
+
+//init
+Row.prototype.init= init;
+
+//meta
+Row.prototype.setMeta= setMeta;
+
+//ref
+Row.prototype.ref= ref;
+Row.prototype.refMeta= refMeta;
+Row.prototype.refCombo= refCombo;
+Row.prototype.refDate= refDate;
+Row.prototype.refEnum= refEnum;
+
+//rowSelect
+Row.prototype.toggleSelect= toggleSelect;
+Row.prototype.singleSelect= singleSelect;
+Row.prototype.multiSelect= multiSelect;
+
+//simpleData
+Row.prototype.setSimpleData= setSimpleData;
+
+//util
+Row.prototype.formatValue= formatValue;
 
 
 Row.fn.formatValue
