@@ -2708,7 +2708,7 @@
 	        for (var i = 0; i < dataTables.length; i++) {
 	            var dt = dataTables[i];
 	            if (typeof dt == 'string') this.addDataTable(dt);else {
-	                for (key in dt) {
+	                for (var key in dt) {
 	                    this.addDataTable(key, dt[key]);
 	                }
 	            }
@@ -3028,10 +3028,10 @@
 	var _events = __webpack_require__(30);
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } } /**
-	                                                                                                                                                           * Module : Kero webpack entry dataTable index
-	                                                                                                                                                           * Author : liuyk(liuyuekai@yonyou.com)
-	                                                                                                                                                           * Date   : 2016-08-09 15:24:46
-	                                                                                                                                                           */
+	                                                                                                                                                          * Module : Kero webpack entry dataTable index
+	                                                                                                                                                          * Author : liuyk(liuyuekai@yonyou.com)
+	                                                                                                                                                          * Date   : 2016-08-09 15:24:46
+	                                                                                                                                                          */
 
 	var DataTable =
 	// class DataTable extends Events{
@@ -5574,7 +5574,7 @@
 	    function Row(options) {
 	        _classCallCheck(this, Row);
 
-	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Row).call(this));
+	        var _this = _possibleConstructorReturn(this, (Row.__proto__ || Object.getPrototypeOf(Row)).call(this));
 
 	        var self = _this;
 	        _this.rowId = options['id'] || Row.getRandomRowId();
@@ -5655,6 +5655,8 @@
 
 	//util
 	Row.prototype.formatValue = _rowUtil.formatValue;
+
+	Row.fn.formatValue;
 
 	Row.STATUS = {
 	    NORMAL: 'nrm',
@@ -6190,10 +6192,8 @@
 	                _data[key] = data[key].value;
 	            }
 	            if (meta[key] && meta[key].type) {
-	                if (meta[key].type == 'date' || meta[key].type == 'datetime') {
 
-	                    _data[key] = (0, _rowUtil._dateToUTCString)(data[key].value);
-	                }
+	                _data[type] = fun(meta[key].type, data[key].value);
 	            }
 	        } else {
 	            _data[key] = _getSimpleData(rowObj, data[key]);
@@ -6202,6 +6202,13 @@
 	    return _data;
 	};
 
+	var fun = function fun() {
+	    if (meta[key].type == 'date' || meta[key].type == 'datetime') {
+
+	        return (0, _rowUtil._dateToUTCString)(data[key].value);
+	    }
+	    return data[key].value;
+	};
 	var getSimpleData = function getSimpleData(options) {
 	    options = options || {};
 	    var fields = options['fields'] || null;

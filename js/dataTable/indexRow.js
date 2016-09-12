@@ -146,7 +146,6 @@ Row.prototype.setSimpleData= setSimpleData;
 Row.prototype.formatValue= formatValue;
 
 
-Row.fn.formatValue
 
 Row.STATUS = {
     NORMAL: 'nrm',
