@@ -9,7 +9,7 @@ import {isEmptyObject} from 'neoui-sparrow/js/util';
  * 设置行数据
  * @param {Object} rows
  */
-const setRows = function (rows) {
+const setRows = function (rows, options) {
     var insertRows = [], _id;
     for (var i = 0; i < rows.length; i++) {
         var r = rows[i]
@@ -43,7 +43,7 @@ const setRows = function (rows) {
             }
             else {
                 row = new Row({parent: this, id: _id})
-                row.setData(rows[i])
+                row.setData(rows[i], null, options)
                 insertRows.push(row)
             }
         }

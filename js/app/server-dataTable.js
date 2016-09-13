@@ -33,7 +33,7 @@ const addDataTables = function (dataTables) {
             if (typeof dt == 'string')
                 this.addDataTable(dt)
             else {
-                for (key in dt)
+                for (var key in dt)
                     this.addDataTable(key, dt[key])
             }
         }

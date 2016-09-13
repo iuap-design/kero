@@ -4,7 +4,7 @@
  * Date	  : 2016-07-30 14:34:01
  */
 
-/** 
+/**
  *设置数据
  *
  */
@@ -29,7 +29,7 @@ const setData = function (data,options) {
     }else{
         var newTotalRow = data.rows.length; //后续要考虑状态，del的不计算在内
     }
-    var select, focus,unSelect=options?options.unSelect:false; 
+    var select, focus,unSelect=options?options.unSelect:false;
 
     this.pageCache = data.pageCache || this.pageCache
     if (this.pageCache === true) {
@@ -43,12 +43,12 @@ const setData = function (data,options) {
         else {
             select = this.getPage(newIndex).selectedIndices
             focus = this.getPage(newIndex).focus
-            this.setRows(this.getPage(newIndex).rows)
+            this.setRows(this.getPage(newIndex).rows, options)
         }
     } else {
         select = data.select||(!unSelect?[0]:[]);
         focus = data.focus !== undefined ? data.focus : data.current;
-        this.setRows(data.rows)
+        this.setRows(data.rows, options);
     }
     this.pageIndex(newIndex)
     this.pageSize(newSize)

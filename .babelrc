@@ -1,4 +1,9 @@
 {
-  "presets": ["es2015"],
-  "plugins": ["babel-plugin-add-module-exports"]
+  "presets": [
+  	"es2015-loose","stage-0"
+  ],
+  "plugins": [   
+  	"transform-es3-property-literals",
+    "transform-es3-member-expression-literals"
+  ]
 }
