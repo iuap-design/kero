@@ -24,8 +24,12 @@ const _getSimpleData = function(rowObj, data){
                 _data[key] = data[key].value;
             }
             if (meta[key] && meta[key].type) {
-
-                _data[type] = fun(meta[key].type,data[key].value);
+                var obj = {
+                    meta: meta,
+                    data: data,
+                    key: key
+                }
+                _data[key] = rowObj.formatValueFun(obj);
                
             }
         }
@@ -37,13 +41,14 @@ const _getSimpleData = function(rowObj, data){
 
 }
 
-const fun = function(){
- if (meta[key].type == 'date' || meta[key].type == 'datetime') {
-
-                   return  _dateToUTCString(data[key].value)
-                }
-                return data[key].value
+const formatValueFun = function(obj){
+    var meta = obj.meta,data = obj.data, key = obj.key;
+    if (meta[key].type == 'date' || meta[key].type == 'datetime') {
+        return  _dateToUTCString(data[key].value)
+    }
+    return data[key].value;
 }
+
 const getSimpleData = function(options){
     options = options || {}
     var fields = options['fields'] || null;
@@ -64,5 +69,6 @@ const getSimpleData = function(options){
 };
 
 export {
+    formatValueFun,
 	getSimpleData
 }

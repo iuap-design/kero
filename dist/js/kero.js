@@ -260,9 +260,12 @@
 	                                                                                                                                                                                                                                                   * Module : Sparrow compMgr
 	                                                                                                                                                                                                                                                   * Author : Kvkens(yueming@yonyou.com)
 	                                                                                                                                                                                                                                                   * Date	  : 2016-07-28 18:41:06
+	                                                                                                                                                                                                                                                   * Update : 2016-09-13 09:26:00
 	                                                                                                                                                                                                                                                   */
 
 	var _dom = __webpack_require__(4);
+
+	var _util = __webpack_require__(9);
 
 	function _findRegisteredClass(name, optReplace) {
 	    for (var i = 0; i < CompMgr.registeredControls.length; i++) {
@@ -378,7 +381,11 @@
 	            var options = JSON.parse(element.getAttribute('u-meta'));
 	            if (options && options['type']) {
 	                //var comp = CompMgr._createComp({el:element,options:options,model:model});
-	                var comp = CompMgr.createDataAdapter({ el: element, options: options, model: model });
+	                var comp = CompMgr.createDataAdapter({
+	                    el: element,
+	                    options: options,
+	                    model: model
+	                });
 	                if (comp) {
 	                    element['adpt'] = comp;
 	                    element['u-meta'] = comp;
@@ -479,7 +486,7 @@
 	        this.registeredControls = tmpArray;
 
 	        function traverse(control) {
-	            if (u.inArray(control, tmpArray)) return;
+	            if ((0, _util.inArray)(control, tmpArray)) return;
 	            if (control.dependencies.length > 0) {
 	                for (var i = 0, len = control.dependencies.length; i < len; i++) {
 	                    var childControl = dictory[control.dependencies[i]];
@@ -515,7 +522,7 @@
 	'use strict';
 
 	exports.__esModule = true;
-	exports.showPanelByEle = exports.getScroll = exports.getOffset = exports.makeModal = exports.makeDOM = exports.getZIndex = exports.getStyle = exports.wrap = exports.css = exports.closest = exports.toggleClass = exports.hasClass = exports.removeClass = exports.addClass = undefined;
+	exports.getElementTop = exports.getElementLeft = exports.showPanelByEle = exports.getScroll = exports.getOffset = exports.makeModal = exports.makeDOM = exports.getZIndex = exports.getStyle = exports.wrap = exports.css = exports.closest = exports.toggleClass = exports.hasClass = exports.removeClass = exports.addClass = undefined;
 
 	var _event = __webpack_require__(5);
 
@@ -759,6 +766,34 @@
 		panel.style.top = top + 'px';
 	};
 
+	var getElementLeft = function getElementLeft(element) {
+		var actualLeft = element.offsetLeft;
+		var current = element.offsetParent;
+		while (current !== null) {
+			actualLeft += current.offsetLeft;
+			current = current.offsetParent;
+		}
+		if (document.compatMode == "BackCompat") {
+			var elementScrollLeft = document.body.scrollLeft;
+		} else {
+			var elementScrollLeft = document.documentElement.scrollLeft;
+		}
+		return actualLeft - elementScrollLeft;
+	};
+	var getElementTop = function getElementTop(element) {
+		var actualTop = element.offsetTop;
+		var current = element.offsetParent;
+		while (current !== null) {
+			actualTop += current.offsetTop;
+			current = current.offsetParent;
+		}
+		if (document.compatMode == "BackCompat") {
+			var elementScrollTop = document.body.scrollTop;
+		} else {
+			var elementScrollTop = document.documentElement.scrollTop;
+		}
+		return actualTop - elementScrollTop;
+	};
 	exports.addClass = addClass;
 	exports.removeClass = removeClass;
 	exports.hasClass = hasClass;
@@ -773,6 +808,8 @@
 	exports.getOffset = getOffset;
 	exports.getScroll = getScroll;
 	exports.showPanelByEle = showPanelByEle;
+	exports.getElementLeft = getElementLeft;
+	exports.getElementTop = getElementTop;
 
 /***/ },
 /* 5 */
@@ -4895,6 +4932,7 @@
 	var addRowsSelect = function addRowsSelect(indices) {
 	    indices = (0, _util2._formatToIndicesArray)(this, indices);
 	    var selectedIndices = this.selectedIndices().slice();
+	    var needTrigger = false;
 	    for (var i = 0; i < indices.length; i++) {
 	        var ind = indices[i],
 	            toAdd = true;
@@ -4904,15 +4942,18 @@
 	            }
 	        }
 	        if (toAdd) {
+	            needTrigger = true;
 	            selectedIndices.push(indices[i]);
 	        }
 	    }
 	    this.selectedIndices(selectedIndices);
 	    var rowIds = this.getRowIdsByIndices(indices);
-	    this.trigger(DataTable.ON_ROW_SELECT, {
-	        indices: indices,
-	        rowIds: rowIds
-	    });
+	    if (needTrigger) {
+	        this.trigger(DataTable.ON_ROW_SELECT, {
+	            indices: indices,
+	            rowIds: rowIds
+	        });
+	    }
 	    this.updateCurrIndex();
 	};
 
@@ -5513,6 +5554,7 @@
 	Row.prototype.getMeta = _rowGetMeta.getMeta;
 
 	//getSimpleData
+	Row.prototype.formatValueFun = _rowGetSimpleData.formatValueFun;
 	Row.prototype.getSimpleData = _rowGetSimpleData.getSimpleData;
 
 	//init
@@ -6040,7 +6082,7 @@
 	'use strict';
 
 	exports.__esModule = true;
-	exports.getSimpleData = undefined;
+	exports.getSimpleData = exports.formatValueFun = undefined;
 
 	var _rowUtil = __webpack_require__(62);
 
@@ -6070,8 +6112,12 @@
 	                _data[key] = data[key].value;
 	            }
 	            if (meta[key] && meta[key].type) {
-
-	                _data[type] = fun(meta[key].type, data[key].value);
+	                var obj = {
+	                    meta: meta,
+	                    data: data,
+	                    key: key
+	                };
+	                _data[key] = this.formatValueFun(obj);
 	            }
 	        } else {
 	            _data[key] = _getSimpleData(rowObj, data[key]);
@@ -6080,13 +6126,16 @@
 	    return _data;
 	};
 
-	var fun = function fun() {
+	var formatValueFun = function formatValueFun(obj) {
+	    var meta = obj.meta,
+	        data = obj.data,
+	        key = obj.key;
 	    if (meta[key].type == 'date' || meta[key].type == 'datetime') {
-
 	        return (0, _rowUtil._dateToUTCString)(data[key].value);
 	    }
 	    return data[key].value;
 	};
+
 	var getSimpleData = function getSimpleData(options) {
 	    options = options || {};
 	    var fields = options['fields'] || null;
@@ -6105,6 +6154,7 @@
 	    return _data;
 	};
 
+	exports.formatValueFun = formatValueFun;
 	exports.getSimpleData = getSimpleData;
 
 /***/ },
