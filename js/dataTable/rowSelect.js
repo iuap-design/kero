@@ -80,6 +80,7 @@ const addRowSelect = function (index) {
 const addRowsSelect = function (indices) {
     indices = _formatToIndicesArray(this, indices)
     var selectedIndices = this.selectedIndices().slice()
+    var needTrigger = false;
     for (var i = 0; i < indices.length; i++) {
         var ind = indices[i], toAdd = true
         for (var j = 0; j < selectedIndices.length; j++) {
@@ -88,15 +89,18 @@ const addRowsSelect = function (indices) {
             }
         }
         if (toAdd) {
+            needTrigger = true
             selectedIndices.push(indices[i])
         }
     }
     this.selectedIndices(selectedIndices)
     var rowIds = this.getRowIdsByIndices(indices)
-    this.trigger(DataTable.ON_ROW_SELECT, {
-        indices: indices,
-        rowIds: rowIds
-    })
+    if(needTrigger){
+        this.trigger(DataTable.ON_ROW_SELECT, {
+            indices: indices,
+            rowIds: rowIds
+        })
+    }
     this.updateCurrIndex();
 }
 
