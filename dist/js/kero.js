@@ -4932,6 +4932,7 @@
 	var addRowsSelect = function addRowsSelect(indices) {
 	    indices = (0, _util2._formatToIndicesArray)(this, indices);
 	    var selectedIndices = this.selectedIndices().slice();
+	    var needTrigger = false;
 	    for (var i = 0; i < indices.length; i++) {
 	        var ind = indices[i],
 	            toAdd = true;
@@ -4941,15 +4942,18 @@
 	            }
 	        }
 	        if (toAdd) {
+	            needTrigger = true;
 	            selectedIndices.push(indices[i]);
 	        }
 	    }
 	    this.selectedIndices(selectedIndices);
 	    var rowIds = this.getRowIdsByIndices(indices);
-	    this.trigger(DataTable.ON_ROW_SELECT, {
-	        indices: indices,
-	        rowIds: rowIds
-	    });
+	    if (needTrigger) {
+	        this.trigger(DataTable.ON_ROW_SELECT, {
+	            indices: indices,
+	            rowIds: rowIds
+	        });
+	    }
 	    this.updateCurrIndex();
 	};
 
