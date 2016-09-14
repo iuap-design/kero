@@ -29,7 +29,7 @@ const _getSimpleData = function(rowObj, data){
                     data: data,
                     key: key
                 }
-                _data[key] = this.formatValueFun(obj);
+                _data[key] = rowObj.formatValueFun(obj);
                
             }
         }
