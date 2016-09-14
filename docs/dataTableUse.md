@@ -132,6 +132,79 @@ r.setValue('f1','test txt');
 </code></pre>
 </div>
 
+##示例：input输入框
+
+input输入值变化后，弹框提示
+
+
+<div class="example-content"><!-- HTML -->
+<div id="demo3">
+	<input u-meta='{"data":"dt3","field":"f1"}' />	
+</div>
+</div>
+<div class="example-content ex-hide"><script>// JS
+var app,viewModel3;
+viewModel3 = {
+    dt3: new u.DataTable({
+        meta:{
+            f1:{
+                type:'string'
+            }
+        }
+    })
+};
+
+app = u.createApp({
+    el:'#demo3',
+    model:viewModel3
+});
+
+var r = viewModel3.dt3.createEmptyRow();
+r.setValue('f1','test');
+
+// 绑定时间触发
+viewModel3.dt3.on('valueChange', function(event){
+    var oldValue = event.oldValue;
+    var newValue = event.newValue;
+    alert('dataTable原始值为:' + oldValue +'\n' + 'dataTable现在值为:' + newValue);
+});
+
+</script></div>
+<div class="examples-code"><pre><code>&lt;!-- HTML -->
+&lt;div id="demo3">
+	&lt;input u-meta='{"data":"dt3","field":"f1"}' />	
+&lt;/div>
+</code></pre>
+</div>
+<div class="examples-code"><pre><code>// JS
+var app,viewModel3;
+viewModel3 = {
+    dt3: new u.DataTable({
+        meta:{
+            f1:{
+                type:'string'
+            }
+        }
+    })
+};
+
+app = u.createApp({
+    el:'#demo3',
+    model:viewModel3
+});
+
+var r = viewModel3.dt3.createEmptyRow();
+r.setValue('f1','test');
+
+// 绑定时间触发
+viewModel3.dt3.on('valueChange', function(event){
+    var oldValue = event.oldValue;
+    var newValue = event.newValue;
+    alert('dataTable原始值为:' + oldValue +'\n' + 'dataTable现在值为:' + newValue);
+});
+</code></pre>
+</div>
+
 ##示例：时间、日期指定格式
 
 输入指定格式
@@ -214,79 +287,6 @@ var r = viewModel2.dt2.createEmptyRow();
 r.setValue('f2', "2016-6-30 12:13:22");
 r.setValue('f3', "2016-2-13 4:58:58");
 
-</code></pre>
-</div>
-
-##示例：input输入框
-
-input输入值变化后，弹框提示
-
-
-<div class="example-content"><!-- HTML -->
-<div id="demo3">
-	<input u-meta='{"data":"dt3","field":"f1"}' />	
-</div>
-</div>
-<div class="example-content ex-hide"><script>// JS
-var app,viewModel3;
-viewModel3 = {
-    dt3: new u.DataTable({
-        meta:{
-            f1:{
-                type:'string'
-            }
-        }
-    })
-};
-
-app = u.createApp({
-    el:'#demo3',
-    model:viewModel3
-});
-
-var r = viewModel3.dt3.createEmptyRow();
-r.setValue('f1','test');
-
-// 绑定时间触发
-viewModel3.dt3.on('valueChange', function(event){
-    var oldValue = event.oldValue;
-    var newValue = event.newValue;
-    alert('dataTable原始值为:' + oldValue +'\n' + 'dataTable现在值为:' + newValue);
-});
-
-</script></div>
-<div class="examples-code"><pre><code>&lt;!-- HTML -->
-&lt;div id="demo3">
-	&lt;input u-meta='{"data":"dt3","field":"f1"}' />	
-&lt;/div>
-</code></pre>
-</div>
-<div class="examples-code"><pre><code>// JS
-var app,viewModel3;
-viewModel3 = {
-    dt3: new u.DataTable({
-        meta:{
-            f1:{
-                type:'string'
-            }
-        }
-    })
-};
-
-app = u.createApp({
-    el:'#demo3',
-    model:viewModel3
-});
-
-var r = viewModel3.dt3.createEmptyRow();
-r.setValue('f1','test');
-
-// 绑定时间触发
-viewModel3.dt3.on('valueChange', function(event){
-    var oldValue = event.oldValue;
-    var newValue = event.newValue;
-    alert('dataTable原始值为:' + oldValue +'\n' + 'dataTable现在值为:' + newValue);
-});
 </code></pre>
 </div>
 

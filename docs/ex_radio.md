@@ -125,4 +125,4 @@ viewModel.dt1.setRowSelect(0);</code></pre>
 
 [基础单选框](http://design.yyuap.com/dist/pages/global-style/radio.html)    
 
-[单选框在grid中使用]()
+[单选框在grid中使用](http://design.yyuap.com/dist/pages/webIDE/index.html#/demos/grids/edit)
