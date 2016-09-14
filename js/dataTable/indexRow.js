@@ -29,6 +29,7 @@ import {
 } from './row-getMeta';
 
 import {
+    formatValueFun,
     getSimpleData
 } from './row-getSimpleData';
 
@@ -119,6 +120,7 @@ Row.prototype.getEmptyData= getEmptyData;
 Row.prototype.getMeta= getMeta;
 
 //getSimpleData
+Row.prototype.formatValueFun= formatValueFun;
 Row.prototype.getSimpleData= getSimpleData;
 
 //init
