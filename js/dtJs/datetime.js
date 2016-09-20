@@ -117,6 +117,11 @@ u.DateTimeAdapter = u.BaseAdapter.extend({
 			
 		}
 			
+		// 校验
+		this.comp.on('validate', function(event){
+			self.validate.check();
+		});
+			
 	},
 	modelValueChange: function(value){
 		if (this.slice) return;
