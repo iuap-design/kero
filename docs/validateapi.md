@@ -54,9 +54,11 @@
 ***
 
 
-## nullMsg/errorMag
+## nullMsg/errorMsg
 
 `nullMsg`:输入为空时的提示信息
+
+`errorMsg`:输入错误时的提示信息
 
 | Key      | Value              | 说明         |
 | -------- | ------------------ | ---------- |
@@ -79,18 +81,18 @@
 ---
 ## notipFlag
 
-`notipFlag`:错误信息提示方式是否为tip,默认为`true`
+`notipFlag`:错误信息提示方式是否为`tooltip`,默认为`false`
 
 | Key       | Value | 说明                 |
 | --------- | ----- | ------------------ |
-| notipFlag | true  | 错误信息提示为tips形式      |
-| notipFlag | false | 错误信息提示自定义，不为tips形式 |
+| notipFlag | false| 错误信息提示为tips形式      |
+| notipFlag | true| 错误信息提示自定义，不为tips形式 |
 
 
 
 ---
 ## tipId
-`tipId`:错误或空提示是否选用默认的tip。默认为空，使用默认的`tooltip`
+`tipId`: 指定`tooltip`显示位置，其值为显示dom元素的id，默认为空，使用默认的`tooltip`
 
 | Key   | Value | 说明                |
 | ----- | ----- | ----------------- |
@@ -112,11 +114,11 @@
 
 ---
 ## successId
-`successId`:错误或空提示是否选用默认的tip。默认为空，使用默认的`tooltip`
+`successId`:指定正确提示信息的位置，其值为正确dom元素的id，默认在输入框的后面显示
 
 | Key       | Value | 说明              |
 | --------- | ----- | --------------- |
-| successId | 'id'  | 使用自定义的id元素显示tip |
+| successId | 'id'  | 使用自定义的id元素显示正确提示信息 |
 
 `successId`能正常显示的前提是`hasSuccess:true`
 
@@ -134,9 +136,6 @@
 | placement | bottom | 底部显示 |
 | placement | left   | 左边显示 |
 | placement | right  | 右边显示 |
-
-`successId`能正常显示的前提是`hasSuccess:true`
-
 
 
 ---
