@@ -705,8 +705,11 @@
 			offset.left += Node.scrollLeft || document.documentElement.scrollLeft;
 			return offset;
 		}
-		offset.top += Node.scrollTop;
-		offset.left += Node.scrollLeft;
+		if (Node.tagName != 'INPUT') {
+			offset.top += Node.scrollTop;
+			offset.left += Node.scrollLeft;
+		}
+
 		if (Node.parentNode) return getScroll(Node.parentNode, offset);else return offset;
 	};
 	var showPanelByEle = function showPanelByEle(obj) {
@@ -6117,7 +6120,7 @@
 	                    data: data,
 	                    key: key
 	                };
-	                _data[key] = this.formatValueFun(obj);
+	                _data[key] = rowObj.formatValueFun(obj);
 	            }
 	        } else {
 	            _data[key] = _getSimpleData(rowObj, data[key]);
