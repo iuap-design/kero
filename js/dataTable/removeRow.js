@@ -28,7 +28,9 @@ const removeAllRows = function () {
 
 const removeRows = function (indices) {
     indices = _formatToIndicesArray(this, indices)
-    indices = indices.sort()
+    indices = indices.sort(function(a,b){
+        return a-b;
+    });
     var rowIds = [], rows = this.rows(), deleteRows = [];
     for (var i = indices.length - 1; i >= 0; i--) {
         var index = indices[i]
