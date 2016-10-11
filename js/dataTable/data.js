@@ -59,7 +59,7 @@ const setData = function (data,options) {
 
     if (select && select.length > 0 && this.rows().length > 0)
         this.setRowsSelect(select)
-    if (focus !== undefined)
+    if (focus !== undefined && this.getRow(focus))
         this.setRowFocus(focus)
 };
 
