@@ -4,8 +4,8 @@
  * Date   : 2016-07-29 09:34:01
  */
 
-import {env} from 'neoui-sparrow/js/env';
-import {getOffset} from 'neoui-sparrow/js/dom';
+import {env} from 'tinper-sparrow/js/env';
+import {getOffset} from 'tinper-sparrow/js/dom';
 /**
  * 控件数据校验
  * @param {Object} element

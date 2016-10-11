@@ -3,7 +3,7 @@
  * Author : liuyk(liuyk@yonyou.com)
  * Date	  : 2016-08-01 14:34:01
  */
-import {isArray} from 'neoui-sparrow/js/util';
+import {isArray} from 'tinper-sparrow/js/util';
 
 /**
  * 设置数据, 只设置字段值

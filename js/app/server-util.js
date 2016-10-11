@@ -3,9 +3,9 @@
  * Author : liuyk(liuyk@yonyou.com)
  * Date   : 2016-07-29 09:34:01
  */
-import {each} from 'neoui-sparrow/js/util';
-import {trigger} from 'neoui-sparrow/js/event';
-import {env} from 'neoui-sparrow/js/env';
+import {each} from 'tinper-sparrow/js/util';
+import {trigger} from 'tinper-sparrow/js/event';
+import {env} from 'tinper-sparrow/js/env';
 
 const setCompression = function (compression) {
     if (!env.isIE8 && !window.pako && compression == true)

@@ -532,11 +532,14 @@
 	 * @returns {*}
 	 */
 	var addClass = function addClass(element, value) {
-		if (typeof element.classList === 'undefined') {
-			if (u._addClass) u._addClass(element, value);
-		} else {
-			element.classList.add(value);
+		if (element) {
+			if (typeof element.classList === 'undefined') {
+				if (u._addClass) u._addClass(element, value);
+			} else {
+				element.classList.add(value);
+			}
 		}
+
 		return this;
 	};
 	/**
@@ -550,10 +553,12 @@
 	 * Date	  : 2016-08-16 13:59:17
 	 */
 	var removeClass = function removeClass(element, value) {
-		if (typeof element.classList === 'undefined') {
-			if (u._removeClass) u._removeClass(element, value);
-		} else {
-			element.classList.remove(value);
+		if (element) {
+			if (typeof element.classList === 'undefined') {
+				if (u._removeClass) u._removeClass(element, value);
+			} else {
+				element.classList.remove(value);
+			}
 		}
 		return this;
 	};
@@ -4550,7 +4555,9 @@
 
 	var removeRows = function removeRows(indices) {
 	    indices = (0, _util._formatToIndicesArray)(this, indices);
-	    indices = indices.sort();
+	    indices = indices.sort(function (a, b) {
+	        return a - b;
+	    });
 	    var rowIds = [],
 	        rows = this.rows(),
 	        deleteRows = [];
@@ -6728,7 +6735,8 @@
 			precision: 2,
 			curSymbol: '￥'
 		},
-		'percent': {}
+		'percent': {},
+		'phoneNumber': {}
 	};
 	/**
 	 * 获取环境信息

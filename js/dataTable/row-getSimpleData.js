@@ -4,7 +4,7 @@
  * Date   : 2016-08-08 13:54:01
  */
 import {_dateToUTCString} from './row-util';
-import {isEmptyObject} from 'neoui-sparrow/js/util';
+import {isEmptyObject} from 'tinper-sparrow/js/util';
 
 const _getSimpleData = function(rowObj, data){
     var _data = {};

@@ -3,7 +3,7 @@
  * Author : liuyk(liuyk@yonyou.com)
  * Date   : 2016-08-08 09:59:01
  */
-import {isArray} from 'neoui-sparrow/js/util';
+import {isArray} from 'tinper-sparrow/js/util';
 
 const isChanged = function () {
     var rows = this.getAllRows()

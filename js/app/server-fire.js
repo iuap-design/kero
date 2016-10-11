@@ -3,8 +3,8 @@
  * Author : liuyk(liuyk@yonyou.com)
  * Date	  : 2016-07-29 09:34:01
  */
-import {extend} from 'neoui-sparrow/js/extend';
-import {ajax} from 'neoui-sparrow/js/ajax';
+import {extend} from 'tinper-sparrow/js/extend';
+import {ajax} from 'tinper-sparrow/js/ajax';
 
 const fire = function (p) {
     var self = this

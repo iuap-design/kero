@@ -3,9 +3,9 @@
  * Author : liuyk(liuyk@yonyou.com)
  * Date   : 2016-07-29 09:34:01
  */
-import {compMgr} from 'neoui-sparrow/js/compMgr';
-import {each, isArray} from 'neoui-sparrow/js/util';
-import {hotkeys} from 'neoui-sparrow/js/util/hotKeys';
+import {compMgr} from 'tinper-sparrow/js/compMgr';
+import {each, isArray} from 'tinper-sparrow/js/util';
+import {hotkeys} from 'tinper-sparrow/js/util/hotKeys';
 
 const init = function (viewModel, element, doApplyBindings) {
     var self = this;

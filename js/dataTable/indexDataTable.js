@@ -4,7 +4,7 @@
  * Date   : 2016-08-09 15:24:46
  */
 
- import {extend} from 'neoui-sparrow/js/extend';
+ import {extend} from 'tinper-sparrow/js/extend';
 
 import {
     Events
