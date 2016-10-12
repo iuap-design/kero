@@ -62,8 +62,8 @@
 
 | Key      | Value              | 说明         |
 | -------- | ------------------ | ---------- |
-| nullMsg  | '内容自定义：输入为空显示的内容'  | 输入为空时的提示信息 |
-| errorMsg | '内容自定义：输入错误时显示的内容' | 输入错误时的提示信息 |
+| nullMsg  | 内容自定义：输入为空显示的内容  | 输入为空时的提示信息 |
+| errorMsg | 内容自定义：输入错误时显示的内容 | 输入错误时的提示信息 |
 
 
 
@@ -74,7 +74,7 @@
 
 | Key    | Value     | 说明         |
 | ------ | --------- | ---------- |
-| reg | '/自定义正则/' | 文本框需要匹配的正则 |
+| reg | 正则表达式 | 文本框需要匹配的正则 |
 
 
 
@@ -96,8 +96,8 @@
 
 | Key   | Value | 说明                |
 | ----- | ----- | ----------------- |
-| tipId | ''    | 使用默认的tooltip显示tip |
-| tipId | 'id'  | 使用自定义的id元素显示tip   |
+| tipId | ' '    | 使用默认的tooltip显示tip |
+| tipId | id  | 使用自定义的id元素显示tip   |
 
 
 
@@ -118,7 +118,7 @@
 
 | Key       | Value | 说明              |
 | --------- | ----- | --------------- |
-| successId | 'id'  | 使用自定义的id元素显示正确提示信息 |
+| successId | id  | 使用自定义的id元素显示正确提示信息 |
 
 `successId`能正常显示的前提是`hasSuccess:true`
 
@@ -171,3 +171,7 @@
 ## 基本示例
 
 replaceExamp
+
+
+
+[试一试](http://design.yyuap.com/dist/pages/webIDE/index.html#/demos/kero/validate)

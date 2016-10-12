@@ -410,16 +410,30 @@ dataTable.getSimpleData({type:'select',fields:['field1,field2']})
 #### \# setSimpleData
 
 * 类型：`Function`
-* 说明：设置dataTable中的数据，将原有数据清除
+* 说明：设置dataTable中的数据，将原有数据清除。默认会选中第一行。
 * 用法：
 
 ```
+//给dataTable添加数据源，默认会选中第一行
 dataTable.setSimpleData([
 	{"field1":"v1","field2":"v2"},
 	{"field1":"v3","field2":"v4"}
 ])
 
+//取消默认的选中行
+dataTable.setSimpleData([
+	{"field1":"v1","field2":"v2"},
+	{"field1":"v3","field2":"v4"}
+],{unSelect:true})
 ```
+
+* 参数：
+
+`{Array} data`：数据源
+
+`{Object} options`： 根据参数具体内容来设置数据源。例如：
+`{unSelect:true}`表示不选中第一行。
+
 
 #### \# addSimpleData
 
