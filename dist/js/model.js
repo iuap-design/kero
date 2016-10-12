@@ -3382,9 +3382,10 @@ u.ValidateMixin = {
         this.errorMsg = this.getOption('errorMsg');
         this.nullMsg = this.getOption('nullMsg');
         this.regExp = this.getOption('regExp');
-        this.successId=this.getOption('successId');
-        this.hasSuccess=this.getOption('hasSuccess');
-        this.notipFlag=this.getOption('notipFlag');
+        this.successId = this.getOption('successId');
+        this.hasSuccess = this.getOption('hasSuccess');
+        this.notipFlag = this.getOption('notipFlag');
+        this.validFun = u.getFunction(viewModel,this.getOption('validFun'));
 
         // if (this.validType) {
             this.validate = new u.Validate({
@@ -3408,7 +3409,8 @@ u.ValidateMixin = {
                 maxNotEq: this.maxNotEq,
                 minNotEq: this.minNotEq,
                 reg: this.regExp,
-                showFix: this.showFix
+                showFix: this.showFix,
+                validFun: this.validFun
             });
         // };
 
