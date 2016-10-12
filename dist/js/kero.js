@@ -256,12 +256,12 @@
 	exports.__esModule = true;
 	exports.compMgr = undefined;
 
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; }; /**
-	                                                                                                                                                                                                                                                   * Module : Sparrow compMgr
-	                                                                                                                                                                                                                                                   * Author : Kvkens(yueming@yonyou.com)
-	                                                                                                                                                                                                                                                   * Date	  : 2016-07-28 18:41:06
-	                                                                                                                                                                                                                                                   * Update : 2016-09-13 09:26:00
-	                                                                                                                                                                                                                                                   */
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; /**
+	                                                                                                                                                                                                                                                                               * Module : Sparrow compMgr
+	                                                                                                                                                                                                                                                                               * Author : Kvkens(yueming@yonyou.com)
+	                                                                                                                                                                                                                                                                               * Date	  : 2016-07-28 18:41:06
+	                                                                                                                                                                                                                                                                               * Update : 2016-09-13 09:26:00
+	                                                                                                                                                                                                                                                                               */
 
 	var _dom = __webpack_require__(4);
 
@@ -1421,11 +1421,11 @@
 	exports.__esModule = true;
 	exports.extend = undefined;
 
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; }; /**
-	                                                                                                                                                                                                                                                   * Module : Sparrow extend
-	                                                                                                                                                                                                                                                   * Author : Kvkens(yueming@yonyou.com)
-	                                                                                                                                                                                                                                                   * Date	  : 2016-07-27 21:46:50
-	                                                                                                                                                                                                                                                   */
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; /**
+	                                                                                                                                                                                                                                                                               * Module : Sparrow extend
+	                                                                                                                                                                                                                                                                               * Author : Kvkens(yueming@yonyou.com)
+	                                                                                                                                                                                                                                                                               * Date	  : 2016-07-27 21:46:50
+	                                                                                                                                                                                                                                                                               */
 
 	var _enumerables = __webpack_require__(8);
 
@@ -1506,7 +1506,7 @@
 
 	exports.__esModule = true;
 
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 	/**
 	 * Module : Sparrow util tools
@@ -2170,11 +2170,11 @@
 	exports.__esModule = true;
 	exports.compsValidateMultiParam = exports.compsValidate = undefined;
 
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; }; /**
-	                                                                                                                                                                                                                                                   * Module : kero app validate
-	                                                                                                                                                                                                                                                   * Author : liuyk(liuyk@yonyou.com)
-	                                                                                                                                                                                                                                                   * Date   : 2016-07-29 09:34:01
-	                                                                                                                                                                                                                                                   */
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; /**
+	                                                                                                                                                                                                                                                                               * Module : kero app validate
+	                                                                                                                                                                                                                                                                               * Author : liuyk(liuyk@yonyou.com)
+	                                                                                                                                                                                                                                                                               * Date   : 2016-07-29 09:34:01
+	                                                                                                                                                                                                                                                                               */
 
 	var _env = __webpack_require__(6);
 
@@ -3298,7 +3298,7 @@
 
 	exports.__esModule = true;
 
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 	/**
 	 * Module : kero dataTable events
@@ -3507,7 +3507,7 @@
 	    this.updateSelectedIndices();
 
 	    if (select && select.length > 0 && this.rows().length > 0) this.setRowsSelect(select);
-	    if (focus !== undefined) this.setRowFocus(focus);
+	    if (focus !== undefined && this.getRow(focus)) this.setRowFocus(focus);
 	};
 
 	var setValue = function setValue(fieldName, value, row, ctx) {
@@ -4117,7 +4117,7 @@
 
 	exports.__esModule = true;
 
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 	/**
 	 * Module : kero dataTable mete
@@ -4629,7 +4629,7 @@
 	    if (typeof indices == 'string' || typeof indices == 'number') {
 	        indices = [indices];
 	    } else if (indices instanceof Row) {
-	        indices = dataTableObj.getIndexByRowId(indices.rowId);
+	        indices = [dataTableObj.getIndexByRowId(indices.rowId)];
 	    } else if ((0, _util.isArray)(indices) && indices.length > 0 && indices[0] instanceof Row) {
 	        for (var i = 0; i < indices.length; i++) {
 	            indices[i] = dataTableObj.getIndexByRowId(indices[i].rowId);
@@ -5146,11 +5146,11 @@
 	exports.__esModule = true;
 	exports.addSimpleData = exports.setSimpleData = undefined;
 
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; }; /**
-	                                                                                                                                                                                                                                                   * Module : kero dataTable simpleData
-	                                                                                                                                                                                                                                                   * Author : liuyk(liuyk@yonyou.com)
-	                                                                                                                                                                                                                                                   * Date	  : 2016-08-01 14:34:01
-	                                                                                                                                                                                                                                                   */
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; /**
+	                                                                                                                                                                                                                                                                               * Module : kero dataTable simpleData
+	                                                                                                                                                                                                                                                                               * Author : liuyk(liuyk@yonyou.com)
+	                                                                                                                                                                                                                                                                               * Date	  : 2016-08-01 14:34:01
+	                                                                                                                                                                                                                                                                               */
 
 
 	var _util = __webpack_require__(9);
@@ -5508,7 +5508,7 @@
 	    function Row(options) {
 	        _classCallCheck(this, Row);
 
-	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Row).call(this));
+	        var _this = _possibleConstructorReturn(this, (Row.__proto__ || Object.getPrototypeOf(Row)).call(this));
 
 	        var self = _this;
 	        _this.rowId = options['id'] || Row.getRandomRowId();
@@ -5619,11 +5619,11 @@
 	exports.__esModule = true;
 	exports.updateRow = exports.setData = exports.setChildSimpleDataByRowId = exports.setChildValue = exports.setValue = undefined;
 
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; }; /**
-	                                                                                                                                                                                                                                                   * Module : kero dataTable row getData
-	                                                                                                                                                                                                                                                   * Author : liuyk(liuyk@yonyou.com)
-	                                                                                                                                                                                                                                                   * Date   : 2016-08-08 13:54:01
-	                                                                                                                                                                                                                                                   */
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; /**
+	                                                                                                                                                                                                                                                                               * Module : kero dataTable row getData
+	                                                                                                                                                                                                                                                                               * Author : liuyk(liuyk@yonyou.com)
+	                                                                                                                                                                                                                                                                               * Date   : 2016-08-08 13:54:01
+	                                                                                                                                                                                                                                                                               */
 
 
 	var _rowUtil = __webpack_require__(62);
@@ -6175,7 +6175,7 @@
 
 	exports.__esModule = true;
 
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 	/**
 	 * Module : kero dataTable row init
@@ -6692,11 +6692,11 @@
 	exports.__esModule = true;
 	exports.core = undefined;
 
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; }; /**
-	                                                                                                                                                                                                                                                   * Module : Sparrow core context
-	                                                                                                                                                                                                                                                   * Author : Kvkens(yueming@yonyou.com)
-	                                                                                                                                                                                                                                                   * Date	  : 2016-07-28 13:52:19
-	                                                                                                                                                                                                                                                   */
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; /**
+	                                                                                                                                                                                                                                                                               * Module : Sparrow core context
+	                                                                                                                                                                                                                                                                               * Author : Kvkens(yueming@yonyou.com)
+	                                                                                                                                                                                                                                                                               * Date	  : 2016-07-28 13:52:19
+	                                                                                                                                                                                                                                                                               */
 
 
 	var _extend = __webpack_require__(7);
