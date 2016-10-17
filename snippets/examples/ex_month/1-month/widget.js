@@ -4,7 +4,6 @@
  * viewModel 创建数据模型
  * dt1 创建的数据集
  * f1 创建数据集中的字段
- * type:指定数据对应的类型
  */
 var app, viewModel;
 viewModel = {
@@ -28,6 +27,5 @@ app = u.createApp({
 // 创建空行,绑定默认值
 var r = viewModel.dt1.createEmptyRow();
 r.setValue('f1', "11");
-viewModel.dt1.setRowSelect(0);
 
 

@@ -62,19 +62,19 @@
 
 | Key      | Value              | 说明         |
 | -------- | ------------------ | ---------- |
-| nullMsg  | '内容自定义：输入为空显示的内容'  | 输入为空时的提示信息 |
-| errorMsg | '内容自定义：输入错误时显示的内容' | 输入错误时的提示信息 |
+| nullMsg  | 内容自定义：输入为空显示的内容  | 输入为空时的提示信息 |
+| errorMsg | 内容自定义：输入错误时显示的内容 | 输入错误时的提示信息 |
 
 
 
 ---
-## regExp
+## reg
 
-`regExp`:设置正则匹配
+`reg`:设置正则匹配
 
 | Key    | Value     | 说明         |
 | ------ | --------- | ---------- |
-| regExp | '/自定义正则/' | 文本框需要匹配的正则 |
+| reg | 正则表达式 | 文本框需要匹配的正则 |
 
 
 
@@ -96,8 +96,8 @@
 
 | Key   | Value | 说明                |
 | ----- | ----- | ----------------- |
-| tipId | ''    | 使用默认的tooltip显示tip |
-| tipId | 'id'  | 使用自定义的id元素显示tip   |
+| tipId | ' '    | 使用默认的tooltip显示tip |
+| tipId | id  | 使用自定义的id元素显示tip   |
 
 
 
@@ -118,7 +118,7 @@
 
 | Key       | Value | 说明              |
 | --------- | ----- | --------------- |
-| successId | 'id'  | 使用自定义的id元素显示正确提示信息 |
+| successId | id  | 使用自定义的id元素显示正确提示信息 |
 
 `successId`能正常显示的前提是`hasSuccess:true`
 
@@ -187,11 +187,10 @@
 	type:创建组件对应的类型
 	data:指定数据模型中的数据集
 	field:绑定数据集中对应的字段
-	datasource:绑定数据
 -->
 <div class="u-form-group">
     <label>验证测试用例</label>
-    <div class="u-input-group u-has-feedback" u-meta='{"style":"integer","data":"dt1","field":"base"}'>
+    <div class="u-input-group u-has-feedback" u-meta='{"id":"f1field","type":"string","data":"dt1","field":"f1"}'>
         <div class="u-input-group-before" style="color: red;">*</div>
         <input type="text" class="u-form-control">
     </div>
@@ -199,35 +198,25 @@
 </div>
 <div class="example-content ex-hide"><script>// JS
 
-    var app,viewModel;
-    var metaDt={
-        meta: {
-            base: {
-                required:'true',
-                nullMsg:'nullmsg',
-                errorMsg:'error',
-                validType:'integer',
-                hasSuccess:'true',
-                placement:'bottom',
-                min:100,
-                max:999
-            }
+var app,viewModel;
+
+viewModel = {
+    dt1: new u.DataTable({
+        meta:{
+            f1:{type:'string',required:true,maxLength:8,minLength:3},
+            f2:{type:'string',required:true,maxLength:8,minLength:3,notipFlag: true,
+                    hasSuccess: true},
         }
-    };
-    viewModel={
-        dt1: new u.DataTable(metaDt)
-    };
-
-    app=u.createApp({
-            el:'body',
-            model:viewModel
-        });
-    var r = viewModel.dt1.createEmptyRow();
-    viewModel.dt1.setRowSelect(0);
+    })
+};
 
 
+app = u.createApp({
+    el:'body',
+    model:viewModel
+});
 
-
+var r = viewModel.dt1.createEmptyRow();
 </script></div>
 <div class="examples-code"><pre><code>&lt;!-- 
 	HTML
@@ -237,11 +226,10 @@
 	type:创建组件对应的类型
 	data:指定数据模型中的数据集
 	field:绑定数据集中对应的字段
-	datasource:绑定数据
 -->
 &lt;div class="u-form-group">
     &lt;label>验证测试用例&lt;/label>
-    &lt;div class="u-input-group u-has-feedback" u-meta='{"style":"integer","data":"dt1","field":"base"}'>
+    &lt;div class="u-input-group u-has-feedback" u-meta='{"id":"f1field","type":"string","data":"dt1","field":"f1"}'>
         &lt;div class="u-input-group-before" style="color: red;">*&lt;/div>
         &lt;input type="text" class="u-form-control">
     &lt;/div>
@@ -250,33 +238,28 @@
 </div>
 <div class="examples-code"><pre><code>// JS
 
-    var app,viewModel;
-    var metaDt={
-        meta: {
-            base: {
-                required:'true',
-                nullMsg:'nullmsg',
-                errorMsg:'error',
-                validType:'integer',
-                hasSuccess:'true',
-                placement:'bottom',
-                min:100,
-                max:999
-            }
+var app,viewModel;
+
+viewModel = {
+    dt1: new u.DataTable({
+        meta:{
+            f1:{type:'string',required:true,maxLength:8,minLength:3},
+            f2:{type:'string',required:true,maxLength:8,minLength:3,notipFlag: true,
+                    hasSuccess: true},
         }
-    };
-    viewModel={
-        dt1: new u.DataTable(metaDt)
-    };
-
-    app=u.createApp({
-            el:'body',
-            model:viewModel
-        });
-    var r = viewModel.dt1.createEmptyRow();
-    viewModel.dt1.setRowSelect(0);
+    })
+};
 
 
+app = u.createApp({
+    el:'body',
+    model:viewModel
+});
 
-</code></pre>
+var r = viewModel.dt1.createEmptyRow();</code></pre>
 </div>
+
+
+
+
+[试一试](http://design.yyuap.com/dist/pages/webIDE/index.html#/demos/kero/validate)

@@ -9,6 +9,6 @@ replaceExamp
 
 相关内容：
 
-[基础日期控件](http://design.yyuap.com/dist/pages/plugins/yearmonth.html)    
+[基础年月控件](http://design.yyuap.com/dist/pages/plugins/yearmonth.html)    
 
-[日期控件在grid中使用](http://design.yyuap.com/dist/pages/webIDE/index.html#/demos/grids/edit)
+[年月控件在grid中使用](http://design.yyuap.com/dist/pages/webIDE/index.html#/demos/grids/edit)

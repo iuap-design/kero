@@ -20,7 +20,6 @@
 	type:创建组件对应的类型
 	data:指定数据模型中的数据集
 	field:绑定数据集中对应的字段
-	format:日期控件特有属性。type为u-date时format默认为“YYYY-MM-DD”，type为u-datetime时format默认为“YYYY-MM-DD HH:mm:ss”
 -->
 <div class="" u-meta='{"id":"umonth","type":"u-month","data":"dt1","field":"f1"}'>
     <input class="u-input"/>
@@ -32,7 +31,6 @@
  * viewModel 创建数据模型
  * dt1 创建的数据集
  * f1 创建数据集中的字段
- * type:指定数据对应的类型
  */
 var app, viewModel;
 viewModel = {
@@ -56,7 +54,6 @@ app = u.createApp({
 // 创建空行,绑定默认值
 var r = viewModel.dt1.createEmptyRow();
 r.setValue('f1', "11");
-viewModel.dt1.setRowSelect(0);
 
 
 
@@ -69,7 +66,6 @@ viewModel.dt1.setRowSelect(0);
 	type:创建组件对应的类型
 	data:指定数据模型中的数据集
 	field:绑定数据集中对应的字段
-	format:日期控件特有属性。type为u-date时format默认为“YYYY-MM-DD”，type为u-datetime时format默认为“YYYY-MM-DD HH:mm:ss”
 -->
 &lt;div class="" u-meta='{"id":"umonth","type":"u-month","data":"dt1","field":"f1"}'>
     &lt;input class="u-input"/>
@@ -82,7 +78,6 @@ viewModel.dt1.setRowSelect(0);
  * viewModel 创建数据模型
  * dt1 创建的数据集
  * f1 创建数据集中的字段
- * type:指定数据对应的类型
  */
 var app, viewModel;
 viewModel = {
@@ -106,8 +101,30 @@ app = u.createApp({
 // 创建空行,绑定默认值
 var r = viewModel.dt1.createEmptyRow();
 r.setValue('f1', "11");
-viewModel.dt1.setRowSelect(0);
 
 
 </code></pre>
 </div>
+
+
+
+[试一试](http://design.yyuap.com/dist/pages/webIDE/index.html#/demos/kero/month)
+
+
+**注**：设置月份时，通过dataTable中的对应行row调用setValue设置字段值即可。eg：`row.setValue("f1", "11")`
+
+
+# API
+
+## \# u-meta 属性
+
+* type：`u-month`
+
+u-meta基础api请参考[这里](http://design.yyuap.com/dist/pages/kero/moduleapi.html)
+
+
+相关内容：
+
+[基础月份控件](http://design.yyuap.com/dist/pages/plugins/month.html)    
+
+[月份控件在grid中使用](http://design.yyuap.com/dist/pages/webIDE/index.html#/demos/grids/edit)
