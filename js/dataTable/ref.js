@@ -18,6 +18,7 @@ const refSelectedRows = function () {
     })
 }
 
+
 /**
  * 绑定字段值
  * @param {Object} fieldName
@@ -46,6 +47,34 @@ const ref = function (fieldName) {
     })
 }
 
+const refByRow = function(obj){
+    var fieldName = obj.fieldName;
+    this.createField(fieldName);
+    if (!this.valueChange[fieldName])
+        this.valueChange[fieldName] = ko.observable(1);
+    return ko.pureComputed({
+        read: function () {
+            this.valueChange[fieldName]();
+            this.currentRowChange();
+            var row;
+            if(obj.index > -1)
+                row = this.getRow(obj.index)
+            if (row) {
+                return row.getChildValue(fieldName)
+            }
+            else
+                return ''
+        },
+        write: function (value) {
+            var row;
+            if(obj.index > -1)
+                row = this.getRow(obj.index)
+            if (row)
+                row.setChildValue(fieldName, value);
+        },
+        owner: this
+    })
+}
 /**
  * 绑定字段属性
  * @param {Object} fieldName
@@ -111,5 +140,6 @@ export {
     ref,
     refMeta,
     refRowMeta,
-    refEnable
+    refEnable,
+    refByRow,
 }
