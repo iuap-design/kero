@@ -3385,7 +3385,7 @@ u.ValidateMixin = {
         this.successId = this.getOption('successId');
         this.hasSuccess = this.getOption('hasSuccess');
         this.notipFlag = this.getOption('notipFlag');
-        this.validFun = u.getFunction(viewModel,this.getOption('validFun'));
+        this.validFun = u.getFunction(this.viewModel,this.getOption('validFun'));
 
         // if (this.validType) {
             this.validate = new u.Validate({
