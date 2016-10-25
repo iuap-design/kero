@@ -3150,6 +3150,7 @@
 	DataTable.prototype.refMeta = _ref.refMeta;
 	DataTable.prototype.refRowMeta = _ref.refRowMeta;
 	DataTable.prototype.refEnable = _ref.refEnable;
+	DataTable.prototype.refByRow = _ref.refByRow;
 
 	//row
 	DataTable.prototype.setRows = _row.setRows;
@@ -4460,6 +4461,28 @@
 	    });
 	};
 
+	var refByRow = function refByRow(obj) {
+	    var fieldName = obj.fieldName;
+	    this.createField(fieldName);
+	    if (!this.valueChange[fieldName]) this.valueChange[fieldName] = ko.observable(1);
+	    return ko.pureComputed({
+	        read: function read() {
+	            this.valueChange[fieldName]();
+	            this.currentRowChange();
+	            var row;
+	            if (obj.index > -1) row = this.getRow(obj.index);
+	            if (row) {
+	                return row.getChildValue(fieldName);
+	            } else return '';
+	        },
+	        write: function write(value) {
+	            var row;
+	            if (obj.index > -1) row = this.getRow(obj.index);
+	            if (row) row.setChildValue(fieldName, value);
+	        },
+	        owner: this
+	    });
+	};
 	/**
 	 * 绑定字段属性
 	 * @param {Object} fieldName
@@ -4516,6 +4539,7 @@
 	exports.refMeta = refMeta;
 	exports.refRowMeta = refRowMeta;
 	exports.refEnable = refEnable;
+	exports.refByRow = refByRow;
 
 /***/ },
 /* 46 */

@@ -104,7 +104,8 @@ import {
     ref,
     refMeta,
     refRowMeta,
-    refEnable
+    refEnable,
+    refByRow
 } from './ref';
 
 import {
@@ -300,6 +301,7 @@ DataTable.prototype.ref= ref;
 DataTable.prototype.refMeta= refMeta;
 DataTable.prototype.refRowMeta= refRowMeta;
 DataTable.prototype.refEnable= refEnable;
+DataTable.prototype.refByRow= refByRow;
 
 //row
 DataTable.prototype.setRows= setRows;
