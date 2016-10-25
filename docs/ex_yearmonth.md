@@ -108,6 +108,14 @@ viewModel.dt1.setRowSelect(0);
 [试一试](http://design.yyuap.com/dist/pages/webIDE/index.html#/demos/kero/yearmonth)
 
 
+# API
+
+## \# u-meta 属性
+
+* type：`u-yearmonth`
+
+u-meta基础api请参考[这里](http://design.yyuap.com/dist/pages/kero/moduleapi.html)
+
 相关内容：
 
 [基础年月控件](http://design.yyuap.com/dist/pages/plugins/yearmonth.html)    
