@@ -3113,6 +3113,8 @@
 	    this.params = options['params'] || {};
 	    this.master = options['master'] || '';
 	    this.allSelected = ko.observable(false);
+	    //dateNoconvert：true时，时间不转化，按真实走，false是，时间转换成long型
+	    this.dateNoConvert = options['dateNoConvert'];
 	    if (options['root']) {
 	        this.root = options['root'];
 	    } else {
@@ -6283,7 +6285,7 @@
 	                    data: data,
 	                    key: key
 	                };
-	                _data[key] = rowObj.formatValueFun(obj);
+	                _data[key] = rowObj.formatValueFun(obj, rowObj.parent.dateNoConvert);
 	            }
 	        } else {
 	            _data[key] = _getSimpleData(rowObj, data[key]);
@@ -6292,11 +6294,11 @@
 	    return _data;
 	};
 
-	var formatValueFun = function formatValueFun(obj) {
+	var formatValueFun = function formatValueFun(obj, isDateNoConvert) {
 	    var meta = obj.meta,
 	        data = obj.data,
 	        key = obj.key;
-	    if (meta[key].type == 'date' || meta[key].type == 'datetime') {
+	    if (!isDateNoConvert && (meta[key].type == 'date' || meta[key].type == 'datetime')) {
 	        return (0, _rowUtil._dateToUTCString)(data[key].value);
 	    }
 	    return data[key].value;
