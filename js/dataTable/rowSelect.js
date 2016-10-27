@@ -94,10 +94,10 @@ const addRowsSelect = function (indices) {
         }
     }
     this.selectedIndices(selectedIndices)
-    var rowIds = this.getRowIdsByIndices(indices)
+    var rowIds = this.getRowIdsByIndices(selectedIndices)
     if(needTrigger){
         this.trigger(DataTable.ON_ROW_SELECT, {
-            indices: indices,
+            indices: selectedIndices,
             rowIds: rowIds
         })
     }
