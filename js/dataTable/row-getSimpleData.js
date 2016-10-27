@@ -29,7 +29,7 @@ const _getSimpleData = function(rowObj, data){
                     data: data,
                     key: key
                 }
-                _data[key] = rowObj.formatValueFun(obj);
+                _data[key] = rowObj.formatValueFun(obj,rowObj.parent.dateNoConvert);
                
             }
         }
@@ -41,9 +41,9 @@ const _getSimpleData = function(rowObj, data){
 
 }
 
-const formatValueFun = function(obj){
+const formatValueFun = function(obj,isDateNoConvert){
     var meta = obj.meta,data = obj.data, key = obj.key;
-    if (meta[key].type == 'date' || meta[key].type == 'datetime') {
+    if (!isDateNoConvert &&(meta[key].type == 'date' || meta[key].type == 'datetime')) {
         return  _dateToUTCString(data[key].value)
     }
     return data[key].value;

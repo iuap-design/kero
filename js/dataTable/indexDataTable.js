@@ -204,6 +204,8 @@ class DataTable{
         this.params = options['params'] || {};
         this.master = options['master'] || '';
         this.allSelected = ko.observable(false);
+        //dateNoconvert：true时，时间不转化，按真实走，false是，时间转换成long型
+        this.dateNoConvert = options['dateNoConvert'];
         if (options['root']){
             this.root = options['root']
         }else{
