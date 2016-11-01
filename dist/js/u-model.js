@@ -3209,7 +3209,9 @@ u.date= {
             }else{
                 _date = new Date(parseInt(value))
                 if (isNaN(_date)) {
-                    throw new TypeError('invalid Date parameter');
+                    // 如果时间不正确，则给时间赋值为空而不是抛异常，原因：抛异常后可能阻止后面内容的解析。
+                    _date="";
+                    // throw new TypeError('invalid Date parameter');
                 }else{
                     dateFlag = true;
                 }
