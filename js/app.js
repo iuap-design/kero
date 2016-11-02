@@ -37,7 +37,6 @@ App.fn.init = function (viewModel, element, doApplyBindings) {
             u.hotkeys.scan(element);
         //try {
             if (typeof doApplyBindings == 'undefined' || doApplyBindings == true)
-                ko.cleanNode(element);
                 ko.applyBindings(viewModel, element);
         //} catch (e) {
             //iweb.log.error(e)
