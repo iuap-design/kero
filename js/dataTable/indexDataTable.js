@@ -168,6 +168,7 @@ import {
     off,
     one,
     trigger,
+    triggerReturn,
     getEvent
 } from './events';
 
@@ -176,12 +177,6 @@ class DataTable{
     constructor(options){
         // IE9下转化之后的代码有问题，无法获得superClass方法
         // super();
-        this.on = on;
-        this.off = off;
-        this.one = one;
-        this.trigger = trigger;
-        this.getEvent = getEvent;
-
         options = options || {};
         this.id = options['id'];
         this.strict = options['strict'] || false;
@@ -221,7 +216,12 @@ class DataTable{
 
     }
 }
-
+DataTable.prototype.on = on;
+DataTable.prototype.off = off;
+DataTable.prototype.one = one;
+DataTable.prototype.trigger = trigger;
+DataTable.prototype.triggerReturn = triggerReturn;
+DataTable.prototype.getEvent = getEvent;
 //copyRow
 DataTable.prototype.copyRow= copyRow;
 DataTable.prototype.copyRows= copyRows;
@@ -372,6 +372,7 @@ DataTable.ON_ROW_UNSELECT = 'unSelect'
 DataTable.ON_ROW_ALLSELECT = 'allSelect'
 DataTable.ON_ROW_ALLUNSELECT = 'allUnselect'
 DataTable.ON_VALUE_CHANGE = 'valueChange'
+DataTable.ON_BEFORE_VALUE_CHANGE = 'beforeValueCHange'
 DataTable.ON_CURRENT_VALUE_CHANGE = 'currentValueChange'  //当前行变化
 //  DataTable.ON_AFTER_VALUE_CHANGE = 'afterValueChange'
 //  DataTable.ON_ADD_ROW = 'addRow'

@@ -9,6 +9,7 @@ import {isArray} from 'tinper-sparrow/js/util';
  *设置row中某一列的值
  */
 const setValue = function (fieldName, value, ctx, options) {
+    
     if (arguments.length === 1){
         value = fieldName;
         fieldName = '$data';
@@ -17,6 +18,20 @@ const setValue = function (fieldName, value, ctx, options) {
     if(typeof oldValue == 'undefined' || oldValue === null)
         oldValue = ''
     if (eq(oldValue, value)) return;
+    var event = {
+        eventType: 'dataTableEvent',
+        dataTable: this.parent.id,
+        rowId: this.rowId,
+        field: fieldName,
+        oldValue: oldValue,
+        newValue: value,
+        ctx: ctx || ""
+    }
+    var flag = this.parent.triggerReturn(DataTable.ON_BEFORE_VALUE_CHANGE, event);
+    if(!flag){
+        _triggerChange(this, fieldName, oldValue, ctx);
+        return;
+    }
     _getField(this, fieldName)['value'] = value;
     _triggerChange(this, fieldName, oldValue, ctx);
 }
