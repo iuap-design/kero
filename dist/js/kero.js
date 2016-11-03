@@ -744,12 +744,12 @@
 		// left = offLeft - scrollLeft,top = offTop - scrollTop,
 		eleRect = obj.ele.getBoundingClientRect(),
 		    panelRect = obj.panel.getBoundingClientRect(),
-		    eleWidth = eleRect.width,
-		    eleHeight = eleRect.height,
-		    left = eleRect.left,
-		    top = eleRect.top,
-		    panelWidth = panelRect.width,
-		    panelHeight = panelRect.height,
+		    eleWidth = eleRect.width || 0,
+		    eleHeight = eleRect.height || 0,
+		    left = eleRect.left || 0,
+		    top = eleRect.top || 0,
+		    panelWidth = panelRect.width || 0,
+		    panelHeight = panelRect.height || 0,
 		    docWidth = document.documentElement.clientWidth,
 		    docHeight = document.documentElement.clientHeight;
 
@@ -3104,12 +3104,6 @@
 
 	    // IE9下转化之后的代码有问题，无法获得superClass方法
 	    // super();
-	    this.on = _events.on;
-	    this.off = _events.off;
-	    this.one = _events.one;
-	    this.trigger = _events.trigger;
-	    this.getEvent = _events.getEvent;
-
 	    options = options || {};
 	    this.id = options['id'];
 	    this.strict = options['strict'] || false;
@@ -3146,9 +3140,13 @@
 	    }
 	};
 
+	DataTable.prototype.on = _events.on;
+	DataTable.prototype.off = _events.off;
+	DataTable.prototype.one = _events.one;
+	DataTable.prototype.trigger = _events.trigger;
+	DataTable.prototype.triggerReturn = _events.triggerReturn;
+	DataTable.prototype.getEvent = _events.getEvent;
 	//copyRow
-
-
 	DataTable.prototype.copyRow = _copyRow.copyRow;
 	DataTable.prototype.copyRows = _copyRow.copyRows;
 
@@ -3298,6 +3296,7 @@
 	DataTable.ON_ROW_ALLSELECT = 'allSelect';
 	DataTable.ON_ROW_ALLUNSELECT = 'allUnselect';
 	DataTable.ON_VALUE_CHANGE = 'valueChange';
+	DataTable.ON_BEFORE_VALUE_CHANGE = 'beforeValueCHange';
 	DataTable.ON_CURRENT_VALUE_CHANGE = 'currentValueChange'; //当前行变化
 	//  DataTable.ON_AFTER_VALUE_CHANGE = 'afterValueChange'
 	//  DataTable.ON_ADD_ROW = 'addRow'
@@ -3481,6 +3480,18 @@
 	    return this;
 	};
 
+	var triggerReturn = function triggerReturn(name) {
+	    name = name.toLowerCase();
+	    if (!this._events || !this._events[name]) return this;
+	    var args = Array.prototype.slice.call(arguments, 1);
+	    var events = this._events[name];
+	    var flag = true;
+	    for (var i = 0, count = events.length; i < count; i++) {
+	        flag = flag && events[i].callback.apply(this, args);
+	    }
+	    return flag;
+	};
+
 	var getEvent = function getEvent(name) {
 	    name = name.toLowerCase();
 	    this._events || (this._events = {});
@@ -3491,6 +3502,7 @@
 	exports.off = off;
 	exports.one = one;
 	exports.trigger = trigger;
+	exports.triggerReturn = triggerReturn;
 	exports.getEvent = getEvent;
 
 /***/ },
@@ -5803,6 +5815,7 @@
 	*设置row中某一列的值
 	*/
 	var setValue = function setValue(fieldName, value, ctx, options) {
+
 	    if (arguments.length === 1) {
 	        value = fieldName;
 	        fieldName = '$data';
@@ -5810,6 +5823,20 @@
 	    var oldValue = this.getValue(fieldName);
 	    if (typeof oldValue == 'undefined' || oldValue === null) oldValue = '';
 	    if ((0, _rowUtil.eq)(oldValue, value)) return;
+	    var event = {
+	        eventType: 'dataTableEvent',
+	        dataTable: this.parent.id,
+	        rowId: this.rowId,
+	        field: fieldName,
+	        oldValue: oldValue,
+	        newValue: value,
+	        ctx: ctx || ""
+	    };
+	    var flag = this.parent.triggerReturn(DataTable.ON_BEFORE_VALUE_CHANGE, event);
+	    if (!flag) {
+	        (0, _rowUtil._triggerChange)(this, fieldName, oldValue, ctx);
+	        return;
+	    }
 	    (0, _rowUtil._getField)(this, fieldName)['value'] = value;
 	    (0, _rowUtil._triggerChange)(this, fieldName, oldValue, ctx);
 	};

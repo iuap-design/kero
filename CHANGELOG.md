@@ -1,8 +1,10 @@
-<a name="2.1.5"></a>
-## [2.1.5](https://github.com/iuap-design/kero/compare/v3.0.6...v2.1.5) (2016-11-01)
+<a name="2.1.6"></a>
+## [2.1.6](https://github.com/iuap-design/kero/compare/v3.0.6...v2.1.6) (2016-11-03)
 
 
 ### Bug Fixes
+* pro-IUAPDESIGN-242:广信中移动项目：grid提供数据改变之前进行判断是否修改的接口 ([7246dbc](https://github.com/iuap-design/kero/commit/7246dbc))
+
 * pro-IUAPDESIGN-246:友云采：datatable设置选中行之后获取时不正确 ([f02049c](https://github.com/iuap-design/kero/commit/f02049c))
 
 * pro-IUAPDESIGN-66:数字营销：getSimpleData方法会自动将date字符串转换为毫秒数 ([bf80d3d](https://github.com/iuap-design/kero/commit/bf80d3d))
