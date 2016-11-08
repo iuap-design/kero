@@ -39,9 +39,9 @@ const compsValidateMultiParam = function(options){
             if(passed && !result.passed){
                 var off= getOffset(comps[i].element);
                 //滚动到第一次出现错误的地方
-                window.scrollTo(0,off.top-30);
+                window.scrollTo(0,off.top-80);
                 if(env.isIPAD){ // ipad上面云表单提交校验的时候没有滚动到对应位置
-                    window.top.scrollTo(0,off.top-30);
+                    window.top.scrollTo(0,off.top-80);
                 }
             }
             passed = result.passed && passed;
