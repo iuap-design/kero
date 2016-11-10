@@ -2264,10 +2264,10 @@
 	            if (passed && !result.passed) {
 	                var off = (0, _dom.getOffset)(comps[i].element);
 	                //滚动到第一次出现错误的地方
-	                window.scrollTo(0, off.top - 30);
+	                window.scrollTo(0, off.top - 80);
 	                if (_env.env.isIPAD) {
 	                    // ipad上面云表单提交校验的时候没有滚动到对应位置
-	                    window.top.scrollTo(0, off.top - 30);
+	                    window.top.scrollTo(0, off.top - 80);
 	                }
 	            }
 	            passed = result.passed && passed;
@@ -6829,10 +6829,10 @@
 				_date.setDate(d);
 			} else if (period == 'M') {
 				m = m + value * isAdding;
-				_date.setMonth(d);
+				_date.setMonth(m);
 			} else if (period == 'y') {
 				m = m + value * 12 * isAdding;
-				_date.setMonth(d);
+				_date.setMonth(m);
 			}
 			return _date;
 		},

@@ -1,5 +1,5 @@
-<a name="2.1.6"></a>
-## [2.1.6](https://github.com/iuap-design/kero/compare/v3.0.6...v2.1.6) (2016-11-03)
+<a name="2.1.7"></a>
+## [2.1.7](https://github.com/iuap-design/kero/compare/v3.0.6...v2.1.7) (2016-11-08)
 
 
 ### Bug Fixes
