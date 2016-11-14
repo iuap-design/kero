@@ -45,6 +45,7 @@ App.fn.init = function (viewModel, element, doApplyBindings) {
             u.hotkeys.scan(element);
         //try {
             if (typeof doApplyBindings == 'undefined' || doApplyBindings == true)
+                ko.cleanNode(element);
                 ko.applyBindings(viewModel, element);
         //} catch (e) {
             //iweb.log.error(e)
@@ -3382,9 +3383,10 @@ u.ValidateMixin = {
         this.errorMsg = this.getOption('errorMsg');
         this.nullMsg = this.getOption('nullMsg');
         this.regExp = this.getOption('regExp');
-        this.successId=this.getOption('successId');
-        this.hasSuccess=this.getOption('hasSuccess');
-        this.notipFlag=this.getOption('notipFlag');
+        this.successId = this.getOption('successId');
+        this.hasSuccess = this.getOption('hasSuccess');
+        this.notipFlag = this.getOption('notipFlag');
+        this.validFun = u.getFunction(this.viewModel,this.getOption('validFun'));
 
         // if (this.validType) {
             this.validate = new u.Validate({
@@ -3408,7 +3410,8 @@ u.ValidateMixin = {
                 maxNotEq: this.maxNotEq,
                 minNotEq: this.minNotEq,
                 reg: this.regExp,
-                showFix: this.showFix
+                showFix: this.showFix,
+                validFun: this.validFun
             });
         // };
 
@@ -4395,7 +4398,9 @@ u.ComboboxAdapter = u.BaseAdapter.extend({
         if (value === null || typeof value == "undefined")
             value = "";
         this.comp.setValue(value);
+
         //下面两句会在校验中用到
+
         this.trueValue = this.formater ? this.formater.format(value) : value;
         this.element.trueValue = this.trueValue;
         // this.showValue = this.masker ? this.masker.format(this.trueValue).value : this.trueValue;
@@ -5064,6 +5069,11 @@ u.DateTimeAdapter = u.BaseAdapter.extend({
 			}
 			
 		}
+			
+		// 校验
+		this.comp.on('validate', function(event){
+			self.validate.check();
+		});
 			
 	},
 	modelValueChange: function(value){
