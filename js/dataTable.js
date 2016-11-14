@@ -1351,6 +1351,40 @@ DataTable.fn.ref = function (fieldName) {
     })
 }
 
+
+DataTable.fn.refByRow = function(obj){
+    var fieldName = obj.fieldName,
+    fullField = obj.fullField;
+    this.createField(fieldName);
+    if (!this.valueChange[fieldName])
+        this.valueChange[fieldName] = ko.observable(1);
+    return ko.pureComputed({
+        read: function () {
+            this.valueChange[fieldName]();
+            this.currentRowChange();
+            var row,index = obj.index + '';
+            var childRowObj = {
+                fullField: fullField,
+                index: index
+            }
+            row = this.getChildRow(childRowObj);
+            
+            if (row) {
+                return row.getChildValue(fieldName)
+            }
+            else
+                return ''
+        },
+        write: function (value) {
+            var row;
+            if(obj.index > -1)
+                row = this.getRow(obj.index)
+            if (row)
+                row.setChildValue(fieldName, value);
+        },
+        owner: this
+    })
+}
 /**
  * 绑定字段属性
  * @param {Object} fieldName
@@ -1561,6 +1595,35 @@ DataTable.fn.setRowUnFocus = function () {
 DataTable.fn.getRow = function (index) {
     //return this.rows()[index]   //modify by licza.   improve performance
     return this.rows.peek()[index]
+};
+
+DataTable.fn.getChildRow = function(obj){
+    var fullField = obj.fullField,
+        index = obj.index,
+        row = null;
+    if (parseInt(index) > -1) {
+        if ((index + '').indexOf('.') > 0) {
+            var fieldArr = fullField.split('.');
+            var indexArr = index.split('.');
+            var nowDatatable = this;
+            var nowRow = null;
+            for (var i = 0; i < indexArr.length; i++) {
+                nowRow = nowDatatable.getRow(indexArr[i]);
+                if (i < indexArr.length - 1) {
+                    if (nowRow) {
+                        nowDatatable = nowRow.getValue(fieldArr[i]);
+                    } else {
+                        nowRow = null;
+                        break;
+                    }
+                }
+            }
+            row = nowRow;
+        } else {
+            row = this.getRow(index);
+        }
+    }
+    return row;
 };
 
 /**
@@ -2221,6 +2284,13 @@ Row.fn._triggerChange = function(fieldName, oldValue, ctx){
     if (this == this.parent.getCurrentRow())
         this.parent.trigger(fieldName + "." + DataTable.ON_CURRENT_VALUE_CHANGE, event);
 
+    // 对于多级字表需要触发顶层div的valuechange事件
+    if (this.parent.ns){
+        event.fullField = fName;
+        event.ns = this.parent.ns;
+        this.parent.root.trigger(DataTable.ON_VALUE_CHANGE, event);
+        this.parent.root.trigger(fName + "." + DataTable.ON_VALUE_CHANGE, event);
+    }
 };
 
 /**
@@ -2599,6 +2669,12 @@ Row.fn._findField = function(fieldName){
             var tempField = this.data
             for (var i = 0; i < fnames.length; i++){
                 tempField = tempField[fnames[i]];
+                if(tempField.value instanceof DataTable){
+                    var row = tempField.value.getCurrentRow();
+                    if(row){
+                        tempField = row.data;
+                    }
+                }
                 if (!tempField){
                     break;
                 }
