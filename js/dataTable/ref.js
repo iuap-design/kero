@@ -48,7 +48,8 @@ const ref = function (fieldName) {
 }
 
 const refByRow = function(obj){
-    var fieldName = obj.fieldName;
+    var fieldName = obj.fieldName,
+    fullField = obj.fullField;
     this.createField(fieldName);
     if (!this.valueChange[fieldName])
         this.valueChange[fieldName] = ko.observable(1);
@@ -56,9 +57,13 @@ const refByRow = function(obj){
         read: function () {
             this.valueChange[fieldName]();
             this.currentRowChange();
-            var row;
-            if(obj.index > -1)
-                row = this.getRow(obj.index)
+            var row,index = obj.index + '';
+            var childRowObj = {
+                fullField: fullField,
+                index: index
+            }
+            row = this.getChildRow(childRowObj);
+            
             if (row) {
                 return row.getChildValue(fieldName)
             }

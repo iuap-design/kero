@@ -34,6 +34,7 @@ import {
     getData,
     getDataByRule,
     getRow,
+    getChildRow,
     getRowByRowId,
     getRowIndex,
     getRowsByField,
@@ -238,6 +239,7 @@ DataTable.prototype.setEnable= setEnable;
 DataTable.prototype.getData= getData;
 DataTable.prototype.getDataByRule= getDataByRule;
 DataTable.prototype.getRow= getRow;
+DataTable.prototype.getChildRow = getChildRow;
 DataTable.prototype.getRowByRowId= getRowByRowId;
 DataTable.prototype.getRowIndex= getRowIndex;
 DataTable.prototype.getRowsByField= getRowsByField;

@@ -77,6 +77,14 @@ const _triggerChange = function(rowObj,fieldName, oldValue, ctx){
     if (rowObj == rowObj.parent.getCurrentRow())
         rowObj.parent.trigger(fieldName + "." + DataTable.ON_CURRENT_VALUE_CHANGE, event);
 
+    // 对于多级字表需要触发顶层div的valuechange事件
+    if (rowObj.parent.ns){
+        event.fullField = fName;
+        event.ns = rowObj.parent.ns;
+        rowObj.parent.root.trigger(DataTable.ON_VALUE_CHANGE, event);
+        rowObj.parent.root.trigger(fName + "." + DataTable.ON_VALUE_CHANGE, event);
+    }
+
 };
 
 /**
@@ -103,6 +111,12 @@ const _findField = function(rowObj, fieldName){
             var tempField = rowObj.data;
             for (var i = 0; i < fnames.length; i++){
                 tempField = tempField[fnames[i]];
+                if(tempField.value instanceof DataTable){
+                    var row = tempField.value.getCurrentRow();
+                    if(row){
+                        tempField = row.data;
+                    }
+                }
                 if (!tempField){
                     break;
                 }

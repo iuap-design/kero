@@ -128,6 +128,35 @@ const getRow = function (index) {
     return this.rows.peek()[index]
 };
 
+const getChildRow = function(obj){
+    var fullField = obj.fullField,
+        index = obj.index,
+        row = null;
+    if (parseInt(index) > -1) {
+        if ((index + '').indexOf('.') > 0) {
+            var fieldArr = fullField.split('.');
+            var indexArr = index.split('.');
+            var nowDatatable = this;
+            var nowRow = null;
+            for (var i = 0; i < indexArr.length; i++) {
+                nowRow = nowDatatable.getRow(indexArr[i]);
+                if (i < indexArr.length - 1) {
+                    if (nowRow) {
+                        nowDatatable = nowRow.getValue(fieldArr[i]);
+                    } else {
+                        nowRow = null;
+                        break;
+                    }
+                }
+            }
+            row = nowRow;
+        } else {
+            row = this.getRow(index);
+        }
+    }
+    return row;
+};
+
 /**
  * 根据rowid取row对象
  * @param rowid
@@ -281,6 +310,7 @@ export {
     getData,
     getDataByRule,
     getRow,
+    getChildRow,
     getRowByRowId,
     getRowIndex,
     getRowsByField,
