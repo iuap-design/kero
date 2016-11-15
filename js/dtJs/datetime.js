@@ -73,9 +73,7 @@ u.DateTimeAdapter = u.BaseAdapter.extend({
 			});
 		}
 		if(this.dataModel){
-			this.dataModel.ref(this.field).subscribe(function(value) {
-				self.modelValueChange(value);
-			});
+
 			if(this.startField){
 				this.dataModel.ref(this.startField).subscribe(function(value) {
 					if(u.isMobile){
