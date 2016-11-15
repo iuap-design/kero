@@ -1648,9 +1648,9 @@
 		}
 		//判断 str 格式如果是 yy-mm-dd
 		if (str && str.indexOf('-') > -1) {
-			//获取当前是否是 ios版本
+			//获取当前是否是 ios版本,>8是因为ios不识别new Date（“2016/11”）格式
 			var ua = navigator.userAgent.toLowerCase();
-			if (/iphone|ipad|ipod/.test(ua)) {
+			if (/iphone|ipad|ipod/.test(ua) && str.length > 8) {
 				//转换成 yy/mm/dd
 				str = str.replace(/-/g, "/");
 			}
@@ -3162,6 +3162,7 @@
 	DataTable.prototype.getData = _getData.getData;
 	DataTable.prototype.getDataByRule = _getData.getDataByRule;
 	DataTable.prototype.getRow = _getData.getRow;
+	DataTable.prototype.getChildRow = _getData.getChildRow;
 	DataTable.prototype.getRowByRowId = _getData.getRowByRowId;
 	DataTable.prototype.getRowIndex = _getData.getRowIndex;
 	DataTable.prototype.getRowsByField = _getData.getRowsByField;
@@ -3823,6 +3824,35 @@
 	    return this.rows.peek()[index];
 	};
 
+	var getChildRow = function getChildRow(obj) {
+	    var fullField = obj.fullField,
+	        index = obj.index,
+	        row = null;
+	    if (parseInt(index) > -1) {
+	        if ((index + '').indexOf('.') > 0) {
+	            var fieldArr = fullField.split('.');
+	            var indexArr = index.split('.');
+	            var nowDatatable = this;
+	            var nowRow = null;
+	            for (var i = 0; i < indexArr.length; i++) {
+	                nowRow = nowDatatable.getRow(indexArr[i]);
+	                if (i < indexArr.length - 1) {
+	                    if (nowRow) {
+	                        nowDatatable = nowRow.getValue(fieldArr[i]);
+	                    } else {
+	                        nowRow = null;
+	                        break;
+	                    }
+	                }
+	            }
+	            row = nowRow;
+	        } else {
+	            row = this.getRow(index);
+	        }
+	    }
+	    return row;
+	};
+
 	/**
 	 * 根据rowid取row对象
 	 * @param rowid
@@ -3963,6 +3993,7 @@
 	exports.getData = getData;
 	exports.getDataByRule = getDataByRule;
 	exports.getRow = getRow;
+	exports.getChildRow = getChildRow;
 	exports.getRowByRowId = getRowByRowId;
 	exports.getRowIndex = getRowIndex;
 	exports.getRowsByField = getRowsByField;
@@ -4587,15 +4618,22 @@
 	};
 
 	var refByRow = function refByRow(obj) {
-	    var fieldName = obj.fieldName;
+	    var fieldName = obj.fieldName,
+	        fullField = obj.fullField;
 	    this.createField(fieldName);
 	    if (!this.valueChange[fieldName]) this.valueChange[fieldName] = ko.observable(1);
 	    return ko.pureComputed({
 	        read: function read() {
 	            this.valueChange[fieldName]();
 	            this.currentRowChange();
-	            var row;
-	            if (obj.index > -1) row = this.getRow(obj.index);
+	            var row,
+	                index = obj.index + '';
+	            var childRowObj = {
+	                fullField: fullField,
+	                index: index
+	            };
+	            row = this.getChildRow(childRowObj);
+
 	            if (row) {
 	                return row.getChildValue(fieldName);
 	            } else return '';
@@ -6103,6 +6141,14 @@
 	    rowObj.parent.trigger(DataTable.ON_VALUE_CHANGE, event);
 	    rowObj.parent.trigger(fieldName + "." + DataTable.ON_VALUE_CHANGE, event);
 	    if (rowObj == rowObj.parent.getCurrentRow()) rowObj.parent.trigger(fieldName + "." + DataTable.ON_CURRENT_VALUE_CHANGE, event);
+
+	    // 对于多级字表需要触发顶层div的valuechange事件
+	    if (rowObj.parent.ns) {
+	        event.fullField = fName;
+	        event.ns = rowObj.parent.ns;
+	        rowObj.parent.root.trigger(DataTable.ON_VALUE_CHANGE, event);
+	        rowObj.parent.root.trigger(fName + "." + DataTable.ON_VALUE_CHANGE, event);
+	    }
 	};
 
 	/**
@@ -6128,6 +6174,12 @@
 	            var tempField = rowObj.data;
 	            for (var i = 0; i < fnames.length; i++) {
 	                tempField = tempField[fnames[i]];
+	                if (tempField.value instanceof DataTable) {
+	                    var row = tempField.value.getCurrentRow();
+	                    if (row) {
+	                        tempField = row.data;
+	                    }
+	                }
 	                if (!tempField) {
 	                    break;
 	                }
