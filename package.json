@@ -1,6 +1,6 @@
 {
   "name": "kero",
-  "version": "2.1.8",
+  "version": "2.1.9",
   "description": "",
   "main": "gulpfile.js",
   "scripts": {
@@ -23,7 +23,7 @@
     "gulp-rename": "^1.2.2",
     "gulp-uglify": "^1.5.3",
     "gulp-util": "^3.0.7",
-    "tinper-sparrow": "^3.1.8"
+    "tinper-sparrow": "^3.1.9"
   },
   "devDependencies": {
     "babel-cli": "^6.11.4",
