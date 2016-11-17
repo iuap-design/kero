@@ -1,6 +1,6 @@
 {
   "name": "kero",
-  "version": "2.1.9",
+  "version": "2.1.11",
   "description": "",
   "main": "gulpfile.js",
   "scripts": {
