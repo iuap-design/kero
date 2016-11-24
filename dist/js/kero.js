@@ -1650,9 +1650,12 @@
 		if (str && str.indexOf('-') > -1) {
 			//获取当前是否是 ios版本,>8是因为ios不识别new Date（“2016/11”）格式
 			var ua = navigator.userAgent.toLowerCase();
-			if (/iphone|ipad|ipod/.test(ua) && str.length > 8) {
+			if (/iphone|ipad|ipod/.test(ua)) {
 				//转换成 yy/mm/dd
 				str = str.replace(/-/g, "/");
+				if (str.length <= 8) {
+					str = str + '/28';
+				}
 			}
 		}
 
