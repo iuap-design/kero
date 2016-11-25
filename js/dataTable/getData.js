@@ -15,103 +15,157 @@ const getData = function () {
     return datas
 }
 
+/**
+ * 将page转为row对象格式
+ */
+const page2data = function(page, pageIndex){
+    var data = {}
+    data.focus = page.focus;
+    data.index = pageIndex;
+    data.select = page.selectedIndices;
+    return data;
+}
+
 const getDataByRule = function (rule) {
     var returnData = {}, datas = null, rows;
     returnData.meta = this.meta
     returnData.params = this.params
-    rule = rule || DataTable.SUBMIT.current
-    if (rule == DataTable.SUBMIT.current) {
-        datas = []
-        var currIndex = this.focusIndex()
-        if (currIndex == -1)
-            currIndex = this.getSelectedIndex()
-        rows = this.rows();
-        for (var i = 0, count = rows.length; i < count; i++) {
-            if (i == currIndex)
-                datas.push(rows[i].getData())
-            else
-                datas.push(rows[i].getEmptyData())
+    rule = rule || DataTable.SUBMIT.current;
+    // 存在多页及不存在多页分开处理
+    if(this.pageCache){
+        var pages = this.getPages();
+        if(rule == DataTable.SUBMIT.current || rule == DataTable.SUBMIT.focus){
+            datas = []
+            var pageIndex = this.pageIndex();
+            var currPage = pages[pageIndex];
+            if(currPage){
+                var currIndex = this.focusIndex()
+                if(rule == DataTable.SUBMIT.current){
+                    if (currIndex == -1)
+                        currIndex = this.getSelectedIndex()
+                }
+                var data = page2data(currPage,pageIndex);
+                data.rows = [];
+                for(var i = 0, count = currPage.rows.length; i < count; i++){
+                    var row = currPage.rows[i].getData();
+                    if(i != currIndex)
+                        row.data = {}
+                    data.rows.push(row);
+                }
+                datas.push(data);
+            }
+        }
+        else if (rule == DataTable.SUBMIT.all || rule == DataTable.SUBMIT.allPages) {
+            datas = []
+            for(var i = 0; i < pages.length; i++){
+                var currPage = pages[i]
+                var data = page2data(currPage,i);
+                data.rows = [];
+                for(var i = 0; i < currPage.rows.length; i++){
+                    data.rows.push(currPage.rows[i].getData())
+                }
+                datas.push(data)
+            }
+        }
+        else if (rule == DataTable.SUBMIT.select) {
+            datas = []
+            var pageIndex = this.pageIndex();
+            var currPage = pages[pageIndex];
+            if(currPage){
+                var data = page2data(currPage,pageIndex);
+                data.rows = [];
+                for(var i = 0, count = currPage.rows.length; i < count; i++){
+                    var row = currPage.rows[i].getData();
+                    if(data.select.indexOf(i) < 0)
+                        row.data = {}
+                    data.rows.push(row);
+                }
+                datas.push(data);
+            }
+        }
+        else if (rule == DataTable.SUBMIT.allSelect) {
+            datas = []
+            for(var i = 0; i < pages.length; i++){
+                var currPage = pages[i]
+                var data = page2data(currPage,i);
+                data.rows = [];
+                for(var j = 0, count = currPage.rows.length; j < count; j++){
+                    var row = currPage.rows[j].getData();
+                    if(data.select.indexOf(j) < 0)
+                        row.data = {}
+                    data.rows.push(row);
+                }
+                datas.push(data)
+            }
+        }
+        else if (rule == DataTable.SUBMIT.change) {
+            datas = []
+            for(var i = 0; i < pages.length; i++){
+                var currPage = pages[i]
+                var data = page2data(currPage,i);
+                data.rows = [];
+                for(var j = 0, count = currPage.rows.length; j < count; j++){
+                    var row = currPage.rows[j].getData();
+                    if(row.status == Row.STATUS.NORMAL){
+                        row.data = {}
+                    }
+                    data.rows.push(row)
+                }
+                datas.push(data)
+            }
+        }
+        else if (rule === DataTable.SUBMIT.empty) {
+            datas = []
+        }
+        if(pages.length < 1 || !pages[this.pageIndex()]){
+            datas = [{ index: this.pageIndex(), select: [], focus: -1, rows: [] }];
+        }
+        returnData.pages = datas;
+    }else{
+        if (rule == DataTable.SUBMIT.current) {
+            datas = []
+            var currIndex = this.focusIndex()
+            if (currIndex == -1)
+                currIndex = this.getSelectedIndex()
+            rows = this.rows();
+            for (var i = 0, count = rows.length; i < count; i++) {
+                if (i == currIndex)
+                    datas.push(rows[i].getData())
+                else
+                    datas.push(rows[i].getEmptyData())
+            }
+
+        }
+        else if (rule == DataTable.SUBMIT.focus) {
+            datas = []
+            rows = this.rows();
+            for (var i = 0, count = rows.length; i < count; i++) {
+                if (i == this.focusIndex())
+                    datas.push(rows[i].getData())
+                else
+                    datas.push(rows[i].getEmptyData())
+            }
+        }
+        else if (rule == DataTable.SUBMIT.all) {
+            datas = this.getData()
+        }
+        else if (rule == DataTable.SUBMIT.select) {
+            datas = this.getSelectedDatas(true)
+        }
+        else if (rule == DataTable.SUBMIT.change) {
+            datas = this.getChangedDatas()
+        }
+        else if (rule === DataTable.SUBMIT.empty) {
+            datas = []
         }
 
-    }
-    else if (rule == DataTable.SUBMIT.focus) {
-        datas = []
-        rows = this.rows();
-        for (var i = 0, count = rows.length; i < count; i++) {
-            if (i == this.focusIndex())
-                datas.push(rows[i].getData())
-            else
-                datas.push(rows[i].getEmptyData())
-        }
-    }
-    else if (rule == DataTable.SUBMIT.all) {
-        datas = this.getData()
-    }
-    else if (rule == DataTable.SUBMIT.select) {
-        datas = this.getSelectedDatas(true)
-    }
-    else if (rule == DataTable.SUBMIT.change) {
-        datas = this.getChangedDatas()
-    }
-    else if (rule === DataTable.SUBMIT.empty) {
-        datas = []
-    }
-    if (this.pageCache && datas != null) {
-        datas = [{index: this.pageIndex(), select: this.getSelectedIndexs(), focus: this.focusIndex(), rows: datas}]
-    }
-    if (rule == DataTable.SUBMIT.allSelect) {
-        datas = []
-        var totalPages = this.totalPages();
-        //缓存页数据
-        for (var i = 0; i < totalPages; i++) {
-            if (i == this.pageIndex()) {
-                //当前页数据
-                datas.push({
-                    index: this.pageIndex(),
-                    select: this.getSelectedIndexs(),
-                    focus: this.focusIndex(),
-                    rows: this.getSelectedDatas()
-                });
-            } else {
-                var page = this.cachedPages[i];
-                if (page) {
-                    datas.push({
-                        index: i,
-                        select: page.selectedIndices,
-                        focus: page.focus,
-                        rows: page.getSelectDatas()
-                    });
-                }
-            }
-        }
-    } else if (rule == DataTable.SUBMIT.allPages) {
-        datas = []
-        var totalPages = this.totalPages();
-        //缓存页数据
-        for (var i = 0; i < totalPages; i++) {
-            if (i == this.pageIndex()) {
-                //当前页数据
-                datas.push({
-                    index: this.pageIndex(),
-                    select: this.getSelectedIndexs(),
-                    focus: this.focusIndex(),
-                    rows: this.getData()
-                });
-            } else {
-                var page = this.cachedPages[i];
-                if (page) {
-                    datas.push({index: i, select: page.selectedIndices, focus: page.focus, rows: page.getData()});
-                }
-            }
-        }
-    }
-    if (this.pageCache) {
-        returnData.pages = datas;
-    } else {
         returnData.rows = datas
         returnData.select = this.getSelectedIndexs()
         returnData.focus = this.getFocusIndex()
     }
+
+    
+        
 
     returnData.pageSize = this.pageSize()
     returnData.pageIndex = this.pageIndex()

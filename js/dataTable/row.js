@@ -46,10 +46,15 @@ const setRows = function (rows, options) {
                 row.setData(rows[i], null, options)
                 insertRows.push(row)
             }
+            // 如果r对象中存在状态则更新状态为返回的状态
+            if(r.status){
+                row.status = r.status;
+            }
         }
     }
     if (insertRows.length > 0)
         this.addRows(insertRows)
+    return insertRows;
 }
 
 
@@ -83,7 +88,7 @@ const insertRows = function (index, rows) {
 
     this.updateSelectedIndices(index, '+', rows.length)
     this.updateFocusIndex(index, '+', rows.length)
-
+    this.updatePageAll();
     this.trigger(DataTable.ON_INSERT, {
         index: index,
         rows: rows

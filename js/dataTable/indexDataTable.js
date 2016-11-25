@@ -92,7 +92,12 @@ import {
     setPages,
     hasPage,
     clearCache,
-    cacheCurrentPage
+    cacheCurrentPage,
+    updatePagesSelect,
+    updatePageRows,
+    updatePageSelect,
+    updatePageFocus,
+    updatePageAll
 } from './page';
 
 import {
@@ -294,6 +299,12 @@ DataTable.prototype.setPages= setPages;
 DataTable.prototype.hasPage= hasPage;
 DataTable.prototype.clearCache= clearCache;
 DataTable.prototype.cacheCurrentPage= cacheCurrentPage;
+DataTable.prototype.updatePagesSelect = updatePagesSelect;
+DataTable.prototype.updatePageRows = updatePageRows;
+DataTable.prototype.updatePageSelect = updatePageSelect;
+DataTable.prototype.updatePageFocus = updatePageFocus;
+DataTable.prototype.updatePageAll = updatePageAll;
+
 
 //param
 DataTable.prototype.addParam= addParam;

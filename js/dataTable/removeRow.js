@@ -51,6 +51,7 @@ const removeRows = function (indices) {
         rowIds: rowIds,
         deleteRows: deleteRows
     })
+
     this.updateCurrIndex();
 }
 

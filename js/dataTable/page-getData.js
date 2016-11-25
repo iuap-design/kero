@@ -39,7 +39,7 @@ const getSelectRows = function () {
 
 const getRowByRowId = function (rowid) {
     for (var i = 0, count = this.rows.length; i < count; i++) {
-        if (this.rows.rowId == rowid)
+        if (this.rows[i].rowId == rowid)
             return this.rows[i]
     }
     return null

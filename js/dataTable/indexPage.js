@@ -26,7 +26,9 @@ import {
 } from './page-meta';
 
 import {
-	removeRowByRowId
+	removeRowByRowId,
+	updateSelectedIndices,
+	updateFocusIndex
 } from './page-removeRow';
 
 
@@ -61,6 +63,8 @@ Page.prototype.setRowMeta= setRowMeta;
 
 //removeRow
 Page.prototype.removeRowByRowId= removeRowByRowId;
+Page.prototype.updateSelectedIndices= updateSelectedIndices;
+Page.prototype.updateFocusIndex= updateFocusIndex;
 
 
 export {

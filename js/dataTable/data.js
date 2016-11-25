@@ -27,7 +27,10 @@ const setData = function (data,options) {
     if(data.totalRow || data.totalRow === 0){
         var newTotalRow = data.totalRow;
     }else{
-        var newTotalRow = data.rows.length; //后续要考虑状态，del的不计算在内
+        if(data.rows)
+            var newTotalRow = data.rows.length;
+        else
+            var newTotalRow = this.totalRow();
     }
     var select, focus,unSelect=options?options.unSelect:false;
 
@@ -41,19 +44,30 @@ const setData = function (data,options) {
             return;
         }
         else {
+            // 首先删除数据，然后将当前页数据插入
+            this.removeAllRows();
             select = this.getPage(newIndex).selectedIndices
             focus = this.getPage(newIndex).focus
-            this.setRows(this.getPage(newIndex).rows, options)
+            var rows = this.setRows(this.getPage(newIndex).rows, options)
+            this.getPage(newIndex).rows = rows;
+        }
+        // 后台传入totalPages及totalRow才进行更新
+        if(data.totalPages){
+            this.totalPages(data.totalPages)
+        }
+        if(data.totalRow){
+            this.totalRow(data.totalRow)
         }
     } else {
         select = data.select||(!unSelect?[0]:[]);
         focus = data.focus !== undefined ? data.focus : data.current;
         this.setRows(data.rows, options);
+        this.totalPages(newTotalPages)
+        this.totalRow(newTotalRow)
     }
     this.pageIndex(newIndex)
     this.pageSize(newSize)
-    this.totalPages(newTotalPages)
-    this.totalRow(newTotalRow)
+    
 
     this.updateSelectedIndices()
 

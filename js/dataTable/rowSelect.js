@@ -53,7 +53,7 @@ const setRowsSelect = function (indices) {
     }catch(e){
         
     }
-    
+    this.updatePageSelect();
     var rowIds = this.getRowIdsByIndices(indices);
     this.currentRowChange(-this.currentRowChange());
     this.trigger(DataTable.ON_ROW_SELECT, {
@@ -61,6 +61,7 @@ const setRowsSelect = function (indices) {
         rowIds: rowIds
     })
     this.updateCurrIndex();
+    
 }
 
 
@@ -94,6 +95,7 @@ const addRowsSelect = function (indices) {
         }
     }
     this.selectedIndices(selectedIndices)
+    this.updatePageSelect();
     var rowIds = this.getRowIdsByIndices(selectedIndices)
     if(needTrigger){
         this.trigger(DataTable.ON_ROW_SELECT, {
@@ -102,6 +104,7 @@ const addRowsSelect = function (indices) {
         })
     }
     this.updateCurrIndex();
+    
 }
 
 /**
@@ -109,6 +112,7 @@ const addRowsSelect = function (indices) {
  */
 const setAllRowsUnSelect = function (options) {
     this.selectedIndices([])
+    this.updatePageSelect();
     if (!(options && options.quiet)) {
         this.trigger(DataTable.ON_ROW_ALLUNSELECT)
     }
@@ -140,6 +144,7 @@ const setRowsUnSelect = function (indices) {
             selectedIndices.splice(pos, 1)
     }
     this.selectedIndices(selectedIndices)
+    this.updatePageSelect();
     var rowIds = this.getRowIdsByIndices(indices)
     this.trigger(DataTable.ON_ROW_UNSELECT, {
         indices: indices,
@@ -186,6 +191,7 @@ const updateSelectedIndices = function (index, type, num) {
         }
     }
     this.selectedIndices(selectedIndices)
+    this.updatePageSelect();
 }
 export {
 	setAllRowsSelect,
