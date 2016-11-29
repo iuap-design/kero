@@ -1,3 +1,13 @@
+<a name="2.1.14"></a>
+## [2.1.14](https://github.com/iuap-design/kero/compare/v2.1.13...v2.1.14) (2016-11-29)
+
+
+### Bug Fixes
+* datatable支持前端缓存，datatable存储当前页数据，page中存储每页的数据 ([b464a09](https://github.com/iuap-design/kero/commit/b464a09))
+
+
+
+
 <a name="2.1.13"></a>
 ## [2.1.13](https://github.com/iuap-design/kero/compare/v2.1.12...v2.1.13) (2016-11-17)
 
