@@ -7,7 +7,7 @@
 import {ajax as uAjax} from 'tinper-sparrow/js/ajax';
 
 const ajax = function (params) {
-    params = this._wrapAjax(params)
+    params = _wrapAjax(params)
     uAjax(params)
 }
 
