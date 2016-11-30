@@ -34,6 +34,9 @@ const setData = function (data,options) {
     }
     var select, focus,unSelect=options?options.unSelect:false;
 
+    this.pageIndex(newIndex);
+    this.pageSize(newSize);
+
     this.pageCache = data.pageCache || this.pageCache
     if (this.pageCache === true) {
         this.updatePages(data.pages)
@@ -65,8 +68,7 @@ const setData = function (data,options) {
         this.totalPages(newTotalPages)
         this.totalRow(newTotalRow)
     }
-    this.pageIndex(newIndex)
-    this.pageSize(newSize)
+    
     
 
     this.updateSelectedIndices()
