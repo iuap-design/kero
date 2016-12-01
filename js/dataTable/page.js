@@ -74,16 +74,20 @@ const updatePages = function (pages) {
                             this.totalRow(newTotalRow);
                         }
                         row.status = Row.STATUS.NORMAL
+                        if(r.status == Row.STATUS.NEW){
+                            row.status = Row.STATUS.NEW
+                        }
                     } else {
                         r.rowId = r.id
                         delete r.id
                         page.rows.push(r);
-                        r.status = Row.STATUS.NORMAL;
+                        if(r.status != Row.STATUS.NEW){
+                            r.status = Row.STATUS.NORMAL;
+                        }
                         // 针对后台不传回总行数的情况下更新总行数
                         var oldTotalRow = this.totalRow();
                         var newTotalRow = oldTotalRow + 1;
                         this.totalRow(newTotalRow);
-
                     }
                 }
             }
