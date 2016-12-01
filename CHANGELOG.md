@@ -1,3 +1,8 @@
+<a name="2.1.15"></a>
+## [2.1.15](https://github.com/iuap-design/kero/compare/v2.1.14...v2.1.15) (2016-12-01)
+
+
+
 <a name="2.1.14"></a>
 ## [2.1.14](https://github.com/iuap-design/kero/compare/v2.1.13...v2.1.14) (2016-11-29)
 

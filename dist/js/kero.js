@@ -2398,7 +2398,7 @@
 	var _ajax = __webpack_require__(19);
 
 	var ajax = function ajax(params) {
-	    params = _wrapAjax(params);
+	    params = _wrapAjax.call(this, params);
 	    (0, _ajax.ajax)(params);
 	}; /**
 	    * Module : kero app ajax
@@ -3590,6 +3590,9 @@
 	        focus,
 	        unSelect = options ? options.unSelect : false;
 
+	    this.pageIndex(newIndex);
+	    this.pageSize(newSize);
+
 	    this.pageCache = data.pageCache || this.pageCache;
 	    if (this.pageCache === true) {
 	        this.updatePages(data.pages);
@@ -3620,8 +3623,6 @@
 	        this.totalPages(newTotalPages);
 	        this.totalRow(newTotalRow);
 	    }
-	    this.pageIndex(newIndex);
-	    this.pageSize(newSize);
 
 	    this.updateSelectedIndices();
 
