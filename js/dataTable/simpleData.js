@@ -15,8 +15,10 @@ const setSimpleData = function(data,options){
     this.cachedPages = [];
     this.focusIndex(-1);
     this.selectedIndices([]);
-
+    
+    this.setSimpleDataReal = [];
     if (!data){
+        this.setSimpleDataReal = data;
         // throw new Error("dataTable.setSimpleData param can't be null!");
         return;
     }
