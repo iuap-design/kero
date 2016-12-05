@@ -94,17 +94,25 @@ const setChildSimpleDataByRowId = function(rowId, data){
  */
 const _setData = function(rowObj, sourceData, targetData, subscribe, parentKey, options){
     for (var key in sourceData) {
+
+        // 判断是否要放到dataTable中
+        if (options && !options.fieldFlag ) {
+            if (!rowObj.parent.getMeta(key)){
+                continue;
+            }
+        }
     	var _parentKey = parentKey || null;
         //if (targetData[key]) {
         targetData[key] = targetData[key] || {};
         var valueObj = sourceData[key]
-        if (typeof valueObj != 'object'){
-            if(typeof options == 'object'){
-                if(options.fieldFlag) {
-                    rowObj.parent.createField(key);
-                }
-            }
-        }
+
+        // if (typeof valueObj != 'object'){
+        //     if(typeof options == 'object'){
+        //         if(options.fieldFlag) {
+        //             rowObj.parent.createField(key);
+        //         }
+        //     }
+        // }
 
         //if (typeof this.parent.meta[key] === 'undefined') continue;
         if (valueObj == null ||  typeof valueObj != 'object'){
