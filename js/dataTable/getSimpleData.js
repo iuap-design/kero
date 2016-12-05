@@ -28,6 +28,9 @@ const getSimpleData = function(options){
     for(var i = 0; i< rows.length; i++){
         _rowData.push(rows[i].getSimpleData({fields:fields}));
     }
+    if(_rowData.length == 0){
+        _rowData = this.setSimpleDataReal; //云采提的#需求
+    }
     return _rowData;
 };
 
