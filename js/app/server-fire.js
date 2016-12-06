@@ -62,8 +62,10 @@ const fire = function (p) {
         }
     }
     params.data = extend(params.data, data);
-    ajax(params)
-
+    if($)
+        $.ajax(params)
+    else
+        ajax(params)
 }
 
 const _successFunc = function (data, deferred) {
