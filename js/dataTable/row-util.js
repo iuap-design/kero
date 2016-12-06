@@ -70,7 +70,8 @@ const _triggerChange = function(rowObj,fieldName, oldValue, ctx){
         field: fieldName,
         oldValue: oldValue,
         newValue: rowObj.getValue(fieldName),
-        ctx: ctx || ""
+        ctx: ctx || "",
+        rowObj: rowObj
     }
     rowObj.parent.trigger(DataTable.ON_VALUE_CHANGE, event);
     rowObj.parent.trigger(fieldName + "." + DataTable.ON_VALUE_CHANGE, event);
