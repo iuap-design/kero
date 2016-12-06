@@ -32,6 +32,8 @@ const _getSimpleData = function(rowObj, data){
                 _data[key] = rowObj.formatValueFun(obj,rowObj.parent.dateNoConvert);
                
             }
+        }else if(!data[key].value){
+            _data[key] = data[key].value;
         }
         else{
             _data[key] = _getSimpleData(rowObj, data[key])
