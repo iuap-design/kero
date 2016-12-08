@@ -1,3 +1,21 @@
+<a name="2.1.16"></a>
+## [2.1.16](https://github.com/iuap-design/kero/compare/v2.1.15...v2.1.16) (2016-12-08)
+
+
+### Bug Fixes
+* fieldFlag变量不起作用 ([8acf508](https://github.com/iuap-design/kero/commit/8acf508))
+
+* fire操作默认使用$的ajax ([46d95d6](https://github.com/iuap-design/kero/commit/46d95d6))
+
+* getSimpleData如果为undefined按原值返回 ([c7b3135](https://github.com/iuap-design/kero/commit/c7b3135))
+
+* getSimpleData返回值应该和传入值保持一致 ([e981df4](https://github.com/iuap-design/kero/commit/e981df4))
+
+* valuechange的trigger增加参数rowObj存储当前的row对象 ([2654da4](https://github.com/iuap-design/kero/commit/2654da4))
+
+
+
+
 <a name="2.1.15"></a>
 ## [2.1.15](https://github.com/iuap-design/kero/compare/v2.1.14...v2.1.15) (2016-12-01)
 

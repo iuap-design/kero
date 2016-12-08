@@ -544,7 +544,11 @@
 	var addClass = function addClass(element, value) {
 		if (element) {
 			if (typeof element.classList === 'undefined') {
-				if (u._addClass) u._addClass(element, value);
+				if (u._addClass) {
+					u._addClass(element, value);
+				} else {
+					$(element).addClass(value);
+				}
 			} else {
 				element.classList.add(value);
 			}
@@ -565,7 +569,11 @@
 	var removeClass = function removeClass(element, value) {
 		if (element) {
 			if (typeof element.classList === 'undefined') {
-				if (u._removeClass) u._removeClass(element, value);
+				if (u._removeClass) {
+					u._removeClass(element, value);
+				} else {
+					$(element).removeClass(value);
+				}
 			} else {
 				element.classList.remove(value);
 			}
@@ -581,7 +589,12 @@
 		if (!element) return false;
 		if (element.nodeName && (element.nodeName === '#text' || element.nodeName === '#comment')) return false;
 		if (typeof element.classList === 'undefined') {
-			if (u._hasClass) return u._hasClass(element, value);
+			if (u._hasClass) {
+				return u._hasClass(element, value);
+			} else {
+				return $(element).hasClass(value);
+			}
+
 			return false;
 		} else {
 			return element.classList.contains(value);
@@ -679,7 +692,7 @@
 	 */
 	var makeModal = function makeModal(element, parEle) {
 		var overlayDiv = document.createElement('div');
-		addClass(overlayDiv, 'u-overlay');
+		$(overlayDiv).addClass('u-overlay');
 		overlayDiv.style.zIndex = getZIndex();
 		// 如果有父元素则插入到父元素上，没有则添加到body上
 		if (parEle && parEle != document.body) {
@@ -1620,8 +1633,9 @@
 			return;
 		}
 	};
-
-	NodeList.prototype.forEach = Array.prototype.forEach;
+	try {
+		NodeList.prototype.forEach = Array.prototype.forEach;
+	} catch (e) {}
 
 	/**
 	 * 获得字符串的字节长度
@@ -1653,8 +1667,9 @@
 			if (/iphone|ipad|ipod/.test(ua)) {
 				//转换成 yy/mm/dd
 				str = str.replace(/-/g, "/");
+				str = str.replace(/(^\s+)|(\s+$)/g, "");
 				if (str.length <= 8) {
-					str = str + '/28';
+					str = str += "/01";
 				}
 			}
 		}
@@ -2875,7 +2890,7 @@
 	        }
 	    };
 	    params.data = (0, _extend.extend)(params.data, data);
-	    (0, _ajax.ajax)(params);
+	    if ($) $.ajax(params);else (0, _ajax.ajax)(params);
 	};
 
 	var _successFunc = function _successFunc(data, deferred) {
@@ -4314,6 +4329,9 @@
 	    for (var i = 0; i < rows.length; i++) {
 	        _rowData.push(rows[i].getSimpleData({ fields: fields }));
 	    }
+	    if (_rowData.length == 0) {
+	        _rowData = this.setSimpleDataReal; //云采提的#需求
+	    }
 	    return _rowData;
 	};
 
@@ -4547,11 +4565,16 @@
 	                            this.totalRow(newTotalRow);
 	                        }
 	                        row.status = Row.STATUS.NORMAL;
+	                        if (r.status == Row.STATUS.NEW) {
+	                            row.status = Row.STATUS.NEW;
+	                        }
 	                    } else {
 	                        r.rowId = r.id;
 	                        delete r.id;
 	                        page.rows.push(r);
-	                        r.status = Row.STATUS.NORMAL;
+	                        if (r.status != Row.STATUS.NEW) {
+	                            r.status = Row.STATUS.NORMAL;
+	                        }
 	                        // 针对后台不传回总行数的情况下更新总行数
 	                        var oldTotalRow = this.totalRow();
 	                        var newTotalRow = oldTotalRow + 1;
@@ -5536,7 +5559,9 @@
 	    this.focusIndex(-1);
 	    this.selectedIndices([]);
 
+	    this.setSimpleDataReal = [];
 	    if (!data) {
+	        this.setSimpleDataReal = data;
 	        // throw new Error("dataTable.setSimpleData param can't be null!");
 	        return;
 	    }
@@ -5559,7 +5584,7 @@
 	        rows: rows
 	    };
 	    if (options) {
-	        if (_typeof(options.fieldFlag) == undefined) {
+	        if (typeof options.fieldFlag == 'undefined') {
 	            options.fieldFlag = true;
 	        }
 	    }
@@ -6160,17 +6185,25 @@
 	 */
 	var _setData = function _setData(rowObj, sourceData, targetData, subscribe, parentKey, options) {
 	    for (var key in sourceData) {
+
+	        // 判断是否要放到dataTable中
+	        if (options && !options.fieldFlag) {
+	            if (!rowObj.parent.getMeta(key)) {
+	                continue;
+	            }
+	        }
 	        var _parentKey = parentKey || null;
 	        //if (targetData[key]) {
 	        targetData[key] = targetData[key] || {};
 	        var valueObj = sourceData[key];
-	        if ((typeof valueObj === 'undefined' ? 'undefined' : _typeof(valueObj)) != 'object') {
-	            if ((typeof options === 'undefined' ? 'undefined' : _typeof(options)) == 'object') {
-	                if (options.fieldFlag) {
-	                    rowObj.parent.createField(key);
-	                }
-	            }
-	        }
+
+	        // if (typeof valueObj != 'object'){
+	        //     if(typeof options == 'object'){
+	        //         if(options.fieldFlag) {
+	        //             rowObj.parent.createField(key);
+	        //         }
+	        //     }
+	        // }
 
 	        //if (typeof this.parent.meta[key] === 'undefined') continue;
 	        if (valueObj == null || (typeof valueObj === 'undefined' ? 'undefined' : _typeof(valueObj)) != 'object') {
@@ -6363,7 +6396,8 @@
 	        field: fieldName,
 	        oldValue: oldValue,
 	        newValue: rowObj.getValue(fieldName),
-	        ctx: ctx || ""
+	        ctx: ctx || "",
+	        rowObj: rowObj
 	    };
 	    rowObj.parent.trigger(DataTable.ON_VALUE_CHANGE, event);
 	    rowObj.parent.trigger(fieldName + "." + DataTable.ON_VALUE_CHANGE, event);
@@ -6612,6 +6646,8 @@
 	                };
 	                _data[key] = rowObj.formatValueFun(obj, rowObj.parent.dateNoConvert);
 	            }
+	        } else if (!data[key].value) {
+	            _data[key] = data[key].value;
 	        } else {
 	            _data[key] = _getSimpleData(rowObj, data[key]);
 	        }
@@ -7159,7 +7195,9 @@
 					} else {
 						_date = new Date(parseInt(value));
 						if (isNaN(_date)) {
-							throw new TypeError('invalid Date parameter');
+							// 输入值不正确时，默认为空，如果抛出异常会后面内容的解析
+							// throw new TypeError('invalid Date parameter');
+							_date = "";
 						} else {
 							dateFlag = true;
 						}
@@ -7168,7 +7206,6 @@
 			} else {
 				dateFlag = true;
 			}
-
 			if (dateFlag) return _date;else return null;
 		}
 
