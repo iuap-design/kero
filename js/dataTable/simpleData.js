@@ -43,7 +43,7 @@ const setSimpleData = function(data,options){
         rows: rows
     }
     if(options) {
-        if(typeof options.fieldFlag == undefined){
+        if(typeof options.fieldFlag == 'undefined'){
             options.fieldFlag = true;
         }
     }
