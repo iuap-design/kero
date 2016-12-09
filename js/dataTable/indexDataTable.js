@@ -368,7 +368,7 @@ DataTable.prototype.isChanged= isChanged;
 DataTable.DEFAULTS = {
     pageSize: 20,
     pageIndex: 0,
-    totalPages: 20,
+    totalPages: 0,
     pageCache: false,
     enable: true
 }
