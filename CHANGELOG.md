@@ -1,3 +1,13 @@
+<a name="2.1.17"></a>
+## [2.1.17](https://github.com/iuap-design/kero/compare/v2.1.16...v2.1.17) (2016-12-09)
+
+
+### Bug Fixes
+* 修改dataTable默认的总页数 ([be858ce](https://github.com/iuap-design/kero/commit/be858ce))
+
+
+
+
 <a name="2.1.16"></a>
 ## [2.1.16](https://github.com/iuap-design/kero/compare/v2.1.15...v2.1.16) (2016-12-08)
 
