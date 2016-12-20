@@ -29,7 +29,7 @@ const _wrapAjax = function (params) {
             data = JSON.parse(data)
         if (self.serverEventObj.processXHRError(self, data, state, xhr)) {
             orignSuccess.call(null, data)
-            self._successFunc(data, deferred)
+            _successFunc(data, deferred)
         } else {
             deferred.reject();
         }
@@ -39,7 +39,7 @@ const _wrapAjax = function (params) {
             data = JSON.parse(data)
         if (self.serverEventObj.processXHRError(self, data, state, xhr)) {
             orignError.call(null, data)
-            self._successFunc(data, deferred)
+            _successFunc(data, deferred)
         } else {
             deferred.reject();
         }
