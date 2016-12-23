@@ -58,7 +58,7 @@ const setData = function (data,options) {
         if(data.totalPages){
             this.totalPages(data.totalPages)
         }
-        if(data.totalRow){
+        if(data.totalRow || data.totalRow === 0){
             this.totalRow(data.totalRow)
         }
     } else {
