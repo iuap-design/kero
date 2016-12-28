@@ -133,7 +133,6 @@ const _getField = function (rowObj, fieldName) {
     var rat = _findField(rowObj, fieldName);
     if (!rat) {
         var msg = 'field:' + fieldName + ' not exist in dataTable:' + rowObj.parent.root.id + '!'
-        console.error(msg);
         throw new Error(msg);
     }
     return rat;

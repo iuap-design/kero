@@ -217,6 +217,7 @@ class DataTable{
         }else{
             this.ns = '';
         }
+        this.newCount = 0;
 
 
 

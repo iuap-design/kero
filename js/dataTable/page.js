@@ -57,21 +57,36 @@ const updatePages = function (pages) {
                 if (!r.id)
                     r.id = Row.getRandomRowId()
                 if (r.status == Row.STATUS.DELETE) {
+                    
+                    var row = page.getRowByRowId(r.id)
+                    if(row){
+                        // 针对后台不传回总行数的情况下更新总行数
+                        var oldTotalRow = this.totalRow();
+                        var newTotalRow = oldTotalRow - 1;
+                        this.totalRow(newTotalRow);
+                        if(row.status == Row.STATUS.NEW){
+                            this.newCount -= 1;
+                            if(this.newCount < 0)
+                                this.newCount = 0;
+                        }
+                    }
                     this.removeRowByRowId(r.id)
                     page.removeRowByRowId(r.id)
-                    // 针对后台不传回总行数的情况下更新总行数
-                    var oldTotalRow = this.totalRow();
-                    var newTotalRow = oldTotalRow - 1;
-                    this.totalRow(newTotalRow);
+                    
                 } else {
                     row = page.getRowByRowId(r.id)
                     if (row) {
                         page.updateRow(row, r);
-                        if(row.status == Row.STATUS.NEW){
-                            // 针对后台不传回总行数的情况下更新总行数
-                            var oldTotalRow = this.totalRow();
-                            var newTotalRow = oldTotalRow + 1;
-                            this.totalRow(newTotalRow);
+                        // if(row.status == Row.STATUS.NEW){
+                        //     // 针对后台不传回总行数的情况下更新总行数
+                        //     var oldTotalRow = this.totalRow();
+                        //     var newTotalRow = oldTotalRow + 1;
+                        //     this.totalRow(newTotalRow);
+                        // }
+                        if(row.status == Row.STATUS.NEW && r.status != Row.STATUS.NEW){
+                            this.newCount -= 1;
+                            if(this.newCount < 0)
+                                this.newCount = 0;
                         }
                         row.status = Row.STATUS.NORMAL
                         if(r.status == Row.STATUS.NEW){
@@ -83,6 +98,8 @@ const updatePages = function (pages) {
                         page.rows.push(r);
                         if(r.status != Row.STATUS.NEW){
                             r.status = Row.STATUS.NORMAL;
+                        }else{
+                            this.newCount += 1;
                         }
                         // 针对后台不传回总行数的情况下更新总行数
                         var oldTotalRow = this.totalRow();

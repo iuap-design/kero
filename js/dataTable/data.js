@@ -43,7 +43,7 @@ const setData = function (data,options) {
         if (newIndex != this.pageIndex()) {
             this.setCurrentPage(newIndex, true);
             this.totalPages(newTotalPages)
-            this.totalRow(newTotalRow)
+            this.totalRow(newTotalRow + this.newCount)
             return;
         }
         else {
@@ -59,7 +59,7 @@ const setData = function (data,options) {
             this.totalPages(data.totalPages)
         }
         if(data.totalRow || data.totalRow === 0){
-            this.totalRow(data.totalRow)
+            this.totalRow(data.totalRow + this.newCount)
         }
     } else {
         select = data.select||(!unSelect?[0]:[]);
