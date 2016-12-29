@@ -1,3 +1,13 @@
+<a name="2.1.19"></a>
+## [2.1.19](https://github.com/iuap-design/kero/compare/v2.1.18...v2.1.19) (2016-12-28)
+
+
+### Bug Fixes
+* 优化前端新增删除数据时总条数的显示 ([880e77e](https://github.com/iuap-design/kero/commit/880e77e))
+
+
+
+
 <a name="2.1.18"></a>
 ## [2.1.18](https://github.com/iuap-design/kero/compare/v2.1.17...v2.1.18) (2016-12-20)
 

@@ -3158,6 +3158,7 @@
 	    } else {
 	        this.ns = '';
 	    }
+	    this.newCount = 0;
 	};
 
 	DataTable.prototype.on = _events.on;
@@ -3616,7 +3617,7 @@
 	        if (newIndex != this.pageIndex()) {
 	            this.setCurrentPage(newIndex, true);
 	            this.totalPages(newTotalPages);
-	            this.totalRow(newTotalRow);
+	            this.totalRow(newTotalRow + this.newCount);
 	            return;
 	        } else {
 	            // 首先删除数据，然后将当前页数据插入
@@ -3630,8 +3631,8 @@
 	        if (data.totalPages) {
 	            this.totalPages(data.totalPages);
 	        }
-	        if (data.totalRow) {
-	            this.totalRow(data.totalRow);
+	        if (data.totalRow || data.totalRow === 0) {
+	            this.totalRow(data.totalRow + this.newCount);
 	        }
 	    } else {
 	        select = data.select || (!unSelect ? [0] : []);
@@ -4550,21 +4551,33 @@
 	                r = rows[j];
 	                if (!r.id) r.id = Row.getRandomRowId();
 	                if (r.status == Row.STATUS.DELETE) {
+
+	                    var row = page.getRowByRowId(r.id);
+	                    if (row) {
+	                        // 针对后台不传回总行数的情况下更新总行数
+	                        var oldTotalRow = this.totalRow();
+	                        var newTotalRow = oldTotalRow - 1;
+	                        this.totalRow(newTotalRow);
+	                        if (row.status == Row.STATUS.NEW) {
+	                            this.newCount -= 1;
+	                            if (this.newCount < 0) this.newCount = 0;
+	                        }
+	                    }
 	                    this.removeRowByRowId(r.id);
 	                    page.removeRowByRowId(r.id);
-	                    // 针对后台不传回总行数的情况下更新总行数
-	                    var oldTotalRow = this.totalRow();
-	                    var newTotalRow = oldTotalRow - 1;
-	                    this.totalRow(newTotalRow);
 	                } else {
 	                    row = page.getRowByRowId(r.id);
 	                    if (row) {
 	                        page.updateRow(row, r);
-	                        if (row.status == Row.STATUS.NEW) {
-	                            // 针对后台不传回总行数的情况下更新总行数
-	                            var oldTotalRow = this.totalRow();
-	                            var newTotalRow = oldTotalRow + 1;
-	                            this.totalRow(newTotalRow);
+	                        // if(row.status == Row.STATUS.NEW){
+	                        //     // 针对后台不传回总行数的情况下更新总行数
+	                        //     var oldTotalRow = this.totalRow();
+	                        //     var newTotalRow = oldTotalRow + 1;
+	                        //     this.totalRow(newTotalRow);
+	                        // }
+	                        if (row.status == Row.STATUS.NEW && r.status != Row.STATUS.NEW) {
+	                            this.newCount -= 1;
+	                            if (this.newCount < 0) this.newCount = 0;
 	                        }
 	                        row.status = Row.STATUS.NORMAL;
 	                        if (r.status == Row.STATUS.NEW) {
@@ -4576,6 +4589,8 @@
 	                        page.rows.push(r);
 	                        if (r.status != Row.STATUS.NEW) {
 	                            r.status = Row.STATUS.NORMAL;
+	                        } else {
+	                            this.newCount += 1;
 	                        }
 	                        // 针对后台不传回总行数的情况下更新总行数
 	                        var oldTotalRow = this.totalRow();
@@ -6457,7 +6472,6 @@
 	    var rat = _findField(rowObj, fieldName);
 	    if (!rat) {
 	        var msg = 'field:' + fieldName + ' not exist in dataTable:' + rowObj.parent.root.id + '!';
-	        console.error(msg);
 	        throw new Error(msg);
 	    }
 	    return rat;
@@ -7117,7 +7131,7 @@
 	  * @param formatString
 	  */
 		format: function format(date, formatString, language) {
-			if (!date) return date;
+			if (!date) return ''; // renturn date 改为 return '',因：setFormat初始会赋值为undefined,造成二次选择报错
 			var array = formatString.match(u.date._formattingTokens),
 			    i,
 			    length,
