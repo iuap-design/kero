@@ -1,71 +1,172 @@
-# Kero
+<img src="http://tinper.org/assets/images/kero.png" width="120" style="max-width:100%;"/>
 
 
+[![npm version](https://img.shields.io/npm/v/kero.svg)](https://www.npmjs.com/package/kero)
+[![Build Status](https://img.shields.io/travis/iuap-design/kero/master.svg)](https://travis-ci.org/iuap-design/kero)
+[![devDependency Status](https://img.shields.io/david/dev/iuap-design/kero.svg)](https://david-dm.org/iuap-design/kero#info=devDependencies)
+[![NPM downloads](http://img.shields.io/npm/dm/kero.svg?style=flat)](https://npmjs.org/package/kero)
 
-## 1、介绍
 
-Kero 做为 `MVVM` 架构中 `Model` 层的增强，主要功能有：
+[English Document](./README.md)
+##  介绍
+[kero](http://tinper.org/dist/kero/index.html) 是一个基于knockout扩展的Library，做为`MVVM` 架构中 `Model` 层的增强，提供多维数据模型，解决企业应用中复杂的业务应用场景的开发问题。
 
-* 以行、列的形式对数据做存储，并对外暴露一批增删改查的API，方便开发者对页面数据的处理，而且所有开发者之间做到统一，减少出错概率。
 
-* 数据增加状态标识新增或修改，方便开发者使用。
+## 功能
 
-* 具有分页缓存能力，可在前台处理分页(非必要情况下，不推荐前台分页)。
 
-* 具有事件触发器，把数据变化触发出去，供开发者监听使用。
+### 丰富的API
 
-## 2、快速上手
-[控件使用说明](https://github.com/iuap-design/grid/blob/master/docs/grid.md)
+对外暴露一批增删改查的API，方便开发者对页面数据的管理
 
-## 3、开发说明
+### 多维数据模型
 
-### 目录说明
+解决了字段关联、主子数据、主子孙等多维数据模型的绑定问题
+
+### 状态标识
+
+数据增加状态标识：新增、修改、删除，方便开发者使用
+
+### 分页缓存能力
+
+具有分页缓存能力，可在前台处理分页，实现跨页操作数据(非必要情况下，不推荐前台分页)  
+
+### 事件触发器
+
+具有事件触发器，增删改查过程中的数据变化通过on方法添加监听，供开发者使用
+
+## 快速上手
+
+### 获取kero
+
+- 直接从github获取我们的源码
+```
+git clone git@github.com:iuap-design/kero.git
+```
+
+- 使用CDN
+```
+http://design.yyuap.com/static/uui/latest/js/u.js
 
 ```
-├─css 控件css
-├─dist 产出后的资源
-├─docs 文档相关
-├─examples 示例文件
-    ├─datatable 关联datatable示例
-	├─ui 单独控件示例
-├─snippets 文档及代码片段
-    ├─docs 文档片段
-    │  ├─grid.md 文档片段:replaceui将替换为ui示例，replacedatatable将替换为datatable示例。
-    └─examples 示例片段
-        └─grid 与grid.md对应的目录,示例目录下必须存在widget.css,widget.html,widget.js,说明.txt
-			└─datatable 关联datatable示例片段
-			└─ui 单独控件示例片段
-├─vendor 第三方库，后续删除
-├─app.js 依据snippets中的片段生成docs以及examples中的最终产出
-├─gulpfile.js 通过gulp对项目源文件（CSS/JS）生成dist中的最终产出
-├─package.json node说明
-└─README.md 项目说明
+- 使用npm安装
+
 ```
-####snippets详细说明：
+npm install kero
+```
 
-docs目录与examples目录结构需要对应：docs下md文件在examples对应目录下存在同样名称的文件夹，并且此文件夹下面包含datatable以及ui文件夹用于存放对应示例片段
+### 简单示例
 
-示例1：
+#### 模型定义
 
-docs/grid.md
+模型定义方法：
 
-examples/examples/grid/datatable以及examples/examples/grid/ui
+		var myDataTable = new u.DataTable({
+			meta:{
+				field1:{required:true},
+				field2:{}
+			}
+		})
 
-示例2：
 
-docs/dir/grid.md
+meta中是模型的字段信息，字段名对应的对象为字段的属性定义。没有字段属性时，可以为空对象。
 
-examples/examples/dir/grid/datatable以及examples/examples/dir/grid/ui
+字段的属性值在控件模型中被使用到，主要用于控制表单输入、字段显示格式等业务特性。
 
 
-### 控件开发过程说明
 
-针对控件进行开发，修改css以及js文件之后通过调用gulp dist来生成项目产出
+####  数据载入到模型中 
 
-	$ gulp dist
+模型定义好之后，可以通过`dataTable.setSimpleData`方法把从后台查询到的json数据载入模型之中：
 
-### 示例及文档开发过程说明
+    dataTable.setSimpleData([
+        {"id": "001","name": "tom"},
+        {"id": "002","name": "john"}
+    ])
 
-针对示例及文档进行开发，修改snippets文件之后通过node app.js来生成示例及文档产出
+数据载入到模型中之后，数据被存储在一组`Row`对象之中，json数组中的每一个对象，对应dataTable中的`Row`对象中。
 
-	$ node app.js
+
+#### 新增数据行并赋值
+
+	var row = dataTable.createEmptyRow();
+	row.setValue('id','003')
+
+新增的数据在dataTable中表现为新增一个`Row`对象。调用`setValue`对其中字段赋值。
+
+#### 修改已存在的行中数据
+
+	var row = dataTable.getRow(index);
+	row.setValue('name','jerry');
+
+
+#### 删除某一行数据
+
+	dataTable.removeRow(index);
+
+#### 获取所有数据
+
+	var json = dataTable.getSimpleData();
+
+#### 添加事件监听
+
+示例如下：
+
+```
+//数据改变监听
+dataTable1.on('valueChange',function(event){
+	var field = event.field,
+		rowId = event.rowId,
+		oldValue = event.oldValue,
+		newValue = event.newValue;
+});
+```
+## 文档
+
+开发文档详见[这里](http://tinper.org/dist/kero/docs/overview.html)。
+
+更多内容请移步我们的[官网](http://tinper.org)
+
+## 如何参与贡献
+
+
+### 反馈
+如在使用过程中遇到任何问题，可以在[这里](https://github.com/iuap-design/kero/issues)提交issue反馈；
+
+或者直接fork代码到你的github仓库，提交pull request给我们。
+
+
+[Bug 反馈及需求提交](CONTRIBUTING.md)
+
+### 开发及构建
+
+开发者可以一起参与为 kero 贡献代码，同时也可以基于 kero 进行二次开发或封装插件。
+
+
+neoui 使用 [gulp.js](http://gulpjs.com/) 构建项目。
+
+克隆项目文件:
+
+```
+$ git clone git@github.com:iuap-design/kero.git
+```
+
+然后进入目录安装依赖：
+
+```
+$ npm install
+```
+
+接下来，执行 `gulp`：
+
+```
+$ npm run product
+```
+
+### 官方QQ群
+
+527124070
+
+## Licence 版权
+
+[MIT](./LICENSE)
