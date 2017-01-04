@@ -44,11 +44,6 @@
 git clone git@github.com:iuap-design/kero.git
 ```
 
-- 使用CDN
-```
-http://design.yyuap.com/static/uui/latest/js/u.js
-
-```
 - 使用npm安装
 
 ```
