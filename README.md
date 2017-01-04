@@ -9,7 +9,7 @@
 
 [English Document](./README.md)
 ##  介绍
-[kero](http://tinper.org/dist/kero/index.html) 是一个基于knockout扩展的Library，做为`MVVM` 架构中 `Model` 层的增强，提供多维数据模型，解决企业应用中复杂的业务应用场景的开发问题。
+[kero](http://tinper.org/dist/kero/index.html) 是一个前端模型框架，做为`MVVM` 架构中 `Model` 层的增强，提供多维数据模型，解决企业应用中复杂的业务应用场景的开发问题。
 
 
 ## 功能
@@ -17,7 +17,7 @@
 
 ### 丰富的API
 
-对外暴露一批增删改查的API，方便开发者对页面数据的管理
+对外暴露丰富的增删改查API，方便开发者对页面数据的管理
 
 ### 多维数据模型
 
