@@ -7,7 +7,7 @@
 [![NPM downloads](http://img.shields.io/npm/dm/kero.svg?style=flat)](https://npmjs.org/package/kero)
 
 
-[English Document](./README.md)
+
 ##  介绍
 [kero](http://tinper.org/dist/kero/index.html) 是一个前端模型框架，做为`MVVM` 架构中 `Model` 层的增强，提供多维数据模型，解决企业应用中复杂的业务应用场景的开发问题。
 
