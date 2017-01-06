@@ -1270,6 +1270,7 @@
 		isIE10: false,
 		isIE10_ABOVE: false,
 		isIE11: false,
+		isEdge: false,
 		isIOS: false,
 		isIphone: false,
 		isIPAD: false,
@@ -1337,6 +1338,9 @@
 			};
 		}
 
+		if (userAgent.indexOf("Edge") > -1) {
+			u.isEdge = true;
+		}
 		if (s = ua.match(/opera.([\d.]+)/)) {
 			u.isOpera = true;
 		} else if (browserMatch.browser == "IE" && browserMatch.version == 11) {
@@ -1592,6 +1596,7 @@
 	};
 	var isNumber = function isNumber(obj) {
 		//return obj === +obj
+		//加了个typeof 判断，因为'431027199110.078573'会解析成number
 		return obj - parseFloat(obj) + 1 >= 0;
 	};
 	var isArray = Array.isArray || function (val) {
@@ -6351,7 +6356,8 @@
 
 	var eq = function eq(a, b) {
 	    if ((a === null || a === undefined || a === '') && (b === null || b === undefined || b === '')) return true;
-	    if ((0, _util.isNumber)(a) && (0, _util.isNumber)(b) && parseFloat(a) == parseFloat(b)) return true;
+	    //判断输入的值是否相等，a,b是字符串直接比较这两个值即可，没必要判断是否是数据，判断是否是数据使用parseFloat转换有时精度不准（431027199110.078573） 
+	    //if (isNumber(a) && isNumber(b) && parseFloat(a) == parseFloat(b)) return true;
 	    if (a + '' == b + '') return true;
 	    return false;
 	}; /**
