@@ -7,12 +7,12 @@
 [![NPM downloads](http://img.shields.io/npm/dm/kero.svg?style=flat)](https://npmjs.org/package/kero)
 
 
-[中文文档](./README_CN.md)
-##  Introduction
+[English Document](./README.md)
+##  介绍
 [kero](http://tinper.org/dist/kero/index.html) 是一个前端模型框架，做为`MVVM` 架构中 `Model` 层的增强，提供多维数据模型，解决企业应用中复杂的业务应用场景的开发问题。
 
 
-## Features
+## 功能
 
 
 ### 丰富的API
@@ -116,50 +116,49 @@ dataTable1.on('valueChange',function(event){
 		newValue = event.newValue;
 });
 ```
+## 文档
+
+开发文档详见[这里](http://tinper.org/dist/kero/docs/overview.html)。
+
+更多内容请移步我们的[官网](http://tinper.org)
+
+## 如何参与贡献
 
 
-## Document
+### 反馈
+如在使用过程中遇到任何问题，可以在[这里](https://github.com/iuap-design/kero/issues)提交issue反馈；
 
-[Develop documentation](http://tinper.org/dist/kero/docs/overview.html)
-
-[Website](http://tinper.org)
-
-## Contributing
+或者直接fork代码到你的github仓库，提交pull request给我们。
 
 
-### Feedback
+[Bug 反馈及需求提交](CONTRIBUTING.md)
 
-If you encounter any problems , submit [issues](https://github.com/iuap-design/kero/issues),or pull request。
+### 开发及构建
 
-[PR code](CONTRIBUTING.md)
-
-### Develop
-
-Developers can participate in the development of neoui,  but also can be based on neoui two development
+开发者可以一起参与为 kero 贡献代码，同时也可以基于 kero 进行二次开发或封装插件。
 
 
-tinper-neoui use gulp.js and webpack build the project.
+neoui 使用 [gulp.js](http://gulpjs.com/) 构建项目。
 
-
-clone：
+克隆项目文件:
 
 ```
 $ git clone git@github.com:iuap-design/kero.git
 ```
 
-install：
+然后进入目录安装依赖：
 
 ```
 $ npm install
 ```
 
-build：
+接下来，执行 `gulp`：
 
 ```
 $ npm run product
 ```
 
-### Website Chat Group
+### 官方QQ群
 
 527124070
 
