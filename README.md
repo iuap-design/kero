@@ -64,14 +64,12 @@ npm install kero
 
 ####  add data
 
-模型定义好之后，可以通过`dataTable.setSimpleData`方法把从后台查询到的json数据载入模型之中：
 
     dataTable.setSimpleData([
         {"id": "001","name": "tom"},
         {"id": "002","name": "john"}
     ])
 
-数据载入到模型中之后，数据被存储在一组`Row`对象之中，json数组中的每一个对象，对应dataTable中的`Row`对象中。
 
 
 #### setValue
