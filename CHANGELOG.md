@@ -1,3 +1,13 @@
+<a name="2.1.22"></a>
+## [2.1.22](https://github.com/iuap-design/kero/compare/v2.1.21...v2.1.22) (2017-01-10)
+
+
+### Bug Fixes
+* row-util ([4fba275](https://github.com/iuap-design/kero/commit/4fba275))
+
+
+
+
 <a name="2.1.19"></a>
 ## [2.1.19](https://github.com/iuap-design/kero/compare/v2.1.18...v2.1.19) (2016-12-28)
 
