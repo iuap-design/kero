@@ -89,7 +89,8 @@ const addRowsSelect = function (indices) {
                 toAdd = false
             }
         }
-        if (toAdd) {
+        //indices[i]存在并且大于-1
+        if (toAdd && indices[i] > -1) {
             needTrigger = true
             selectedIndices.push(indices[i])
         }
