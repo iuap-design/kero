@@ -13,13 +13,6 @@ import {
 window.App = App;
 window.processXHRError = processXHRError;
 
-
-import {
-    ServerEvent
-} from './app/indexServerEvent';
-window.ServerEvent = ServerEvent;
-
-
 import {
     DataTable
 } from './dataTable/indexDataTable';
