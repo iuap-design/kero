@@ -5,15 +5,6 @@
  */
 
 import {
-    App,
-    processXHRError,
-    createApp
-} from './app/indexApp';
-
-window.App = App;
-window.processXHRError = processXHRError;
-
-import {
     DataTable
 } from './dataTable/indexDataTable';
 window.DataTable = DataTable;
