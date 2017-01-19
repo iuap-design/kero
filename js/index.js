@@ -22,7 +22,6 @@ window.Row = Row;
 
 window.u = window.u || {};
 u = window.u;
-u.createApp = createApp;
 u.DataTable = DataTable;
 u.Row = Row;
 
