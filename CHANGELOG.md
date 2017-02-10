@@ -1,3 +1,18 @@
+<a name="3.1.25"></a>
+## [3.1.25](https://github.com/iuap-design/kero/compare/v2.1.23...v3.1.25) (2017-02-10)
+
+
+
+<a name="2.1.23"></a>
+## [2.1.23](https://github.com/iuap-design/kero/compare/v2.1.22...v2.1.23) (2017-01-13)
+
+
+### Bug Fixes
+* dataTable选中行 ([e29ed5d](https://github.com/iuap-design/kero/commit/e29ed5d))
+
+
+
+
 <a name="2.1.22"></a>
 ## [2.1.22](https://github.com/iuap-design/kero/compare/v2.1.21...v2.1.22) (2017-01-10)
 
@@ -82,7 +97,7 @@
 
 
 <a name="2.1.7"></a>
-## [2.1.7](https://github.com/iuap-design/kero/compare/v3.0.6...v2.1.7) (2016-11-08)
+## [2.1.7](https://github.com/iuap-design/kero/compare/v3.1.1...v2.1.7) (2016-11-08)
 
 
 ### Bug Fixes
@@ -94,13 +109,21 @@
 
 
 
-* _method error ([bb03148](https://github.com/iuap-design/kero/commit/bb03148))
-
 * IUAPDESIGN-69:营销物业管理：u-meta定义方式需要支持指定数据行 ([b40b214](https://github.com/iuap-design/kero/commit/b40b214))
 
 ### Features
 
 * dateTime yearmonth文档 ([46b1826](https://github.com/iuap-design/kero/commit/46b1826))
+
+
+
+<a name="3.1.1"></a>
+## [3.1.1](https://github.com/iuap-design/kero/compare/v3.0.6...v3.1.1) (2016-10-17)
+
+
+### Bug Fixes
+* _method error ([bb03148](https://github.com/iuap-design/kero/commit/bb03148))
+
 
 
 
