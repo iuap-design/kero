@@ -1,3 +1,10 @@
+/*!
+ * kero v3.1.25
+ * 
+ * author : yonyou FED
+ * homepage : https://github.com/iuap-design/kero#readme
+ * bugs : https://github.com/iuap-design/kero/issues
+ */
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -46,7 +53,9 @@
 
 	'use strict';
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 	exports.DataTable = exports.u = undefined;
 
 	var _indexDataTable = __webpack_require__(1);
@@ -79,7 +88,9 @@
 
 	'use strict';
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 	exports.DataTable = undefined;
 
 	var _extend = __webpack_require__(2);
@@ -393,7 +404,9 @@
 
 	'use strict';
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
 	exports.extend = undefined;
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; /**
@@ -443,7 +456,9 @@
 
 	"use strict";
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
 	/**
 	 * Module : Sparrow extend enum
 	 * Author : Kvkens(yueming@yonyou.com)
@@ -479,7 +494,9 @@
 
 	'use strict';
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 	exports.Events = undefined;
 
 	var _events = __webpack_require__(5);
@@ -511,7 +528,9 @@
 
 	'use strict';
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
@@ -643,7 +662,9 @@
 
 	"use strict";
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 	/**
 	 * Module : kero dataTable copyRow
 	 * Author : liuyk(liuyk@yonyou.com)
@@ -673,7 +694,9 @@
 
 	'use strict';
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 	/**
 	 * Module : kero dataTable data
 	 * Author : liuyk(liuyk@yonyou.com)
@@ -768,7 +791,9 @@
 
 	'use strict';
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 	/**
 	 * Module : kero dataTable enable
 	 * Author : liuyk(liuyk@yonyou.com)
@@ -805,7 +830,9 @@
 
 	"use strict";
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 	/**
 	 * Module : kero dataTable getCurrent
 	 * Author : liuyk(liuyk@yonyou.com)
@@ -837,7 +864,9 @@
 
 	'use strict';
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 	/**
 	 * Module : kero dataTable getData
 	 * Author : liuyk(liuyk@yonyou.com)
@@ -1187,7 +1216,9 @@
 
 	"use strict";
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 	/**
 	 * Module : kero dataTable getFocus
 	 * Author : liuyk(liuyk@yonyou.com)
@@ -1217,7 +1248,9 @@
 
 	'use strict';
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 	/**
 	 * Module : kero dataTable getMete
 	 * Author : liuyk(liuyk@yonyou.com)
@@ -1254,7 +1287,9 @@
 
 	"use strict";
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 	/**
 	 * Module : kero dataTable getPage
 	 * Author : liuyk(liuyk@yonyou.com)
@@ -1284,7 +1319,9 @@
 
 	"use strict";
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 	/**
 	 * Module : kero dataTable getParam
 	 * Author : liuyk(liuyk@yonyou.com)
@@ -1303,7 +1340,9 @@
 
 	"use strict";
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 	/**
 	 * Module : kero dataTable getSelect
 	 * Author : liuyk(liuyk@yonyou.com)
@@ -1381,7 +1420,9 @@
 
 	'use strict';
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 	/**
 	 * Module : kero dataTable getSimpleData
 	 * Author : liuyk(liuyk@yonyou.com)
@@ -1429,7 +1470,9 @@
 
 	'use strict';
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
@@ -1570,7 +1613,9 @@
 
 	'use strict';
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 	/**
 	 * Module : kero dataTable page
 	 * Author : liuyk(liuyk@yonyou.com)
@@ -1818,7 +1863,9 @@
 
 	"use strict";
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 	/**
 	 * Module : kero dataTable param
 	 * Author : liuyk(liuyk@yonyou.com)
@@ -1844,7 +1891,9 @@
 
 	'use strict';
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 	/**
 	 * Module : kero dataTable ref
 	 * Author : liuyk(liuyk@yonyou.com)
@@ -1982,7 +2031,9 @@
 
 	'use strict';
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 	exports.clear = exports.removeRows = exports.removeAllRows = exports.removeRow = exports.removeRowByRowId = undefined;
 
 	var _util = __webpack_require__(22);
@@ -2067,7 +2118,9 @@
 
 	'use strict';
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 	exports._formatToIndicesArray = exports.isChanged = undefined;
 
 	var _util = __webpack_require__(23);
@@ -2107,7 +2160,9 @@
 
 	'use strict';
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
@@ -2267,7 +2322,9 @@
 
 	'use strict';
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 	exports.createEmptyRow = exports.insertRows = exports.insertRow = exports.addRows = exports.addRow = exports.setRows = undefined;
 
 	var _util = __webpack_require__(23);
@@ -2388,7 +2445,9 @@
 
 	"use strict";
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 	/**
 	 * Module : kero dataTable rowCurrent
 	 * Author : liuyk(liuyk@yonyou.com)
@@ -2415,7 +2474,9 @@
 
 	'use strict';
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 	exports.setRowsDelete = exports.setAllRowsDelete = exports.setRowDelete = undefined;
 
 	var _util = __webpack_require__(22);
@@ -2484,7 +2545,9 @@
 
 	'use strict';
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 	exports.updateSelectedIndices = exports.toggleAllSelect = exports.setRowsUnSelect = exports.setRowUnSelect = exports.setAllRowsUnSelect = exports.addRowsSelect = exports.addRowSelect = exports.setRowsSelect = exports.setRowSelect = exports.setAllRowsSelect = undefined;
 
 	var _util = __webpack_require__(23);
@@ -2688,7 +2751,9 @@
 
 	'use strict';
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 	exports.updateFocusIndex = exports.setRowUnFocus = exports.setRowFocus = undefined;
 
 	var _util = __webpack_require__(23);
@@ -2773,7 +2838,9 @@
 
 	'use strict';
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 	exports.addSimpleData = exports.setSimpleData = undefined;
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; /**
@@ -2852,7 +2919,9 @@
 
 	'use strict';
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
 	exports.Page = undefined;
 
 	var _pageData = __webpack_require__(31);
@@ -2912,7 +2981,9 @@
 
 	'use strict';
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 	/**
 	 * Module : kero dataTable page data
 	 * Author : liuyk(liuyk@yonyou.com)
@@ -2963,7 +3034,9 @@
 
 	'use strict';
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 	/**
 	 * Module : kero dataTable page getData
 	 * Author : liuyk(liuyk@yonyou.com)
@@ -3031,7 +3104,9 @@
 
 	"use strict";
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 	/**
 	 * Module : kero dataTable page getMeta
 	 * Author : liuyk(liuyk@yonyou.com)
@@ -3055,7 +3130,9 @@
 
 	"use strict";
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 	/**
 	 * Module : kero dataTable page meta
 	 * Author : liuyk(liuyk@yonyou.com)
@@ -3080,7 +3157,9 @@
 
 	'use strict';
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 	exports.updateFocusIndex = exports.updateSelectedIndices = exports.removeRowByRowId = undefined;
 
 	var _util = __webpack_require__(23);
@@ -3159,7 +3238,9 @@
 
 	'use strict';
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 	exports.Row = undefined;
 
 	var _indexEvents = __webpack_require__(4);
@@ -3178,9 +3259,9 @@
 
 	var _rowRef = __webpack_require__(44);
 
-	var _rowRowSelect = __webpack_require__(49);
+	var _rowRowSelect = __webpack_require__(51);
 
-	var _rowSimpleData = __webpack_require__(50);
+	var _rowSimpleData = __webpack_require__(52);
 
 	var _rowUtil = __webpack_require__(38);
 
@@ -3200,7 +3281,7 @@
 	    function Row(options) {
 	        _classCallCheck(this, Row);
 
-	        var _this = _possibleConstructorReturn(this, _Events.call(this));
+	        var _this = _possibleConstructorReturn(this, (Row.__proto__ || Object.getPrototypeOf(Row)).call(this));
 
 	        var self = _this;
 	        _this.rowId = options['id'] || Row.getRandomRowId();
@@ -3308,7 +3389,9 @@
 
 	'use strict';
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 	exports.updateRow = exports.setData = exports.setChildSimpleDataByRowId = exports.setChildValue = exports.setValue = undefined;
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; /**
@@ -3546,14 +3629,16 @@
 
 	'use strict';
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 	exports._findField = exports._getField = exports.formatValue = exports._triggerChange = exports._dateToUTCString = exports.eq = undefined;
 
 	var _util = __webpack_require__(23);
 
 	var eq = function eq(a, b) {
 	    if ((a === null || a === undefined || a === '') && (b === null || b === undefined || b === '')) return true;
-	    //判断输入的值是否相等，a,b是字符串直接比较这两个值即可，没必要判断是否是数据，判断是否是数据使用parseFloat转换有时精度不准（431027199110.078573） 
+	    //判断输入的值是否相等，a,b是字符串直接比较这两个值即可，没必要判断是否是数据，判断是否是数据使用parseFloat转换有时精度不准（431027199110.078573）
 	    //if (isNumber(a) && isNumber(b) && parseFloat(a) == parseFloat(b)) return true;
 	    if (a + '' == b + '') return true;
 	    return false;
@@ -3693,7 +3778,9 @@
 
 	'use strict';
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 	exports.getEmptyData = exports.getData = exports.getChildValue = exports.getValue = undefined;
 
 	var _rowUtil = __webpack_require__(38);
@@ -3788,7 +3875,9 @@
 
 	'use strict';
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 	exports.getMeta = undefined;
 
 	var _rowUtil = __webpack_require__(38);
@@ -3821,7 +3910,9 @@
 
 	'use strict';
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 	exports.getSimpleData = exports.formatValueFun = undefined;
 
 	var _rowUtil = __webpack_require__(38);
@@ -3905,7 +3996,9 @@
 
 	'use strict';
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
@@ -3971,7 +4064,9 @@
 
 	'use strict';
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 	exports.setMeta = undefined;
 
 	var _rowUtil = __webpack_require__(38);
@@ -4033,7 +4128,9 @@
 
 	'use strict';
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 	exports.refEnum = exports.refDate = exports.refCombo = exports.refMeta = exports.ref = undefined;
 
 	var _util = __webpack_require__(23);
@@ -4164,14 +4261,16 @@
 
 	'use strict';
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
 	exports.date = undefined;
 
 	var _core = __webpack_require__(46);
 
-	var _util = __webpack_require__(23);
+	var _util = __webpack_require__(48);
 
-	var _i18n = __webpack_require__(48);
+	var _i18n = __webpack_require__(50);
 
 	var u = {}; /**
 	             * Module : Sparrow date util
@@ -4442,7 +4541,9 @@
 
 	'use strict';
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
 	exports.core = undefined;
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; /**
@@ -4452,11 +4553,11 @@
 	                                                                                                                                                                                                                                                                               */
 
 
-	var _extend = __webpack_require__(2);
+	var _extend = __webpack_require__(47);
 
-	var _util = __webpack_require__(23);
+	var _util = __webpack_require__(48);
 
-	var _cookies = __webpack_require__(47);
+	var _cookies = __webpack_require__(49);
 
 	var _enumerables = __webpack_require__(3);
 
@@ -4624,11 +4725,227 @@
 
 /***/ },
 /* 47 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	exports.extend = undefined;
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; /**
+	                                                                                                                                                                                                                                                                               * Module : Sparrow extend
+	                                                                                                                                                                                                                                                                               * Author : Kvkens(yueming@yonyou.com)
+	                                                                                                                                                                                                                                                                               * Date	  : 2016-07-27 21:46:50
+	                                                                                                                                                                                                                                                                               */
+
+	var _enumerables = __webpack_require__(3);
+
+	/**
+	 * 复制对象属性
+	 *
+	 * @param {Object}  目标对象
+	 * @param {config} 源对象
+	 */
+	var extend = function extend(object, config) {
+		var args = arguments,
+		    options;
+		if (args.length > 1) {
+			for (var len = 1; len < args.length; len++) {
+				options = args[len];
+				if (object && options && (typeof options === 'undefined' ? 'undefined' : _typeof(options)) === 'object') {
+					var i, j, k;
+					for (i in options) {
+						object[i] = options[i];
+					}
+					if (_enumerables.enumerables) {
+						for (j = _enumerables.enumerables.length; j--;) {
+							k = _enumerables.enumerables[j];
+							if (options.hasOwnProperty && options.hasOwnProperty(k)) {
+								object[k] = options[k];
+							}
+						}
+					}
+				}
+			}
+		}
+		return object;
+	};
+
+	exports.extend = extend;
+
+/***/ },
+/* 48 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+	/**
+	 * Module : Sparrow util tools
+	 * Author : Kvkens(yueming@yonyou.com)
+	 * Date	  : 2016-07-27 21:46:50
+	 */
+
+	/**
+	 * 创建一个带壳的对象,防止外部修改
+	 * @param {Object} proto
+	 */
+	var createShellObject = function createShellObject(proto) {
+		var exf = function exf() {};
+		exf.prototype = proto;
+		return new exf();
+	};
+	var execIgnoreError = function execIgnoreError(a, b, c) {
+		try {
+			a.call(b, c);
+		} catch (e) {}
+	};
+
+	var getFunction = function getFunction(target, val) {
+		if (!val || typeof val == 'function') return val;
+		if (typeof target[val] == 'function') return target[val];else if (typeof window[val] == 'function') return window[val];else if (val.indexOf('.') != -1) {
+			var func = getJSObject(target, val);
+			if (typeof func == 'function') return func;
+			func = getJSObject(window, val);
+			if (typeof func == 'function') return func;
+		}
+		return val;
+	};
+	var getJSObject = function getJSObject(target, names) {
+		if (!names) {
+			return;
+		}
+		if ((typeof names === 'undefined' ? 'undefined' : _typeof(names)) == 'object') return names;
+		var nameArr = names.split('.');
+		var obj = target;
+		for (var i = 0; i < nameArr.length; i++) {
+			obj = obj[nameArr[i]];
+			if (!obj) return null;
+		}
+		return obj;
+	};
+	var isDate = function isDate(input) {
+		return Object.prototype.toString.call(input) === '[object Date]' || input instanceof Date;
+	};
+	var isNumber = function isNumber(obj) {
+		//return obj === +obj
+		//加了个typeof 判断，因为'431027199110.078573'会解析成number
+		return obj - parseFloat(obj) + 1 >= 0;
+	};
+	var isArray = Array.isArray || function (val) {
+		return Object.prototype.toString.call(val) === '[object Array]';
+	};
+	var isEmptyObject = function isEmptyObject(obj) {
+		var name;
+		for (name in obj) {
+			return false;
+		}
+		return true;
+	};
+	var inArray = function inArray(node, arr) {
+		if (!arr instanceof Array) {
+			throw "arguments is not Array";
+		}
+		for (var i = 0, k = arr.length; i < k; i++) {
+			if (node == arr[i]) {
+				return true;
+			}
+		}
+		return false;
+	};
+	var isDomElement = function isDomElement(obj) {
+		if (window['HTMLElement']) {
+			return obj instanceof HTMLElement;
+		} else {
+			return obj && obj.tagName && obj.nodeType === 1;
+		}
+	};
+	var each = function each(obj, callback) {
+		if (obj.forEach) {
+			obj.forEach(function (v, k) {
+				callback(k, v);
+			});
+		} else if (obj instanceof Object) {
+			for (var k in obj) {
+				callback(k, obj[k]);
+			}
+		} else {
+			return;
+		}
+	};
+	try {
+		NodeList.prototype.forEach = Array.prototype.forEach;
+	} catch (e) {}
+
+	/**
+	 * 获得字符串的字节长度
+	 */
+	String.prototype.lengthb = function () {
+		//	var str = this.replace(/[^\x800-\x10000]/g, "***");
+		var str = this.replace(/[^\x00-\xff]/g, "**");
+		return str.length;
+	};
+
+	/**
+	 * 将AFindText全部替换为ARepText
+	 */
+	String.prototype.replaceAll = function (AFindText, ARepText) {
+		//自定义String对象的方法
+		var raRegExp = new RegExp(AFindText, "g");
+		return this.replace(raRegExp, ARepText);
+	};
+
+	var dateFormat = function dateFormat(str) {
+		//如果不是string类型  原型返回
+		if (typeof str !== 'string') {
+			return str;
+		}
+		//判断 str 格式如果是 yy-mm-dd
+		if (str && str.indexOf('-') > -1) {
+			//获取当前是否是 ios版本,>8是因为ios不识别new Date（“2016/11”）格式
+			var ua = navigator.userAgent.toLowerCase();
+			if (/iphone|ipad|ipod/.test(ua)) {
+				//转换成 yy/mm/dd
+				str = str.replace(/-/g, "/");
+				str = str.replace(/(^\s+)|(\s+$)/g, "");
+				if (str.length <= 8) {
+					str = str += "/01";
+				}
+			}
+		}
+
+		return str;
+	};
+
+	exports.createShellObject = createShellObject;
+	exports.execIgnoreError = execIgnoreError;
+	exports.getFunction = getFunction;
+	exports.getJSObject = getJSObject;
+	exports.isDate = isDate;
+	exports.isNumber = isNumber;
+	exports.isArray = isArray;
+	exports.isEmptyObject = isEmptyObject;
+	exports.inArray = inArray;
+	exports.isDomElement = isDomElement;
+	exports.each = each;
+	exports.dateFormat = dateFormat;
+
+/***/ },
+/* 49 */
 /***/ function(module, exports) {
 
 	"use strict";
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
 	/**
 	 * Module : Sparrow cookies
 	 * Author : Kvkens(yueming@yonyou.com)
@@ -4657,15 +4974,17 @@
 	exports.getCookie = getCookie;
 
 /***/ },
-/* 48 */
+/* 50 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
 	exports.trans = undefined;
 
-	var _cookies = __webpack_require__(47);
+	var _cookies = __webpack_require__(49);
 
 	var _enumerables = __webpack_require__(3);
 
@@ -4691,7 +5010,7 @@
 		try {
 			a.b();
 		} catch (e) {
-			stack = e.fileName || e.sourceURL || e.stack || e.stacktrace;
+			stack = e.stack || e.fileName || e.sourceURL || e.stacktrace;
 		}
 		// IE10
 		if (stack) {
@@ -4734,12 +5053,14 @@
 	exports.trans = trans;
 
 /***/ },
-/* 49 */
+/* 51 */
 /***/ function(module, exports) {
 
 	'use strict';
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 	/**
 	 * Module : kero dataTable row rowSelect
 	 * Author : liuyk(liuyk@yonyou.com)
@@ -4772,12 +5093,14 @@
 	exports.multiSelect = multiSelect;
 
 /***/ },
-/* 50 */
+/* 52 */
 /***/ function(module, exports) {
 
 	'use strict';
 
-	exports.__esModule = true;
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 	/**
 	 * Module : kero dataTable row simpleData
 	 * Author : liuyk(liuyk@yonyou.com)

@@ -7,9 +7,9 @@
     "build": "webpack --colors --progress --mode=build",
     "dev": "webpack --progress --colors  --mode=dev",
     "test": "mocha --compilers js:babel-core/register --colors -w ./test/*.spec.js",
-    "es": "babel js -d lib",
+    "es": "babel src -d lib",
     "prod": "npm run es && npm run build",
-    "product": "npm run build && npm run dev",
+    "product": "npm run es && npm run build && npm run dev",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0 && node changeSort.js"
   },
   "directories": {
