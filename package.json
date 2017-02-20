@@ -8,22 +8,14 @@
     "dev": "webpack --progress --colors  --mode=dev",
     "test": "mocha --compilers js:babel-core/register --colors -w ./test/*.spec.js",
     "es": "babel src -d lib",
-    "prod": "npm run es && npm run build",
     "product": "npm run es && npm run build && npm run dev",
-    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0 ",
-    "utipbuild": "npm run es && npm run build && npm run dev"
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0 "
   },
   "directories": {
     "doc": "docs",
     "example": "examples"
   },
   "dependencies": {
-    "gulp": "^3.9.1",
-    "gulp-concat": "^2.6.0",
-    "gulp-minify-css": "^1.2.1",
-    "gulp-rename": "^1.2.2",
-    "gulp-uglify": "^1.5.3",
-    "gulp-util": "^3.0.7",
     "tinper-sparrow": "^3.1.26"
   },
   "devDependencies": {
