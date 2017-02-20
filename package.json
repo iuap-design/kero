@@ -10,7 +10,8 @@
     "es": "babel src -d lib",
     "prod": "npm run es && npm run build",
     "product": "npm run es && npm run build && npm run dev",
-    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0 && node changeSort.js"
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0 && node changeSort.js",
+    "utipbuild": "npm run es && npm run build && npm run dev"
   },
   "directories": {
     "doc": "docs",
