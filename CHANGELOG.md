@@ -1,3 +1,8 @@
+<a name="3.1.26"></a>
+## [3.1.26](https://github.com/iuap-design/kero/compare/v3.1.25...v3.1.26) (2017-02-20)
+
+
+
 <a name="3.1.25"></a>
 ## [3.1.25](https://github.com/iuap-design/kero/compare/v2.1.23...v3.1.25) (2017-02-10)
 
@@ -8,8 +13,8 @@
 
 
 ### Bug Fixes
-* dataTable选中行 ([e29ed5d](https://github.com/iuap-design/kero/commit/e29ed5d))
 
+* dataTable选中行 ([e29ed5d](https://github.com/iuap-design/kero/commit/e29ed5d))
 
 
 
@@ -18,8 +23,8 @@
 
 
 ### Bug Fixes
-* row-util ([4fba275](https://github.com/iuap-design/kero/commit/4fba275))
 
+* row-util ([4fba275](https://github.com/iuap-design/kero/commit/4fba275))
 
 
 
@@ -28,8 +33,8 @@
 
 
 ### Bug Fixes
-* 优化前端新增删除数据时总条数的显示 ([880e77e](https://github.com/iuap-design/kero/commit/880e77e))
 
+* 优化前端新增删除数据时总条数的显示 ([880e77e](https://github.com/iuap-design/kero/commit/880e77e))
 
 
 
@@ -43,8 +48,8 @@
 
 
 ### Bug Fixes
-* 修改dataTable默认的总页数 ([be858ce](https://github.com/iuap-design/kero/commit/be858ce))
 
+* 修改dataTable默认的总页数 ([be858ce](https://github.com/iuap-design/kero/commit/be858ce))
 
 
 
@@ -53,16 +58,12 @@
 
 
 ### Bug Fixes
+
 * fieldFlag变量不起作用 ([8acf508](https://github.com/iuap-design/kero/commit/8acf508))
-
 * fire操作默认使用$的ajax ([46d95d6](https://github.com/iuap-design/kero/commit/46d95d6))
-
 * getSimpleData如果为undefined按原值返回 ([c7b3135](https://github.com/iuap-design/kero/commit/c7b3135))
-
 * getSimpleData返回值应该和传入值保持一致 ([e981df4](https://github.com/iuap-design/kero/commit/e981df4))
-
 * valuechange的trigger增加参数rowObj存储当前的row对象 ([2654da4](https://github.com/iuap-design/kero/commit/2654da4))
-
 
 
 
@@ -76,8 +77,8 @@
 
 
 ### Bug Fixes
-* datatable支持前端缓存，datatable存储当前页数据，page中存储每页的数据 ([b464a09](https://github.com/iuap-design/kero/commit/b464a09))
 
+* datatable支持前端缓存，datatable存储当前页数据，page中存储每页的数据 ([b464a09](https://github.com/iuap-design/kero/commit/b464a09))
 
 
 
@@ -101,15 +102,12 @@
 
 
 ### Bug Fixes
-* pro-IUAPDESIGN-242:广信中移动项目：grid提供数据改变之前进行判断是否修改的接口 ([7246dbc](https://github.com/iuap-design/kero/commit/7246dbc))
-
-* pro-IUAPDESIGN-246:友云采：datatable设置选中行之后获取时不正确 ([f02049c](https://github.com/iuap-design/kero/commit/f02049c))
-
-* pro-IUAPDESIGN-66:数字营销：getSimpleData方法会自动将date字符串转换为毫秒数 ([bf80d3d](https://github.com/iuap-design/kero/commit/bf80d3d))
-
-
 
 * IUAPDESIGN-69:营销物业管理：u-meta定义方式需要支持指定数据行 ([b40b214](https://github.com/iuap-design/kero/commit/b40b214))
+* pro-IUAPDESIGN-242:广信中移动项目：grid提供数据改变之前进行判断是否修改的接口 ([7246dbc](https://github.com/iuap-design/kero/commit/7246dbc))
+* pro-IUAPDESIGN-246:友云采：datatable设置选中行之后获取时不正确 ([f02049c](https://github.com/iuap-design/kero/commit/f02049c))
+* pro-IUAPDESIGN-66:数字营销：getSimpleData方法会自动将date字符串转换为毫秒数 ([bf80d3d](https://github.com/iuap-design/kero/commit/bf80d3d))
+
 
 ### Features
 
@@ -122,8 +120,8 @@
 
 
 ### Bug Fixes
-* _method error ([bb03148](https://github.com/iuap-design/kero/commit/bb03148))
 
+* _method error ([bb03148](https://github.com/iuap-design/kero/commit/bb03148))
 
 
 

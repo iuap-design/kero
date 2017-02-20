@@ -1,6 +1,6 @@
 {
   "name": "kero",
-  "version": "3.1.25",
+  "version": "3.1.26",
   "description": "",
   "main": "gulpfile.js",
   "scripts": {
@@ -10,7 +10,7 @@
     "es": "babel src -d lib",
     "prod": "npm run es && npm run build",
     "product": "npm run es && npm run build && npm run dev",
-    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0 && node changeSort.js",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0 ",
     "utipbuild": "npm run es && npm run build && npm run dev"
   },
   "directories": {
@@ -24,7 +24,7 @@
     "gulp-rename": "^1.2.2",
     "gulp-uglify": "^1.5.3",
     "gulp-util": "^3.0.7",
-    "tinper-sparrow": "^3.1.25"
+    "tinper-sparrow": "^3.1.26"
   },
   "devDependencies": {
     "babel-cli": "^6.11.4",
