@@ -35,12 +35,18 @@
 绑定数据
 
 
-##Hello World示例
+
+
+## Hello World示例
 
 
 <div class="example-content"><!-- HTML -->
 <div id="demo_div"></div></div>
-<div class="example-content ex-hide"><script>// JS
+
+
+
+<script>
+// JS
 var app,viewModel;
 
 /**
@@ -78,11 +84,16 @@ r.setValue('f1','Hello World');
 var demoDiv = document.getElementById('demo_div');
 var dtVal = viewModel.dt1.getValue('f1');
 demoDiv.innerHTML = dtVal;
-</script></div>
-<div class="examples-code"><pre><code>&lt;!-- HTML -->
+</script>
+
+<div class="ex-code-par"><button  class="u-button u-button-block u-button-accent margin-top-15 codeOptBtn" ><i class="uf uf-arrow-down"></i>查看代码</button><div class="examples-code"><pre><code>
+&lt;!-- HTML -->
 &lt;div id="demo_div">&lt;/div></code></pre>
 </div>
-<div class="examples-code"><pre><code>// JS
+
+
+<pre class="examples-code"><code>
+// JS
 var app,viewModel;
 
 /**
@@ -120,5 +131,5 @@ r.setValue('f1','Hello World');
 var demoDiv = document.getElementById('demo_div');
 var dtVal = viewModel.dt1.getValue('f1');
 demoDiv.innerHTML = dtVal;</code></pre>
-</div>
 
+</div>

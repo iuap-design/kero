@@ -68,13 +68,13 @@
 
 
 ---
-## reg
+## regExp
 
-`reg`:设置正则匹配
+`regExp`:设置正则匹配
 
 | Key    | Value     | 说明         |
 | ------ | --------- | ---------- |
-| reg | 正则表达式 | 文本框需要匹配的正则 |
+| regExp | 正则表达式 | 文本框需要匹配的正则 |
 
 
 
@@ -171,7 +171,14 @@
 ## 基本示例
 
 
-##Validate
+
+
+
+[试一试](http://tinper.org/webide/#/demos/kero/validate)
+
+
+
+## Validate
 
 本例实现如下效果：
 
@@ -196,7 +203,11 @@
     </div>
 </div>  
 </div>
-<div class="example-content ex-hide"><script>// JS
+
+
+
+<script>
+// JS
 
 var app,viewModel;
 
@@ -217,8 +228,10 @@ app = u.createApp({
 });
 
 var r = viewModel.dt1.createEmptyRow();
-</script></div>
-<div class="examples-code"><pre><code>&lt;!-- 
+</script>
+
+<div class="ex-code-par"><button  class="u-button u-button-block u-button-accent margin-top-15 codeOptBtn" ><i class="uf uf-arrow-down"></i>查看代码</button><div class="examples-code"><pre><code>
+&lt;!-- 
 	HTML
 	u-meta:框架特有标记，框架通过识别此标记创建对应UI组件，以及进行数据绑定 
 	id,type.data,field为必选项
@@ -236,7 +249,10 @@ var r = viewModel.dt1.createEmptyRow();
 &lt;/div>  
 </code></pre>
 </div>
-<div class="examples-code"><pre><code>// JS
+
+
+<pre class="examples-code"><code>
+// JS
 
 var app,viewModel;
 
@@ -257,9 +273,5 @@ app = u.createApp({
 });
 
 var r = viewModel.dt1.createEmptyRow();</code></pre>
+
 </div>
-
-
-
-
-[试一试](http://design.yyuap.com/dist/pages/webIDE/index.html#/demos/kero/validate)

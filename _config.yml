@@ -1,0 +1,10 @@
+# layout布局
+source: docs
+example: examples
+
+# 文档片段
+snip_dir: snippets
+snip_sum: SUMMARY.md
+snip_index: README.md
+snip_base: base.md
+snip_demo: demo
