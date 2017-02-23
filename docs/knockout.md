@@ -41,30 +41,7 @@ Ko的官网除了提供[Live examples](http://knockoutjs.com/examples/),还提�
 
 
 
-<div class="example-content"><!-- ko通过data-bind绑定数据 -->
-<p>First name: <input data-bind="value: firstName" /></p>
-<p>Last name: <input data-bind="value: lastName" /></p>
-<h2>Hello, <span data-bind="text: fullName"> </span>!</h2></div>
-
-
-
-<script>
-// 定义ViewModel
-var ViewModel = function(first, last) {
-	// ko.observable可实时监听数据，实现绑定
-    this.firstName = ko.observable(first);
-    this.lastName = ko.observable(last);
- 
-    this.fullName = ko.pureComputed(function() {
-    	// ko.pureComputed用于执行计算，实时返回改变后的结果
-        return this.firstName() + " " + this.lastName();
-    }, this);
-};
- 
-ko.applyBindings(new ViewModel("Planet", "Earth")); // 通过ko.applyBindings执行knockout
-</script>
-
-<div class="ex-code-par"><button  class="u-button u-button-block u-button-accent margin-top-15 codeOptBtn" ><i class="uf uf-arrow-down"></i>查看代码</button><div class="examples-code"><pre><code>
+<div class="examples-code"><pre><code>
 &lt;!-- ko通过data-bind绑定数据 -->
 &lt;p>First name: &lt;input data-bind="value: firstName" />&lt;/p>
 &lt;p>Last name: &lt;input data-bind="value: lastName" />&lt;/p>
@@ -87,4 +64,3 @@ var ViewModel = function(first, last) {
  
 ko.applyBindings(new ViewModel("Planet", "Earth")); // 通过ko.applyBindings执行knockout</code></pre>
 
-</div>

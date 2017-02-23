@@ -176,28 +176,30 @@ async.auto({
                                         } else if (/\.html$/.test(filePath)) {
 
                                             htmls = ts;
-                                            demoHtml = '<div class="example-content">' + ts + '</div>\r\n';
+                                            //demoHtml = '<div class="example-content">' + ts + '</div>\r\n';
                                             codeHtml = codeHtmlFun(ts);
                                             cb(null, null)
                                         } else if (/\.css$/.test(filePath)) {
 
                                             styles = ts;
-                                            demoCss = '<div class="example-content ex-hide"><style>\r\n' + ts + '\r\n</style></div>';
+                                            //demoCss = '<div class="example-content ex-hide"><style>\r\n' + ts + '\r\n</style></div>';
                                             codeCss = codeFun(ts);
                                             cb(null, null)
                                         } else if (/\.js$/.test(filePath)) {
 
                                             scripts = ts;
-                                            demoJs = '\r\n<script>\r\n' + ts + '\r\n</script>\r\n';
+                                           // demoJs = '\r\n<script>\r\n' + ts + '\r\n</script>\r\n';
                                             codeJs = jsCodeFun(ts);
                                             cb(null, null)
                                         }
 
                                     }, function(err, results) {
                                         // console.log("exPath:",exPath,"\nfiles:",files,'\nbeeShow:'+ beeShow.length);
+                                        // baseDemo = '\r\n' + demoMd + '\r\n' +
+                                        //     demoHtml + '\r\n' + demoCss + '\r\n' + demoJs + '\r\n' + beeScript + '<div class="ex-code-par">' + optBtn +
+                                        //     codeHtml + '\r\n' + codeCss + '\r\n' + codeJs + '\r\n' + beeShow + '</div>';
                                         baseDemo = '\r\n' + demoMd + '\r\n' +
-                                            demoHtml + '\r\n' + demoCss + '\r\n' + demoJs + '\r\n' + beeScript + '<div class="ex-code-par">' + optBtn +
-                                            codeHtml + '\r\n' + codeCss + '\r\n' + codeJs + '\r\n' + beeShow + '</div>';
+                                            codeHtml + '\r\n' + codeCss + '\r\n' + codeJs + '\r\n';
                                         demoMd = [];
                                         demoHtml = [];
                                         demoCss = [];

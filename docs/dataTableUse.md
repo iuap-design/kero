@@ -79,40 +79,7 @@ dataTable1.on('valueChange',function(event){
 输入长度6-12字符之间
 
 
-<div class="example-content"><!-- HTML -->
-<div id="demo1">
-	<input u-meta='{"data":"dt1","field":"f1"}' />	
-</div>
-</div>
-
-
-
-<script>
-// JS
-var app,viewModel1;
-viewModel1 = {
-    dt1: new u.DataTable({
-        meta:{
-            f1:{
-                type:'string',
-                minLength:6,
-                maxLength:12
-            }
-        }
-    })
-};
-
-app = u.createApp({
-    el:'#demo1',
-    model:viewModel1
-});
-
-var r = viewModel1.dt1.createEmptyRow();
-r.setValue('f1','test txt');
-
-</script>
-
-<div class="ex-code-par"><button  class="u-button u-button-block u-button-accent margin-top-15 codeOptBtn" ><i class="uf uf-arrow-down"></i>查看代码</button><div class="examples-code"><pre><code>
+<div class="examples-code"><pre><code>
 &lt;!-- HTML -->
 &lt;div id="demo1">
 	&lt;input u-meta='{"data":"dt1","field":"f1"}' />	
@@ -145,58 +112,14 @@ var r = viewModel1.dt1.createEmptyRow();
 r.setValue('f1','test txt');
 </code></pre>
 
-</div>
+
 
 ## 示例：时间、日期指定格式
 
 输入指定格式
 
 
-<div class="example-content"><!-- HTML -->
-<div id="demo2">
-	<div class='u-datepicker' u-meta='{"id":"date1","type":"u-date","data":"dt2","field":"f2"}'>
-	    <input class="u-input" type="text">
-	</div>
-	<div class='u-datepicker' u-meta='{"id":"datetime2","type":"u-date","data":"dt2","field":"f3"}'>
-	    <input class="u-input" type="text">
-	    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
-		</span>
-	</div>	
-</div></div>
-
-
-
-<script>
-// JS
-var app, viewModel2;
-viewModel2 = {
-    dt2: new u.DataTable({
-        meta: {
-            f2: {
-                type:'date',
-                format:'YYYY-MM-DD'
-            },
-            f3: {
-                type:'date',
-                format:'YYYY/MM/DD'
-            }
-        }
-    })
-}
-
-app = u.createApp({
-    el: '#demo2',
-    model: viewModel2
-});
-
-var r = viewModel2.dt2.createEmptyRow();
-r.setValue('f2', "2016-6-30 12:13:22");
-r.setValue('f3', "2016-2-13 4:58:58");
-
-
-</script>
-
-<div class="ex-code-par"><button  class="u-button u-button-block u-button-accent margin-top-15 codeOptBtn" ><i class="uf uf-arrow-down"></i>查看代码</button><div class="examples-code"><pre><code>
+<div class="examples-code"><pre><code>
 &lt;!-- HTML -->
 &lt;div id="demo2">
 	&lt;div class='u-datepicker' u-meta='{"id":"date1","type":"u-date","data":"dt2","field":"f2"}'>
@@ -240,52 +163,14 @@ r.setValue('f3', "2016-2-13 4:58:58");
 
 </code></pre>
 
-</div>
+
 
 ## 示例：input输入框
 
 input输入值变化后，弹框提示
 
 
-<div class="example-content"><!-- HTML -->
-<div id="demo3">
-	<input u-meta='{"data":"dt3","field":"f1"}' />	
-</div>
-</div>
-
-
-
-<script>
-// JS
-var app,viewModel3;
-viewModel3 = {
-    dt3: new u.DataTable({
-        meta:{
-            f1:{
-                type:'string'
-            }
-        }
-    })
-};
-
-app = u.createApp({
-    el:'#demo3',
-    model:viewModel3
-});
-
-var r = viewModel3.dt3.createEmptyRow();
-r.setValue('f1','test');
-
-// 绑定时间触发
-viewModel3.dt3.on('valueChange', function(event){
-    var oldValue = event.oldValue;
-    var newValue = event.newValue;
-    alert('dataTable原始值为:' + oldValue +'\n' + 'dataTable现在值为:' + newValue);
-});
-
-</script>
-
-<div class="ex-code-par"><button  class="u-button u-button-block u-button-accent margin-top-15 codeOptBtn" ><i class="uf uf-arrow-down"></i>查看代码</button><div class="examples-code"><pre><code>
+<div class="examples-code"><pre><code>
 &lt;!-- HTML -->
 &lt;div id="demo3">
 	&lt;input u-meta='{"data":"dt3","field":"f1"}' />	
@@ -323,4 +208,3 @@ viewModel3.dt3.on('valueChange', function(event){
 });
 </code></pre>
 
-</div>

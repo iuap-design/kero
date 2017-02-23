@@ -186,51 +186,7 @@
 
 
 
-<div class="example-content"><!-- 
-	HTML
-	u-meta:框架特有标记，框架通过识别此标记创建对应UI组件，以及进行数据绑定 
-	id,type.data,field为必选项
-	id:创建组件唯一标识
-	type:创建组件对应的类型
-	data:指定数据模型中的数据集
-	field:绑定数据集中对应的字段
--->
-<div class="u-form-group">
-    <label>验证测试用例</label>
-    <div class="u-input-group u-has-feedback" u-meta='{"id":"f1field","type":"string","data":"dt1","field":"f1"}'>
-        <div class="u-input-group-before" style="color: red;">*</div>
-        <input type="text" class="u-form-control">
-    </div>
-</div>  
-</div>
-
-
-
-<script>
-// JS
-
-var app,viewModel;
-
-viewModel = {
-    dt1: new u.DataTable({
-        meta:{
-            f1:{type:'string',required:true,maxLength:8,minLength:3},
-            f2:{type:'string',required:true,maxLength:8,minLength:3,notipFlag: true,
-                    hasSuccess: true},
-        }
-    })
-};
-
-
-app = u.createApp({
-    el:'body',
-    model:viewModel
-});
-
-var r = viewModel.dt1.createEmptyRow();
-</script>
-
-<div class="ex-code-par"><button  class="u-button u-button-block u-button-accent margin-top-15 codeOptBtn" ><i class="uf uf-arrow-down"></i>查看代码</button><div class="examples-code"><pre><code>
+<div class="examples-code"><pre><code>
 &lt;!-- 
 	HTML
 	u-meta:框架特有标记，框架通过识别此标记创建对应UI组件，以及进行数据绑定 
@@ -274,4 +230,3 @@ app = u.createApp({
 
 var r = viewModel.dt1.createEmptyRow();</code></pre>
 
-</div>

@@ -40,53 +40,7 @@
 ## Hello World示例
 
 
-<div class="example-content"><!-- HTML -->
-<div id="demo_div"></div></div>
-
-
-
-<script>
-// JS
-var app,viewModel;
-
-/**
- * `viewModel = {...}`创建数据模型
- * `dt1` 创建名为`dt1`的`u.DataTable`数据集
- * `f1` 创建名为`f1`的字段，为`dt1`数据集的一个子集
- */
-viewModel = {
-    dt1: new u.DataTable({
-        meta:{
-            f1:{
-                type:'string',
-                maxLength:12
-            }
-        }
-    })
-};
-
-/**
- * `app = u.createApp({...})`,页面初始化，创建框架服务
- * `el` 指定服务对应的顶层DOM
- * `setValue`进行赋值操作
- */
-app = u.createApp({
-    el:'body',
-    model:viewModel
-});
-
-var r = viewModel.dt1.createEmptyRow();
-r.setValue('f1','Hello World');
-
-/**
- * getValue 获取字段对应的值
- */
-var demoDiv = document.getElementById('demo_div');
-var dtVal = viewModel.dt1.getValue('f1');
-demoDiv.innerHTML = dtVal;
-</script>
-
-<div class="ex-code-par"><button  class="u-button u-button-block u-button-accent margin-top-15 codeOptBtn" ><i class="uf uf-arrow-down"></i>查看代码</button><div class="examples-code"><pre><code>
+<div class="examples-code"><pre><code>
 &lt;!-- HTML -->
 &lt;div id="demo_div">&lt;/div></code></pre>
 </div>
@@ -132,4 +86,3 @@ var demoDiv = document.getElementById('demo_div');
 var dtVal = viewModel.dt1.getValue('f1');
 demoDiv.innerHTML = dtVal;</code></pre>
 
-</div>
