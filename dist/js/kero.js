@@ -2593,7 +2593,7 @@
 	        return;
 	    }
 
-	    if (u.isArray(indices)) {
+	    if ((0, _util.isArray)(indices)) {
 	        var rowNum = this.rows().length;
 	        for (var i = 0; i < indices.length; i++) {
 	            if (indices[i] < 0 || indices[i] >= rowNum) indices.splice(i, 1);

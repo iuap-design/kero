@@ -14,39 +14,43 @@
 
 ## Features
 
-
-### Abundant API
-
-
-
-### Multidimensional Data Model 
-
-
-### Status identifier
-
-
-### Paging cache capacity
-
-
-### event trigger
+* Abundant API
+* Multidimensional Data Model 
+* Status identifier
+* Paging cache capacity
+* event trigger
 
 
 ## Quickstart
 
-### Install
 
-- From github
-```
-git clone git@github.com:iuap-design/kero.git
-```
+### Get kero
 
 - npm
 
 ```
 npm install kero
 ```
+* cdn 
+```
+//design.yyuap.com/static/kero/latest/js/kero.js
+```
+### Introducing kero
 
-### simple example
+- ES6
+```
+import { Datatable } from "kero/src/index"
+
+```
+* HTML
+
+```
+<!-- kero is dependent on knockout-->
+<script src="//design.yyuap.com/static/knockout/knockout-3.2.0.debug.js"></script>
+<script src="//design.yyuap.com/static/kero/latest/js/kero.js"></script>
+```
+
+### Use
 
 #### definition
 
@@ -103,21 +107,10 @@ dataTable1.on('valueChange',function(event){
 });
 ```
 
+Read the [Develop documentation](http://tinper.org/dist/kero/docs/overview.html) for information on the framework contents, templates and examples, and more.
 
-## Document
-
-[Develop documentation](http://tinper.org/dist/kero/docs/overview.html)
-
-[Website](http://tinper.org)
 
 ## Contributing
-
-
-### Feedback
-
-If you encounter any problems , submit [issues](https://github.com/iuap-design/kero/issues),or pull request。
-
-[PR code](CONTRIBUTING.md)
 
 ### Develop
 
@@ -145,9 +138,12 @@ build：
 $ npm run product
 ```
 
-### Website Chat Group
+### Feedback
 
-527124070
+If you encounter any problems , submit [issues](https://github.com/iuap-design/kero/issues),or pull request。
+
+[PR code](CONTRIBUTING.md)
+
 
 ## Licence 版权
 

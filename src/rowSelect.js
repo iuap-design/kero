@@ -39,7 +39,7 @@ const setRowsSelect = function (indices) {
         return;
     }
 
-    if(u.isArray(indices)) {
+    if(isArray(indices)) {
         var rowNum = this.rows().length
         for(var i=0;i<indices.length;i++) {
             if(indices[i]<0 || indices[i] >= rowNum)
