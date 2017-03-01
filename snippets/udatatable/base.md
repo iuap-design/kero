@@ -2,17 +2,53 @@
 
 ## 属性
 
+### \# id
+
+* 类型：`String`
+* 说明：dataTable对应的id
+
+
 ### \# meta
 
 * 类型：`Object`
-* 说明：获取dataTable的所有字段属性信息
-* 用法：
+* 说明：dataTable的所有字段属性信息
 
-```
+### \# enable
 
-dataTable.meta
+* 类型：`Boolean`
+* 说明：dataTable的是否支持编辑功能
 
-```
+### \# pageSize
+
+类型：`Integer`
+* 说明：dataTable支持翻页功能时每页显示数据条数
+
+### \# pageIndex
+
+类型：`Integer`
+* 说明：dataTable支持翻页功能时当前页码
+
+### \# pageCache
+
+* 类型：`Boolean`
+* 说明：dataTable的是否支持前端缓存，支持前端缓存则前端会存储所有页的数据信息，否则只保存当前页的数据信息。如果使用前端缓存则需要使用框架封装的fire方法来与后台进行交互。
+
+
+### \# params
+
+* 类型：`Object`
+* 说明：使用者自定义的属性合集，框架内部不会针对此属性进行特殊处理，仅用于设置及获取。
+
+### \# master
+
+* 类型：`String`
+* 说明：使用者自定义的属性，框架内部不会针对此属性进行特殊处理，仅用于设置及获取。
+
+### \# dateNoConvert
+
+* 类型：`Boolean`
+* 说明：通过getSimpleData获取数据时，日期字段是否转化为long型，如果为true时不进行转化，为false时转化为long型。
+
 
 ---
 
@@ -59,7 +95,7 @@ dataTable.createEmptyRow()
 
 * 返回值：
 
-`row`：  行对象	
+`row`：  行对象
 
 
 
@@ -92,7 +128,7 @@ dataTable.removeRowByRowId(rowId)
 ```
 * 参数：
 
-`rowId` :要删除的行id	
+`rowId` :要删除的行id
 
 #### \# removeRows
 
@@ -405,7 +441,7 @@ dataTable.getSimpleData({type:'select',fields:['field1,field2']})
 
 * 返回值：
 
-`datas`：  数据数组	
+`datas`：  数据数组
 
 #### \# setSimpleData
 
@@ -494,7 +530,7 @@ datatable.getValue(fieldName)
 
 * 返回值:
 
-`value`: 字段值	
+`value`: 字段值
 
 
 #### \# ref
@@ -535,7 +571,7 @@ datatable.getMeta(fieldName, key)
 
 * 返回值:
 
-`metaValue`: 属性值 
+`metaValue`: 属性值
 
 
 
@@ -628,8 +664,3 @@ datatable.on(eventName, callBack)
 | enableChange    | 可修改属性改变事件       | enable：是否可修改；                            |
 | metaChange      | 字段属性信息改变事件      | dataTable：此dataTable对应id；field：发生属性改变的字段；meta：发生改变的属性；oldValue：发生改变之前的值；newValue：发生改变之后的值； |
 | rowMetaChange   | Row对象字段属性信息改变事件 | dataTable：此dataTable对应id；field：发生属性改变的字段；meta：发生改变的属性；oldValue：发生改变之前的值；newValue：发生改变之后的值；row：发生属性改变的Row对象 |
-
-
-
-
-

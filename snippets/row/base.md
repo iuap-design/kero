@@ -9,13 +9,25 @@ row对象为dataTable中的行对象，可以调用row上发方法获取、设�
 ### \# rowId
 
 * 类型：`String`
-* 说明：获取当前行的属性值rowId
-* 用法：
+* 说明：当前行的属性值rowId
 
-```
-row.rowId
+### \# status
 
-```
+* 类型：`String`
+* 说明：当前行的状态值
+		* Row.STATUS.NORMAL ：前后端都存在并且保持一致
+    * Row.STATUS.UPDATE ：前后端都存在并且前端进行了修改
+		* Row.STATUS.NEW ：后端不存在，前端存在的数据
+		* Row.STATUS.DELETE ：后端请求返回的状态，前端判断为此状态则将数据删除
+		* Row.STATUS.FALSE_DELETE ：后端存在，前端不存在的数据
+
+### \# parent
+
+* 类型：`Object`
+* 说明：当前行对应的dataTable对象
+
+
+
 ---
 ## 方法
 
@@ -34,7 +46,7 @@ row.setValue(fieldName, value);
 * 参数：
 
 	* fieldName： 字段名称
-	* value：需要设置的字段值 
+	* value：需要设置的字段值
 
 
 ### \# getValue  
@@ -174,4 +186,3 @@ row.setMeta(fieldName, key, value)
 	* fieldName: 字段名称
 	* key： 字段对应的属性名称
 	* value：字段对应的属性具体值
-
