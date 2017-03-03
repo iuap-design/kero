@@ -42,7 +42,7 @@ npm install kero
 ### 引入kero
 - ES6语法
 ```
-import { Datatable } from "kero/src/index"
+import { Datatable } from "kero"
 
 ```
 - HTML直接引入

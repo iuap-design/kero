@@ -39,7 +39,7 @@ npm install kero
 
 - ES6
 ```
-import { Datatable } from "kero/src/index"
+import { Datatable } from "kero"
 
 ```
 * HTML

@@ -151,47 +151,112 @@
 	                                                                                                                                                          * Date   : 2016-08-09 15:24:46
 	                                                                                                                                                          */
 
-	var DataTable =
-	// class DataTable extends Events{
-	function DataTable(options) {
+	/**
+	 * DataTable
+	 * @namespace
+	 * @description 前端数据模型对象
+	 */
+	var DataTable = function DataTable(options) {
 	    _classCallCheck(this, DataTable);
 
-	    // IE9下转化之后的代码有问题，无法获得superClass方法
-	    // super();
 	    options = options || {};
+	    /**
+	     * DataTable对应的唯一标识
+	     * @type {string}
+	     */
 	    this.id = options['id'];
+	    /**
+	     * 在设置数据时是否自动创建对应字段，如果为true则不自动创建，如果为false则自动创建缺失的字段
+	     * @type {boolean}
+	     * @default false
+	     */
 	    this.strict = options['strict'] || false;
+	    /**
+	     * DataTable的所有字段属性信息
+	     * @type {object}
+	     */
 	    this.meta = DataTable.createMetaItems(options['meta']);
+	    /**
+	     * DataTable的是否支持编辑功能
+	     * @type {boolean}
+	     * @default true
+	     */
 	    this.enable = options['enable'] || DataTable.DEFAULTS.enable;
+	    /**
+	     * DataTable支持翻页功能时每页显示数据条数
+	     * @type {number}
+	     * @default 20
+	     */
 	    this.pageSize = ko.observable(options['pageSize'] || DataTable.DEFAULTS.pageSize);
+	    /**
+	     * DataTable支持翻页功能时当前页码
+	     * @type {number}
+	     * @default 0
+	     */
 	    this.pageIndex = ko.observable(options['pageIndex'] || DataTable.DEFAULTS.pageIndex);
+	    /**
+	     * DataTable支持翻页功能时总页数
+	     * @type {number}
+	     * @default 0
+	     */
 	    this.totalPages = ko.observable(options['totalPages'] || DataTable.DEFAULTS.totalPages);
+	    // 存储所有行对象
 	    this.totalRow = ko.observable();
+	    /**
+	     * DataTable的是否支持前端缓存，支持前端缓存则前端会存储所有页的数据信息，否则只保存当前页的数据信息。如果使用前端缓存则需要使用框架封装的fire方法来与后台进行交互
+	     * @type {boolean}
+	     * @default false
+	     */
 	    this.pageCache = options['pageCache'] === undefined ? DataTable.DEFAULTS.pageCache : options['pageCache'];
+	    // 存储所有row对象
 	    this.rows = ko.observableArray([]);
+	    // 存储所有的选中行的index
 	    this.selectedIndices = ko.observableArray([]);
+	    // 原有的当前行，用于判断当前行是否发生变化
 	    this._oldCurrentIndex = -1;
+	    // 当前focus行
 	    this.focusIndex = ko.observable(-1);
+	    // 存储所有页对象
 	    this.cachedPages = [];
+	    // 存储meta改变信息
 	    this.metaChange = {};
+	    // 存储valuecahnge改变信息
 	    this.valueChange = {}; //ko.observable(1);
+	    // 监听当前行改变
 	    this.currentRowChange = ko.observable(1);
+	    // 监听是否可修改属性的改变
 	    this.enableChange = ko.observable(1);
+	    /**
+	     * 使用者自定义的属性合集，框架内部不会针对此属性进行特殊处理，仅用于设置及获取
+	     * @type {object}
+	     */
 	    this.params = options['params'] || {};
+	    /**
+	     * 使用者自定义的属性，框架内部不会针对此属性进行特殊处理，仅用于设置及获取。
+	     * @type {string}
+	     */
 	    this.master = options['master'] || '';
+	    // 监听是否全部选中
 	    this.allSelected = ko.observable(false);
-	    //dateNoconvert：true时，时间不转化，按真实走，false是，时间转换成long型
-	    this.dateNoConvert = options['dateNoConvert'];
+	    /**
+	     * 通过getSimpleData获取数据时，日期字段是否转化为long型，如果为true时不进行转化，为false时转化为long型
+	     * @type {boolean}
+	     * @default false
+	     */
+	    this.dateNoConvert = options['dateNoConvert'] || false;
+	    // 对于子表通过root字段存储根datatable对象
 	    if (options['root']) {
 	        this.root = options['root'];
 	    } else {
 	        this.root = this;
 	    }
+	    // 记录子表的路径
 	    if (options['ns']) {
 	        this.ns = options['ns'];
 	    } else {
 	        this.ns = '';
 	    }
+	    // 前端分页情况下记录前端新增的数据
 	    this.newCount = 0;
 	};
 
@@ -666,15 +731,40 @@
 	    value: true
 	});
 	/**
-	 * Module : kero dataTable copyRow
+	 * Module : kero DataTable copyRow
 	 * Author : liuyk(liuyk@yonyou.com)
-	 * Date	  : 2016-08-01 14:34:01
+	 * Date   : 2016-08-01 14:34:01
 	 */
 
+	/**
+	 * 在指定index位置插入单条数据行
+	 * @memberOf DataTable
+	 * @param  {number} index 数据行插入之后的位置
+	 * @param  {object} row   数据行信息
+	 * @example
+	 * var row = {
+	 *    field1:'value1'
+	 * }
+	 * datatable.copyRow(1,row)
+	 */
 	var copyRow = function copyRow(index, row) {
 	    this.copyRows(index, [row]);
 	};
 
+	/**
+	 * 在指定index位置插入多条数据行
+	 * @memberOf DataTable
+	 * @param  {number} index 数据行插入之后的位置
+	 * @param  {array} rows   存储数据行信息的数组
+	 * @example
+	 * var row1 = {
+	 *    field1:'value1'
+	 * }
+	 * var row2 = {
+	 *    field1:'value1'
+	 * }
+	 * datatable.copyRow(1,【row1,row2】)
+	 */
 	var copyRows = function copyRows(index, rows) {
 	    for (var i = 0; i < rows.length; i++) {
 	        var newRow = new Row({ parent: this });
@@ -698,14 +788,39 @@
 	    value: true
 	});
 	/**
-	 * Module : kero dataTable data
+	 * Module : kero DataTable data
 	 * Author : liuyk(liuyk@yonyou.com)
-	 * Date	  : 2016-07-30 14:34:01
+	 * Date   : 2016-07-30 14:34:01
 	 */
 
 	/**
-	 *设置数据
-	 *
+	 * 设置数据信息
+	 * @memberOf DataTable
+	 * @param {object} data    需要设置的数据信息，必须包含rows或者pages属性
+	 * @param {array} [data.rows]    数据信息中的行信息数组
+	 * @param {array} [data.pages]    数据信息中的page对象数组
+	 * @param {number} [data.pageIndex=DataTable对象当前的页码]    数据信息中的当前页码
+	 * @param {number} [data.pageSize=DataTable对象当前的每页显示条数]    数据信息中的每页显示条数
+	 * @param {number} [data.totalPages=DataTable对象当前的总页数]    数据信息中的总页数
+	 * @param {number} [data.totalRow=如果存在rows则为rows的长度，否则为DataTable对象当前的总条数]    数据信息中的总条数
+	 * @param {number} [data.select]    数据信息中的选中行行号
+	 * @param {number} [data.focus]    数据信息中的focus行行号
+	 * @param {object} options 设置数据时的配置参数
+	 * @param {boolean} options.unSelect=false 是否默认选中第一行，如果为true则不选中第一行，否则选中第一行
+	 * @example
+	 * var data = {
+	 *    rows:[{
+	 *      filed1:'value1',
+	 *      field2:'value2'
+	 *    },{
+	 *      filed1:'value11',
+	 *      field2:'value21'
+	 *    }],
+	 *    select:0,
+	 * }
+	 * datatable.setData(data,{
+	 *  unSelect:true
+	 * })
 	 */
 	var setData = function setData(data, options) {
 	    if (data.pageIndex || data.pageIndex === 0) {
@@ -772,6 +887,19 @@
 	    if (focus !== undefined && this.getRow(focus)) this.setRowFocus(focus);
 	};
 
+	/**
+	 * 设置对应行对应字段的值
+	 * @memberOf DataTable
+	 * @param {string} fieldName 需要设置的字段
+	 * @param {string} value     需要设置的值
+	 * @param {u.row} [row=当前行] 需要设置的u.row对象，
+	 * @param {*} [ctx]        自定义属性，在valuechange监听传入对象中可通过ctx获取此处设置
+	 * @example
+	 * datatable.setValue('filed1','value1')
+	 * var row = datatable.getRow(1)
+	 * datatable.setValue('filed1','value1',row)
+	 * datatable.setValue('filed1','value1',row,'any')
+	 */
 	var setValue = function setValue(fieldName, value, row, ctx) {
 	    if (arguments.length === 1) {
 	        value = fieldName;

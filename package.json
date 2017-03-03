@@ -2,7 +2,7 @@
   "name": "kero",
   "version": "3.1.27",
   "description": "",
-  "main": "gulpfile.js",
+  "main": "src/index",
   "scripts": {
     "build": "webpack --colors --progress --mode=build",
     "dev": "webpack --progress --colors  --mode=dev",
@@ -10,7 +10,8 @@
     "es": "babel src -d lib",
     "product": "npm run es && npm run build && npm run dev",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0 ",
-    "docs": "node bin/mdconcat.js"
+    "docs": "node bin/mdconcat.js",
+    "makeAPI": "gulp docs && sh bin/docMutilLang.sh"
   },
   "directories": {
     "doc": "docs",
@@ -36,6 +37,7 @@
     "eslint-loader": "^1.5.0",
     "file": "^0.2.2",
     "fs-extra": "^2.0.0",
+    "jsdoc-to-markdown": "^3.0.0",
     "mocha": "^3.0.1",
     "webpack": "^1.13.1",
     "yargs": "^4.8.1"
