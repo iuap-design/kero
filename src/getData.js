@@ -1,11 +1,15 @@
 /**
- * Module : kero dataTable getData
+ * Module : kero DataTable getData
  * Author : liuyk(liuyk@yonyou.com)
  * Date   : 2016-07-30 14:34:01
- */ 
+ */
 
 /**
- * 获取当前页数据
+ * 获取DataTable的数据信息
+ * @memberof DataTable
+ * @return {array} 数据信息对应的数组，每项对应一条数据
+ * @example
+ * datatable.getData()
  */
 const getData = function () {
     var datas = [], rows = this.rows();
@@ -15,9 +19,8 @@ const getData = function () {
     return datas
 }
 
-/**
- * 将page转为row对象格式
- */
+
+// 将page转为row对象格式
 const page2data = function(page, pageIndex){
     var data = {}
     data.focus = page.focus;
@@ -25,6 +28,23 @@ const page2data = function(page, pageIndex){
     data.select = page.selectedIndices;
     return data;
 }
+
+/**
+ * 按照特定规则获取数据
+ * @memberof DataTable
+ * @param  {string} rule
+ * DataTable.SUBMIT.current('current') ：当前选中行
+ * DataTable.SUBMIT.focus('focus') ：当前focus行
+ * DataTable.SUBMIT.all('all') ：所有行
+ * DataTable.SUBMIT.select('select') ：当前页选中行
+ * DataTable.SUBMIT.change('change') ：发生改变的行
+ * DataTable.SUBMIT.empty('empty') ：不获取数据，返回空数组
+ * DataTable.SUBMIT.allSelect('allSelect') ：所有页选中行
+ * DataTable.SUBMIT.allPages('allPages') ：所有页的数据
+ * @return {array}      按照规则获取到的数据信息
+ * @example
+ * datatable.getDataByRule(‘all’)
+ */
 
 const getDataByRule = function (rule) {
     var returnData = {}, datas = null, rows;
@@ -164,8 +184,8 @@ const getDataByRule = function (rule) {
         returnData.focus = this.getFocusIndex()
     }
 
-    
-        
+
+
 
     returnData.pageSize = this.pageSize()
     returnData.pageIndex = this.pageIndex()
@@ -176,12 +196,20 @@ const getDataByRule = function (rule) {
 }
 
 
-
+/**
+ * 根据索引获取指定行数据信息
+ * @memberof DataTable
+ * @param  {number} index 需要获取的数据信息的索引
+ * @return {object}      获取到的指定行数据信息
+ * @example
+ * datatable.getRow(1)
+ */
 const getRow = function (index) {
     //return this.rows()[index]   //modify by licza.   improve performance
     return this.rows.peek()[index]
 };
 
+// 获取子表的数据行
 const getChildRow = function(obj){
     var fullField = obj.fullField,
         index = obj.index,
@@ -190,13 +218,13 @@ const getChildRow = function(obj){
         if ((index + '').indexOf('.') > 0) {
             var fieldArr = fullField.split('.');
             var indexArr = index.split('.');
-            var nowDatatable = this;
+            var nowDataTable = this;
             var nowRow = null;
             for (var i = 0; i < indexArr.length; i++) {
-                nowRow = nowDatatable.getRow(indexArr[i]);
+                nowRow = nowDataTable.getRow(indexArr[i]);
                 if (i < indexArr.length - 1) {
                     if (nowRow) {
-                        nowDatatable = nowRow.getValue(fieldArr[i]);
+                        nowDataTable = nowRow.getValue(fieldArr[i]);
                     } else {
                         nowRow = null;
                         break;
@@ -212,9 +240,12 @@ const getChildRow = function(obj){
 };
 
 /**
- * 根据rowid取row对象
- * @param rowid
- * @returns {*}
+ * 根据rowid获取Row对象
+ * @memberof DataTable
+ * @param {string} rowid 需要获取的Row对应的rowid
+ * @returns {Row}
+ * @example
+ * datatable.getRowByRowId('rowid')
  */
 const getRowByRowId = function (rowid) {
     var rows = this.rows.peek();
@@ -226,9 +257,13 @@ const getRowByRowId = function (rowid) {
 }
 
 /**
- * 取行索引
- * @param row
+ * 获取Row对象对应的索引
+ * @memberof DataTable
+ * @param {u.Row} 需要获取索引的row对象
  * @returns {*}
+ * @example
+ * var row = datatable.getRow(1)
+ * datatable.getRowIndex(row) // 1
  */
 const getRowIndex = function (row){
     var rows = this.rows.peek();
@@ -239,6 +274,15 @@ const getRowIndex = function (row){
     return -1;
 };
 
+/**
+ * 根据字段及字段值获取所有数据行
+ * @memberof DataTable
+ * @param  {string} field 需要获取行的对应字段
+ * @param  {string} value 需要获取行的对应字段值
+ * @return {array}      根据字段及字段值获取的所有数据行
+ * @example
+ * datatable.getRowsByField('field1','value1')
+ */
 const getRowsByField = function(field,value){
     var rows = this.rows.peek();
     var returnRows = new Array();
@@ -249,6 +293,15 @@ const getRowsByField = function(field,value){
     return returnRows;
 }
 
+/**
+ * 根据字段及字段值获取第一条数据行
+ * @memberof DataTable
+ * @param  {string} field 需要获取行的对应字段
+ * @param  {string} value 需要获取行的对应字段值
+ * @return {u.Row}      根据字段及字段值获取第一条数据行
+ * @example
+ * datatable.getRowByField('field1','value1')
+ */
 const getRowByField = function(field,value){
     var rows = this.rows.peek();
     for (var i = 0, count = rows.length; i < count; i++) {
@@ -258,10 +311,24 @@ const getRowByField = function(field,value){
     return null;
 }
 
+/**
+ * 获取当前页的所有数据行
+ * @memberof DataTable
+ * @return {array} 获取到的数据行
+ * @example
+ * datatable.getAllRows()
+ */
 const getAllRows = function () {
     return this.rows.peek();
 }
 
+/**
+ * 获取所有页的所有数据行
+ * @memberof DataTable
+ * @return {array} 获取到的数据行
+ * @example
+ * datatable.getAllPageRows()
+ */
 const getAllPageRows = function () {
     var datas = [], rows;
     for (var i = 0; i < this.totalPages(); i++) {
@@ -281,9 +348,13 @@ const getAllPageRows = function () {
     return datas;
 }
 
-
 /**
- * 获取变动的数据(新增、修改)
+ * 获取发生变化的数据信息
+ * @memberof DataTable
+ * @param  {boolean} withEmptyRow=false 未发生变化的数据是否使用空行代替，true表示以空行代替未发生变化行，false相反
+ * @return {array}            发生变化的数据信息
+ * @example
+ * datatable.getChangedDatas()
  */
 const getChangedDatas = function (withEmptyRow) {
     var datas = [], rows = this.rows();
@@ -299,7 +370,11 @@ const getChangedDatas = function (withEmptyRow) {
 };
 
 /**
- * 取改变的行
+ * 获取发生改变的Row对象
+ * @memberof DataTable
+ * @return {array} 发生改变的Row对象
+ * @example
+ * datatable.getChangedRows()
  */
 const getChangedRows = function(){
     var changedRows = [], rows = this.rows.peek();
@@ -311,7 +386,17 @@ const getChangedRows = function(){
     return changedRows
 }
 
-
+/**
+ * 根据字段获取对应Row对象的字段值
+ * @memberof DataTable
+ * @param  {string} fieldName 需要获取的值对应的字段
+ * @param  {u.Row} [row=默认为当前行]     对应的数据行
+ * @return {string}     获取到的字段值
+ * @example
+ * datatable.getValue('field1')
+ * var row = datatable.getRow(1)
+ * datatable.getValue('field1',row)
+ */
 const getValue = function (fieldName, row) {
     row = row || this.getCurrentRow()
     if (row)
@@ -323,7 +408,10 @@ const getValue = function (fieldName, row) {
 
 /**
  * 根据行号获取行索引
+ * @memberof DataTable
  * @param {String} rowId
+ * @example
+ * datatable.getIndexByRowId('rowid')
  */
 const getIndexByRowId = function (rowId) {
     var rows = this.rows();
@@ -335,7 +423,11 @@ const getIndexByRowId = function (rowId) {
 }
 
 /**
- * 获取所有行数据
+ * 获取所有行数据信息
+ * @memberof DataTable
+ * @return {array} 所有行数据信息
+ * @example
+ * datatable.getAllDatas()
  */
 const getAllDatas = function () {
     var rows = this.getAllRows()
@@ -348,8 +440,12 @@ const getAllDatas = function () {
 
 
 /**
- * 根据索引取rowid
- * @param {Object} indices
+ * 根据索引获取rowid
+ * @memberof DataTable
+ * @param  {array} indices 需要获取rowid的索引值
+ * @return {array}         获取到的rowid
+ * @example
+ * datatable.getRowIdsByIndices([1,2,5])
  */
 const getRowIdsByIndices = function (indices) {
     var rowIds = []

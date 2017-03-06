@@ -1,12 +1,38 @@
 /**
- * Module : kero dataTable data
+ * Module : kero DataTable data
  * Author : liuyk(liuyk@yonyou.com)
  * Date	  : 2016-07-30 14:34:01
  */
 
 /**
- *设置数据
- *
+ * 设置数据信息
+ * @memberof DataTable
+ * @param {object} data    需要设置的数据信息，必须包含rows或者pages属性
+ * @param {array} [data.rows]    数据信息中的行信息数组
+ * @param {array} [data.pages]    数据信息中的page对象数组
+ * @param {number} [data.pageIndex=DataTable对象当前的页码]    数据信息中的当前页码
+ * @param {number} [data.pageSize=DataTable对象当前的每页显示条数]    数据信息中的每页显示条数
+ * @param {number} [data.totalPages=DataTable对象当前的总页数]    数据信息中的总页数
+ * @param {number} [data.totalRow=如果存在rows则为rows的长度，否则为DataTable对象当前的总条数]    数据信息中的总条数
+ * @param {number} [data.select]    数据信息中的选中行行号
+ * @param {number} [data.focus]    数据信息中的focus行行号
+ * @param {object} options 设置数据时的配置参数
+ * @param {boolean} options.unSelect=false 是否默认选中第一行，如果为true则不选中第一行，否则选中第一行
+ * @example
+ * var data = {
+ *    rows:[{
+ *      filed1:'value1',
+ *      field2:'value2'
+ *    },{
+ *      filed1:'value11',
+ *      field2:'value21'
+ *    }],
+ *    select:0,
+ * }
+ * var op = {
+ *     unSelect:true
+ * }
+ * datatable.setData(data,op)
  */
 const setData = function (data,options) {
     if(data.pageIndex || data.pageIndex === 0){
@@ -68,8 +94,8 @@ const setData = function (data,options) {
         this.totalPages(newTotalPages)
         this.totalRow(newTotalRow)
     }
-    
-    
+
+
 
     this.updateSelectedIndices()
 
@@ -80,7 +106,19 @@ const setData = function (data,options) {
 };
 
 
-
+/**
+ * 设置对应行对应字段的值
+ * @memberof DataTable
+ * @param {string} fieldName 需要设置的字段
+ * @param {string} value     需要设置的值
+ * @param {u.row} [row=当前行] 需要设置的u.row对象，
+ * @param {*} [ctx]        自定义属性，在valuechange监听传入对象中可通过ctx获取此处设置
+ * @example
+ * datatable.setValue('filed1','value1') //设置当前行字段值
+ * var row = datatable.getRow(1)
+ * datatable.setValue('filed1','value1',row) //设置在指定行字段值
+ * datatable.setValue('filed1','value1',row,'ctx') //设置在指定行字段值，同时传入自定义数据
+ */
 const setValue = function (fieldName, value, row, ctx) {
     if (arguments.length === 1){
         value = fieldName;

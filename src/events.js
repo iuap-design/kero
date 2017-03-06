@@ -1,14 +1,21 @@
 /**
- * Module : kero dataTable events
+ * Module : kero DataTable events
  * Author : liuyk(liuyk@yonyou.com)
  * Date   : 2016-07-30 14:34:01
  */
 
+
 /**
- * 绑定事件
- * 支持的格式： 1. on(u.DataTable.ON_ROW_FOCUS, function() {}) // 普通
- * 2. on([u.DataTable.ON_INSERT, u.DataTable.ON_DELETE], function() {}) // 数组
- * 3. on({u.DataTable.ON_INSERT: function() {}, u.DataTable.ON_DELETE: function() {}}) // map
+ * 为DataTable对象添加监听
+ * @memberof DataTable
+ * @param  {string|array|object}   name     针对不同用法分别对应监听名称、监听名称对应的数组、监听名称及对应的回调组成的对象
+ * @param  {function} [callback] 监听对应的回调函数
+ * @param  {boolean}   [one]      是否只执行一次监听，为true则表示只执行一次回调函数，否则每次触发监听都是执行回调函数
+ * @return {DataTable}            当前的DataTable对象
+ * @example
+ * datatable.on(u.DataTable.ON_ROW_FOCUS, function() {}) // 普通
+ * datatable.on([u.DataTable.ON_INSERT, u.DataTable.ON_DELETE], function() {}) // 数组
+ * datatable.on({u.DataTable.ON_INSERT: function() {}, u.DataTable.ON_DELETE: function() {}}) // map
  */
 const on = function (name, callback, one) {
     var self = this, origCb = callback;
@@ -41,10 +48,20 @@ const on = function (name, callback, one) {
 }
 
 /**
- * 解绑事件
- * 
-**/
+ * 为DataTable对象取消监听
+ * @memberof DataTable
+ * @param  {string|array|object}   name     针对不同用法分别对应监听名称、监听名称对应的数组、监听名称及对应的回调组成的对象
+ * @param  {function} [callback] 监听对应的回调函数
+ * @return {DataTable}            当前的DataTable对象
+ * @example
+ * datatable.off(u.DataTable.ON_ROW_FOCUS, function() {}) // 普通
+ * datatable.off([u.DataTable.ON_INSERT, u.DataTable.ON_DELETE], function() {}) // 数组
+ * datatable.off({u.DataTable.ON_INSERT: function() {}, u.DataTable.ON_DELETE: function() {}}) // map
+ */
 const off = function (name, callback) {
+  name = name.toLowerCase();
+  if(!this._events)
+    return this;
     if(Object.prototype.toString.call(name) == '[object Array]') {
         // 数组
         for(var i in name) {
@@ -74,14 +91,26 @@ const off = function (name, callback) {
 }
 
 /**
- * 
-**/
+ * 为DataTable对象添加只执行一次的监听
+ * @memberof DataTable
+ * @param  {string|array|object}   name     针对不同用法分别对应监听名称、监听名称对应的数组、监听名称及对应的回调组成的对象
+ * @param  {function} [callback] 监听对应的回调函数
+ * @example
+ * datatable.one(u.DataTable.ON_ROW_FOCUS, function() {}) // 普通
+ * datatable.one([u.DataTable.ON_INSERT, u.DataTable.ON_DELETE], function() {}) // 数组
+ * datatable.one({u.DataTable.ON_INSERT: function() {}, u.DataTable.ON_DELETE: function() {}}) // map
+ */
 const one = function (name, callback) {
     this.on(name, callback, 1);
 }
 
 /**
- * 触发事件
+ * 触发DataTable对象绑定的事件监听
+ * @memberof DataTable
+ * @param  {string} name 需要触发的事件监听对应的名称
+ * @return {DataTable}            当前的DataTable对象
+ * @example
+ * datatable.trigger('valuechange')
  */
 const trigger = function (name) {
     name = name.toLowerCase()
@@ -94,6 +123,7 @@ const trigger = function (name) {
     return this;
 }
 
+// 带返回值的trigger，可以获取回调函数的返回值
 const triggerReturn = function(name){
     name = name.toLowerCase()
     if (!this._events || !this._events[name]) return this;
@@ -106,7 +136,7 @@ const triggerReturn = function(name){
     return flag;
 }
 
-
+// 获取监听名称对应的回调函数
 const getEvent = function (name) {
     name = name.toLowerCase()
     this._events || (this._events = {})

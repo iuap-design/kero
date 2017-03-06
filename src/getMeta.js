@@ -6,10 +6,15 @@
 
 
 /**
- * 获取meta信息，先取row上的信息，没有时，取dataTable上的信息
- * @param {Object} fieldName
- * @param {Object} key
- * @param {Object} row
+ * 获取meta信息
+ * @memberof DataTable
+ * @param  {string} [fieldName] 需要获取的字段
+ * @param  {string} [key]       需要获取的字段指定meta信息
+ * @return {object}           meta信息
+ * @example
+ * datatable.getMeta() // 获取所有meta信息
+ * datatable.getMeta('field1') // 获取field1所有meta信息
+ * datatable.getMeta('field1','type') // 获取field1的key信息
  */
 const getMeta = function (fieldName, key) {
     if (arguments.length === 0)
@@ -22,10 +27,21 @@ const getMeta = function (fieldName, key) {
     }else{
         return null;
     }
-    
+
 }
 
 
+/**
+ * 获取当前行的meta信息，如果不存在当前行则获取DataTable的meta信息
+ * @memberof DataTable
+ * @param  {string} [fieldName] 需要获取的字段
+ * @param  {string} [key]       需要获取的字段指定meta信息
+ * @return {object}           meta信息
+ * @example
+ * datatable.getRowMeta() // 获取当前行所有meta信息
+ * datatable.getRowMeta('field1') // 获取当前行field1所有meta信息
+ * datatable.getRowMeta('field1','type') // 获取当前行field1的key信息
+ */
 const getRowMeta = function (fieldName, key) {
     var row = this.getCurrentRow()
     if (row)

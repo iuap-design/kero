@@ -6,7 +6,7 @@
 
 
 
-
+// 更新当前行对应索引
 const updateCurrIndex = function () {
     var currentIndex = this.focusIndex() != -1 ? this.focusIndex() : this.getSelectedIndex();
     if (this._oldCurrentIndex != currentIndex) {
@@ -17,7 +17,6 @@ const updateCurrIndex = function () {
             if (this.root.valueChange[this.ns])
                 this.root.valueChange[this.ns](-this.root.valueChange[this.ns]());
         }
-
     }
 }
 

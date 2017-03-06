@@ -7,8 +7,20 @@ import {isArray} from 'tinper-sparrow/src/util';
 
 /**
  * 设置数据, 只设置字段值
- * @param {array} data
- *options{} unSelect为true：不选中，为false则选中，默认选中0行
+ * @memberof DataTable
+ * @param {array} data 数据信息
+ * @param {boject} [options] 可配置参数
+ * @param {boject} [options.unSelect=true] 是否默认选中第一行，如果为true则不选中第一行，否则选中第一行
+ * @example
+ * var data = [{
+ *   filed1:'value1',
+ *   field2:'value2'
+ * },{
+ *   filed1:'value11',
+ *   field2:'value21'
+ * }]
+ * datatable.setSimpleData(data)
+ * datatable.setSimpleData(data,{unSelect:false})
  */
 const setSimpleData = function(data,options){
     this.removeAllRows();
@@ -51,10 +63,21 @@ const setSimpleData = function(data,options){
 };
 
 
-/**
- * 追加数据
- * @param data
- */
+ /**
+  * 追加数据, 只设置字段值
+  * @memberof DataTable
+  * @param {array} data 数据信息
+  * @param {string} status 追加数据信息的状态，参照Row对象的状态介绍
+  * @example
+  * var data = [{
+  *   filed1:'value1',
+  *   field2:'value2'
+  * },{
+  *   filed1:'value11',
+  *   field2:'value21'
+  * }]
+  * datatable.addSimpleData(data,Row.STATUS.NEW)
+  */
 const addSimpleData = function(data, status){
     if (!data){
         throw new Error("dataTable.addSimpleData param can't be null!");

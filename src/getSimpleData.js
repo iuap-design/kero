@@ -5,7 +5,21 @@
  */
 
 /**
- * 获取数据,只取字段名与字段值
+ * 获取数据信息，只获取字段名与字段值
+ * @memberof DataTable
+ * @param  {object} [options] [description]
+ * @param  {string} [options.type=all]    获取数据的规则
+ * all：所有数据
+ * current：当前行数据
+ * focus：焦点行数据
+ * select：选中行数据
+ * change：发生改变的数据
+ * @param  {array} [options.fields]    需要获取数据的字段名数组
+ * @return {array}        获取到的数据信息
+ * @example
+ * datatable.getSimpleData() // 获取所有数据信息
+ * datatable.getSimpleData({type:'current'}) // 获取当前行数据信息
+ * datatable.getSimpleData({type:'current','fields':['filed1','field3']}) // 获取当前行field1和filed3数据信息
  */
 const getSimpleData = function(options){
     options = options || {}

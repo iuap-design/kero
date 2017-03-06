@@ -4,8 +4,14 @@
  * Date	  : 2016-07-30 14:34:01
  */
 
-
-
+/**
+ * 获取Param参数值
+ * @memberof DataTable
+ * @param  {string} key Param对应的key
+ * @return {*}     Param参数值
+ * @example
+ * datatable.getParam('param1')
+ */
 const getParam = function (key) {
     return this.params[key]
 }

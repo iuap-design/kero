@@ -4,6 +4,15 @@
  * Date   : 2016-08-08 09:59:01
  */
 
+/**
+ * 根据行序号设置字段值
+ * @memberof Page
+ * @param {number} rowIndex  行序号
+ * @param {string} fieldName 字段名称
+ * @param {string} value     字段值
+ * @example
+ * page.setRowValue(1,'field1','value1')
+ */
 const setRowValue = function (rowIndex, fieldName, value) {
     var row = this.rows[rowIndex]
     if (row) {
@@ -15,7 +24,7 @@ const setRowValue = function (rowIndex, fieldName, value) {
 
 
 
-
+// 通过row对象更新row对象，不建议次方法
 const updateRow = function (originRow, newRow) {
     originRow.status = originRow.status
     //this.rowId = data.rowId
