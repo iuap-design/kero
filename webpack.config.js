@@ -30,7 +30,7 @@ var config = {
 	entry: __dirname + '/src/index.js',
 	// devtool: 'source-map',
 	output: {
-		path: __dirname + '/dist/js',
+		path: __dirname + '/dist',
 		filename: outputFile,
 		//library: 'u',
 		libraryTarget: 'var',
