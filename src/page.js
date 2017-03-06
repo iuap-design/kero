@@ -4,7 +4,7 @@
  * Date	  : 2016-08-01 14:34:01
  */
 
- 
+// 设置当前页
 const setCurrentPage = function (pageIndex, notCacheCurrentPage) {
     var nowTotalRow = this.totalRow();
     if (pageIndex != this.pageIndex() && notCacheCurrentPage != true)
@@ -22,9 +22,7 @@ const setCurrentPage = function (pageIndex, notCacheCurrentPage) {
 }
 
 
-/**
- * 更新分页数据
- */
+// 更新分页信息，通过fire调用，不对外提供
 const updatePages = function (pages) {
     var pageSize = this.pageSize(), pageIndex = 0, page, r, row;
     var page, index, i, rows, focus, selectIndices, status, j, row, originRow;
@@ -57,7 +55,7 @@ const updatePages = function (pages) {
                 if (!r.id)
                     r.id = Row.getRandomRowId()
                 if (r.status == Row.STATUS.DELETE) {
-                    
+
                     var row = page.getRowByRowId(r.id)
                     if(row){
                         // 针对后台不传回总行数的情况下更新总行数
@@ -72,7 +70,7 @@ const updatePages = function (pages) {
                     }
                     this.removeRowByRowId(r.id)
                     page.removeRowByRowId(r.id)
-                    
+
                 } else {
                     row = page.getRowByRowId(r.id)
                     if (row) {
@@ -109,14 +107,11 @@ const updatePages = function (pages) {
                 }
             }
         }
-        
+
     }
 }
 
-/**
- * 前端分页方法，不建议使用，建议在后端进行分页
- * @param allRows
- */
+// 前端分页方法，不建议使用，建议在后端进行分页
 const setPages = function (allRows) {
     var pageSize = this.pageSize(), pageIndex = 0, page;
     this.cachedPages = [];
@@ -134,14 +129,17 @@ const setPages = function (allRows) {
     this.totalPages(pageIndex + 1);
 }
 
+// 判断是否存在索引对应的Page
 const hasPage = function (pageIndex) {
     return (this.pageCache && this.cachedPages[pageIndex]) ? true : false
 }
 
+// 清空cachedPages
 const clearCache = function () {
     this.cachedPages = []
 }
 
+// 更新当前分页的page对象
 const cacheCurrentPage = function () {
     if (this.pageCache && this.pageIndex() > -1) {
         var page = new Page({parent: this});
@@ -158,9 +156,7 @@ const cacheCurrentPage = function () {
     }
 }
 
-/**
- * [updatePagesSelect 根据datatable的选中行更新每页的选中行]
- */
+//根据datatable的选中行更新每页的选中行
 const updatePagesSelect = function(){
     var selectRows = this.getSelectedRows();
     var pages = this.getPages();
@@ -183,9 +179,7 @@ const updatePagesSelect = function(){
 }
 
 
-/**
- * [updatePageRows 根据datatable的rows更新当前页的rows]
- */
+//根据datatable的rows更新当前页的rows
 const updatePageRows = function(){
     if(this.pageCache){
         var pageIndex = this.pageIndex();
@@ -196,9 +190,7 @@ const updatePageRows = function(){
     }
 }
 
-/**
- * [updatePageSelect 根据datatable的选中行更新page的选中行]
- */
+//根据datatable的选中行更新page的选中行
 const updatePageSelect = function(){
     if(this.pageCache){
         var pageIndex = this.pageIndex();
@@ -210,9 +202,7 @@ const updatePageSelect = function(){
     }
 }
 
-/**
- * [updatePageFocus 根据datatable的focus更新page的focus]
- */
+//根据datatable的focus更新page的focus
 const updatePageFocus = function(){
     if(this.pageCache){
         var pageIndex = this.pageIndex();
@@ -223,9 +213,7 @@ const updatePageFocus = function(){
     }
 }
 
-/**
- * [updatePageAll 根据datatable更新page对象]
- */
+// 根据datatable更新page对象
 const updatePageAll = function(){
     this.updatePageRows();
     this.updatePageSelect();

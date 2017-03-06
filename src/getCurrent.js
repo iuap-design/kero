@@ -1,13 +1,16 @@
 /**
- * Module : kero dataTable getCurrent
+ * Module : kero DataTable getCurrent
  * Author : liuyk(liuyk@yonyou.com)
  * Date   : 2016-08-08 09:59:01
  */
 
 
 /**
- * 获取当前操作行
- * 规则： focus 行优先，没有focus行时，取第一选中行
+ * 获取DataTable对象的当前行
+ * @memberof DataTable
+ * @return {null|u.Row} DataTable对象的当前行
+ * @example
+ * datatable.getCurrentRow()
  */
 const getCurrentRow = function () {
     if (this.focusIndex() != -1)
@@ -18,7 +21,13 @@ const getCurrentRow = function () {
     else
         return this.getRow(index)
 }
-
+/**
+ * 获取DataTable对象的当前行对应的index
+ * @memberof DataTable
+ * @return {number} DataTable对象的当前行对应的index
+ * @example
+ * datatable.getCurrentIndex()
+ */
 const getCurrentIndex = function () {
     if (this.focusIndex() != -1)
         return this.focusIndex()

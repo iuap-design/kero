@@ -31,16 +31,21 @@ import {
 	updateFocusIndex
 } from './page-removeRow';
 
-
+/**
+ * Page
+ * @namespace
+ * @description 分页对象
+ */
 class Page{
     constructor(options){
+				// 当前焦点行
         this.focus = options['focus'] || null;
+				// 选中行
         this.selectedIndices = options['selectedIndices'] || null;
+				// 所有数据行
         this.rows = options['rows'] || []
+				// DataTable对象
         this.parent = options['parent'] || null;
-
-
-
     }
 }
 

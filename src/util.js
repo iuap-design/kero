@@ -5,6 +5,7 @@
  */
 import {isArray} from 'tinper-sparrow/src/util';
 
+// 判断DataTable对象是否发生了改变
 const isChanged = function () {
     var rows = this.getAllRows()
     for (var i = 0; i < rows.length; i++) {
@@ -14,6 +15,7 @@ const isChanged = function () {
     return false
 }
 
+// 将Row对象转为索引数组或者将Row对象数组转为索引数组
 const _formatToIndicesArray = function (dataTableObj, indices) {
     if (typeof indices == 'string' || typeof indices == 'number') {
         indices = [indices]

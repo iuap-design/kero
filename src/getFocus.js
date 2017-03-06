@@ -6,6 +6,10 @@
 
 /**
  * 获取焦点行
+ * @memberof DataTable
+ * @return {u.Row} 焦点行
+ * @example
+ * datatable.getFocusRow()
  */
 const getFocusRow = function () {
     if (this.focusIndex() != -1)
@@ -14,9 +18,12 @@ const getFocusRow = function () {
         return null
 }
 
-
 /**
- * 获取焦点行
+ * 获取焦点行索引
+ * @memberof DataTable
+ * @return {number} 焦点行索引
+ * @example
+ * datatable.getFocusIndex()
  */
 const getFocusIndex = function () {
     return this.focusIndex()

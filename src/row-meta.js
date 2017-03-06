@@ -6,7 +6,13 @@
 import {eq, _getField} from './row-util';
 
 /**
- *设置row中某一列的属性
+ * 设置meta信息
+ * @memberof Row
+ * @param {string} fieldName 需要设置meta信息的字段名
+ * @param {string} key       meta信息的key
+ * @param {string} value     meta信息的值
+ * @example
+ * row.setMeta('filed1','type','string')
  */
 const setMeta = function (fieldName, key, value) {
     var meta = _getField(this, fieldName).meta

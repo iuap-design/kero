@@ -5,6 +5,13 @@
  */
 import {isArray, isNumber} from 'tinper-sparrow/src/util';
 import {_formatToIndicesArray} from './util';
+
+/**
+ * 设置所有行选中
+ * @memberof DataTable
+ * @example
+ * datatable.setAllRowsSelect()
+ */
 const setAllRowsSelect = function () {
     var indices = new Array(this.rows().length)
     for (var i = 0; i < indices.length; i++) {
@@ -16,7 +23,11 @@ const setAllRowsSelect = function () {
 }
 
 /**
- * 设置选中行，清空之前已选中的所有行
+ * 根据索引设置选中行，清空之前已选中的所有行
+ * @memberof DataTable
+ * @param {number} index 需要选中行的索引
+ * @example
+ * datatable.setRowSelect(1)
  */
 const setRowSelect = function (index) {
     if (index instanceof Row) {
@@ -26,6 +37,13 @@ const setRowSelect = function (index) {
     this.setRowFocus(this.getSelectedIndex())
 }
 
+/**
+ * 根据索引数组设置选中行，清空之前已选中的所有行
+ * @memberof DataTable
+ * @param {array} indices 需要选中行的索引数组
+ * @example
+ * datatable.setRowsSelect([1,2])
+ */
 const setRowsSelect = function (indices) {
     indices = indices || -1;
     if (indices == -1) {
@@ -66,7 +84,11 @@ const setRowsSelect = function (indices) {
 
 
 /**
- * 添加选中行，不会清空之前已选中的行
+ * 根据索引添加选中行，不会清空之前已选中的行
+ * @memberof DataTable
+ * @param {number} index 需要选中行的索引
+ * @example
+ * datatable.addRowSelect(1)
  */
 const addRowSelect = function (index) {
     if (index instanceof Row) {
@@ -76,7 +98,11 @@ const addRowSelect = function (index) {
 }
 
 /**
- * 添加选中行，不会清空之前已选中的行
+ * 根据索引数组添加选中行，不会清空之前已选中的行
+ * @memberof DataTable
+ * @param {array} indices 需要选中行的索引数组
+ * @example
+ * datatabel.addRowsSelect([1,2])
  */
 const addRowsSelect = function (indices) {
     indices = _formatToIndicesArray(this, indices)
@@ -110,6 +136,12 @@ const addRowsSelect = function (indices) {
 
 /**
  * 全部取消选中
+ * @memberof DataTable
+ * @param {object} [options] 可选参数
+ * @param {boolean} [options.quiet] 如果为true则不触发事件，否则触发事件
+ * @example
+ * datatable.setAllRowsUnSelect() // 全部取消选中
+ * datatable.setAllRowsUnSelect({quiet:true}) // 全部取消选中,不触发事件
  */
 const setAllRowsUnSelect = function (options) {
     this.selectedIndices([])
@@ -122,7 +154,11 @@ const setAllRowsUnSelect = function (options) {
 }
 
 /**
- * 取消选中
+ * 根据索引取消选中
+ * @memberof DataTable
+ * @param {number} index 需要取消选中的行索引
+ * @example
+ * datatable.setRowUnSelect(1)
  */
 const setRowUnSelect = function (index) {
     if (index instanceof Row) {
@@ -131,6 +167,13 @@ const setRowUnSelect = function (index) {
     this.setRowsUnSelect([index])
 }
 
+/**
+ * 根据索引数组取消选中
+ * @memberof DataTable
+ * @param {array} indices 需要取消选中的行索引数组
+ * @example
+ * datatable.setRowsUnSelect([1,2])
+ */
 const setRowsUnSelect = function (indices) {
     indices = _formatToIndicesArray(this, indices)
     var selectedIndices = this.selectedIndices().slice()
@@ -155,7 +198,10 @@ const setRowsUnSelect = function (indices) {
     this.allSelected(false);
 }
 
-
+/**
+ * 当全部选中时取消选中，否则全部选中
+ * @memberof DataTable
+ */
  const toggleAllSelect = function(){
     if (this.allSelected()){
         this.setAllRowsUnSelect();
@@ -166,10 +212,12 @@ const setRowsUnSelect = function (indices) {
 };
 
 
-/**
- *
- * @param {Object} index 要处理的起始行索引
- * @param {Object} type   增加或减少  + -
+/***
+ * 数据行发生改变时更新focusindex
+ * @memberof DataTable
+ * @param  {number} index 发生改变的数据行位置
+ * @param  {string} type  +表示新增行，-表示减少行
+ * @param  {number} num     新增/减少的行数
  */
 const updateSelectedIndices = function (index, type, num) {
     if (!isNumber(num)) {

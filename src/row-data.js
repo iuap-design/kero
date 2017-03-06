@@ -5,8 +5,16 @@
  */
 import {eq,_triggerChange, _getField} from './row-util';
 import {isArray} from 'tinper-sparrow/src/util';
- /**
- *设置row中某一列的值
+
+/**
+ * 设置对应字段的值
+ * @memberof Row
+ * @param {string} fieldName 需要设置的字段
+ * @param {string} value     需要设置的值
+ * @param {*} [ctx]        自定义属性，在valuechange监听传入对象中可通过ctx获取此处设置
+ * @example
+ * row.setValue('filed1','value1') // 设置字段值
+ * row.setValue('filed1','value1','ctx') //设置字段值，同时传入自定义数据
  */
 const setValue = function (fieldName, value, ctx, options) {
 
@@ -36,6 +44,7 @@ const setValue = function (fieldName, value, ctx, options) {
     _triggerChange(this, fieldName, oldValue, ctx);
 }
 
+// 设置字表值，fieldName通过.分隔
 const setChildValue = function(fieldName, value){
     var nameArr = fieldName.split('.');
     var _name = nameArr[0];
@@ -62,6 +71,7 @@ const setChildValue = function(fieldName, value){
     }
 };
 
+// 通过rowid设置字表数据信息
 const setChildSimpleDataByRowId = function(rowId, data){
     var rowIdArr = rowId.split('.');
     var rowIdLength = rowIdArr.length;
@@ -85,12 +95,15 @@ const setChildSimpleDataByRowId = function(rowId, data){
 }
 
 
-/**
- * [_setData description]
- * @param {[type]} sourceData
- * @param {[type]} targetData
- * @param {[type]} subscribe
- * @param {[type]} parentKey  [父项key，数据项为数组时获取meta值用]
+/***
+ * 设置数据的核心方法
+ * @param {u.Row} rowObj     Row对象
+ * @param {object} sourceData 源对象
+ * @param {object} targetData 目标对象
+ * @param {boolean} subscribe  是否触发监听，true表示触发监听
+ * @param {string} parentKey  datatable的id
+ * @param {object} options    设置数据信息是的配置参数
+ * @param {boolean} options.fieldFlag   未设置的meta是否进行存储，如果为true则未设置的meta也进行存储
  */
 const _setData = function(rowObj, sourceData, targetData, subscribe, parentKey, options){
     for (var key in sourceData) {
@@ -160,8 +173,19 @@ const _setData = function(rowObj, sourceData, targetData, subscribe, parentKey, 
 }
 
 /**
- *设置Row数据
- *@subscribe 是否触发监听
+ * 设置row的数据信息
+ * @memberof Row
+ * @param {object} data      需要设置的配置信息
+ * @param {boolean} [subscribe] 是否触发监听，true表示触发监听
+ * @param {object} [options]   设置数据信息是的配置参数
+ * @param {boolean} [options.fieldFlag]   未设置的meta是否进行存储，如果为true则未设置的meta也进行存储
+ * var data = {
+ *   filed1:'value1',
+ *   field2:'value2'
+ * }
+ * row.setData(data)
+ * row.setData(data,false)
+ * row.setData(data),false,{fieldFlag:true})
  */
 const setData = function (data, subscribe, options) {
     this.status = data.status
@@ -229,7 +253,7 @@ const setData = function (data, subscribe, options) {
     }
 };
 
-
+// 效果同setData
 const updateRow = function (row) {
     this.setData(row)
 }

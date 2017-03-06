@@ -5,6 +5,13 @@
  */
 
 import {isNumber} from 'tinper-sparrow/src/util';
+
+/**
+ * 根据rowid删除行
+ * @param  {string} rowid 需要删除行的rowid
+ * @example
+ * page.removeRowByRowId('rowid1')
+ */
 const removeRowByRowId = function (rowid) {
     for (var i = 0, count = this.rows.length; i < count; i++) {
         if (this.rows[i].rowId == rowid){
@@ -16,12 +23,7 @@ const removeRowByRowId = function (rowid) {
     }
 }
 
-/**
- * [updateSelectedIndices 更新选中行]
- * @param  {[type]} index [起始行号]
- * @param  {[type]} type  [增减类型]
- * @param  {[type]} num   [影响行数]
- */
+// 新增/删除行之后更新选中行的index
 const updateSelectedIndices = function (index, type, num) {
     if (!isNumber(num)) {
         num = 1
@@ -45,12 +47,7 @@ const updateSelectedIndices = function (index, type, num) {
     this.selectedIndices = selectedIndices
 }
 
-/**
- * [updateFocusIndex 更新focus行]
- * @param  {[type]} opIndex [起始行号]
- * @param  {[type]} opType  [增减类型]
- * @param  {[type]} num     [影响行数]
- */
+//新增/删除行之后更新焦点行
 const updateFocusIndex = function (opIndex, opType, num) {
     if (!isNumber(num)) {
         num = 1

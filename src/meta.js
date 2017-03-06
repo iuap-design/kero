@@ -5,7 +5,15 @@
  */
 
 
-
+/**
+ * 设置meta信息
+ * @memberof DataTable
+ * @param {string} fieldName 需要设置meta信息的字段名
+ * @param {string} key       meta信息的key
+ * @param {string} value     meta信息的值
+ * @example
+ * datatable.setMeta('filed1','type','string')
+ */
 const setMeta = function (fieldName, key, value) {
     if(!this.meta[fieldName])
         return;
@@ -36,7 +44,12 @@ const setMeta = function (fieldName, key, value) {
 
 
 /**
- * example: meta: {supplier: {meta: {precision:'3', default: '0239900x', display:'显示名称'}}}
+ * 更新meta信息
+ * @memberof DataTable
+ * @param  {object} meta 需要更新的meta信息
+ * @example
+ * var metaObj = {supplier: {meta: {precision:'3', default: '0239900x', display:'显示名称'}}}
+ * datatable.updateMeta(metaObj)
  */
 const updateMeta = function (meta) {
     if (!meta) {
@@ -78,11 +91,8 @@ const updateMeta = function (meta) {
 
 
 
-/**
- * 字段不存在时，创建字段
- * @param fieldName
- * @param options
- */
+// 字段不存在时创建字段，fieldName为需要创建的字段
+// options.meta为对应的meta信息
 const createField = function(fieldName, options){
     //字段不主动定义，则不创建
     if (this.root.strict == true)

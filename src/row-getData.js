@@ -5,16 +5,18 @@
  */
 import {_dateToUTCString,_getField} from './row-util';
 /**
- *获取row中某一列的值
+ * 获取row中某一字段的值
+ * @memberof Row
+ * @param  {string} fieldName 字段名
+ * @return {string}           字段值
+ * @example
+ * row.getValue('field1')
  */
 const getValue = function (fieldName) {
     return _getField(this,fieldName)['value']
 }
 
-/**
- * 获取子表值 ，如果fieldName对应了一个子表，返回该子表的行数组
- * @param fieldName
- */
+//获取子表值 ，如果fieldName对应了一个子表，返回该子表的行数组
 const getChildValue = function(fieldName){
     var nameArr = fieldName.split('.');
     var _name = nameArr[0];
@@ -43,9 +45,13 @@ const getChildValue = function(fieldName){
     return '';
 };
 
+
 /**
- * @private
- * 提交数据到后台
+ * 获取数据信息
+ * @memberof Row
+ * @return {object} 格式如下：{'id': this.rowId, 'status': this.status, data: data}
+ * @example
+ * row.getData()
  */
 const getData = function () {
     var data = ko.toJS(this.data)
@@ -60,7 +66,7 @@ const getData = function () {
                         _keyValue=_keyValue[keys[i]];
                     }
                     _keyValue.value =_dateToUTCString(_keyValue.value);
-                  
+
                 }else{
                     data[key].value = _dateToUTCString(data[key].value)
                 }
@@ -78,6 +84,7 @@ const getData = function () {
     return {'id': this.rowId, 'status': this.status, data: data}
 }
 
+// 获取空数据
 const getEmptyData = function () {
     return {'id': this.rowId, 'status': this.status, data: {}}
 };

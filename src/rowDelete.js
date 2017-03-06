@@ -6,9 +6,9 @@
  */
 import {_formatToIndicesArray} from './util';
 
-/**
- * 设置行删除
- * @param {Object} index
+/***
+ * 根据索引删除数据行
+ * @param {number} index 需要删除数据行的索引
  */
 const setRowDelete = function (index) {
     if (index instanceof Row) {
@@ -17,8 +17,8 @@ const setRowDelete = function (index) {
     this.setRowsDelete([index])
 }
 
-/**
- * 设置所有行删除
+/***
+ * 删除所有数据行
  */
 const setAllRowsDelete = function () {
     var indices = new Array(this.rows().length)
@@ -28,9 +28,9 @@ const setAllRowsDelete = function () {
     this.setRowsDelete(indices)
 }
 
-/**
- * 设置行删除
- * @param {Array} indices
+/***
+ * 根据索引数组删除数据行
+ * @param {Array} indices 需要删除数据行的索引数组
  */
 const setRowsDelete = function (indices) {
     indices = _formatToIndicesArray(this, indices)

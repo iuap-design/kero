@@ -5,6 +5,7 @@
  */
 import {isNumber} from 'tinper-sparrow/src/util';
 
+
 const eq = function (a, b) {
     if ((a === null || a === undefined || a === '') && (b === null || b === undefined || b === '')) return true;
     //判断输入的值是否相等，a,b是字符串直接比较这两个值即可，没必要判断是否是数据，判断是否是数据使用parseFloat转换有时精度不准（431027199110.078573）
@@ -14,6 +15,7 @@ const eq = function (a, b) {
 }
 
 
+// 格式化时间
 const _formatDate = function (value) {
     if (!value) return value
     var date = new Date();
@@ -38,6 +40,7 @@ const _formatDate = function (value) {
     return formatString;
 }
 
+// 格式化日期为UTCString
 const _dateToUTCString = function (date) {
     if (!date) return ''
     if(typeof date==='number')
@@ -49,6 +52,7 @@ const _dateToUTCString = function (date) {
     return utcString;
 }
 
+// 触发数值改变事件
 const _triggerChange = function(rowObj,fieldName, oldValue, ctx){
     _getField(rowObj, fieldName).changed = true
     if (rowObj.status != Row.STATUS.NEW)
@@ -89,7 +93,7 @@ const _triggerChange = function(rowObj,fieldName, oldValue, ctx){
 
 };
 
-/**
+/***
  * 格式化数据值
  * @private
  * @param {Object} field
@@ -105,6 +109,7 @@ const formatValue = function (field, value) {
 }
 
 
+// 查找字段
 const _findField = function(rowObj, fieldName){
     var rat = rowObj.data[fieldName];
     if (!rat) {

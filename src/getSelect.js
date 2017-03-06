@@ -7,6 +7,10 @@
 
 /**
  * 获取选中行索引，多选时，只返回第一个行索引
+ * @memberof DataTable
+ * @return {number} 选中行索引
+ * @example
+ * datatable.getSelectedIndex()
  */
 const getSelectedIndex = function () {
     var selectedIndices = this.selectedIndices()
@@ -16,7 +20,11 @@ const getSelectedIndex = function () {
 };
 
 /**
- *获取选中的所有行索引数组索引
+ * 获取选中的所有行索引数组
+ * @memberof DataTable
+ * @return {array} 所有行索引数组
+ * @example
+ * datatable.getSelectedIndices()
  */
 const getSelectedIndices = function () {
     var selectedIndices = this.selectedIndices()
@@ -25,15 +33,19 @@ const getSelectedIndices = function () {
     return selectedIndices
 };
 
-/**
- * 兼容保留，不要用
- */
+// 兼容保留，不要用
 const getSelectedIndexs = function () {
     return this.getSelectedIndices();
 }
 
 /**
- * 获取选中行数据
+ * 获取选中行的数据信息
+ * @memberof DataTable
+ * @param  {boolean} [withEmptyRow=false] 未选中的数据是否使用空行代替，true表示以空行代替未选中行，false相反
+ * @return {array}            发生变化的数据信息
+ * @example
+ * datatable.getSelectedDatas()
+ * datatable.getSelectedDatas(true)
  */
 const getSelectedDatas = function (withEmptyRow) {
     var selectedIndices = this.selectedIndices()
@@ -53,7 +65,11 @@ const getSelectedDatas = function (withEmptyRow) {
 };
 
 /**
- * 取选中行
+ * 获取选中的Row对象
+ * @memberof DataTable
+ * @return {array} 选中的Row对象
+ * @example
+ * datatable.getSelectedRows()
  */
 const getSelectedRows = function (){
     var selectedIndices = this.selectedIndices();

@@ -6,6 +6,7 @@
 import {_dateToUTCString} from './row-util';
 import {isEmptyObject} from 'tinper-sparrow/src/util';
 
+// 获取数据的核心方法
 const _getSimpleData = function(rowObj, data){
     var _data = {};
     var meta = rowObj.parent.getMeta() || {};
@@ -43,6 +44,7 @@ const _getSimpleData = function(rowObj, data){
 
 }
 
+// 对于日期获取值时进行转换
 const formatValueFun = function(obj,isDateNoConvert){
     var meta = obj.meta,data = obj.data, key = obj.key;
     if (!isDateNoConvert &&(meta[key].type == 'date' || meta[key].type == 'datetime')) {
@@ -51,6 +53,16 @@ const formatValueFun = function(obj,isDateNoConvert){
     return data[key].value;
 }
 
+/**
+ * 获取数据信息
+ * @memberof Row
+ * @param  {object} [options] 获取数据信息时的配置参数
+ * @param  {array} [options.fields] 获取数据信息时是否制定字段值
+ * @return {object}         数据信息
+ * @example
+ * row.getSimpleData()
+ * row.getSimpleData({fields:['field1','field2']})
+ */
 const getSimpleData = function(options){
     options = options || {}
     var fields = options['fields'] || null;

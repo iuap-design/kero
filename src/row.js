@@ -5,10 +5,7 @@
  */
 import {isEmptyObject} from 'tinper-sparrow/src/util';
 
-/**
- * 设置行数据
- * @param {Object} rows
- */
+// 添加数据，建议使用setData或者setSimpleData
 const setRows = function (rows, options) {
     var insertRows = [], _id;
     for (var i = 0; i < rows.length; i++) {
@@ -59,19 +56,55 @@ const setRows = function (rows, options) {
 
 
 /**
- *追加行
+ * 在最后位置添加一条数据行
+ * @memberof DataTable
+ * @param {u.Row} row 数据行
+ * @example
+ * var row1 = new Row({parent: datatable})
+ * row1.setData({
+ *  field1: 'value1',
+ *  field2: 'value2'
+ * })
+ * datatable.addRow(row1)
  */
 const addRow = function (row) {
     this.insertRow(this.rows().length, row)
 }
 
 /**
- *追加多行
+ * 在最后位置添加多条数据行
+ * @memberof DataTable
+ * @param {array} rows  数据行数组
+ * @example
+ * var row1 = new Row({parent: datatable})
+ * row1.setData({
+ *  field1: 'value1',
+ *  field2: 'value2'
+ * })
+ * var row2 = new Row({parent: datatable})
+ * row2.setData({
+ *  field1: 'value11',
+ *  field2: 'value22'
+ * })
+ * datatable.addRow([row1,row2])
  */
 const addRows = function (rows) {
     this.insertRows(this.rows().length, rows)
 }
 
+/**
+ * 在指定索引位置添加一条数据行
+ * @memberof DataTable
+ * @param  {number} index 指定索引
+ * @param  {u.Row} row   数据行
+ * @example
+ * var row1 = new Row({parent: datatable})
+ * row1.setData({
+ *  field1: 'value1',
+ *  field2: 'value2'
+ * })
+ * datatable.insertRow(1,row1)
+ */
 const insertRow = function (index, row) {
     if (!row) {
         row = new Row({parent: this})
@@ -79,6 +112,23 @@ const insertRow = function (index, row) {
     this.insertRows(index, [row])
 }
 
+/**
+ * 在指定索引位置添加多条数据行
+ * @memberof DataTable
+ * @param  {number} index 指定索引
+ * @param  {array} rows  数据行数组
+ * var row1 = new Row({parent: datatable})
+ * row1.setData({
+ *  field1: 'value1',
+ *  field2: 'value2'
+ * })
+ * var row2 = new Row({parent: datatable})
+ * row2.setData({
+ *  field1: 'value11',
+ *  field2: 'value22'
+ * })
+ * datatable.insertRows(1,[row1,row2])
+ */
 const insertRows = function (index, rows) {
     var args = [index, 0]
     for (var i = 0; i < rows.length; i++) {
@@ -101,12 +151,16 @@ const insertRows = function (index, rows) {
 
 /**
  * 创建空行
+ * @memberof DataTable
+ * @return {u.Row} 空行对象
+ * @example
+ * datatable.createEmptyRow();
  */
 const createEmptyRow = function () {
     var r = new Row({parent: this})
     this.addRow(r)
-    if (!this.getCurrentRow())
-        this.setRowSelect(r);
+    // if (!this.getCurrentRow())
+    //     this.setRowSelect(r);
     return r
 }
 

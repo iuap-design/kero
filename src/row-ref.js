@@ -7,6 +7,13 @@ import {getJSObject} from 'tinper-sparrow/src/util';
 import {date} from 'tinper-sparrow/src/util/dateUtils';
 import {_getField} from './row-util';
 
+/**
+ * 为某个字段绑定监听，当字段发生改变时触发对应方法
+ * @memberof Row
+ * @param {string} fieldName 绑定的字段名
+ * @example
+ * row.ref('field1').subscribe(function(){})
+ */
 const ref = function (fieldName) {
     this.parent.createField(fieldName);
     if (!this.valueChange[fieldName])
@@ -28,7 +35,14 @@ const ref = function (fieldName) {
 }
 
 
-
+/**
+ * 绑定字段属性，当字段属性发生改变时触发对应方法
+ * @memberof Row
+ * @param {string} fieldName 绑定的字段名
+ * @param {string} key 绑定的属性key
+ * @example
+ * row.refMeta('field1','type').subscribe(function(){})
+ */
 const refMeta = function (fieldName, key) {
     if (!this.metaChange[fieldName + '.' + key])
         this.metaChange[fieldName + '.' + key] = ko.observable(1);
@@ -43,6 +57,15 @@ const refMeta = function (fieldName, key) {
         owner: this
     })
 }
+
+/**
+ * 为某个字段绑定监听，当字段发生改变时触发对应方法，针对下拉字段根据key转化为对应的value
+ * @memberof Row
+ * @param {string} fieldName 绑定的字段名
+ * @param {string} datasource 下拉数据源变量名
+ * @example
+ * row.refCombo('field1','source1').subscribe(function(){})
+ */
 const refCombo = function (fieldName, datasource) {
     if (!this.valueChange[fieldName])
         this.valueChange[fieldName] = ko.observable(1);
@@ -75,6 +98,15 @@ const refCombo = function (fieldName, datasource) {
         owner: this
     })
 }
+
+/**
+ * 为某个字段绑定监听，当字段发生改变时触发对应方法，针对日期字段进行格式化
+ * @memberof Row
+ * @param {string} fieldName 绑定的字段名
+ * @param {string} format 格式化规则
+ * @example
+ * row.refDate('field1','YYYY-MM-DD').subscribe(function(){})
+ */
 const refDate = function (fieldName, format) {
     if (!this.valueChange[fieldName])
         this.valueChange[fieldName] = ko.observable(1);
@@ -96,7 +128,7 @@ const refDate = function (fieldName, format) {
     })
 }
 
-// 刘云燕提交
+// 针对boolean类型进行转化，项目个性化代码，刘云燕提交
 const refEnum = function (fieldName) {
     this.parent.createField(fieldName);
     if (!this.valueChange[fieldName])

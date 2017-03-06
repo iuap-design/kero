@@ -4,7 +4,15 @@
  * Date   : 2016-08-08 13:54:01
  */
 
-
+/**
+ * 切换数据行的选中状态
+ * @memberof Row
+ * @param  {boolean} [type] 执行选中操作时，如果为single则取消其他行的选中状态，否则只修改当前行的选中状态
+ * @example
+ * row.toggleSelect()
+ * row.toggleSelect('single')
+ * row.toggleSelect('multi')
+ */
 const toggleSelect = function(type){
     var index = this.parent.getRowIndex(this);
     var selectindices = this.parent.getSelectedIndices();
@@ -18,9 +26,7 @@ const toggleSelect = function(type){
     }
 };
 
-/**
- * 行点击事件
- */
+
 const singleSelect = function(){
     this.toggleSelect('single');
 };

@@ -4,10 +4,7 @@
  * Date   : 2016-08-08 13:54:01
  */
 
- /**
- * Row初始化方法
- * @private
- */
+ // row的初始化方法 
 const init = function () {
     var meta = this.parent.meta;
 
