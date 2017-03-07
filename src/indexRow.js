@@ -92,7 +92,6 @@ class Row extends Events{
         this.status = Row.STATUS.NEW
         /**
          * 当前行对应的DataTable对象
-         * @type {[type]}
          */
         this.parent = options['parent']
         // 当前行的数据信息
