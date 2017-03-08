@@ -4,7 +4,9 @@
  * Date   : 2016-08-08 13:54:01
  */
 
- import {_getField} from './row-util';
+import {
+    rowUtilFunObj
+} from './row-util';
 
 /**
  * 获取字段的属性
@@ -17,7 +19,7 @@
  * row.getMeta('field1','type')
  * row.getMeta('field1','type',true)
  */
-const getMeta = function (fieldName, key, fetchParent) {
+const getMeta = function(fieldName, key, fetchParent) {
     if (arguments.length == 0) {
         var mt = {}
         for (var k in this.data) {
@@ -25,7 +27,7 @@ const getMeta = function (fieldName, key, fetchParent) {
         }
         return mt
     }
-    var meta = _getField(this, fieldName).meta
+    var meta = rowUtilFunObj._getField(this, fieldName).meta
     if (meta && meta[key] !== undefined && meta[key] !== null && meta[key] !== '')
         return meta[key]
     else if (typeof fetchParent == 'undefined' || fetchParent != false)
@@ -33,6 +35,6 @@ const getMeta = function (fieldName, key, fetchParent) {
     return undefined;
 }
 
-export {
-	getMeta
+export const rowGetMetaFunObj = {
+    getMeta: getMeta
 }

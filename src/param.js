@@ -12,7 +12,7 @@
  * @example
  * datatable.addParam('precision','3')
  */
-const addParam = function (key, value) {
+const addParam = function(key, value) {
     this.params[key] = value
 }
 
@@ -27,14 +27,14 @@ const addParam = function (key, value) {
  * }
  * datatable.addParams(paramsObj)
  */
-const addParams = function (params) {
+const addParams = function(params) {
     for (var key in params) {
         this.params[key] = params[key]
     }
 }
 
 
-export {
-	addParam,
-	addParams
+export const paramFunObj = {
+    addParam: addParam,
+    addParams: addParams
 }

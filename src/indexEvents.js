@@ -5,27 +5,20 @@
  */
 
 
- //相关依赖导入
+//相关依赖导入
 import {
-	on,
-    off,
-    one,
-    trigger,
-    getEvent
+    eventsFunObj
 } from './events';
 
-class Events{
-    constructor(){
+class Events {
+    constructor() {
 
     }
 }
 
-Events.prototype.on = on;
-Events.prototype.off = off;
-Events.prototype.one = one;
-Events.prototype.trigger = trigger;
-Events.prototype.getEvent = getEvent;
+const EventsProto = Events.prototype;
+Object.assign(EventsProto, eventsFunObj);
 
 export {
-   Events
+    Events
 }

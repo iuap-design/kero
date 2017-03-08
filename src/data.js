@@ -34,31 +34,31 @@
  * }
  * datatable.setData(data,op)
  */
-const setData = function (data,options) {
-    if(data.pageIndex || data.pageIndex === 0){
+const setData = function(data, options) {
+    if (data.pageIndex || data.pageIndex === 0) {
         var newIndex = data.pageIndex;
-    }else{
+    } else {
         var newIndex = this.pageIndex();
     }
-    if(data.pageSize || data.pageSize === 0){
+    if (data.pageSize || data.pageSize === 0) {
         var newSize = data.pageSize;
-    }else{
+    } else {
         var newSize = this.pageSize();
     }
-    if(data.totalPages || data.totalPages === 0){
+    if (data.totalPages || data.totalPages === 0) {
         var newTotalPages = data.totalPages;
-    }else{
+    } else {
         var newTotalPages = this.totalPages();
     }
-    if(data.totalRow || data.totalRow === 0){
+    if (data.totalRow || data.totalRow === 0) {
         var newTotalRow = data.totalRow;
-    }else{
-        if(data.rows)
+    } else {
+        if (data.rows)
             var newTotalRow = data.rows.length;
         else
             var newTotalRow = this.totalRow();
     }
-    var select, focus,unSelect=options?options.unSelect:false;
+    var select, focus, unSelect = options ? options.unSelect : false;
 
     this.pageIndex(newIndex);
     this.pageSize(newSize);
@@ -71,8 +71,7 @@ const setData = function (data,options) {
             this.totalPages(newTotalPages)
             this.totalRow(newTotalRow + this.newCount)
             return;
-        }
-        else {
+        } else {
             // 首先删除数据，然后将当前页数据插入
             this.removeAllRows();
             select = this.getPage(newIndex).selectedIndices
@@ -81,14 +80,14 @@ const setData = function (data,options) {
             this.getPage(newIndex).rows = rows;
         }
         // 后台传入totalPages及totalRow才进行更新
-        if(data.totalPages){
+        if (data.totalPages) {
             this.totalPages(data.totalPages)
         }
-        if(data.totalRow || data.totalRow === 0){
+        if (data.totalRow || data.totalRow === 0) {
             this.totalRow(data.totalRow + this.newCount)
         }
     } else {
-        select = data.select||(!unSelect?[0]:[]);
+        select = data.select || (!unSelect ? [0] : []);
         focus = data.focus !== undefined ? data.focus : data.current;
         this.setRows(data.rows, options);
         this.totalPages(newTotalPages)
@@ -119,8 +118,8 @@ const setData = function (data,options) {
  * datatable.setValue('filed1','value1',row) //设置在指定行字段值
  * datatable.setValue('filed1','value1',row,'ctx') //设置在指定行字段值，同时传入自定义数据
  */
-const setValue = function (fieldName, value, row, ctx) {
-    if (arguments.length === 1){
+const setValue = function(fieldName, value, row, ctx) {
+    if (arguments.length === 1) {
         value = fieldName;
         fieldName = '$data';
     }
@@ -131,7 +130,7 @@ const setValue = function (fieldName, value, row, ctx) {
 }
 
 
-export {
-    setData,
-    setValue
+export const dataFunObj = {
+    setData: setData,
+    setValue: setValue
 }

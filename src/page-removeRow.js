@@ -4,7 +4,9 @@
  * Date   : 2016-08-08 09:59:01
  */
 
-import {isNumber} from 'tinper-sparrow/src/util';
+import {
+    isNumber
+} from 'tinper-sparrow/src/util';
 
 /**
  * 根据rowid删除行
@@ -12,9 +14,9 @@ import {isNumber} from 'tinper-sparrow/src/util';
  * @example
  * page.removeRowByRowId('rowid1')
  */
-const removeRowByRowId = function (rowid) {
+const removeRowByRowId = function(rowid) {
     for (var i = 0, count = this.rows.length; i < count; i++) {
-        if (this.rows[i].rowId == rowid){
+        if (this.rows[i].rowId == rowid) {
             this.rows.splice(i, 1);
             count--;
             this.updateSelectedIndices(i, '-')
@@ -24,7 +26,7 @@ const removeRowByRowId = function (rowid) {
 }
 
 // 新增/删除行之后更新选中行的index
-const updateSelectedIndices = function (index, type, num) {
+const updateSelectedIndices = function(index, type, num) {
     if (!isNumber(num)) {
         num = 1
     }
@@ -35,12 +37,10 @@ const updateSelectedIndices = function (index, type, num) {
         if (type == '+') {
             if (selectedIndices[i] >= index)
                 selectedIndices[i] = parseInt(selectedIndices[i]) + num
-        }
-        else if (type == '-') {
+        } else if (type == '-') {
             if (selectedIndices[i] >= index && selectedIndices[i] <= index + num - 1) {
                 selectedIndices.splice(i, 1)
-            }
-            else if (selectedIndices[i] > index + num - 1)
+            } else if (selectedIndices[i] > index + num - 1)
                 selectedIndices[i] = selectedIndices[i] - num
         }
     }
@@ -48,7 +48,7 @@ const updateSelectedIndices = function (index, type, num) {
 }
 
 //新增/删除行之后更新焦点行
-const updateFocusIndex = function (opIndex, opType, num) {
+const updateFocusIndex = function(opIndex, opType, num) {
     if (!isNumber(num)) {
         num = 1
     }
@@ -66,8 +66,8 @@ const updateFocusIndex = function (opIndex, opType, num) {
 }
 
 
-export {
-	removeRowByRowId,
-	updateSelectedIndices,
-	updateFocusIndex
+export const pageRemoveRowFunObj = {
+    removeRowByRowId: removeRowByRowId,
+    updateSelectedIndices: updateSelectedIndices,
+    updateFocusIndex: updateFocusIndex
 }

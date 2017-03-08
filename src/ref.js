@@ -11,9 +11,9 @@
  * @example
  * datatable.refSelectedRows().subscribe(function(){})
  */
-const refSelectedRows = function () {
+const refSelectedRows = function() {
     return ko.pureComputed({
-        read: function () {
+        read: function() {
             var ins = this.selectedIndices() || []
             var rs = this.rows()
             var selectedRows = []
@@ -21,7 +21,8 @@ const refSelectedRows = function () {
                 selectedRows.push(rs[i])
             }
             return selectedRows
-        }, owner: this
+        },
+        owner: this
     })
 }
 
@@ -33,22 +34,21 @@ const refSelectedRows = function () {
  * @example
  * datatable.ref('field1').subscribe(function(){})
  */
-const ref = function (fieldName) {
+const ref = function(fieldName) {
     this.createField(fieldName);
     if (!this.valueChange[fieldName])
         this.valueChange[fieldName] = ko.observable(1);
     return ko.pureComputed({
-        read: function () {
+        read: function() {
             this.valueChange[fieldName]();
             this.currentRowChange();
             var row = this.getCurrentRow()
             if (row) {
                 return row.getChildValue(fieldName)
-            }
-            else
+            } else
                 return ''
         },
-        write: function (value) {
+        write: function(value) {
             var row = this.getCurrentRow()
             if (row)
                 row.setChildValue(fieldName, value);
@@ -65,16 +65,16 @@ const ref = function (fieldName) {
  * @example
  * datatable.refMeta('field1','type').subscribe(function(){})
  */
-const refMeta = function (fieldName, key) {
+const refMeta = function(fieldName, key) {
     if (!this.metaChange[fieldName + '.' + key])
         this.metaChange[fieldName + '.' + key] = ko.observable(1);
     return ko.pureComputed({
-        read: function () {
+        read: function() {
             this.metaChange[fieldName + '.' + key]();
             this.currentRowChange();
             return this.getMeta(fieldName, key)
         },
-        write: function (value) {
+        write: function(value) {
             this.setMeta(fieldName, key, value)
         },
         owner: this
@@ -89,11 +89,11 @@ const refMeta = function (fieldName, key) {
  * @example
  * datatable.refRowMeta('field1','type').subscribe(function(){})
  */
-const refRowMeta = function (fieldName, key) {
+const refRowMeta = function(fieldName, key) {
     if (!this.metaChange[fieldName + '.' + key])
         this.metaChange[fieldName + '.' + key] = ko.observable(1);
     return ko.pureComputed({
-        read: function () {
+        read: function() {
             this.metaChange[fieldName + '.' + key]();
             this.currentRowChange();
             var row = this.getCurrentRow()
@@ -102,7 +102,7 @@ const refRowMeta = function (fieldName, key) {
             else
                 return this.getMeta(fieldName, key)
         },
-        write: function (value) {
+        write: function(value) {
             var row = this.getCurrentRow()
             if (row)
                 row.setMeta(fieldName, value)
@@ -118,10 +118,10 @@ const refRowMeta = function (fieldName, key) {
  * @example
  * datatable.refEnable('field1').subscribe(function(){})
  */
-const refEnable = function (fieldName) {
+const refEnable = function(fieldName) {
     return ko.pureComputed({
         //enable优先级： dataTable.enable >  row上的enable >  field中的enable定义
-        read: function () {
+        read: function() {
             this.enableChange();
             if (!fieldName)
                 return this.enable;
@@ -134,10 +134,10 @@ const refEnable = function (fieldName) {
     })
 }
 
-export {
-    refSelectedRows,
-    ref,
-    refMeta,
-    refRowMeta,
-    refEnable,
+export const refFunObj = {
+    refSelectedRows: refSelectedRows,
+    ref: ref,
+    refMeta: refMeta,
+    refRowMeta: refRowMeta,
+    refEnable: refEnable
 }

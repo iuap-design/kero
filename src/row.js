@@ -3,11 +3,14 @@
  * Author : liuyk(liuyk@yonyou.com)
  * Date	  : 2016-08-01 14:34:01
  */
-import {isEmptyObject} from 'tinper-sparrow/src/util';
+import {
+    isEmptyObject
+} from 'tinper-sparrow/src/util';
 
 // 添加数据，建议使用setData或者setSimpleData
-const setRows = function (rows, options) {
-    var insertRows = [], _id;
+const setRows = function(rows, options) {
+    var insertRows = [],
+        _id;
     for (var i = 0; i < rows.length; i++) {
         var r = rows[i]
         _id = r.rowId || r.id;
@@ -15,8 +18,7 @@ const setRows = function (rows, options) {
             _id = Row.getRandomRowId()
         if (r.status == Row.STATUS.DELETE) {
             this.removeRowByRowId(_id)
-        }
-        else {
+        } else {
             var row = this.getRowByRowId(_id)
             if (row) {
                 row.updateRow(r);
@@ -37,14 +39,16 @@ const setRows = function (rows, options) {
                     }
                 }
 
-            }
-            else {
-                row = new Row({parent: this, id: _id})
+            } else {
+                row = new Row({
+                    parent: this,
+                    id: _id
+                })
                 row.setData(rows[i], null, options)
                 insertRows.push(row)
             }
             // 如果r对象中存在状态则更新状态为返回的状态
-            if(r.status){
+            if (r.status) {
                 row.status = r.status;
             }
         }
@@ -67,7 +71,7 @@ const setRows = function (rows, options) {
  * })
  * datatable.addRow(row1)
  */
-const addRow = function (row) {
+const addRow = function(row) {
     this.insertRow(this.rows().length, row)
 }
 
@@ -88,7 +92,7 @@ const addRow = function (row) {
  * })
  * datatable.addRow([row1,row2])
  */
-const addRows = function (rows) {
+const addRows = function(rows) {
     this.insertRows(this.rows().length, rows)
 }
 
@@ -105,9 +109,11 @@ const addRows = function (rows) {
  * })
  * datatable.insertRow(1,row1)
  */
-const insertRow = function (index, row) {
+const insertRow = function(index, row) {
     if (!row) {
-        row = new Row({parent: this})
+        row = new Row({
+            parent: this
+        })
     }
     this.insertRows(index, [row])
 }
@@ -129,7 +135,7 @@ const insertRow = function (index, row) {
  * })
  * datatable.insertRows(1,[row1,row2])
  */
-const insertRows = function (index, rows) {
+const insertRows = function(index, rows) {
     var args = [index, 0]
     for (var i = 0; i < rows.length; i++) {
         args.push(rows[i]);
@@ -143,7 +149,7 @@ const insertRows = function (index, rows) {
         index: index,
         rows: rows
     })
-    if (this.ns){
+    if (this.ns) {
         if (this.root.valueChange[this.ns])
             this.root.valueChange[this.ns](-this.root.valueChange[this.ns]());
     }
@@ -156,19 +162,21 @@ const insertRows = function (index, rows) {
  * @example
  * datatable.createEmptyRow();
  */
-const createEmptyRow = function () {
-    var r = new Row({parent: this})
+const createEmptyRow = function() {
+    var r = new Row({
+        parent: this
+    })
     this.addRow(r)
     // if (!this.getCurrentRow())
     //     this.setRowSelect(r);
     return r
 }
 
-export {
-    setRows,
-    addRow,
-    addRows,
-    insertRow,
-    insertRows,
-    createEmptyRow
+export const rowFunObj = {
+    setRows: setRows,
+    addRow: addRow,
+    addRows: addRows,
+    insertRow: insertRow,
+    insertRows: insertRows,
+    createEmptyRow: createEmptyRow
 }

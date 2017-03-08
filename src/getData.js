@@ -11,8 +11,9 @@
  * @example
  * datatable.getData()
  */
-const getData = function () {
-    var datas = [], rows = this.rows();
+const getData = function() {
+    var datas = [],
+        rows = this.rows();
     for (var i = 0; i < rows.length; i++) {
         datas.push(rows[i].getData())
     }
@@ -21,7 +22,7 @@ const getData = function () {
 
 
 // 将page转为row对象格式
-const page2data = function(page, pageIndex){
+const page2data = function(page, pageIndex) {
     var data = {}
     data.focus = page.focus;
     data.index = pageIndex;
@@ -46,102 +47,104 @@ const page2data = function(page, pageIndex){
  * datatable.getDataByRule(‘all’)
  */
 
-const getDataByRule = function (rule) {
-    var returnData = {}, datas = null, rows;
+const getDataByRule = function(rule) {
+    var returnData = {},
+        datas = null,
+        rows;
     returnData.meta = this.meta
     returnData.params = this.params
     rule = rule || DataTable.SUBMIT.current;
     // 存在多页及不存在多页分开处理
-    if(this.pageCache){
+    if (this.pageCache) {
         var pages = this.getPages();
-        if(rule == DataTable.SUBMIT.current || rule == DataTable.SUBMIT.focus){
+        if (rule == DataTable.SUBMIT.current || rule == DataTable.SUBMIT.focus) {
             datas = []
             var pageIndex = this.pageIndex();
             var currPage = pages[pageIndex];
-            if(currPage){
+            if (currPage) {
                 var currIndex = this.focusIndex()
-                if(rule == DataTable.SUBMIT.current){
+                if (rule == DataTable.SUBMIT.current) {
                     if (currIndex == -1)
                         currIndex = this.getSelectedIndex()
                 }
-                var data = page2data(currPage,pageIndex);
+                var data = page2data(currPage, pageIndex);
                 data.rows = [];
-                for(var i = 0, count = currPage.rows.length; i < count; i++){
+                for (var i = 0, count = currPage.rows.length; i < count; i++) {
                     var row = currPage.rows[i].getData();
-                    if(i != currIndex)
+                    if (i != currIndex)
                         row.data = {}
                     data.rows.push(row);
                 }
                 datas.push(data);
             }
-        }
-        else if (rule == DataTable.SUBMIT.all || rule == DataTable.SUBMIT.allPages) {
+        } else if (rule == DataTable.SUBMIT.all || rule == DataTable.SUBMIT.allPages) {
             datas = []
-            for(var i = 0; i < pages.length; i++){
+            for (var i = 0; i < pages.length; i++) {
                 var currPage = pages[i]
-                var data = page2data(currPage,i);
+                var data = page2data(currPage, i);
                 data.rows = [];
-                for(var i = 0; i < currPage.rows.length; i++){
+                for (var i = 0; i < currPage.rows.length; i++) {
                     data.rows.push(currPage.rows[i].getData())
                 }
                 datas.push(data)
             }
-        }
-        else if (rule == DataTable.SUBMIT.select) {
+        } else if (rule == DataTable.SUBMIT.select) {
             datas = []
             var pageIndex = this.pageIndex();
             var currPage = pages[pageIndex];
-            if(currPage){
-                var data = page2data(currPage,pageIndex);
+            if (currPage) {
+                var data = page2data(currPage, pageIndex);
                 data.rows = [];
-                for(var i = 0, count = currPage.rows.length; i < count; i++){
+                for (var i = 0, count = currPage.rows.length; i < count; i++) {
                     var row = currPage.rows[i].getData();
-                    if(data.select.indexOf(i) < 0)
+                    if (data.select.indexOf(i) < 0)
                         row.data = {}
                     data.rows.push(row);
                 }
                 datas.push(data);
             }
-        }
-        else if (rule == DataTable.SUBMIT.allSelect) {
+        } else if (rule == DataTable.SUBMIT.allSelect) {
             datas = []
-            for(var i = 0; i < pages.length; i++){
+            for (var i = 0; i < pages.length; i++) {
                 var currPage = pages[i]
-                var data = page2data(currPage,i);
+                var data = page2data(currPage, i);
                 data.rows = [];
-                for(var j = 0, count = currPage.rows.length; j < count; j++){
+                for (var j = 0, count = currPage.rows.length; j < count; j++) {
                     var row = currPage.rows[j].getData();
-                    if(data.select.indexOf(j) < 0)
+                    if (data.select.indexOf(j) < 0)
                         row.data = {}
                     data.rows.push(row);
                 }
                 datas.push(data)
             }
-        }
-        else if (rule == DataTable.SUBMIT.change) {
+        } else if (rule == DataTable.SUBMIT.change) {
             datas = []
-            for(var i = 0; i < pages.length; i++){
+            for (var i = 0; i < pages.length; i++) {
                 var currPage = pages[i]
-                var data = page2data(currPage,i);
+                var data = page2data(currPage, i);
                 data.rows = [];
-                for(var j = 0, count = currPage.rows.length; j < count; j++){
+                for (var j = 0, count = currPage.rows.length; j < count; j++) {
                     var row = currPage.rows[j].getData();
-                    if(row.status == Row.STATUS.NORMAL){
+                    if (row.status == Row.STATUS.NORMAL) {
                         row.data = {}
                     }
                     data.rows.push(row)
                 }
                 datas.push(data)
             }
-        }
-        else if (rule === DataTable.SUBMIT.empty) {
+        } else if (rule === DataTable.SUBMIT.empty) {
             datas = []
         }
-        if(pages.length < 1 || !pages[this.pageIndex()]){
-            datas = [{ index: this.pageIndex(), select: [], focus: -1, rows: [] }];
+        if (pages.length < 1 || !pages[this.pageIndex()]) {
+            datas = [{
+                index: this.pageIndex(),
+                select: [],
+                focus: -1,
+                rows: []
+            }];
         }
         returnData.pages = datas;
-    }else{
+    } else {
         if (rule == DataTable.SUBMIT.current) {
             datas = []
             var currIndex = this.focusIndex()
@@ -155,8 +158,7 @@ const getDataByRule = function (rule) {
                     datas.push(rows[i].getEmptyData())
             }
 
-        }
-        else if (rule == DataTable.SUBMIT.focus) {
+        } else if (rule == DataTable.SUBMIT.focus) {
             datas = []
             rows = this.rows();
             for (var i = 0, count = rows.length; i < count; i++) {
@@ -165,17 +167,13 @@ const getDataByRule = function (rule) {
                 else
                     datas.push(rows[i].getEmptyData())
             }
-        }
-        else if (rule == DataTable.SUBMIT.all) {
+        } else if (rule == DataTable.SUBMIT.all) {
             datas = this.getData()
-        }
-        else if (rule == DataTable.SUBMIT.select) {
+        } else if (rule == DataTable.SUBMIT.select) {
             datas = this.getSelectedDatas(true)
-        }
-        else if (rule == DataTable.SUBMIT.change) {
+        } else if (rule == DataTable.SUBMIT.change) {
             datas = this.getChangedDatas()
-        }
-        else if (rule === DataTable.SUBMIT.empty) {
+        } else if (rule === DataTable.SUBMIT.empty) {
             datas = []
         }
 
@@ -204,13 +202,13 @@ const getDataByRule = function (rule) {
  * @example
  * datatable.getRow(1)
  */
-const getRow = function (index) {
+const getRow = function(index) {
     //return this.rows()[index]   //modify by licza.   improve performance
     return this.rows.peek()[index]
 };
 
 // 获取子表的数据行
-const getChildRow = function(obj){
+const getChildRow = function(obj) {
     var fullField = obj.fullField,
         index = obj.index,
         row = null;
@@ -247,7 +245,7 @@ const getChildRow = function(obj){
  * @example
  * datatable.getRowByRowId('rowid')
  */
-const getRowByRowId = function (rowid) {
+const getRowByRowId = function(rowid) {
     var rows = this.rows.peek();
     for (var i = 0, count = rows.length; i < count; i++) {
         if (rows[i].rowId == rowid)
@@ -265,7 +263,7 @@ const getRowByRowId = function (rowid) {
  * var row = datatable.getRow(1)
  * datatable.getRowIndex(row) // 1
  */
-const getRowIndex = function (row){
+const getRowIndex = function(row) {
     var rows = this.rows.peek();
     for (var i = 0, count = rows.length; i < count; i++) {
         if (rows[i].rowId === row.rowId)
@@ -283,7 +281,7 @@ const getRowIndex = function (row){
  * @example
  * datatable.getRowsByField('field1','value1')
  */
-const getRowsByField = function(field,value){
+const getRowsByField = function(field, value) {
     var rows = this.rows.peek();
     var returnRows = new Array();
     for (var i = 0, count = rows.length; i < count; i++) {
@@ -302,7 +300,7 @@ const getRowsByField = function(field,value){
  * @example
  * datatable.getRowByField('field1','value1')
  */
-const getRowByField = function(field,value){
+const getRowByField = function(field, value) {
     var rows = this.rows.peek();
     for (var i = 0, count = rows.length; i < count; i++) {
         if (rows[i].getValue(field) === value)
@@ -318,7 +316,7 @@ const getRowByField = function(field,value){
  * @example
  * datatable.getAllRows()
  */
-const getAllRows = function () {
+const getAllRows = function() {
     return this.rows.peek();
 }
 
@@ -329,8 +327,9 @@ const getAllRows = function () {
  * @example
  * datatable.getAllPageRows()
  */
-const getAllPageRows = function () {
-    var datas = [], rows;
+const getAllPageRows = function() {
+    var datas = [],
+        rows;
     for (var i = 0; i < this.totalPages(); i++) {
         rows = [];
         if (i == this.pageIndex()) {
@@ -356,13 +355,13 @@ const getAllPageRows = function () {
  * @example
  * datatable.getChangedDatas()
  */
-const getChangedDatas = function (withEmptyRow) {
-    var datas = [], rows = this.rows();
+const getChangedDatas = function(withEmptyRow) {
+    var datas = [],
+        rows = this.rows();
     for (var i = 0, count = rows.length; i < count; i++) {
         if (rows[i] && rows[i].status != Row.STATUS.NORMAL) {
             datas.push(rows[i].getData())
-        }
-        else if (withEmptyRow == true) {
+        } else if (withEmptyRow == true) {
             datas.push(rows[i].getEmptyData())
         }
     }
@@ -376,8 +375,9 @@ const getChangedDatas = function (withEmptyRow) {
  * @example
  * datatable.getChangedRows()
  */
-const getChangedRows = function(){
-    var changedRows = [], rows = this.rows.peek();
+const getChangedRows = function() {
+    var changedRows = [],
+        rows = this.rows.peek();
     for (var i = 0, count = rows.length; i < count; i++) {
         if (rows[i] && rows[i].status != Row.STATUS.NORMAL) {
             changedRows.push(rows[i])
@@ -397,7 +397,7 @@ const getChangedRows = function(){
  * var row = datatable.getRow(1)
  * datatable.getValue('field1',row)
  */
-const getValue = function (fieldName, row) {
+const getValue = function(fieldName, row) {
     row = row || this.getCurrentRow()
     if (row)
         return row.getValue(fieldName)
@@ -413,7 +413,7 @@ const getValue = function (fieldName, row) {
  * @example
  * datatable.getIndexByRowId('rowid')
  */
-const getIndexByRowId = function (rowId) {
+const getIndexByRowId = function(rowId) {
     var rows = this.rows();
     for (var i = 0, count = rows.length; i < count; i++) {
         if (rows[i].rowId == rowId)
@@ -429,7 +429,7 @@ const getIndexByRowId = function (rowId) {
  * @example
  * datatable.getAllDatas()
  */
-const getAllDatas = function () {
+const getAllDatas = function() {
     var rows = this.getAllRows()
     var datas = []
     for (var i = 0, count = rows.length; i < count; i++)
@@ -447,7 +447,7 @@ const getAllDatas = function () {
  * @example
  * datatable.getRowIdsByIndices([1,2,5])
  */
-const getRowIdsByIndices = function (indices) {
+const getRowIdsByIndices = function(indices) {
     var rowIds = []
     for (var i = 0; i < indices.length; i++) {
         rowIds.push(this.getRow(indices[i]).rowId)
@@ -456,21 +456,21 @@ const getRowIdsByIndices = function (indices) {
 }
 
 
-export {
-    getData,
-    getDataByRule,
-    getRow,
-    getChildRow,
-    getRowByRowId,
-    getRowIndex,
-    getRowsByField,
-    getRowByField,
-    getAllRows,
-    getAllPageRows,
-    getChangedDatas,
-    getChangedRows,
-    getValue,
-    getIndexByRowId,
-    getAllDatas,
-    getRowIdsByIndices
+export const getDataFunObj = {
+    getData: getData,
+    getDataByRule: getDataByRule,
+    getRow: getRow,
+    getChildRow: getChildRow,
+    getRowByRowId: getRowByRowId,
+    getRowIndex: getRowIndex,
+    getRowsByField: getRowsByField,
+    getRowByField: getRowByField,
+    getAllRows: getAllRows,
+    getAllPageRows: getAllPageRows,
+    getChangedDatas: getChangedDatas,
+    getChangedRows: getChangedRows,
+    getValue: getValue,
+    getIndexByRowId: getIndexByRowId,
+    getAllDatas: getAllDatas,
+    getRowIdsByIndices: getRowIdsByIndices
 }

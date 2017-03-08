@@ -13,12 +13,12 @@
  * row.toggleSelect('single')
  * row.toggleSelect('multi')
  */
-const toggleSelect = function(type){
+const toggleSelect = function(type) {
     var index = this.parent.getRowIndex(this);
     var selectindices = this.parent.getSelectedIndices();
-    if (selectindices.indexOf(index) != -1){
+    if (selectindices.indexOf(index) != -1) {
         this.parent.setRowUnSelect(index);
-    }else{
+    } else {
         if (type === 'single')
             this.parent.setRowSelect(index);
         else
@@ -27,16 +27,16 @@ const toggleSelect = function(type){
 };
 
 
-const singleSelect = function(){
+const singleSelect = function() {
     this.toggleSelect('single');
 };
 
-const multiSelect = function(){
+const multiSelect = function() {
     this.toggleSelect('multi');
 };
 
-export{
-	toggleSelect,
-	singleSelect,
-	multiSelect
+export const rowRowSelectFunObj = {
+    toggleSelect: toggleSelect,
+    singleSelect: singleSelect,
+    multiSelect: multiSelect
 }

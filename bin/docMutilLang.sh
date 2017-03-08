@@ -8,12 +8,12 @@ replaceStr=(参数 返回值 类型 描述)
 #数组长度
 strLength=${#sourceStr[@]}
 
-for file in ./docs/API/*
+for file in ./docs/*
 do
 	# 判断是否为md结尾的文件
 	if test -f $file &&  [ "${file##*.}"x = "md"x ]
     then
-        echo $file 是文件
+       ## echo $file 是文件
         sed -i "/Kind/"d $file
         
 

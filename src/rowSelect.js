@@ -3,8 +3,13 @@
  * Author : liuyk(liuyk@yonyou.com)
  * Date   : 2016-08-01 14:34:01
  */
-import {isArray, isNumber} from 'tinper-sparrow/src/util';
-import {_formatToIndicesArray} from './util';
+import {
+    isArray,
+    isNumber
+} from 'tinper-sparrow/src/util';
+import {
+    utilFunObj
+} from './util';
 
 /**
  * 设置所有行选中
@@ -12,7 +17,7 @@ import {_formatToIndicesArray} from './util';
  * @example
  * datatable.setAllRowsSelect()
  */
-const setAllRowsSelect = function () {
+const setAllRowsSelect = function() {
     var indices = new Array(this.rows().length)
     for (var i = 0; i < indices.length; i++) {
         indices[i] = i
@@ -29,7 +34,7 @@ const setAllRowsSelect = function () {
  * @example
  * datatable.setRowSelect(1)
  */
-const setRowSelect = function (index) {
+const setRowSelect = function(index) {
     if (index instanceof Row) {
         index = this.getIndexByRowId(index.rowId)
     }
@@ -44,31 +49,35 @@ const setRowSelect = function (index) {
  * @example
  * datatable.setRowsSelect([1,2])
  */
-const setRowsSelect = function (indices) {
+const setRowsSelect = function(indices) {
     indices = indices || -1;
     if (indices == -1) {
-        this.setAllRowsUnSelect({quiet: true})
+        this.setAllRowsUnSelect({
+            quiet: true
+        })
         return;
     }
-    indices = _formatToIndicesArray(this, indices);
+    indices = utilFunObj._formatToIndicesArray(this, indices);
     var sIns = this.selectedIndices();
     if (isArray(indices) && isArray(sIns) && indices.join() == sIns.join()) {
         // 避免与控件循环触发
         return;
     }
 
-    if(isArray(indices)) {
+    if (isArray(indices)) {
         var rowNum = this.rows().length
-        for(var i=0;i<indices.length;i++) {
-            if(indices[i]<0 || indices[i] >= rowNum)
+        for (var i = 0; i < indices.length; i++) {
+            if (indices[i] < 0 || indices[i] >= rowNum)
                 indices.splice(i, 1);
         }
     }
 
-    this.setAllRowsUnSelect({quiet: true});
-    try{
+    this.setAllRowsUnSelect({
+        quiet: true
+    });
+    try {
         this.selectedIndices(indices);
-    }catch(e){
+    } catch (e) {
 
     }
     this.updatePageSelect();
@@ -90,7 +99,7 @@ const setRowsSelect = function (indices) {
  * @example
  * datatable.addRowSelect(1)
  */
-const addRowSelect = function (index) {
+const addRowSelect = function(index) {
     if (index instanceof Row) {
         index = this.getIndexByRowId(index.rowId)
     }
@@ -104,12 +113,13 @@ const addRowSelect = function (index) {
  * @example
  * datatabel.addRowsSelect([1,2])
  */
-const addRowsSelect = function (indices) {
-    indices = _formatToIndicesArray(this, indices)
+const addRowsSelect = function(indices) {
+    indices = utilFunObj._formatToIndicesArray(this, indices)
     var selectedIndices = this.selectedIndices().slice()
     var needTrigger = false;
     for (var i = 0; i < indices.length; i++) {
-        var ind = indices[i], toAdd = true
+        var ind = indices[i],
+            toAdd = true
         for (var j = 0; j < selectedIndices.length; j++) {
             if (selectedIndices[j] == ind) {
                 toAdd = false
@@ -124,7 +134,7 @@ const addRowsSelect = function (indices) {
     this.selectedIndices(selectedIndices)
     this.updatePageSelect();
     var rowIds = this.getRowIdsByIndices(selectedIndices)
-    if(needTrigger){
+    if (needTrigger) {
         this.trigger(DataTable.ON_ROW_SELECT, {
             indices: selectedIndices,
             rowIds: rowIds
@@ -143,7 +153,7 @@ const addRowsSelect = function (indices) {
  * datatable.setAllRowsUnSelect() // 全部取消选中
  * datatable.setAllRowsUnSelect({quiet:true}) // 全部取消选中,不触发事件
  */
-const setAllRowsUnSelect = function (options) {
+const setAllRowsUnSelect = function(options) {
     this.selectedIndices([])
     this.updatePageSelect();
     if (!(options && options.quiet)) {
@@ -160,7 +170,7 @@ const setAllRowsUnSelect = function (options) {
  * @example
  * datatable.setRowUnSelect(1)
  */
-const setRowUnSelect = function (index) {
+const setRowUnSelect = function(index) {
     if (index instanceof Row) {
         index = this.getIndexByRowId(index.rowId)
     }
@@ -174,8 +184,8 @@ const setRowUnSelect = function (index) {
  * @example
  * datatable.setRowsUnSelect([1,2])
  */
-const setRowsUnSelect = function (indices) {
-    indices = _formatToIndicesArray(this, indices)
+const setRowsUnSelect = function(indices) {
+    indices = utilFunObj._formatToIndicesArray(this, indices)
     var selectedIndices = this.selectedIndices().slice()
 
     // 避免与控件循环触发
@@ -202,10 +212,10 @@ const setRowsUnSelect = function (indices) {
  * 当全部选中时取消选中，否则全部选中
  * @memberof DataTable
  */
- const toggleAllSelect = function(){
-    if (this.allSelected()){
+const toggleAllSelect = function() {
+    if (this.allSelected()) {
         this.setAllRowsUnSelect();
-    }else{
+    } else {
         this.setAllRowsSelect();
     }
 
@@ -219,7 +229,7 @@ const setRowsUnSelect = function (indices) {
  * @param  {string} type  +表示新增行，-表示减少行
  * @param  {number} num     新增/减少的行数
  */
-const updateSelectedIndices = function (index, type, num) {
+const updateSelectedIndices = function(index, type, num) {
     if (!isNumber(num)) {
         num = 1
     }
@@ -230,27 +240,25 @@ const updateSelectedIndices = function (index, type, num) {
         if (type == '+') {
             if (selectedIndices[i] >= index)
                 selectedIndices[i] = parseInt(selectedIndices[i]) + num
-        }
-        else if (type == '-') {
+        } else if (type == '-') {
             if (selectedIndices[i] >= index && selectedIndices[i] <= index + num - 1) {
                 selectedIndices.splice(i, 1)
-            }
-            else if (selectedIndices[i] > index + num - 1)
+            } else if (selectedIndices[i] > index + num - 1)
                 selectedIndices[i] = selectedIndices[i] - num
         }
     }
     this.selectedIndices(selectedIndices)
     this.updatePageSelect();
 }
-export {
-	setAllRowsSelect,
-	setRowSelect,
-	setRowsSelect,
-	addRowSelect,
-	addRowsSelect,
-    setAllRowsUnSelect,
-    setRowUnSelect,
-    setRowsUnSelect,
-    toggleAllSelect,
-    updateSelectedIndices
+export const rowSelectFunObj = {
+    setAllRowsSelect: setAllRowsSelect,
+    setRowSelect: setRowSelect,
+    setRowsSelect: setRowsSelect,
+    addRowSelect: addRowSelect,
+    addRowsSelect: addRowsSelect,
+    setAllRowsUnSelect: setAllRowsUnSelect,
+    setRowUnSelect: setRowUnSelect,
+    setRowsUnSelect: setRowsUnSelect,
+    toggleAllSelect: toggleAllSelect,
+    updateSelectedIndices: updateSelectedIndices
 }

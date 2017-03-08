@@ -12,10 +12,10 @@
  * @example
  * datatable.getParam('param1')
  */
-const getParam = function (key) {
+const getParam = function(key) {
     return this.params[key]
 }
 
-export {
-	getParam
+export const getParamFunObj = {
+    getParam: getParam
 }

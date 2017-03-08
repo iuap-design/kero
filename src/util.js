@@ -3,10 +3,12 @@
  * Author : liuyk(liuyk@yonyou.com)
  * Date   : 2016-08-08 09:59:01
  */
-import {isArray} from 'tinper-sparrow/src/util';
+import {
+    isArray
+} from 'tinper-sparrow/src/util';
 
 // 判断DataTable对象是否发生了改变
-const isChanged = function () {
+const isChanged = function() {
     var rows = this.getAllRows()
     for (var i = 0; i < rows.length; i++) {
         if (rows[i].status != Row.STATUS.NORMAL)
@@ -16,7 +18,7 @@ const isChanged = function () {
 }
 
 // 将Row对象转为索引数组或者将Row对象数组转为索引数组
-const _formatToIndicesArray = function (dataTableObj, indices) {
+const _formatToIndicesArray = function(dataTableObj, indices) {
     if (typeof indices == 'string' || typeof indices == 'number') {
         indices = [indices]
     } else if (indices instanceof Row) {
@@ -29,7 +31,8 @@ const _formatToIndicesArray = function (dataTableObj, indices) {
     return indices;
 };
 
-export {
-	isChanged,
-	_formatToIndicesArray
+export const utilFunObj = {
+    isChanged: isChanged,
+    _formatToIndicesArray: _formatToIndicesArray
+
 }

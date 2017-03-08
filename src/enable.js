@@ -13,7 +13,7 @@
  * datatable.isEnable() //获取datatable是否可修改
  * datatable.isEnable('field1') //获取字段field1是否可修改
  */
-const isEnable = function (fieldName) {
+const isEnable = function(fieldName) {
     var fieldEnable = this.getMeta(fieldName, 'enable')
     if (typeof fieldEnable == 'undefined' || fieldEnable == null)
         fieldEnable = true
@@ -27,13 +27,13 @@ const isEnable = function (fieldName) {
  * @example
  * datatable.setEnable(true)
  */
-const setEnable = function (enable) {
+const setEnable = function(enable) {
     if (this.enable == enable) return
     //当传入的参数不为false时，默认enable为true
-    if (enable===false){
-        enable=false;
-    }else{
-        enable=true;
+    if (enable === false) {
+        enable = false;
+    } else {
+        enable = true;
     }
     this.enable = enable
     this.enableChange(-this.enableChange())
@@ -42,7 +42,7 @@ const setEnable = function (enable) {
     })
 }
 
-export{
-	isEnable,
-	setEnable
+export const enableFunObj = {
+    isEnable: isEnable,
+    setEnable: setEnable
 }

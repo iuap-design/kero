@@ -3,8 +3,12 @@
  * Author : liuyk(liuyk@yonyou.com)
  * Date   : 2016-08-08 13:54:01
  */
-import {eq,_triggerChange, _getField} from './row-util';
-import {isArray} from 'tinper-sparrow/src/util';
+import {
+    rowUtilFunObj
+} from './row-util';
+import {
+    isArray
+} from 'tinper-sparrow/src/util';
 
 /**
  * 设置对应字段的值
@@ -16,16 +20,16 @@ import {isArray} from 'tinper-sparrow/src/util';
  * row.setValue('filed1','value1') // 设置字段值
  * row.setValue('filed1','value1','ctx') //设置字段值，同时传入自定义数据
  */
-const setValue = function (fieldName, value, ctx, options) {
+const setValue = function(fieldName, value, ctx, options) {
 
-    if (arguments.length === 1){
+    if (arguments.length === 1) {
         value = fieldName;
         fieldName = '$data';
     }
     var oldValue = this.getValue(fieldName)
-    if(typeof oldValue == 'undefined' || oldValue === null)
+    if (typeof oldValue == 'undefined' || oldValue === null)
         oldValue = ''
-    if (eq(oldValue, value)) return;
+    if (rowUtilFunObj.eq(oldValue, value)) return;
     var event = {
         eventType: 'dataTableEvent',
         dataTable: this.parent.id,
@@ -36,35 +40,35 @@ const setValue = function (fieldName, value, ctx, options) {
         ctx: ctx || ""
     }
     var flag = this.parent.triggerReturn(DataTable.ON_BEFORE_VALUE_CHANGE, event);
-    if(!flag){
-        _triggerChange(this, fieldName, oldValue, ctx);
+    if (!flag) {
+        rowUtilFunObj._triggerChange(this, fieldName, oldValue, ctx);
         return;
     }
-    _getField(this, fieldName)['value'] = value;
-    _triggerChange(this, fieldName, oldValue, ctx);
+    rowUtilFunObj._getField(this, fieldName)['value'] = value;
+    rowUtilFunObj._triggerChange(this, fieldName, oldValue, ctx);
 }
 
 // 设置字表值，fieldName通过.分隔
-const setChildValue = function(fieldName, value){
+const setChildValue = function(fieldName, value) {
     var nameArr = fieldName.split('.');
     var _name = nameArr[0];
-    var _field = this.data[_name];//_field保存当前_name对应的数据
-    for (var i = 0, count = nameArr.length; i<count; i++){
+    var _field = this.data[_name]; //_field保存当前_name对应的数据
+    for (var i = 0, count = nameArr.length; i < count; i++) {
         //最后一级
-        if (i == count -1){
-            if (_field['value'] instanceof u.DataTable){
+        if (i == count - 1) {
+            if (_field['value'] instanceof u.DataTable) {
                 //暂不处理
-            }else{
+            } else {
                 this.setValue(fieldName, value);
             }
-        }else{
-			if (_field && _field['value'] instanceof u.DataTable){
+        } else {
+            if (_field && _field['value'] instanceof u.DataTable) {
                 var row = _field['value'].getCurrentRow();
                 if (row)
                     row.setChildValue(fieldName.replace(_name + '.', ''), value)
-            }else{
-            	_name = nameArr[i + 1];
-            	_field = _field[_name];//多层嵌套时_field取子项对应的数据
+            } else {
+                _name = nameArr[i + 1];
+                _field = _field[_name]; //多层嵌套时_field取子项对应的数据
             }
 
         }
@@ -72,22 +76,22 @@ const setChildValue = function(fieldName, value){
 };
 
 // 通过rowid设置字表数据信息
-const setChildSimpleDataByRowId = function(rowId, data){
+const setChildSimpleDataByRowId = function(rowId, data) {
     var rowIdArr = rowId.split('.');
     var rowIdLength = rowIdArr.length;
-    if(rowIdLength > 1){
+    if (rowIdLength > 1) {
         var _childField = rowIdArr[0]; //子表字段
         var _childObj = this.data[_childField]; // 子表字段存放的obj
-        if (_childObj && _childObj['value'] instanceof u.DataTable){
+        if (_childObj && _childObj['value'] instanceof u.DataTable) {
             var rowId = rowIdArr[1];
             var row = null;
-            if(rowId)
+            if (rowId)
                 row = _childObj['value'].getRowByRowId(rowId);
-            if (row){
-                if(rowIdArr.length == 2){
+            if (row) {
+                if (rowIdArr.length == 2) {
                     row.setSimpleData(data);
-                }else{
-                    row.setChildSimpleDataByRowId(fieldName.replace(_childField + '.' + rowId + '.', ''),data)
+                } else {
+                    row.setChildSimpleDataByRowId(fieldName.replace(_childField + '.' + rowId + '.', ''), data)
                 }
             }
         }
@@ -105,16 +109,16 @@ const setChildSimpleDataByRowId = function(rowId, data){
  * @param {object} options    设置数据信息是的配置参数
  * @param {boolean} options.fieldFlag   未设置的meta是否进行存储，如果为true则未设置的meta也进行存储
  */
-const _setData = function(rowObj, sourceData, targetData, subscribe, parentKey, options){
+const _setData = function(rowObj, sourceData, targetData, subscribe, parentKey, options) {
     for (var key in sourceData) {
 
         // 判断是否要放到dataTable中
-        if (options && !options.fieldFlag ) {
-            if (!rowObj.parent.getMeta(key)){
+        if (options && !options.fieldFlag) {
+            if (!rowObj.parent.getMeta(key)) {
                 continue;
             }
         }
-    	var _parentKey = parentKey || null;
+        var _parentKey = parentKey || null;
         //if (targetData[key]) {
         targetData[key] = targetData[key] || {};
         var valueObj = sourceData[key]
@@ -128,42 +132,49 @@ const _setData = function(rowObj, sourceData, targetData, subscribe, parentKey, 
         // }
 
         //if (typeof this.parent.meta[key] === 'undefined') continue;
-        if (valueObj == null ||  typeof valueObj != 'object'){
+        if (valueObj == null || typeof valueObj != 'object') {
             // 子表的话只有valueObj为datatable的时候才赋值
-            if(!targetData[key].isChild){
+            if (!targetData[key].isChild) {
                 targetData[key]['value'] = rowObj.formatValue(key, valueObj)
             }
-            if (subscribe === true && (oldValue !== targetData[key]['value'])){
-                    _triggerChange(rowObj, key, oldValue);
-                }
-        }
-        else {
+            if (subscribe === true && (oldValue !== targetData[key]['value'])) {
+                rowUtilFunObj._triggerChange(rowObj, key, oldValue);
+            }
+        } else {
             if (valueObj.error) {
-                if(u.showMessageDialog)
-                    u.showMessageDialog({title: "警告", msg: valueObj.error, backdrop: true});
+                if (u.showMessageDialog)
+                    u.showMessageDialog({
+                        title: "警告",
+                        msg: valueObj.error,
+                        backdrop: true
+                    });
                 else
                     alert(valueObj.error);
-            } else if (valueObj.value || valueObj.value === null  || valueObj.meta || valueObj.value === '' || valueObj.value === '0' || valueObj.value === 0){
+            } else if (valueObj.value || valueObj.value === null || valueObj.meta || valueObj.value === '' || valueObj.value === '0' || valueObj.value === 0) {
                 var oldValue = targetData[key]['value'];
                 targetData[key]['value'] = rowObj.formatValue(key, valueObj.value)
-                if (subscribe === true && (oldValue !== targetData[key]['value'])){
-                    _triggerChange(rowObj, key, oldValue);
+                if (subscribe === true && (oldValue !== targetData[key]['value'])) {
+                    rowUtilFunObj._triggerChange(rowObj, key, oldValue);
                 }
                 for (var k in valueObj.meta) {
                     rowObj.setMeta(key, k, valueObj.meta[k])
                 }
-            }else if (isArray(valueObj)){
+            } else if (isArray(valueObj)) {
                 targetData[key].isChild = true;
                 //ns 是多级数据时的空间名： 最顶层的dataTable没有ns。  f1.f2.f3
                 var _key = _parentKey == null ? key : _parentKey + '.' + key;
                 var ns = rowObj.parent.ns === '' ? key : rowObj.parent.ns + '.' + _key
-              if(rowObj.parent.meta[_key]){
-            	var meta = rowObj.parent.meta[_key]['meta']
-                targetData[key].value = new u.DataTable({root:rowObj.parent.root,ns:ns,meta:meta});
-                targetData[key].value.setSimpleData(valueObj);
-              }
-            }else{
-            	_parentKey = _parentKey == null ? key : _parentKey + '.' + key;
+                if (rowObj.parent.meta[_key]) {
+                    var meta = rowObj.parent.meta[_key]['meta']
+                    targetData[key].value = new u.DataTable({
+                        root: rowObj.parent.root,
+                        ns: ns,
+                        meta: meta
+                    });
+                    targetData[key].value.setSimpleData(valueObj);
+                }
+            } else {
+                _parentKey = _parentKey == null ? key : _parentKey + '.' + key;
                 _setData(rowObj, valueObj, targetData[key], null, _parentKey, options);
             }
         }
@@ -187,35 +198,39 @@ const _setData = function(rowObj, sourceData, targetData, subscribe, parentKey, 
  * row.setData(data,false)
  * row.setData(data),false,{fieldFlag:true})
  */
-const setData = function (data, subscribe, options) {
+const setData = function(data, subscribe, options) {
     this.status = data.status
     var sourceData = data.data,
         targetData = this.data;
-    if (this.parent.root.strict != true){
-        _setData(this, sourceData, targetData,subscribe,null,options);
+    if (this.parent.root.strict != true) {
+        _setData(this, sourceData, targetData, subscribe, null, options);
         return;
     }
 
     // strict 为true 时 ，定义dataTable的时候必须定义所有字段信息才能设置数据。
     var meta = this.parent.meta;
-    for (var key in meta){
+    for (var key in meta) {
         var oldValue = newValue = null;
         //子数据
-        if (meta[key]['type'] && meta[key]['type'] === 'child'){
+        if (meta[key]['type'] && meta[key]['type'] === 'child') {
             targetData[key].isChild = true;
             //ns 是多级数据时的空间名： 最顶层的dataTable没有ns。  f1.f2.f3
             var ns = this.parent.ns === '' ? key : this.parent.ns + '.' + key
             var meta = this.parent.meta[key]['meta']
-            targetData[key].value = new u.DataTable({root:this.parent.root,ns:ns,meta:meta});
+            targetData[key].value = new u.DataTable({
+                root: this.parent.root,
+                ns: ns,
+                meta: meta
+            });
             if (typeof sourceData[key] === 'object')
                 targetData[key].value.setSimpleData(sourceData[key]);
         }
         //存在多级关系
-        else if (key.indexOf('.') != -1){
+        else if (key.indexOf('.') != -1) {
             var keys = key.split('.');
             var _fieldValue = sourceData;
             var _targetField = targetData;
-            for(var i = 0; i< keys.length; i++){
+            for (var i = 0; i < keys.length; i++) {
                 _fieldValue = _fieldValue || {};
                 _fieldValue = _fieldValue[keys[i]];
                 _targetField = _targetField[keys[i]];
@@ -225,19 +240,22 @@ const setData = function (data, subscribe, options) {
             newValue = _targetField['value'];
         }
         // 通过 setSimpleData 设置的数据
-        else if (sourceData[key] == null ||  typeof sourceData[key] != 'object'){
+        else if (sourceData[key] == null || typeof sourceData[key] != 'object') {
             oldValue = targetData[key]['value'];
             targetData[key]['value'] = this.formatValue(key, sourceData[key])
             newValue = targetData[key]['value'];
-        }
-        else{
+        } else {
             var valueObj = sourceData[key];
             if (valueObj.error) {
-                if(u.showMessageDialog)
-                    u.showMessageDialog({title: "警告", msg: valueObj.error, backdrop: true});
+                if (u.showMessageDialog)
+                    u.showMessageDialog({
+                        title: "警告",
+                        msg: valueObj.error,
+                        backdrop: true
+                    });
                 else
                     alert(valueObj.error);
-            } else if (valueObj.value || valueObj.value === null || valueObj.meta){
+            } else if (valueObj.value || valueObj.value === null || valueObj.meta) {
                 oldValue = targetData[key]['value'];
                 targetData[key]['value'] = this.formatValue(key, valueObj.value)
                 newValue = targetData[key]['value'];
@@ -246,22 +264,22 @@ const setData = function (data, subscribe, options) {
                 }
             }
         }
-        if (subscribe === true && (oldValue !== newValue)){
-            _triggerChange(this, key, oldValue);
+        if (subscribe === true && (oldValue !== newValue)) {
+            rowUtilFunObj._triggerChange(this, key, oldValue);
         }
 
     }
 };
 
 // 效果同setData
-const updateRow = function (row) {
+const updateRow = function(row) {
     this.setData(row)
 }
 
-export {
-	setValue,
-	setChildValue,
-	setChildSimpleDataByRowId,
-	setData,
-	updateRow
+export const rowDataFunObj = {
+    setValue: setValue,
+    setChildValue: setChildValue,
+    setChildSimpleDataByRowId: setChildSimpleDataByRowId,
+    setData: setData,
+    updateRow: updateRow
 }

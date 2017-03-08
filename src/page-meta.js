@@ -15,7 +15,7 @@
  * @example
  * page.setRowMeta(1,'field1','type','string')
  */
-const setRowMeta = function (rowIndex, fieldName, metaName, value) {
+const setRowMeta = function(rowIndex, fieldName, metaName, value) {
     var row = this.rows[rowIndex]
     if (row) {
         var meta = row[fieldName].meta
@@ -27,6 +27,6 @@ const setRowMeta = function (rowIndex, fieldName, metaName, value) {
     }
 }
 
-export {
-	setRowMeta
+export const pageMetaFunObj = {
+    setRowMeta: setRowMeta
 }

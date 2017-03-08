@@ -3,9 +3,15 @@
  * Author : liuyk(liuyk@yonyou.com)
  * Date   : 2016-08-08 13:54:01
  */
-import {getJSObject} from 'tinper-sparrow/src/util';
-import {date} from 'tinper-sparrow/src/util/dateUtils';
-import {_getField} from './row-util';
+import {
+    getJSObject
+} from 'tinper-sparrow/src/util';
+import {
+    date
+} from 'tinper-sparrow/src/util/dateUtils';
+import {
+    rowUtilFunObj
+} from './row-util';
 
 /**
  * 为某个字段绑定监听，当字段发生改变时触发对应方法
@@ -14,19 +20,19 @@ import {_getField} from './row-util';
  * @example
  * row.ref('field1').subscribe(function(){})
  */
-const ref = function (fieldName) {
+const ref = function(fieldName) {
     this.parent.createField(fieldName);
     if (!this.valueChange[fieldName])
         this.valueChange[fieldName] = ko.observable(1);
     return ko.pureComputed({
-        read: function () {
+        read: function() {
             this.valueChange[fieldName]();
             this.currentRowChange();
             return this.getChildValue(fieldName)
             //var value = this._getField(fieldName)['value'];
             //return value;
         },
-        write: function (value) {
+        write: function(value) {
             this.setChildValue(fieldName, value);
             //this.setValue(fieldName, value)
         },
@@ -43,15 +49,15 @@ const ref = function (fieldName) {
  * @example
  * row.refMeta('field1','type').subscribe(function(){})
  */
-const refMeta = function (fieldName, key) {
+const refMeta = function(fieldName, key) {
     if (!this.metaChange[fieldName + '.' + key])
         this.metaChange[fieldName + '.' + key] = ko.observable(1);
     return ko.pureComputed({
-        read: function () {
+        read: function() {
             this.metaChange[fieldName + '.' + key]()
             return this.getMeta(fieldName, key)
         },
-        write: function (value) {
+        write: function(value) {
             this.setMeta(fieldName, key, value)
         },
         owner: this
@@ -66,16 +72,16 @@ const refMeta = function (fieldName, key) {
  * @example
  * row.refCombo('field1','source1').subscribe(function(){})
  */
-const refCombo = function (fieldName, datasource) {
+const refCombo = function(fieldName, datasource) {
     if (!this.valueChange[fieldName])
         this.valueChange[fieldName] = ko.observable(1);
     return ko.pureComputed({
-        read: function () {
+        read: function() {
             this.valueChange[fieldName]();
             this.currentRowChange();
             var ds = getJSObject(this.parent.parent, datasource)
-            if (_getField(this, fieldName)['value'] === undefined || _getField(this, fieldName)['value'] === "") return "";
-            var v = _getField(this, fieldName)['value'];
+            if (rowUtilFunObj._getField(this, fieldName)['value'] === undefined || rowUtilFunObj._getField(this, fieldName)['value'] === "") return "";
+            var v = rowUtilFunObj._getField(this, fieldName)['value'];
             var valArr = typeof v === 'string' ? v.split(',') : [v];
 
             var nameArr = []
@@ -91,7 +97,7 @@ const refCombo = function (fieldName, datasource) {
 
             return nameArr.toString();
         },
-        write: function (value) {
+        write: function(value) {
 
             this.setValue(fieldName, value)
         },
@@ -107,20 +113,20 @@ const refCombo = function (fieldName, datasource) {
  * @example
  * row.refDate('field1','YYYY-MM-DD').subscribe(function(){})
  */
-const refDate = function (fieldName, format) {
+const refDate = function(fieldName, format) {
     if (!this.valueChange[fieldName])
         this.valueChange[fieldName] = ko.observable(1);
     return ko.pureComputed({
-        read: function () {
+        read: function() {
             this.valueChange[fieldName]();
             this.currentRowChange();
-            if (!_getField(this, fieldName)['value']) return "";
-            var valArr = _getField(this, fieldName)['value']
+            if (!rowUtilFunObj._getField(this, fieldName)['value']) return "";
+            var valArr = rowUtilFunObj._getField(this, fieldName)['value']
             if (!valArr) return "";
             valArr = date.format(valArr, format); //moment(valArr).format(format)
             return valArr;
         },
-        write: function (value) {
+        write: function(value) {
 
             this.setValue(fieldName, value)
         },
@@ -129,24 +135,24 @@ const refDate = function (fieldName, format) {
 }
 
 // 针对boolean类型进行转化，项目个性化代码，刘云燕提交
-const refEnum = function (fieldName) {
+const refEnum = function(fieldName) {
     this.parent.createField(fieldName);
     if (!this.valueChange[fieldName])
         this.valueChange[fieldName] = ko.observable(1);
     return ko.pureComputed({
-        read: function () {
+        read: function() {
             this.valueChange[fieldName]();
             this.currentRowChange();
-            if (!_getField(this, fieldName)['value']) return "";
-            var valArr = _getField(this, fieldName)['value']
+            if (!rowUtilFunObj._getField(this, fieldName)['value']) return "";
+            var valArr = rowUtilFunObj._getField(this, fieldName)['value']
             if (!valArr) return "";
-            if(valArr == "N")
+            if (valArr == "N")
                 valArr = "否";
-            else if(valArr == "Y")
+            else if (valArr == "Y")
                 valArr = "是";
             return valArr;
         },
-        write: function (value) {
+        write: function(value) {
 
             this.setValue(fieldName, value)
         },
@@ -154,10 +160,10 @@ const refEnum = function (fieldName) {
     })
 }
 
-export {
-	ref,
-	refMeta,
-	refCombo,
-	refDate,
-	refEnum
+export const rowRefFunObj = {
+    ref: ref,
+    refMeta: refMeta,
+    refCombo: refCombo,
+    refDate: refDate,
+    refEnum: refEnum
 }

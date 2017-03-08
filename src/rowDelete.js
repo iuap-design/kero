@@ -4,13 +4,15 @@
  * Author : liuyk(liuyk@yonyou.com)
  * Date   : 2016-08-01 14:34:01
  */
-import {_formatToIndicesArray} from './util';
+import {
+    utilFunObj
+} from './util';
 
 /***
  * 根据索引删除数据行
  * @param {number} index 需要删除数据行的索引
  */
-const setRowDelete = function (index) {
+const setRowDelete = function(index) {
     if (index instanceof Row) {
         index = this.getIndexByRowId(index.rowId)
     }
@@ -20,7 +22,7 @@ const setRowDelete = function (index) {
 /***
  * 删除所有数据行
  */
-const setAllRowsDelete = function () {
+const setAllRowsDelete = function() {
     var indices = new Array(this.rows().length)
     for (var i = 0; i < indices.length; i++) {
         indices[i] = i
@@ -32,13 +34,13 @@ const setAllRowsDelete = function () {
  * 根据索引数组删除数据行
  * @param {Array} indices 需要删除数据行的索引数组
  */
-const setRowsDelete = function (indices) {
-    indices = _formatToIndicesArray(this, indices)
+const setRowsDelete = function(indices) {
+    indices = utilFunObj._formatToIndicesArray(this, indices)
     var rowIds = this.getRowIdsByIndices(indices)
     this.trigger(DataTable.ON_DELETE, {
-            falseDelete: true,
-            indices: indices,
-            rowIds: rowIds
+        falseDelete: true,
+        indices: indices,
+        rowIds: rowIds
     })
     for (var i = 0; i < indices.length; i++) {
         var row = this.getRow(indices[i])
@@ -46,8 +48,7 @@ const setRowsDelete = function (indices) {
             this.rows().splice(indices[i], 1);
             this.updateSelectedIndices(indices[i], '-')
             this.updateFocusIndex(index, '-')
-        }
-        else {
+        } else {
             row.status = Row.STATUS.FALSE_DELETE
             var temprows = this.rows().splice(indices[i], 1)
             this.rows().push(temprows[0]);
@@ -55,8 +56,8 @@ const setRowsDelete = function (indices) {
     }
 }
 
-export {
-	setRowDelete,
-	setAllRowsDelete,
-	setRowsDelete
+export const rowDeleteFunObj = {
+    setRowDelete: setRowDelete,
+    setAllRowsDelete: setAllRowsDelete,
+    setRowsDelete: setRowsDelete
 }

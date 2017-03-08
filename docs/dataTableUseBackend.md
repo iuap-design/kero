@@ -6,15 +6,15 @@
 
 ``` java
 @RequestMapping(value = "initDb", method = RequestMethod.POST)
-public @ResponseBody EventResponse initDt(@IWebParameter(id = "data1") DataTable<ProdSpecHPOJO> data1,
-		@IWebParameter() EventResponse response) throws Exception {
+public @ResponseBody EventResponse initDt(@IWeb参数eter(id = "data1") DataTable<ProdSpecHPOJO> data1,
+		@IWeb参数eter() EventResponse response) throws Exception {
 	//准备分页信息
 	PagePOJO page = new PagePOJO();
 	page.setCurrentPage(data1.getPageIndex());
 	page.setPageSize(data1.getPageSize());
 
 	//查询条件
-	ProdSpecQueryParameter psqp = new ProdSpecQueryParameter();
+	ProdSpecQuery参数eter psqp = new ProdSpecQuery参数eter();
 	//查询数据
 	PageBean<ProdSpecHPOJO> pagebean = prodSpecService.queryPageByCondition(page, psqp);
 	@SuppressWarnings("unchecked")
@@ -36,10 +36,10 @@ public @ResponseBody EventResponse initDt(@IWebParameter(id = "data1") DataTable
 ##### setId
 设置取id
 
-##### getParams
+##### get参数s
 获取datatable上的设置的参数
 
-##### setParams
+##### set参数s
 设置datatable上的设置的参数
 
 ### 基本的增删改查

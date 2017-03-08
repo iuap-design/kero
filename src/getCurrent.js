@@ -12,7 +12,7 @@
  * @example
  * datatable.getCurrentRow()
  */
-const getCurrentRow = function () {
+const getCurrentRow = function() {
     if (this.focusIndex() != -1)
         return this.getFocusRow()
     var index = this.getSelectedIndex()
@@ -28,7 +28,7 @@ const getCurrentRow = function () {
  * @example
  * datatable.getCurrentIndex()
  */
-const getCurrentIndex = function () {
+const getCurrentIndex = function() {
     if (this.focusIndex() != -1)
         return this.focusIndex()
     var index = this.getSelectedIndex()
@@ -38,7 +38,7 @@ const getCurrentIndex = function () {
         return index
 }
 
-export{
-	getCurrentRow,
-	getCurrentIndex
+export const getCurrentFunObj = {
+    getCurrentRow: getCurrentRow,
+    getCurrentIndex: getCurrentIndex
 }

@@ -10,57 +10,43 @@ import {
 
 
 import {
-    setValue,
-    setChildValue,
-    setChildSimpleDataByRowId,
-    setData,
-    updateRow
+    rowDataFunObj
 } from './row-data';
 
 import {
-    getValue,
-    getChildValue,
-    getData,
-    getEmptyData
+    rowGetDataFunObj
 } from './row-getData';
 
 import {
-    getMeta
+    rowGetMetaFunObj
 } from './row-getMeta';
 
 import {
-    formatValueFun,
-    getSimpleData
+    rowGetSimpleDataFunObj
 } from './row-getSimpleData';
 
 import {
-    init
+    rowInitFunObj
 } from './row-init';
 
 import {
-    setMeta
+    rowMetaFunObj
 } from './row-meta';
 
 import {
-    ref,
-    refMeta,
-    refCombo,
-    refDate,
-    refEnum
+    rowRefFunObj
 } from './row-ref';
 
-import{
-    toggleSelect,
-    singleSelect,
-    multiSelect
+import {
+    rowRowSelectFunObj
 } from './row-rowSelect';
 
 import {
-    setSimpleData
+    rowSimpleDataFunObj
 } from './row-simpleData';
 
 import {
-    formatValue, //需要最终产出,
+    rowUtilFunObj
 } from './row-util';
 
 
@@ -70,8 +56,8 @@ import {
  * @description 前端数据模型行对象
  */
 
-class Row extends Events{
-    constructor(options){
+class Row extends Events {
+    constructor(options) {
         super();
         var self = this;
         /**
@@ -97,14 +83,14 @@ class Row extends Events{
         // 当前行的数据信息
         this.data = {}
         // 存储meta改变信息
-        this.metaChange = {}//ko.observable(1)
+        this.metaChange = {} //ko.observable(1)
         // 存储valuecahnge改变信息
         this.valueChange = {};
         // 监听当前行改变
         this.currentRowChange = ko.observable(1);
         // 监听当前行是否选中
         this.selected = ko.pureComputed({
-            read: function () {
+            read: function() {
                 var index = this.parent.getRowIndex(this);
                 var selectindices = this.parent.getSelectedIndices();
                 return selectindices.indexOf(index) != -1;
@@ -114,7 +100,7 @@ class Row extends Events{
         })
         // 监听当前行是否为focus
         this.focused = ko.pureComputed({
-            read: function () {
+            read: function() {
                 var index = this.parent.getRowIndex(this);
                 var focusIndex = this.parent.getFocusIndex()
                 return focusIndex == index;
@@ -125,52 +111,17 @@ class Row extends Events{
         this.init();
     }
 }
-
-//data
-Row.prototype.setValue= setValue;
-Row.prototype.setChildValue= setChildValue;
-Row.prototype.setChildSimpleDataByRowId= setChildSimpleDataByRowId;
-Row.prototype.setData= setData;
-Row.prototype.updateRow= updateRow;
-
-//getData
-Row.prototype.getValue= getValue;
-Row.prototype.getChildValue= getChildValue;
-Row.prototype.getData= getData;
-Row.prototype.getEmptyData= getEmptyData;
-
-//getMeta
-Row.prototype.getMeta= getMeta;
-
-//getSimpleData
-Row.prototype.formatValueFun= formatValueFun;
-Row.prototype.getSimpleData= getSimpleData;
-
-//init
-Row.prototype.init= init;
-
-//meta
-Row.prototype.setMeta= setMeta;
-
-//ref
-Row.prototype.ref= ref;
-Row.prototype.refMeta= refMeta;
-Row.prototype.refCombo= refCombo;
-Row.prototype.refDate= refDate;
-Row.prototype.refEnum= refEnum;
-
-//rowSelect
-Row.prototype.toggleSelect= toggleSelect;
-Row.prototype.singleSelect= singleSelect;
-Row.prototype.multiSelect= multiSelect;
-
-//simpleData
-Row.prototype.setSimpleData= setSimpleData;
-
-//util
-Row.prototype.formatValue= formatValue;
-
-
+const RowProto = Row.prototype;
+Object.assign(RowProto, rowDataFunObj);
+Object.assign(RowProto, rowGetDataFunObj);
+Object.assign(RowProto, rowGetMetaFunObj);
+Object.assign(RowProto, rowGetSimpleDataFunObj);
+Object.assign(RowProto, rowInitFunObj);
+Object.assign(RowProto, rowMetaFunObj);
+Object.assign(RowProto, rowRefFunObj);
+Object.assign(RowProto, rowRowSelectFunObj);
+Object.assign(RowProto, rowSimpleDataFunObj);
+Object.assign(RowProto, rowUtilFunObj);
 
 Row.STATUS = {
     NORMAL: 'nrm',
@@ -184,9 +135,9 @@ Row.STATUS = {
  * 生成随机行id
  * @private
  */
-Row.getRandomRowId = function () {
-    var _id = setTimeout(function () {})
-    return  _id + '';
+Row.getRandomRowId = function() {
+    var _id = setTimeout(function() {})
+    return _id + '';
 };
 
 

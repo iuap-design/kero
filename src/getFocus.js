@@ -11,7 +11,7 @@
  * @example
  * datatable.getFocusRow()
  */
-const getFocusRow = function () {
+const getFocusRow = function() {
     if (this.focusIndex() != -1)
         return this.getRow(this.focusIndex())
     else
@@ -25,11 +25,11 @@ const getFocusRow = function () {
  * @example
  * datatable.getFocusIndex()
  */
-const getFocusIndex = function () {
+const getFocusIndex = function() {
     return this.focusIndex()
 }
 
-export {
-	getFocusRow,
-	getFocusIndex
+export const getFocusFunObj = {
+    getFocusRow: getFocusRow,
+    getFocusIndex: getFocusIndex
 }

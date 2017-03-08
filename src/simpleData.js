@@ -91,7 +91,7 @@ const addSimpleData = function(data, status){
 
 }
 
-export {
-	setSimpleData,
-	addSimpleData
+export const simpleDataFunObj = {
+	setSimpleData:setSimpleData,
+	addSimpleData:addSimpleData
 }

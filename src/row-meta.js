@@ -3,7 +3,9 @@
  * Author : liuyk(liuyk@yonyou.com)
  * Date   : 2016-08-08 13:54:01
  */
-import {eq, _getField} from './row-util';
+import {
+  rowUtilFunObj
+} from './row-util';
 
 /**
  * 设置meta信息
@@ -14,12 +16,12 @@ import {eq, _getField} from './row-util';
  * @example
  * row.setMeta('filed1','type','string')
  */
-const setMeta = function (fieldName, key, value) {
-    var meta = _getField(this, fieldName).meta
+const setMeta = function(fieldName, key, value) {
+    var meta = rowUtilFunObj._getField(this, fieldName).meta
     if (!meta)
-        meta = _getField(this, fieldName).meta = {}
+        meta = rowUtilFunObj._getField(this, fieldName).meta = {}
     var oldValue = meta[key]
-    if (eq(oldValue, value)) return;
+    if (rowUtilFunObj.eq(oldValue, value)) return;
     meta[key] = value
     //this.metaChange(- this.metaChange())
     if (this.metaChange[fieldName + '.' + key]) {
@@ -61,6 +63,6 @@ const setMeta = function (fieldName, key, value) {
 }
 
 
-export {
-	setMeta
+export const rowMetaFunObj = {
+    setMeta: setMeta
 }

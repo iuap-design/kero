@@ -3,7 +3,9 @@
  * Author : liuyk(liuyk@yonyou.com)
  * Date   : 2016-08-08 13:54:01
  */
-import {_dateToUTCString,_getField} from './row-util';
+import {
+    rowUtilFunObj
+} from './row-util';
 /**
  * 获取row中某一字段的值
  * @memberof Row
@@ -12,32 +14,32 @@ import {_dateToUTCString,_getField} from './row-util';
  * @example
  * row.getValue('field1')
  */
-const getValue = function (fieldName) {
-    return _getField(this,fieldName)['value']
+const getValue = function(fieldName) {
+    return rowUtilFunObj._getField(this, fieldName)['value']
 }
 
 //获取子表值 ，如果fieldName对应了一个子表，返回该子表的行数组
-const getChildValue = function(fieldName){
+const getChildValue = function(fieldName) {
     var nameArr = fieldName.split('.');
     var _name = nameArr[0];
-    for (var i = 0, count = nameArr.length; i<count; i++){
+    for (var i = 0, count = nameArr.length; i < count; i++) {
         var _value = this.getValue(_name);
         //最后一级
-        if (i == count -1){
-            if (_value instanceof u.DataTable){
+        if (i == count - 1) {
+            if (_value instanceof u.DataTable) {
                 return _value.rows.peek();
-            }else{
+            } else {
                 return _value;
             }
-        }else{
-            if (_value instanceof u.DataTable){
+        } else {
+            if (_value instanceof u.DataTable) {
                 _value = _value.getCurrentRow();
                 if (!_value)
                     return '';
                 else
                     return _value.getChildValue(fieldName.replace(_name + '.', ''))
-            }else{
-                _name = _name + '.' + nameArr[i+1];
+            } else {
+                _name = _name + '.' + nameArr[i + 1];
             }
 
         }
@@ -53,45 +55,53 @@ const getChildValue = function(fieldName){
  * @example
  * row.getData()
  */
-const getData = function () {
+const getData = function() {
     var data = ko.toJS(this.data)
     var meta = this.parent.getMeta()
     for (var key in meta) {
         if (meta[key] && meta[key].type) {
             if (meta[key].type == 'date' || meta[key].type == 'datetime') {
-                if(key.indexOf('.')>0){//大于0说明是多级json
-                    var keys=key.split('.');
-                    var _keyValue=data;
-                    for(var i=0,count=keys.length;i<count;i++){
-                        _keyValue=_keyValue[keys[i]];
+                if (key.indexOf('.') > 0) { //大于0说明是多级json
+                    var keys = key.split('.');
+                    var _keyValue = data;
+                    for (var i = 0, count = keys.length; i < count; i++) {
+                        _keyValue = _keyValue[keys[i]];
                     }
-                    _keyValue.value =_dateToUTCString(_keyValue.value);
+                    _keyValue.value = rowUtilFunObj._dateToUTCString(_keyValue.value);
 
-                }else{
-                    data[key].value = _dateToUTCString(data[key].value)
+                } else {
+                    data[key].value = rowUtilFunObj._dateToUTCString(data[key].value)
                 }
-            } else if(meta[key].type == 'child') {
+            } else if (meta[key].type == 'child') {
                 var chiddt = this.getValue(key),
                     rs = chiddt.rows(),
                     cds = [];
-                for(var i=0;i < rs.length;i++) {
+                for (var i = 0; i < rs.length; i++) {
                     cds.push(rs[i].getData());
                 }
                 data[key].value = JSON.stringify(cds);
             }
         }
     }
-    return {'id': this.rowId, 'status': this.status, data: data}
+    return {
+        'id': this.rowId,
+        'status': this.status,
+        data: data
+    }
 }
 
 // 获取空数据
-const getEmptyData = function () {
-    return {'id': this.rowId, 'status': this.status, data: {}}
+const getEmptyData = function() {
+    return {
+        'id': this.rowId,
+        'status': this.status,
+        data: {}
+    }
 };
 
-export {
-	getValue,
-	getChildValue,
-	getData,
-	getEmptyData
+export const rowGetDataFunObj = {
+    getValue: getValue,
+    getChildValue: getChildValue,
+    getData: getData,
+    getEmptyData: getEmptyData
 }

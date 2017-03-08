@@ -16,7 +16,7 @@
  * }
  * datatable.copyRow(1,row)
  */
-const copyRow = function (index, row) {
+const copyRow = function(index, row) {
     this.copyRows(index, [row])
 }
 
@@ -34,9 +34,11 @@ const copyRow = function (index, row) {
  * }
  * datatable.copyRow(1,[row1,row2])
  */
-const copyRows = function (index, rows) {
-    for(var i=0;i < rows.length;i++) {
-        var newRow = new Row({parent: this})
+const copyRows = function(index, rows) {
+    for (var i = 0; i < rows.length; i++) {
+        var newRow = new Row({
+            parent: this
+        })
         if (rows[i]) {
             newRow.setData(rows[i].getData())
         }
@@ -44,7 +46,7 @@ const copyRows = function (index, rows) {
     }
 }
 
-export {
-	copyRow,
-	copyRows
+export const copyRowFunObj = {
+    copyRow: copyRow,
+    copyRows: copyRows
 }

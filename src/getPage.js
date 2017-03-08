@@ -13,7 +13,7 @@
  * @example
  * datatable.getPage(1)
  */
-const getPage = function (pageIndex) {
+const getPage = function(pageIndex) {
     if (this.pageCache) {
         return this.cachedPages[pageIndex]
     }
@@ -27,14 +27,14 @@ const getPage = function (pageIndex) {
  * @example
  * datatable.getPages()
  */
-const getPages = function () {
+const getPages = function() {
     if (this.pageCache) {
         return this.cachedPages
     }
     return [];
 }
 
-export {
-	getPage,
-	getPages
+export const getPageFunObj = {
+    getPage: getPage,
+    getPages: getPages
 }

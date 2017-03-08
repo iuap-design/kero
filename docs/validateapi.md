@@ -34,20 +34,20 @@
 ---
 
 
-## validType
+## valid类型
 
-`validType`:验证输入类型，默认值为`null`
+`valid类型`:验证输入类型，默认值为`null`
 
 | Key       | Value    | 说明       |
 | --------- | -------- | -------- |
-| validType | integer  | 输入需为整数   |
-| validType | float    | 输入需为浮点数  |
-| validType | zipCode  | 输入需为邮编   |
-| validType | phone    | 输入需为手机号码 |
-| validType | landline | 输入需为座机号码 |
-| validType | email    | 输入需为邮箱   |
-| validType | url      | 输入需为网址   |
-| validType | datetime | 输入需为日期   |
+| valid类型 | integer  | 输入需为整数   |
+| valid类型 | float    | 输入需为浮点数  |
+| valid类型 | zipCode  | 输入需为邮编   |
+| valid类型 | phone    | 输入需为手机号码 |
+| valid类型 | landline | 输入需为座机号码 |
+| valid类型 | email    | 输入需为邮箱   |
+| valid类型 | url      | 输入需为网址   |
+| valid类型 | datetime | 输入需为日期   |
 
 
 

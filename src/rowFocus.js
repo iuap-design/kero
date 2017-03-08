@@ -3,7 +3,9 @@
  * Author : liuyk(liuyk@yonyou.com)
  * Date   : 2016-08-08 09:59:01
  */
-import {isNumber} from 'tinper-sparrow/src/util';
+import {
+    isNumber
+} from 'tinper-sparrow/src/util';
 
 /**
  * 设置焦点行
@@ -16,7 +18,7 @@ import {isNumber} from 'tinper-sparrow/src/util';
  * datatable.setRowFocus(1,true) // 设置第二行为焦点行，不触发事件
  * datatable.setRowFocus(1,false,true) // 设置第二行为焦点行，如果当前焦点行为第二行，仍旧触发事件
  */
-const setRowFocus = function (index, quiet, force) {
+const setRowFocus = function(index, quiet, force) {
     var rowId = null
     if (index instanceof Row) {
         index = this.getIndexByRowId(index.rowId)
@@ -47,9 +49,10 @@ const setRowFocus = function (index, quiet, force) {
  * @example
  * datatable.setRowUnFocus()
  */
-const setRowUnFocus = function () {
+const setRowUnFocus = function() {
     this.currentRowChange(-this.currentRowChange())
-    var indx = this.focusIndex(), rowId = null;
+    var indx = this.focusIndex(),
+        rowId = null;
     if (indx !== -1) {
         rowId = this.getRow(indx).rowId
     }
@@ -69,7 +72,7 @@ const setRowUnFocus = function () {
  * @param  {number} num     新增/减少的行数
  *
  */
-const updateFocusIndex = function (opIndex, opType, num) {
+const updateFocusIndex = function(opIndex, opType, num) {
     if (!isNumber(num)) {
         num = 1
     }
@@ -86,8 +89,8 @@ const updateFocusIndex = function (opIndex, opType, num) {
     }
 }
 
-export {
-    setRowFocus,
-    setRowUnFocus,
-    updateFocusIndex
+export const rowFocusFunObj = {
+    setRowFocus: setRowFocus,
+    setRowUnFocus: setRowUnFocus,
+    updateFocusIndex: updateFocusIndex
 }

@@ -13,7 +13,7 @@
  * @example
  * page.getRowMeta(1,'field1','type')
  */
-const getRowMeta = function (rowIndex, fieldName, metaName) {
+const getRowMeta = function(rowIndex, fieldName, metaName) {
     var row = this.rows[rowIndex]
     if (row) {
         var meta = row[fieldName].meta
@@ -25,6 +25,6 @@ const getRowMeta = function (rowIndex, fieldName, metaName) {
     return null
 }
 
-export{
-	getRowMeta
+export const rowGetMetaFunObj = {
+    getRowMeta: getRowMeta
 }

@@ -11,7 +11,7 @@ const jsdoc2md = require('jsdoc-to-markdown');
  * @param  {string} rsPath   输出目录地址
  */
 function produceAPI(sourceArr, rsPath) {
-    var apidocsPath = path.join(envPath, 'docs/API');
+    var apidocsPath = path.join(envPath, 'docs');
     const output = jsdoc2md.renderSync({ files: sourceArr })
     var isexist = fs.existsSync(apidocsPath);
     if (!isexist) {
@@ -29,14 +29,14 @@ gulp.task('docs', function() {
     var dtAbsolutePath = [],rowAbsolutePath = [];
     for (var i = 0; i < dtSrcPath.length; i++) {
         dtAbsolutePath.push(path.join(envPath, 'src/' + dtSrcPath[i]));
-        console.log("dataTable--"+dtAbsolutePath[i]);
+        // console.log("dataTable--"+dtAbsolutePath[i]);
     }
 
     for (var i = 0; i < rowSrcPath.length; i++) {
         rowAbsolutePath.push(path.join(envPath, 'src/' + rowSrcPath[i]));
-        console.log("row-----"+rowAbsolutePath[i]);
+        // console.log("row-----"+rowAbsolutePath[i]);
     }
 
-    produceAPI(dtAbsolutePath, 'DataTable.md');
-    produceAPI(rowAbsolutePath,'ROW.md');
+    produceAPI(dtAbsolutePath, 'udatatable.md');
+    produceAPI(rowAbsolutePath,'row.md');
 })

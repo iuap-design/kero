@@ -11,12 +11,17 @@
  * @example
  * page.getData()
  */
-const getData = function () {
-    var datas = [], row, meta;
+const getData = function() {
+    var datas = [],
+        row, meta;
     meta = this.parent.getMeta()
     for (var i = 0; i < this.rows.length; i++) {
         row = this.rows[i];
-        datas.push({'id': row.rowId, 'status': row.status, data: row.data});
+        datas.push({
+            'id': row.rowId,
+            'status': row.status,
+            data: row.data
+        });
     }
     return datas
 }
@@ -29,15 +34,24 @@ const getData = function () {
  * @example
  * page.getSelectDatas()
  */
-const getSelectDatas = function () {
-    var datas = [], row;
+const getSelectDatas = function() {
+    var datas = [],
+        row;
     for (var i = 0; i < this.rows.length; i++) {
         row = this.rows[i];
-        datas.push({'id': row.rowId, 'status': row.status, data: row.data});
+        datas.push({
+            'id': row.rowId,
+            'status': row.status,
+            data: row.data
+        });
     }
     for (var i = 0; i < this.selectedIndices.length; i++) {
         row = this.rows[this.selectedIndices[i]];
-        datas.push({'id': row.rowId, 'status': row.status, data: row.data});
+        datas.push({
+            'id': row.rowId,
+            'status': row.status,
+            data: row.data
+        });
     }
     return datas
 }
@@ -50,7 +64,7 @@ const getSelectDatas = function () {
  * @example
  * page.getSelectRows()
  */
-const getSelectRows = function () {
+const getSelectRows = function() {
     var rows = [];
     for (var i = 0; i < this.selectedIndices.length; i++) {
         rows.push(this.rows[this.selectedIndices[i]])
@@ -66,7 +80,7 @@ const getSelectRows = function () {
  * @example
  * page.getRowByRowId('rowid')
  */
-const getRowByRowId = function (rowid) {
+const getRowByRowId = function(rowid) {
     for (var i = 0, count = this.rows.length; i < count; i++) {
         if (this.rows[i].rowId == rowid)
             return this.rows[i]
@@ -83,7 +97,7 @@ const getRowByRowId = function (rowid) {
  * @example
  * page.getRowValue(1,'field1')
  */
-const getRowValue = function (rowIndex, fieldName) {
+const getRowValue = function(rowIndex, fieldName) {
     var row = this.rows[rowIndex]
     if (row) {
         return row.data[fieldName]['value']
@@ -91,10 +105,10 @@ const getRowValue = function (rowIndex, fieldName) {
     return null
 }
 
-export {
-	getData,
-	getSelectDatas,
-	getSelectRows,
-	getRowByRowId,
-	getRowValue
+export const pageGetDataFunObj = {
+    getData: getData,
+    getSelectDatas: getSelectDatas,
+    getSelectRows: getSelectRows,
+    getRowByRowId: getRowByRowId,
+    getRowValue: getRowValue
 }

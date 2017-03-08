@@ -12,7 +12,7 @@
  * @example
  * datatable.getSelectedIndex()
  */
-const getSelectedIndex = function () {
+const getSelectedIndex = function() {
     var selectedIndices = this.selectedIndices()
     if (selectedIndices == null || selectedIndices.length == 0)
         return -1
@@ -26,7 +26,7 @@ const getSelectedIndex = function () {
  * @example
  * datatable.getSelectedIndices()
  */
-const getSelectedIndices = function () {
+const getSelectedIndices = function() {
     var selectedIndices = this.selectedIndices()
     if (selectedIndices == null || selectedIndices.length == 0)
         return []
@@ -34,7 +34,7 @@ const getSelectedIndices = function () {
 };
 
 // 兼容保留，不要用
-const getSelectedIndexs = function () {
+const getSelectedIndexs = function() {
     return this.getSelectedIndices();
 }
 
@@ -47,7 +47,7 @@ const getSelectedIndexs = function () {
  * datatable.getSelectedDatas()
  * datatable.getSelectedDatas(true)
  */
-const getSelectedDatas = function (withEmptyRow) {
+const getSelectedDatas = function(withEmptyRow) {
     var selectedIndices = this.selectedIndices()
     var datas = []
     var sIndices = []
@@ -71,7 +71,7 @@ const getSelectedDatas = function (withEmptyRow) {
  * @example
  * datatable.getSelectedRows()
  */
-const getSelectedRows = function (){
+const getSelectedRows = function() {
     var selectedIndices = this.selectedIndices();
     var selectRows = [];
     var rows = this.rows.peek();
@@ -86,10 +86,10 @@ const getSelectedRows = function (){
     return selectRows
 }
 
-export {
-	getSelectedIndex,
-	getSelectedIndices,
-	getSelectedIndexs,
-    getSelectedDatas,
-    getSelectedRows
+export const getSelectFunObj = {
+    getSelectedIndex: getSelectedIndex,
+    getSelectedIndices: getSelectedIndices,
+    getSelectedIndexs: getSelectedIndexs,
+    getSelectedDatas: getSelectedDatas,
+    getSelectedRows: getSelectedRows
 }

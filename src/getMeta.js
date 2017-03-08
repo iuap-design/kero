@@ -16,15 +16,15 @@
  * datatable.getMeta('field1') // 获取field1所有meta信息
  * datatable.getMeta('field1','type') // 获取field1的key信息
  */
-const getMeta = function (fieldName, key) {
+const getMeta = function(fieldName, key) {
     if (arguments.length === 0)
         return this.meta;
     else if (arguments.length === 1)
         return this.meta[fieldName];
 
-    if(this.meta[fieldName] && typeof this.meta[fieldName][key] !== 'undefined'){
+    if (this.meta[fieldName] && typeof this.meta[fieldName][key] !== 'undefined') {
         return this.meta[fieldName][key];
-    }else{
+    } else {
         return null;
     }
 
@@ -42,7 +42,7 @@ const getMeta = function (fieldName, key) {
  * datatable.getRowMeta('field1') // 获取当前行field1所有meta信息
  * datatable.getRowMeta('field1','type') // 获取当前行field1的key信息
  */
-const getRowMeta = function (fieldName, key) {
+const getRowMeta = function(fieldName, key) {
     var row = this.getCurrentRow()
     if (row)
         return row.getMeta(fieldName, key)
@@ -50,7 +50,7 @@ const getRowMeta = function (fieldName, key) {
         return this.getMeta(fieldName, key)
 }
 
-export {
-	getMeta,
-    getRowMeta
+export const getMetaFunObj = {
+    getMeta: getMeta,
+    getRowMeta: getRowMeta
 }

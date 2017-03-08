@@ -13,7 +13,7 @@
  * @example
  * page.setRowValue(1,'field1','value1')
  */
-const setRowValue = function (rowIndex, fieldName, value) {
+const setRowValue = function(rowIndex, fieldName, value) {
     var row = this.rows[rowIndex]
     if (row) {
         row.data[fieldName]['value'] = value
@@ -25,7 +25,7 @@ const setRowValue = function (rowIndex, fieldName, value) {
 
 
 // 通过row对象更新row对象，不建议次方法
-const updateRow = function (originRow, newRow) {
+const updateRow = function(originRow, newRow) {
     originRow.status = originRow.status
     //this.rowId = data.rowId
     if (!newRow.data) return;
@@ -36,11 +36,15 @@ const updateRow = function (originRow, newRow) {
                 originRow.data[key]['value'] = valueObj
             //this.setValue(key, this.formatValue(key, valueObj))
             else {
-//					this.setValue(key, valueObj.value)
+                //					this.setValue(key, valueObj.value)
 
                 if (valueObj.error) {
-                    if(u.showMessageDialog)
-                        u.showMessageDialog({title: "警告", msg: valueObj.error, backdrop: true});
+                    if (u.showMessageDialog)
+                        u.showMessageDialog({
+                            title: "警告",
+                            msg: valueObj.error,
+                            backdrop: true
+                        });
                     else
                         alert(valueObj.error)
                 } else {
@@ -56,7 +60,7 @@ const updateRow = function (originRow, newRow) {
     }
 }
 
-export {
-	setRowValue,
-	updateRow
+export const pageDataFunObj = {
+    setRowValue: setRowValue,
+    updateRow: updateRow
 }

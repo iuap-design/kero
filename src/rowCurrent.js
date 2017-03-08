@@ -7,19 +7,19 @@
 
 
 // 更新当前行对应索引
-const updateCurrIndex = function () {
+const updateCurrIndex = function() {
     var currentIndex = this.focusIndex() != -1 ? this.focusIndex() : this.getSelectedIndex();
     if (this._oldCurrentIndex != currentIndex) {
         this._oldCurrentIndex = currentIndex;
         this.trigger(DataTable.ON_CURRENT_ROW_CHANGE)
         this.currentRowChange(-this.currentRowChange());
-        if (this.ns){
+        if (this.ns) {
             if (this.root.valueChange[this.ns])
                 this.root.valueChange[this.ns](-this.root.valueChange[this.ns]());
         }
     }
 }
 
-export {
-	updateCurrIndex
+export const rowCurrentFunObj = {
+    updateCurrIndex: updateCurrIndex
 }

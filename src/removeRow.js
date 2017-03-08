@@ -3,7 +3,9 @@
  * Author : liuyk(liuyk@yonyou.com)
  * Date   : 2016-08-01 14:34:01
  */
-import {_formatToIndicesArray} from './util';
+import {
+    utilFunObj
+} from './util';
 
 /**
  * 根据rowId删除指定行
@@ -12,7 +14,7 @@ import {_formatToIndicesArray} from './util';
  * @example
  * datatable.removeRowByRowId('rowid1')
  */
-const removeRowByRowId = function (rowId) {
+const removeRowByRowId = function(rowId) {
     var index = this.getIndexByRowId(rowId)
     if (index != -1)
         this.removeRow(index)
@@ -25,7 +27,7 @@ const removeRowByRowId = function (rowId) {
  * @example
  * datatable.removeRow(1)
  */
-const removeRow = function (index) {
+const removeRow = function(index) {
     if (index instanceof Row) {
         index = this.getIndexByRowId(index.rowId)
     }
@@ -38,7 +40,7 @@ const removeRow = function (index) {
  * @example
  * datatable.removeAllRows();
  */
-const removeAllRows = function () {
+const removeAllRows = function() {
     this.rows([])
     this.selectedIndices([])
     this.focusIndex(-1)
@@ -53,12 +55,14 @@ const removeAllRows = function () {
  * @example
  * datatable.removeRows([1,2])
  */
-const removeRows = function (indices) {
-    indices = _formatToIndicesArray(this, indices)
-    indices = indices.sort(function(a,b){
-        return a-b;
+const removeRows = function(indices) {
+    indices = utilFunObj._formatToIndicesArray(this, indices)
+    indices = indices.sort(function(a, b) {
+        return a - b;
     });
-    var rowIds = [], rows = this.rows(), deleteRows = [];
+    var rowIds = [],
+        rows = this.rows(),
+        deleteRows = [];
     for (var i = indices.length - 1; i >= 0; i--) {
         var index = indices[i]
         var delRow = rows[index];
@@ -89,7 +93,7 @@ const removeRows = function (indices) {
  * @example
  * datatable.clear()
  */
-const clear = function () {
+const clear = function() {
     this.removeAllRows();
     this.cachedPages = [];
     this.totalPages(1);
@@ -98,10 +102,10 @@ const clear = function () {
     this.selectedIndices([]);
 }
 
-export {
-    removeRowByRowId,
-    removeRow,
-    removeAllRows,
-    removeRows,
-    clear
+export const removeRowFunObj = {
+    removeRowByRowId: removeRowByRowId,
+    removeRow: removeRow,
+    removeAllRows: removeAllRows,
+    removeRows: removeRows,
+    clear: clear
 }

@@ -5,30 +5,23 @@
  */
 
 import {
-	setRowValue,
-	updateRow
+	pageDataFunObj
 } from './page-data';
 
 import {
-	getData,
-	getSelectDatas,
-	getSelectRows,
-	getRowByRowId,
-	getRowValue
+	pageGetDataFunObj
 } from './page-getData';
 
 import{
-	getRowMeta
+	rowGetMetaFunObj
 } from './page-getMeta';
 
 import {
-	setRowMeta
+	pageMetaFunObj
 } from './page-meta';
 
 import {
-	removeRowByRowId,
-	updateSelectedIndices,
-	updateFocusIndex
+	pageRemoveRowFunObj
 } from './page-removeRow';
 
 /**
@@ -49,28 +42,12 @@ class Page{
     }
 }
 
-//data
-Page.prototype.setRowValue= setRowValue;
-Page.prototype.updateRow= updateRow;
-
-//getData
-Page.prototype.getData= getData;
-Page.prototype.getSelectDatas= getSelectDatas;
-Page.prototype.getSelectRows= getSelectRows;
-Page.prototype.getRowByRowId= getRowByRowId;
-Page.prototype.getRowValue= getRowValue;
-
-//getMeta
-Page.prototype.getRowMeta= getRowMeta;
-
-//meta
-Page.prototype.setRowMeta= setRowMeta;
-
-//removeRow
-Page.prototype.removeRowByRowId= removeRowByRowId;
-Page.prototype.updateSelectedIndices= updateSelectedIndices;
-Page.prototype.updateFocusIndex= updateFocusIndex;
-
+const PageProto = Page.prototype;
+Object.assign(PageProto, pageDataFunObj);
+Object.assign(PageProto, pageGetDataFunObj);
+Object.assign(PageProto, rowGetMetaFunObj);
+Object.assign(PageProto, pageMetaFunObj);
+Object.assign(PageProto, pageRemoveRowFunObj);
 
 export {
 	Page
