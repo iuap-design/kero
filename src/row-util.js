@@ -122,9 +122,11 @@ const _findField = function(rowObj, fieldName) {
                 tempField = tempField[fnames[i]];
                 if (tempField.value instanceof DataTable) {
                     var row = tempField.value.getCurrentRow();
-                    if (row) {
-                        tempField = row.data;
+                    if (!row) {
+                        row = tempField.value.rows()[0]
                     }
+                    if (row)
+                        tempField = row.data;
                 }
                 if (!tempField) {
                     break;
