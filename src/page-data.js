@@ -18,7 +18,7 @@ const setRowValue = function(rowIndex, fieldName, value) {
     if (row) {
         row.data[fieldName]['value'] = value
         if (row.status != Row.STATUS.NEW)
-            row.status = Row.STATUS.UPDATE
+            row.setStatus(Row.STATUS.UPDATE)
     }
 }
 
@@ -26,7 +26,7 @@ const setRowValue = function(rowIndex, fieldName, value) {
 
 // 通过row对象更新row对象，不建议次方法
 const updateRow = function(originRow, newRow) {
-    originRow.status = originRow.status
+    // originRow.status = originRow.status
     //this.rowId = data.rowId
     if (!newRow.data) return;
     for (var key in newRow.data) {

@@ -58,7 +58,7 @@ const _dateToUTCString = function(date) {
 const _triggerChange = function(rowObj, fieldName, oldValue, ctx) {
     _getField(rowObj, fieldName).changed = true
     if (rowObj.status != Row.STATUS.NEW)
-        rowObj.status = Row.STATUS.UPDATE
+        rowObj.setStatus(Row.STATUS.UPDATE)
     if (rowObj.valueChange[fieldName])
         rowObj.valueChange[fieldName](-rowObj.valueChange[fieldName]())
     if (rowObj.parent.getCurrentRow() == rowObj && rowObj.parent.valueChange[fieldName]) {

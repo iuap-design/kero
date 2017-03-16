@@ -165,8 +165,28 @@ const setValue = function(fieldName, value, row, ctx) {
         row.setValue(fieldName, value, ctx)
 }
 
+/**
+ * 重置所有行的数据至nrm状态时的数据
+ */
+const resetAllValue = function() {
+    var rows = this.rows();
+    for (var i = 0; i < rows.length; i++) {
+        rows[i].resetValue();
+    }
+}
+
+/**
+ * 根据row对象重置数据至nrm状态时的数据
+ * @param {u.row} row 需要重置数据的row对象
+ */
+const resetValueByRow = function(row) {
+    row.resetValue();
+
+}
 
 export const dataFunObj = {
     setData: setData,
-    setValue: setValue
+    setValue: setValue,
+    resetAllValue: resetAllValue,
+    resetValueByRow: resetValueByRow
 }

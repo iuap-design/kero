@@ -164,7 +164,7 @@
             var utcString = Date.parse(date);
             return isNaN(utcString) ? "" : utcString;
         }, _triggerChange = function(rowObj, fieldName, oldValue, ctx) {
-            if (_getField(rowObj, fieldName).changed = !0, rowObj.status != Row.STATUS.NEW && (rowObj.status = Row.STATUS.UPDATE), 
+            if (_getField(rowObj, fieldName).changed = !0, rowObj.status != Row.STATUS.NEW && rowObj.setStatus(Row.STATUS.UPDATE), 
             rowObj.valueChange[fieldName] && rowObj.valueChange[fieldName](-rowObj.valueChange[fieldName]()), 
             rowObj.parent.getCurrentRow() == rowObj && rowObj.parent.valueChange[fieldName] && rowObj.parent.valueChange[fieldName](-rowObj.parent.valueChange[fieldName]()), 
             rowObj.parent.ns) {
@@ -580,10 +580,16 @@
             void 0 !== focus && this.getRow(focus) && this.setRowFocus(focus);
         }, setValue = function(fieldName, value, row, ctx) {
             1 === arguments.length && (value = fieldName, fieldName = "$data"), (row = row ? row : this.getCurrentRow()) && row.setValue(fieldName, value, ctx);
+        }, resetAllValue = function() {
+            for (var rows = this.rows(), i = 0; i < rows.length; i++) rows[i].resetValue();
+        }, resetValueByRow = function(row) {
+            row.resetValue();
         };
         exports.dataFunObj = {
             setData: setData,
-            setValue: setValue
+            setValue: setValue,
+            resetAllValue: resetAllValue,
+            resetValueByRow: resetValueByRow
         };
     });
 }, function(module, exports, __webpack_require__) {
@@ -1051,9 +1057,9 @@
         });
         var setRowValue = function(rowIndex, fieldName, value) {
             var row = this.rows[rowIndex];
-            row && (row.data[fieldName].value = value, row.status != Row.STATUS.NEW && (row.status = Row.STATUS.UPDATE));
+            row && (row.data[fieldName].value = value, row.status != Row.STATUS.NEW && row.setStatus(Row.STATUS.UPDATE));
         }, updateRow = function(originRow, newRow) {
-            if (originRow.status = originRow.status, newRow.data) for (var key in newRow.data) if (originRow.data[key]) {
+            if (newRow.data) for (var key in newRow.data) if (originRow.data[key]) {
                 var valueObj = newRow.data[key];
                 if ("string" == typeof valueObj || "number" == typeof valueObj || null === valueObj) originRow.data[key].value = valueObj; else if (valueObj.error) u.showMessageDialog ? u.showMessageDialog({
                     title: "警告",
@@ -1158,7 +1164,7 @@
             var row = this.rows[rowIndex];
             if (row) {
                 var meta = row[fieldName].meta;
-                meta || (meta = row[fieldName].meta = {}), meta[metaName] = value, row.status != Row.STATUS.NEW && (row.status = Row.STATUS.UPDATE);
+                meta || (meta = row[fieldName].meta = {}), meta[metaName] = value, row.status != Row.STATUS.NEW && row.setStatus(Row.STATUS.UPDATE);
             }
         };
         exports.pageMetaFunObj = {
@@ -1230,8 +1236,8 @@
                     }
                     this.removeRowByRowId(r.id), page.removeRowByRowId(r.id);
                 } else if (row = page.getRowByRowId(r.id)) page.updateRow(row, r), row.status == Row.STATUS.NEW && r.status != Row.STATUS.NEW && (this.newCount -= 1, 
-                this.newCount < 0 && (this.newCount = 0)), row.status = Row.STATUS.NORMAL, r.status == Row.STATUS.NEW && (row.status = Row.STATUS.NEW); else {
-                    r.rowId = r.id, delete r.id, page.rows.push(r), r.status != Row.STATUS.NEW ? r.status = Row.STATUS.NORMAL : this.newCount += 1;
+                this.newCount < 0 && (this.newCount = 0)), row.setStatus(Row.STATUS.NORMAL), r.status == Row.STATUS.NEW && row.setStatus(Row.STATUS.NEW); else {
+                    r.rowId = r.id, delete r.id, page.rows.push(r), r.status != Row.STATUS.NEW ? row.setStatus(Row.STATUS.NORMAL) : this.newCount += 1;
                     var oldTotalRow = this.totalRow(), newTotalRow = oldTotalRow + 1;
                     this.totalRow(newTotalRow);
                 }
@@ -1527,9 +1533,9 @@
                 } else _parentKey = null == _parentKey ? key : _parentKey + "." + key, _setData(rowObj, valueObj, targetData[key], null, _parentKey, options);
             }
         }, setData = function(data, subscribe, options) {
-            this.status = data.status;
             var sourceData = data.data, targetData = this.data;
-            if (1 != this.parent.root.strict) return void _setData(this, sourceData, targetData, subscribe, null, options);
+            if (1 != this.parent.root.strict) return _setData(this, sourceData, targetData, subscribe, null, options), 
+            void this.setStatus(data.status);
             var meta = this.parent.meta;
             for (var key in meta) {
                 var oldValue = newValue = null;
@@ -1563,13 +1569,29 @@
             }
         }, updateRow = function(row) {
             this.setData(row);
+        }, setStatus = function(status) {
+            if (this.status = status, status == Row.STATUS.NORMAL) {
+                var data = this.data;
+                for (var field in data) {
+                    var value = data[field].value;
+                    data[field].baseValue = value;
+                }
+            }
+        }, resetValue = function() {
+            var data = this.data;
+            for (var field in data) {
+                var value = data[field].baseValue;
+                this.setValue(field, value);
+            }
         };
         exports.rowDataFunObj = {
             setValue: setValue,
             setChildValue: setChildValue,
             setChildSimpleDataByRowId: setChildSimpleDataByRowId,
             setData: setData,
-            updateRow: updateRow
+            updateRow: updateRow,
+            setStatus: setStatus,
+            resetValue: resetValue
         };
     });
 }, function(module, exports, __webpack_require__) {
@@ -1924,7 +1946,7 @@
                     })) : row.currentRowChange(-row.currentRowChange()))) : (row = new Row({
                         parent: this,
                         id: _id
-                    }), row.setData(rows[i], null, options), insertRows.push(row)), r.status && (row.status = r.status);
+                    }), row.setData(rows[i], null, options), insertRows.push(row)), r.status && row.setStatus(r.status);
                 }
             }
             return insertRows.length > 0 && this.addRows(insertRows), insertRows;
@@ -2005,7 +2027,7 @@
                 var row = this.getRow(indices[i]);
                 if (row.status == Row.STATUS.NEW) this.rows().splice(indices[i], 1), this.updateSelectedIndices(indices[i], "-"), 
                 this.updateFocusIndex(index, "-"); else {
-                    row.status = Row.STATUS.FALSE_DELETE;
+                    row.setStatus(Row.STATUS.FALSE_DELETE);
                     var temprows = this.rows().splice(indices[i], 1);
                     this.rows().push(temprows[0]);
                 }
