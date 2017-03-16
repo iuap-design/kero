@@ -19,15 +19,51 @@
  * @param {object} options 设置数据时的配置参数
  * @param {boolean} options.unSelect=false 是否默认选中第一行，如果为true则不选中第一行，否则选中第一行
  * @example
+ * // 不包含分页的情况
  * var data = {
+ *    pageIndex:0,
+ *    pageSize:5,
+ *    totalPages:5,
+ *    totalRow:22,
  *    rows:[{
+ *      id:'r41201', // 如果需要添加
+ *      status:'nrm', // 如果需要添加
  *      filed1:'value1',
  *      field2:'value2'
  *    },{
+ *      id:'r41202',
+ *      status:'nrm',
  *      filed1:'value11',
  *      field2:'value21'
- *    }],
- *    select:0,
+ *    },...],
+ *    select:[0]
+ * }
+ * // 包含分页的情况
+ * var data = {
+ *    pageIndex:0,
+ *    pageSize:5,
+ *    totalPages:5,
+ *    totalRow:22,
+ *    pages:[{
+ *      index: 0,
+ *      select: [],
+ *      current: -1,
+ *      rows:[{
+ *        id:'r41201', // 如果需要添加
+ *        status:'nrm', // 如果需要添加
+ *        data:{
+ *          field1:'value1',
+ *          field2:'value2'
+ *        }
+ *      },{
+ *        id:'r41202',
+ *        status:'nrm',
+ *        data:{
+ *          field1:'value11',
+ *          field2:'value21'
+ *        }
+ *      },...]
+ *    },...],
  * }
  * var op = {
  *     unSelect:true
