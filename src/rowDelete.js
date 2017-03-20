@@ -49,7 +49,7 @@ const setRowsDelete = function(indices) {
             this.updateSelectedIndices(indices[i], '-')
             this.updateFocusIndex(index, '-')
         } else {
-            row.status = Row.STATUS.FALSE_DELETE
+            row.setStatus(Row.STATUS.FALSE_DELETE)
             var temprows = this.rows().splice(indices[i], 1)
             this.rows().push(temprows[0]);
         }

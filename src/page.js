@@ -90,16 +90,16 @@ const updatePages = function(pages) {
                             if (this.newCount < 0)
                                 this.newCount = 0;
                         }
-                        row.status = Row.STATUS.NORMAL
+                        row.setStatus(Row.STATUS.NORMAL)
                         if (r.status == Row.STATUS.NEW) {
-                            row.status = Row.STATUS.NEW
+                            row.setStatus(Row.STATUS.NEW)
                         }
                     } else {
                         r.rowId = r.id
                         delete r.id
                         page.rows.push(r);
                         if (r.status != Row.STATUS.NEW) {
-                            r.status = Row.STATUS.NORMAL;
+                            row.setStatus(Row.STATUS.NORMAL)
                         } else {
                             this.newCount += 1;
                         }

@@ -23,7 +23,7 @@ const setRowMeta = function(rowIndex, fieldName, metaName, value) {
             meta = row[fieldName].meta = {}
         meta[metaName] = value
         if (row.status != Row.STATUS.NEW)
-            row.status = Row.STATUS.UPDATE
+            row.setStatus(Row.STATUS.UPDATE)
     }
 }
 

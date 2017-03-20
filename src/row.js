@@ -49,7 +49,7 @@ const setRows = function(rows, options) {
             }
             // 如果r对象中存在状态则更新状态为返回的状态
             if (r.status) {
-                row.status = r.status;
+                row.setStatus(r.status);
             }
         }
     }
