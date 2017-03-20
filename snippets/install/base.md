@@ -1,4 +1,4 @@
-# 获取 `Kero` 资源
+## 获取 `Kero` 资源
 
 kero资源已打包在`u.js`中，配合`u.css` ， 依赖`jquery`实现完整前端UI方案。
 
@@ -46,7 +46,7 @@ kero资源已打包在`u.js`中，配合`u.css` ， 依赖`jquery`实现完整�
 ```
 完整资源可通过以下方式获取
 
-## 1.直接下载资源包
+### 1.直接下载资源包
 
 可通过官网首页点击下载资源，获得完整资源包(包含空页面及所需样式)，下载地址
 
@@ -55,19 +55,19 @@ http://design.yyuap.com/static/download/iuap-design-3.1.12.zip
 ```
 核心文件`u.js`可通过以下方式获取
 
-## 1.通过CDN引用
+### 1.通过CDN引用
 
 ```
 <script src="http://design.yyuap.com/static/uui/latest/js/u.js"></script>
 ```
 
-## 2.获取Kero源码
+### 2.获取Kero源码
 
 ```
 $ git clone git@github.com:iuap-design/kero.git
 ```
 
-## 3.NPM
+### 3.NPM
 
 ```
 $ npm install kero --save

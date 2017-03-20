@@ -1,6 +1,6 @@
-# 基础api
+## 基础api
 
-## # isIE
+### isIE
 
 * 说明：
 
@@ -14,10 +14,10 @@
 
   ```
   u.isIE //IE浏览器返回true,其他返回false
-  
+
   ```
 
-## # isFF
+### isFF
 
 * 说明：
 
@@ -26,7 +26,7 @@
 
   Boolean
 
-## # isOpera
+### isOpera
 
 * 说明：
 
@@ -35,7 +35,7 @@
 
   Boolean
 
-## # isChrome
+### isChrome
 
 * 说明：
 
@@ -44,7 +44,7 @@
 
   Boolean
 
-## # isSafari
+### isSafari
 
 * 说明：
 
@@ -53,7 +53,7 @@
 
   Boolean
 
-## # isWebkit
+### isWebkit
 
 * 说明：
 
@@ -62,7 +62,7 @@
 
   Boolean
 
-## # isIE8_BEFORE
+### isIE8_BEFORE
 
 * 说明：
 
@@ -71,7 +71,7 @@
 
   Boolean
 
-## # isIE8
+### isIE8
 
 * 说明：
 
@@ -80,7 +80,7 @@
 
   Boolean
 
-## # isIE8_CORE
+### isIE8_CORE
 
 * 说明：
 
@@ -89,7 +89,7 @@
 
   Boolean
 
-## # isIE9
+### isIE9
 
 * 说明：
 
@@ -98,7 +98,7 @@
 
   Boolean
 
-## # isIE9_CORE
+### isIE9_CORE
 
 * 说明：
 
@@ -107,7 +107,7 @@
 
   Boolean
 
-## # isIE10
+### isIE10
 
 * 说明：
 
@@ -116,7 +116,7 @@
 
   Boolean
 
-## # isIE11
+### isIE11
 
 * 说明：
 
@@ -125,7 +125,7 @@
 
   Boolean
 
-## # isIOS
+### isIOS
 
 * 说明：
 
@@ -134,7 +134,7 @@
 
   Boolean
 
-## # isIphone
+### isIphone
 
 * 说明：
 
@@ -143,7 +143,7 @@
 
   Boolean
 
-## # isIPAD
+### isIPAD
 
 * 说明：
 
@@ -152,7 +152,7 @@
 
   Boolean
 
-## # isWin
+### isWin
 
 * 说明：
 
@@ -161,7 +161,7 @@
 
   Boolean
 
-## # isUnix
+### isUnix
 
 * 说明：
 
@@ -170,7 +170,7 @@
 
   Boolean
 
-## # isLinux
+### isLinux
 
 * 说明：
 
@@ -179,7 +179,7 @@
 
   Boolean
 
-## # isAndroid
+### isAndroid
 
 * 说明：
 
@@ -188,7 +188,7 @@
 
   Boolean
 
-## # isMac
+### isMac
 
 * 说明：
 
@@ -197,7 +197,7 @@
 
   Boolean
 
-## # hasTouch
+### hasTouch
 
 * 说明：
 
@@ -208,8 +208,8 @@
 
 
 
-# 方法
-## # extend(object, config)
+## 方法
+### extend(object, config)
 * 说明：
 
   复制对象属性
@@ -221,7 +221,7 @@
 
   {Object}复制之后的object
 * 用法：
-  ​	
+  ​
   	var obj1 = {
   		id : 'id',
   		name : 'name'
@@ -232,7 +232,7 @@
   	}
   	u.extend(obj1, obj2); //obj1为{id: "id", name: "newName", code: "code"}
 
-## # setCookie(sName, sValue, oExpires, sPath, sDomain, bSecure)
+### setCookie(sName, sValue, oExpires, sPath, sDomain, bSecure)
 * 说明：
 
   设置cookie属性
@@ -248,11 +248,11 @@
 
   无
 * 用法：
-  ​	
-  ​	
+  ​
+  ​
   	u.setCookie('COOKIENAME', 'COOKIVALUE'); //设置cookie的COOKIENAME为COOKIVALUE
 
-## # getCookie(sName)
+### getCookie(sName)
 * 说明：
 
   获取cookie属性
@@ -264,12 +264,12 @@
 
   cookie中sName对应的属性
 * 用法：
-  ​	
-  ​	
+  ​
+  ​
   	u.getCookie('COOKIENAME'); //获取cookie的COOKIENAME
 
 
-## # on(element,eventName,child,listener)
+### on(element,eventName,child,listener)
 * 说明：
 
   为HTML元素绑定事件
@@ -283,12 +283,12 @@
 
   无
 * 用法：
-  ​	
+  ​
   	u.on(window, 'resize', function(){
   		alert('resizeFun')
   	});
 
-## # off(element,eventName,listener)
+### off(element,eventName,listener)
 * 说明：
 
   为HTML元素取消事件绑定
@@ -301,11 +301,11 @@
 
   无
 * 用法：
-  ​	
+  ​
   	u.off(window, 'resize');
 
 
-## # trigger(element,eventName)
+### trigger(element,eventName)
 * 说明：
 
   触发HTML元素的事件绑定
@@ -317,10 +317,10 @@
 
   无
 * 用法：
-  ​	
+  ​
   	u.trigger(window, 'resize');
 
-## # addClass(element,value)
+### addClass(element,value)
 * 说明：
 
   为HTML元素添加样式
@@ -332,10 +332,10 @@
 
   无
 * 用法：
-  ​	
+  ​
   	u.addClass(document.getElementById('id1'), 'add-class');
 
-## # removeClass(element,value)
+### removeClass(element,value)
 * 说明：
 
   为HTML元素删除样式
@@ -347,10 +347,10 @@
 
   无
 * 用法：
-  ​	
+  ​
   	u.removeClass(document.getElementById('id1'), 'add-class');
 
-## # hasClass(element,value)
+### hasClass(element,value)
 * 说明：
 
   判断HTML元素是否存在某样式
@@ -362,10 +362,10 @@
 
   {Boolean}存在样式则返回true，不存在样式则返回false
 * 用法：
-  ​	
+  ​
   	u.hasClass(document.getElementById('id1'), 'add-class');
 
-## # toggleClass(element,value)
+### toggleClass(element,value)
 * 说明：
 
   判断HTML元素是否存在某样式，存在则删除此样式，否则添加此样式
@@ -377,10 +377,10 @@
 
   {Boolean}执行完方法之后，如果存在样式则返回true，不存在样式则返回false
 * 用法：
-  ​	
+  ​
   	u.toggleClass(document.getElementById('id1'), 'add-class');
 
-## # css(element,csstext,val)
+### css(element,csstext,val)
 * 说明：
 
   为HTML元素添加css样式属性。传入2个参数且第二个参数为字符串时获取HTML元素的css样式属性。
@@ -395,12 +395,12 @@
 
   获取css样式属性时返回值为对应的css样式属性值。
 * 用法：
-  ​	
+  ​
   	u.css(document.getElementById('id1'), 'width','200px');	 //设置宽度为200px
   	u.css(document.getElementById('id1'), {width:'500px'}); // 设置宽度为500px
   	u.css(document.getElementById('id1'), 'width'); // 获取宽度
 
-## # wrap(element,parent)
+### wrap(element,parent)
 * 说明：
 
   将HTML元素添加到某HTML元素中。
@@ -412,12 +412,12 @@
 
   无
 * 用法：
-  ​	
+  ​
   	u.wrap(document.getElementById('id1'), '<div></div>');	 
   	u.wrap(document.getElementById('id1'), document.getElementById('id2'));
 
 
-## # getStyle(element,key)
+### getStyle(element,key)
 * 说明：
 
   获取HTML元素的style属性。
@@ -429,10 +429,10 @@
 
   HTML元素的style属性值
 * 用法：
-  ​	
+  ​
   	u.getStyle(document.getElementById('id1'), 'width');	 
 
-## # getZIndex()
+### getZIndex()
 * 说明：
 
   统一zindex值, 不同控件每次显示时都取最大的zindex，防止显示错乱
@@ -445,11 +445,11 @@
 
   新的zindex最大值
 * 用法：
-  ​	
+  ​
   	u.getZIndex();	 
 
 
-## # makeDOM(htmlString)
+### makeDOM(htmlString)
 * 说明：
 
   创建HTML元素
@@ -462,10 +462,10 @@
 
   创建之后的HTML元素
 * 用法：
-  ​	
+  ​
   	u.makeDOM('<div></div>');	 
 
-## # stopEvent(e)
+### stopEvent(e)
 * 说明：
 
   阻止事件传播，兼容不同浏览器
@@ -478,11 +478,11 @@
 
   无
 * 用法：
-  ​	
+  ​
   	u.stopEvent(e);	 
 
 
-## # getFunction(target, val)
+### getFunction(target, val)
 * 说明：
 
   获取function
@@ -495,11 +495,11 @@
 
   {function}获取到的function
 * 用法：
-  ​	
+  ​
   	u.getFunction(window,'funName1');	 
 
 
-## # getJSObject(target, names)
+### getJSObject(target, names)
 * 说明：
 
   获取Object对象
@@ -512,10 +512,10 @@
 
   {Object}获取到的Object
 * 用法：
-  ​	
+  ​
   	u.getJSObject(window,'funName1'); //获取window对象上的funName1对象
 
-## # isDate(obj)
+### isDate(obj)
 * 说明：
 
   判断传入对象是否为Date对象
@@ -527,10 +527,10 @@
 
   {Boolean}传入对象为Date对象返回true否则返回false
 * 用法：
-  ​	
+  ​
   	u.isDate(new Date());	 
 
-## # isNumber(obj)
+### isNumber(obj)
 * 说明：
 
   判断传入对象是否为Number对象
@@ -542,10 +542,10 @@
 
   {Boolean}传入对象为Number对象返回true否则返回false
 * 用法：
-  ​	
+  ​
   	u.isNumber('123');
 
-## # isArray(obj)
+### isArray(obj)
 * 说明：
 
   判断传入对象是否为数组对象
@@ -557,11 +557,11 @@
 
   {Boolean}传入对象为数组对象返回true否则返回false
 * 用法：
-  ​	
+  ​
   	u.isArray(['1','2']);
 
 
-## # isEmptyObject(obj)
+### isEmptyObject(obj)
 * 说明：
 
   判断传入对象是否为空对象
@@ -573,11 +573,11 @@
 
   {Boolean}传入对象为空对象返回true否则返回false
 * 用法：
-  ​	
+  ​
   	u.isEmptyObject({id:'id'});
 
 
-## # inArray(node,arr)
+### inArray(node,arr)
 * 说明：
 
   判断元素是否在数组中
@@ -590,10 +590,10 @@
 
   {Boolean}如果数组中存在元素则返回true，否则返回false。
 * 用法：
-  ​	
+  ​
   	u.inArray('a1',['a2','a3']);
 
-## # each(obj,callback)
+### each(obj,callback)
 * 说明：
 
   遍历传入的obj执行callback方法
@@ -606,7 +606,7 @@
 
   无
 * 用法：
-  ​	
+  ​
   	var tmpdata = [];
   	u.each(target_div.querySelectorAll(".m_context"),function(i,node){
   			tmpdata[i] = node.innerHTML

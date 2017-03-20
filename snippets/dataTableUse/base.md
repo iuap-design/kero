@@ -1,15 +1,15 @@
-# 基础设置
+## 基础设置
 
 设置基本的校验、格式化、添加事件监听。
 
-## 校验
+### 校验
 
 
 在创建dataTable时进行校验设置
 
 ```
 /**
- ## 校验类型说明：
+ ### 校验类型说明：
  *  precision: 精度
  *  max: 数字最大值
  *  min: 数字最小值
@@ -17,7 +17,7 @@
  *  minLength: string最小长度
  *  required: 必填
  */
-   
+
 var dataTable1 = new u.DataTable({
     meta:{
     f1:{type:'string',maxLength:8,minLength:3},
@@ -32,7 +32,7 @@ var dataTable1 = new u.DataTable({
 
 ---
 
-## 格式化
+### 格式化
 
 示例如下：​
 
@@ -47,7 +47,7 @@ var dataTable1 = new u.DataTable({
 ---
 
 
-## 添加事件监听
+### 添加事件监听
 
 示例如下：
 
@@ -66,9 +66,4 @@ dataTable1.on('valueChange',function(event){
 
 ---
 
-## Example
-
-
-
-
-
+### Example

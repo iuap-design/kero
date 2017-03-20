@@ -1,5 +1,5 @@
 
-# 验证设置Validate
+## 验证设置Validate
 
 创建dataTable,field字段中验证字段，基本设置如下：
 
@@ -20,7 +20,7 @@
 `meta`: 字段信息集合，其中的key为字段名，value为字段属性信息，属性信息可自定义
 
 ---
-## required
+### required
 
 `required`:指定输入字段是否为必填项，默认为`false`
 
@@ -34,7 +34,7 @@
 ---
 
 
-## validType
+### validType
 
 `validType`:验证输入类型，默认值为`null`
 
@@ -54,7 +54,7 @@
 ***
 
 
-## nullMsg/errorMsg
+### nullMsg/errorMsg
 
 `nullMsg`:输入为空时的提示信息
 
@@ -68,7 +68,7 @@
 
 
 ---
-## regExp
+### regExp
 
 `regExp`:设置正则匹配
 
@@ -79,7 +79,7 @@
 
 
 ---
-## notipFlag
+### notipFlag
 
 `notipFlag`:错误信息提示方式是否为`tooltip`,默认为`false`
 
@@ -91,7 +91,7 @@
 
 
 ---
-## tipId
+### tipId
 `tipId`: 指定`tooltip`显示位置，其值为显示dom元素的id，默认为空，使用默认的`tooltip`
 
 | Key   | Value | 说明                |
@@ -102,7 +102,7 @@
 
 
 ---
-## hasSuccess
+### hasSuccess
 `hasSuccess`:输入正确后是否提示。默认为`false`
 
 | Key        | Value | 说明       |
@@ -113,7 +113,7 @@
 
 
 ---
-## successId
+### successId
 `successId`:指定正确提示信息的位置，其值为正确dom元素的id，默认在输入框的后面显示
 
 | Key       | Value | 说明              |
@@ -126,7 +126,7 @@
 
 ---
 
-## placement
+### placement
 
 `placement`:提示框位置，默认为`top`
 
@@ -139,7 +139,7 @@
 
 
 ---
-## minLength&maxLength
+### minLength&maxLength
 
 字符串长度，注意`type`类型`string`
 
@@ -152,7 +152,7 @@
 
 
 ---
-## 数值区间
+### 数值区间
 
 数值区间，注意`type`类型`integer`或`float`
 
@@ -168,11 +168,10 @@
 
 ---
 
-## 基本示例
+### 基本示例
 
 
 
 
 
 [试一试](http://tinper.org/webide/#/demos/kero/validate)
-
