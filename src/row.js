@@ -90,7 +90,7 @@ const addRow = function(row) {
  *  field1: 'value11',
  *  field2: 'value22'
  * })
- * datatable.addRow([row1,row2])
+ * datatable.addRows([row1,row2])
  */
 const addRows = function(rows) {
     this.insertRows(this.rows().length, rows)
