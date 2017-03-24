@@ -363,6 +363,7 @@
         }
         return object;
     };
+    Object.assign || (Object.assign = extend);
 }, function(module, exports, __webpack_require__) {
     var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;
     !function(global, factory) {
@@ -785,6 +786,9 @@
         }, getChangedRows = function() {
             for (var changedRows = [], rows = this.rows.peek(), i = 0, count = rows.length; i < count; i++) rows[i] && rows[i].status != Row.STATUS.NORMAL && changedRows.push(rows[i]);
             return changedRows;
+        }, getDeleteRows = function() {
+            for (var deleteRows = [], rows = this.rows.peek(), i = 0, count = rows.length; i < count; i++) rows[i] && rows[i].status == Row.STATUS.FALSE_DELETE && deleteRows.push(rows[i]);
+            return deleteRows;
         }, getValue = function(fieldName, row) {
             return row = row || this.getCurrentRow(), row ? row.getValue(fieldName) : "";
         }, getIndexByRowId = function(rowId) {
@@ -810,6 +814,7 @@
             getAllPageRows: getAllPageRows,
             getChangedDatas: getChangedDatas,
             getChangedRows: getChangedRows,
+            getDeleteRows: getDeleteRows,
             getValue: getValue,
             getIndexByRowId: getIndexByRowId,
             getAllDatas: getAllDatas,
@@ -1433,22 +1438,7 @@
             this.rows([]), this.selectedIndices([]), this.focusIndex(-1), this.trigger(DataTable.ON_DELETE_ALL), 
             this.updateCurrIndex();
         }, removeRows = function(indices) {
-            indices = _util.utilFunObj._formatToIndicesArray(this, indices), indices = indices.sort(function(a, b) {
-                return a - b;
-            });
-            for (var rowIds = [], rows = this.rows(), deleteRows = [], i = indices.length - 1; i >= 0; i--) {
-                var index = indices[i], delRow = rows[index];
-                if (null != delRow) {
-                    rowIds.push(delRow.rowId);
-                    var deleteRow = rows.splice(index, 1);
-                    deleteRows.push(deleteRow[0]), this.updateSelectedIndices(index, "-"), this.updateFocusIndex(index, "-");
-                }
-            }
-            this.rows(rows), this.deleteRows = deleteRows, this.trigger(DataTable.ON_DELETE, {
-                indices: indices,
-                rowIds: rowIds,
-                deleteRows: deleteRows
-            }), this.updateCurrIndex();
+            this.setRowsDelete(indices);
         }, clear = function() {
             this.removeAllRows(), this.cachedPages = [], this.totalPages(1), this.pageIndex(0), 
             this.focusIndex(-1), this.selectedIndices([]);
@@ -1965,11 +1955,12 @@
                 index: index,
                 rows: rows
             }), this.ns && this.root.valueChange[this.ns] && this.root.valueChange[this.ns](-this.root.valueChange[this.ns]());
-        }, createEmptyRow = function() {
+        }, createEmptyRow = function(options) {
             var r = new Row({
                 parent: this
             });
-            return this.addRow(r), r;
+            return this.addRow(r), !!options && options.unSelect || this.getCurrentRow() || this.setRowSelect(r), 
+            r;
         };
         exports.rowFunObj = {
             setRows: setRows,
@@ -2016,22 +2007,23 @@
             for (var indices = new Array(this.rows().length), i = 0; i < indices.length; i++) indices[i] = i;
             this.setRowsDelete(indices);
         }, setRowsDelete = function(indices) {
-            indices = _util.utilFunObj._formatToIndicesArray(this, indices);
-            var rowIds = this.getRowIdsByIndices(indices);
-            this.trigger(DataTable.ON_DELETE, {
-                falseDelete: !0,
-                indices: indices,
-                rowIds: rowIds
+            indices = _util.utilFunObj._formatToIndicesArray(this, indices), indices = indices.sort(function(a, b) {
+                return b - a;
             });
-            for (var i = 0; i < indices.length; i++) {
+            for (var rowIds = this.getRowIdsByIndices(indices), i = 0; i < indices.length; i++) {
                 var row = this.getRow(indices[i]);
-                if (row.status == Row.STATUS.NEW) this.rows().splice(indices[i], 1), this.updateSelectedIndices(indices[i], "-"), 
-                this.updateFocusIndex(index, "-"); else {
+                if (row.status == Row.STATUS.NEW) this.rows().splice(indices[i], 1); else {
                     row.setStatus(Row.STATUS.FALSE_DELETE);
                     var temprows = this.rows().splice(indices[i], 1);
                     this.rows().push(temprows[0]);
                 }
+                this.updateSelectedIndices(indices[i], "-"), this.updateFocusIndex(indices[i], "-");
             }
+            this.updateCurrIndex(), this.trigger(DataTable.ON_DELETE, {
+                falseDelete: !0,
+                indices: indices,
+                rowIds: rowIds
+            });
         };
         exports.rowDeleteFunObj = {
             setRowDelete: setRowDelete,
@@ -2200,11 +2192,11 @@
                 rows: rows
             };
             options && void 0 === options.fieldFlag && (options.fieldFlag = !0), this.setData(_data, options);
-        }, addSimpleData = function(data, status) {
+        }, addSimpleData = function(data, status, options) {
             if (!data) throw new Error("dataTable.addSimpleData param can't be null!");
             (0, _util.isArray)(data) || (data = [ data ]);
             for (var i = 0; i < data.length; i++) {
-                this.createEmptyRow().setSimpleData(data[i], status);
+                this.createEmptyRow(options).setSimpleData(data[i], status);
             }
         };
         exports.simpleDataFunObj = {

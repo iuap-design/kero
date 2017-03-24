@@ -162,13 +162,16 @@ const insertRows = function(index, rows) {
  * @example
  * datatable.createEmptyRow();
  */
-const createEmptyRow = function() {
+const createEmptyRow = function(options) {
     var r = new Row({
         parent: this
     })
     this.addRow(r)
-    // if (!this.getCurrentRow())
-    //     this.setRowSelect(r);
+    var unSelect =  options ? options.unSelect : false;
+    if(!unSelect){
+      if (!this.getCurrentRow())
+          this.setRowSelect(r);
+    }
     return r
 }
 
