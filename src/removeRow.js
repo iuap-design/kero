@@ -56,34 +56,7 @@ const removeAllRows = function() {
  * datatable.removeRows([1,2])
  */
 const removeRows = function(indices) {
-    indices = utilFunObj._formatToIndicesArray(this, indices)
-    indices = indices.sort(function(a, b) {
-        return a - b;
-    });
-    var rowIds = [],
-        rows = this.rows(),
-        deleteRows = [];
-    for (var i = indices.length - 1; i >= 0; i--) {
-        var index = indices[i]
-        var delRow = rows[index];
-        if (delRow == null) {
-            continue;
-        }
-        rowIds.push(delRow.rowId)
-        var deleteRow = rows.splice(index, 1);
-        deleteRows.push(deleteRow[0]);
-        this.updateSelectedIndices(index, '-')
-        this.updateFocusIndex(index, '-')
-    }
-    this.rows(rows)
-    this.deleteRows = deleteRows;
-    this.trigger(DataTable.ON_DELETE, {
-        indices: indices,
-        rowIds: rowIds,
-        deleteRows: deleteRows
-    })
-
-    this.updateCurrIndex();
+    this.setRowsDelete(indices)
 }
 
 
