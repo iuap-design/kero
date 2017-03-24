@@ -10,7 +10,7 @@ import {isArray} from 'tinper-sparrow/src/util';
  * @memberof DataTable
  * @param {array} data 数据信息
  * @param {boject} [options] 可配置参数
- * @param {boject} [options.unSelect=true] 是否默认选中第一行，如果为true则不选中第一行，否则选中第一行
+ * @param {boject} [options.unSelect=false] 是否默认选中第一行，如果为true则不选中第一行，否则选中第一行
  * @example
  * var data = [{
  *   filed1:'value1',
@@ -20,7 +20,7 @@ import {isArray} from 'tinper-sparrow/src/util';
  *   field2:'value21'
  * }]
  * datatable.setSimpleData(data)
- * datatable.setSimpleData(data,{unSelect:false})
+ * datatable.setSimpleData(data,{unSelect:true})
  */
 const setSimpleData = function(data,options){
     this.removeAllRows();
@@ -67,7 +67,9 @@ const setSimpleData = function(data,options){
   * 追加数据, 只设置字段值
   * @memberof DataTable
   * @param {array} data 数据信息
-  * @param {string} status 追加数据信息的状态，参照Row对象的状态介绍
+  * @param {string} [status=nrm] 追加数据信息的状态，参照Row对象的状态介绍
+  * @param {boject} [options] 可配置参数
+  * @param {boject} [options.unSelect=false] 是否默认选中第一行，如果为true则不选中第一行，否则选中第一行
   * @example
   * var data = [{
   *   filed1:'value1',
@@ -77,15 +79,16 @@ const setSimpleData = function(data,options){
   *   field2:'value21'
   * }]
   * datatable.addSimpleData(data,Row.STATUS.NEW)
+  * datatable.addSimpleData(data, null, {unSelect:true})
   */
-const addSimpleData = function(data, status){
+const addSimpleData = function(data, status, options){
     if (!data){
         throw new Error("dataTable.addSimpleData param can't be null!");
     }
     if (!isArray(data))
         data = [data];
     for (var i =0; i< data.length; i++){
-        var r = this.createEmptyRow();
+        var r = this.createEmptyRow(options);
         r.setSimpleData(data[i],status);
     }
 
