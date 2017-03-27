@@ -1,5 +1,5 @@
 /*!
- * kero v3.1.27
+ * kero v3.2.0
  * 
  * author : yonyou FED
  * homepage : https://github.com/iuap-design/kero#readme
@@ -34,7 +34,7 @@
         return __webpack_require__.d(getter, "a", getter), getter;
     }, __webpack_require__.o = function(object, property) {
         return Object.prototype.hasOwnProperty.call(object, property);
-    }, __webpack_require__.p = "", __webpack_require__(__webpack_require__.s = 50);
+    }, __webpack_require__.p = "", __webpack_require__(__webpack_require__.s = 21);
 }([ function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     Object.defineProperty(__webpack_exports__, "__esModule", {
@@ -367,7 +367,7 @@
 }, function(module, exports, __webpack_require__) {
     var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;
     !function(global, factory) {
-        __WEBPACK_AMD_DEFINE_ARRAY__ = [ exports, __webpack_require__(6), __webpack_require__(10), __webpack_require__(11), __webpack_require__(12), __webpack_require__(13), __webpack_require__(14), __webpack_require__(15), __webpack_require__(16), __webpack_require__(17), __webpack_require__(18), __webpack_require__(19), __webpack_require__(20), __webpack_require__(22), __webpack_require__(28), __webpack_require__(29), __webpack_require__(30), __webpack_require__(31), __webpack_require__(41), __webpack_require__(42), __webpack_require__(43), __webpack_require__(45), __webpack_require__(44), __webpack_require__(46), __webpack_require__(2), __webpack_require__(4) ], 
+        __WEBPACK_AMD_DEFINE_ARRAY__ = [ exports, __webpack_require__(6), __webpack_require__(10), __webpack_require__(11), __webpack_require__(12), __webpack_require__(13), __webpack_require__(14), __webpack_require__(15), __webpack_require__(16), __webpack_require__(17), __webpack_require__(18), __webpack_require__(19), __webpack_require__(20), __webpack_require__(23), __webpack_require__(29), __webpack_require__(30), __webpack_require__(31), __webpack_require__(32), __webpack_require__(42), __webpack_require__(43), __webpack_require__(44), __webpack_require__(46), __webpack_require__(45), __webpack_require__(47), __webpack_require__(2), __webpack_require__(4) ], 
         __WEBPACK_AMD_DEFINE_FACTORY__ = factory, void 0 !== (__WEBPACK_AMD_DEFINE_RESULT__ = "function" == typeof __WEBPACK_AMD_DEFINE_FACTORY__ ? __WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__) : __WEBPACK_AMD_DEFINE_FACTORY__) && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__);
     }(0, function(exports, _extend, _copyRow, _data, _enable, _getCurrent, _getData, _getFocus, _getMeta, _getPage, _getParam, _getSelect, _getSimpleData, _meta, _page, _param, _ref, _removeRow, _row, _rowCurrent, _rowDelete, _rowSelect, _rowFocus, _simpleData, _util, _events) {
         "use strict";
@@ -443,7 +443,7 @@
 }, function(module, exports, __webpack_require__) {
     var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;
     !function(global, factory) {
-        __WEBPACK_AMD_DEFINE_ARRAY__ = [ exports, __webpack_require__(23), __webpack_require__(24), __webpack_require__(25), __webpack_require__(26), __webpack_require__(27) ], 
+        __WEBPACK_AMD_DEFINE_ARRAY__ = [ exports, __webpack_require__(24), __webpack_require__(25), __webpack_require__(26), __webpack_require__(27), __webpack_require__(28) ], 
         __WEBPACK_AMD_DEFINE_FACTORY__ = factory, void 0 !== (__WEBPACK_AMD_DEFINE_RESULT__ = "function" == typeof __WEBPACK_AMD_DEFINE_FACTORY__ ? __WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__) : __WEBPACK_AMD_DEFINE_FACTORY__) && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__);
     }(0, function(exports, _pageData, _pageGetData, _pageGetMeta, _pageMeta, _pageRemoveRow) {
         "use strict";
@@ -464,7 +464,7 @@
 }, function(module, exports, __webpack_require__) {
     var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;
     !function(global, factory) {
-        __WEBPACK_AMD_DEFINE_ARRAY__ = [ exports, __webpack_require__(21), __webpack_require__(32), __webpack_require__(33), __webpack_require__(34), __webpack_require__(35), __webpack_require__(36), __webpack_require__(37), __webpack_require__(38), __webpack_require__(39), __webpack_require__(40), __webpack_require__(1) ], 
+        __WEBPACK_AMD_DEFINE_ARRAY__ = [ exports, __webpack_require__(22), __webpack_require__(33), __webpack_require__(34), __webpack_require__(35), __webpack_require__(36), __webpack_require__(37), __webpack_require__(38), __webpack_require__(39), __webpack_require__(40), __webpack_require__(41), __webpack_require__(1) ], 
         __WEBPACK_AMD_DEFINE_FACTORY__ = factory, void 0 !== (__WEBPACK_AMD_DEFINE_RESULT__ = "function" == typeof __WEBPACK_AMD_DEFINE_FACTORY__ ? __WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__) : __WEBPACK_AMD_DEFINE_FACTORY__) && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__);
     }(0, function(exports, _indexEvents, _rowData, _rowGetData, _rowGetMeta, _rowGetSimpleData, _rowInit, _rowMeta, _rowRef, _rowRowSelect, _rowSimpleData, _rowUtil) {
         "use strict";
@@ -962,6 +962,20 @@
         exports.getSimpleDataFunObj = {
             getSimpleData: getSimpleData
         };
+    });
+}, function(module, exports, __webpack_require__) {
+    var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;
+    !function(global, factory) {
+        __WEBPACK_AMD_DEFINE_ARRAY__ = [ exports, __webpack_require__(7), __webpack_require__(8), __webpack_require__(9) ], 
+        __WEBPACK_AMD_DEFINE_FACTORY__ = factory, void 0 !== (__WEBPACK_AMD_DEFINE_RESULT__ = "function" == typeof __WEBPACK_AMD_DEFINE_FACTORY__ ? __WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__) : __WEBPACK_AMD_DEFINE_FACTORY__) && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__);
+    }(0, function(exports, _indexDataTable, _indexPage, _indexRow) {
+        "use strict";
+        Object.defineProperty(exports, "__esModule", {
+            value: !0
+        }), exports.DataTable = exports.u = void 0, window.DataTable = _indexDataTable.DataTable, 
+        window.Page = _indexPage.Page, window.Row = _indexRow.Row, window.u = window.u || {}, 
+        exports.u = u = window.u, u.DataTable = _indexDataTable.DataTable, u.Row = _indexRow.Row, 
+        exports.u = u, exports.DataTable = _indexDataTable.DataTable;
     });
 }, function(module, exports, __webpack_require__) {
     var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;
@@ -1785,7 +1799,7 @@
 }, function(module, exports, __webpack_require__) {
     var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;
     !function(global, factory) {
-        __WEBPACK_AMD_DEFINE_ARRAY__ = [ exports, __webpack_require__(0), __webpack_require__(48), __webpack_require__(1) ], 
+        __WEBPACK_AMD_DEFINE_ARRAY__ = [ exports, __webpack_require__(0), __webpack_require__(49), __webpack_require__(1) ], 
         __WEBPACK_AMD_DEFINE_FACTORY__ = factory, void 0 !== (__WEBPACK_AMD_DEFINE_RESULT__ = "function" == typeof __WEBPACK_AMD_DEFINE_FACTORY__ ? __WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__) : __WEBPACK_AMD_DEFINE_FACTORY__) && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__);
     }(0, function(exports, _util, _dateUtils, _rowUtil) {
         "use strict";
@@ -2281,7 +2295,7 @@
     Object.defineProperty(__webpack_exports__, "__esModule", {
         value: !0
     });
-    var __WEBPACK_IMPORTED_MODULE_0__core__ = __webpack_require__(47), __WEBPACK_IMPORTED_MODULE_1__util__ = __webpack_require__(0), __WEBPACK_IMPORTED_MODULE_2__i18n__ = __webpack_require__(49);
+    var __WEBPACK_IMPORTED_MODULE_0__core__ = __webpack_require__(48), __WEBPACK_IMPORTED_MODULE_1__util__ = __webpack_require__(0), __WEBPACK_IMPORTED_MODULE_2__i18n__ = __webpack_require__(50);
     __webpack_require__.d(__webpack_exports__, "date", function() {
         return date;
     });
@@ -2395,7 +2409,7 @@
             var i, length, array = formatString.match(u.date._formattingTokens), output = "", _date = u.date.getDateObj(date);
             if (!_date) return date;
             for (language = language || __WEBPACK_IMPORTED_MODULE_0__core__.a.getLanguages(), 
-            i = 0, length = array.length; i < length; i++) output += u.date._formats[array[i]] ? u.date._formats[array[i]](_date, language) : array[i];
+            i = 0, length = array.length; i < length; i++) u.date._formats[array[i]] ? output += u.date._formats[array[i]](_date, language) : output += array[i];
             return output;
         },
         _addOrSubtract: function(date, period, value, isAdding) {
@@ -2470,18 +2484,4 @@
     var trans = function(key, dftValue) {
         return window.i18n ? i18n.t("uui-trans:" + key) : dftValue;
     };
-}, function(module, exports, __webpack_require__) {
-    var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;
-    !function(global, factory) {
-        __WEBPACK_AMD_DEFINE_ARRAY__ = [ exports, __webpack_require__(7), __webpack_require__(8), __webpack_require__(9) ], 
-        __WEBPACK_AMD_DEFINE_FACTORY__ = factory, void 0 !== (__WEBPACK_AMD_DEFINE_RESULT__ = "function" == typeof __WEBPACK_AMD_DEFINE_FACTORY__ ? __WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__) : __WEBPACK_AMD_DEFINE_FACTORY__) && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__);
-    }(0, function(exports, _indexDataTable, _indexPage, _indexRow) {
-        "use strict";
-        Object.defineProperty(exports, "__esModule", {
-            value: !0
-        }), exports.DataTable = exports.u = void 0, window.DataTable = _indexDataTable.DataTable, 
-        window.Page = _indexPage.Page, window.Row = _indexRow.Row, window.u = window.u || {}, 
-        exports.u = u = window.u, u.DataTable = _indexDataTable.DataTable, u.Row = _indexRow.Row, 
-        exports.u = u, exports.DataTable = _indexDataTable.DataTable;
-    });
 } ]);
