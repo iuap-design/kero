@@ -81,7 +81,7 @@ const updateFocusIndex = function(opIndex, opType, num) {
             this.focusIndex(this.focusIndex() + num)
         } else if (opType === '-') {
             if (this.focusIndex() >= opIndex && this.focusIndex() <= opIndex + num - 1) {
-                this.focusIndex(this.focusIndex() - 1)
+                this.focusIndex(-1)
             } else if (this.focusIndex() > opIndex + num - 1) {
                 this.focusIndex(this.focusIndex() - num)
             }
