@@ -171,7 +171,21 @@ const setValue = function(fieldName, value, row, ctx) {
 const resetAllValue = function() {
     var rows = this.rows();
     for (var i = 0; i < rows.length; i++) {
+      var row = rows[i];
+      if(row.status == Row.STATUS.NEW){
+        this.setRowsDelete(row);
+      }else if(row.status == Row.STATUS.FALSE_DELETE){
+        row.status = Row.STATUS.NORMAL;
+        var rows = [row];
+        this.trigger(DataTable.ON_INSERT, {
+            index: 0,
+            rows: rows
+        })
+      }else if(row.status == Row.STATUS.UPDATE){
+        row.status = Row.STATUS.NORMAL;
         rows[i].resetValue();
+      }
+
     }
 }
 
@@ -180,7 +194,19 @@ const resetAllValue = function() {
  * @param {u.row} row 需要重置数据的row对象
  */
 const resetValueByRow = function(row) {
-    row.resetValue();
+    if(row.status == Row.STATUS.NEW){
+      this.setRowsDelete(row);
+    }else if(row.status == Row.STATUS.FALSE_DELETE){
+      row.status = Row.STATUS.NORMAL;
+      var rows = [row];
+      this.trigger(DataTable.ON_INSERT, {
+          index: 0,
+          rows: rows
+      })
+    }else if(row.status == Row.STATUS.UPDATE){
+      row.status = Row.STATUS.NORMAL;
+      rows[i].resetValue();
+    }
 
 }
 

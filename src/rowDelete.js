@@ -40,6 +40,7 @@ const setRowsDelete = function(indices) {
         return b - a;
     });
     var rowIds = this.getRowIdsByIndices(indices)
+    var rows = this.getRowsByIndices(indices);
     for (var i = 0; i < indices.length; i++) {
         var row = this.getRow(indices[i])
         if (row.status == Row.STATUS.NEW) {
@@ -56,7 +57,8 @@ const setRowsDelete = function(indices) {
     this.trigger(DataTable.ON_DELETE, {
         falseDelete: true,
         indices: indices,
-        rowIds: rowIds
+        rowIds: rowIds,
+        rows: rows
     })
 
 }

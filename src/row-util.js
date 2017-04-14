@@ -44,7 +44,7 @@ const _formatDate = function(value) {
 
 // 格式化日期为UTCString
 const _dateToUTCString = function(date) {
-    if (!date) return ''
+    if (!date && date != 0) return ''
     if (typeof date === 'number')
         return date
     if (date.indexOf("-") > -1)

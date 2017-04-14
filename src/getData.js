@@ -465,6 +465,21 @@ const getRowIdsByIndices = function(indices) {
     }
     return rowIds
 }
+/**
+ * 根据索引获取row
+ * @memberof DataTable
+ * @param  {array} indices 需要获取rowid的索引值
+ * @return {array}         获取到的row
+ * @example
+ * datatable.getRowIdsByIndices([1,2,5])
+ */
+const getRowsByIndices = function(indices) {
+    var rows = []
+    for (var i = 0; i < indices.length; i++) {
+        rows.push(this.getRow(indices[i]))
+    }
+    return rows
+}
 
 
 export const getDataFunObj = {
@@ -484,5 +499,6 @@ export const getDataFunObj = {
     getValue: getValue,
     getIndexByRowId: getIndexByRowId,
     getAllDatas: getAllDatas,
-    getRowIdsByIndices: getRowIdsByIndices
+    getRowIdsByIndices: getRowIdsByIndices,
+    getRowsByIndices: getRowsByIndices
 }
