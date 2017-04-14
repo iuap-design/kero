@@ -60,6 +60,7 @@
         * [.getIndexByRowId(rowId)](#DataTable.getIndexByRowId)
         * [.getAllDatas()](#DataTable.getAllDatas) ⇒ <code>array</code>
         * [.getRowIdsByIndices(indices)](#DataTable.getRowIdsByIndices) ⇒ <code>array</code>
+        * [.getRowsByIndices(indices)](#DataTable.getRowsByIndices) ⇒ <code>array</code>
         * [.getFocusRow()](#DataTable.getFocusRow) ⇒ <code>u.Row</code>
         * [.getFocusIndex()](#DataTable.getFocusIndex) ⇒ <code>number</code>
         * [.getMeta([fieldName], [key])](#DataTable.getMeta) ⇒ <code>object</code>
@@ -545,6 +546,21 @@ datatable.getAllDatas()
 根据索引获取rowid
 
 **返回值**: <code>array</code> - 获取到的rowid  
+
+| 参数 | 类型 | 描述 |
+| --- | --- | --- |
+| indices | <code>array</code> | 需要获取rowid的索引值 |
+
+**Example**  
+```js
+datatable.getRowIdsByIndices([1,2,5])
+```
+<a name="DataTable.getRowsByIndices"></a>
+
+### DataTable.getRowsByIndices(indices) ⇒ <code>array</code>
+根据索引获取row
+
+**返回值**: <code>array</code> - 获取到的row  
 
 | 参数 | 类型 | 描述 |
 | --- | --- | --- |
