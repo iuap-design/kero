@@ -163,7 +163,10 @@ DataTable的是否支持前端缓存，支持前端缓存则前端会存储所�
 
 **Example**  
 ```js
-var row = {   field1:'value1'}datatable.copyRow(1,row)
+var row = {
+   field1:'value1'
+}
+datatable.copyRow(1,row)
 ```
 <a name="DataTable.copyRows"></a>
 
@@ -178,7 +181,13 @@ var row = {   field1:'value1'}datatable.copyRow(1,row)
 
 **Example**  
 ```js
-var row1 = {   field1:'value1'}var row2 = {   field1:'value1'}datatable.copyRow(1,[row1,row2])
+var row1 = {
+   field1:'value1'
+}
+var row2 = {
+   field1:'value1'
+}
+datatable.copyRow(1,[row1,row2])
 ```
 <a name="DataTable.setData"></a>
 
@@ -202,7 +211,20 @@ var row1 = {   field1:'value1'}var row2 = {   field1:'value1'}datatable.co
 
 **Example**  
 ```js
-var data = {   rows:[{     filed1:'value1',     field2:'value2'   },{     filed1:'value11',     field2:'value21'   }],   select:0,}var op = {    unSelect:true}datatable.setData(data,op)
+var data = {
+   rows:[{
+     filed1:'value1',
+     field2:'value2'
+   },{
+     filed1:'value11',
+     field2:'value21'
+   }],
+   select:0,
+}
+var op = {
+    unSelect:true
+}
+datatable.setData(data,op)
 ```
 <a name="DataTable.setValue"></a>
 
@@ -219,7 +241,10 @@ var data = {   rows:[{     filed1:'value1',     field2:'value2'   },{     f
 
 **Example**  
 ```js
-datatable.setValue('filed1','value1') //设置当前行字段值var row = datatable.getRow(1)datatable.setValue('filed1','value1',row) //设置在指定行字段值datatable.setValue('filed1','value1',row,'ctx') //设置在指定行字段值，同时传入自定义数据
+datatable.setValue('filed1','value1') //设置当前行字段值
+var row = datatable.getRow(1)
+datatable.setValue('filed1','value1',row) //设置在指定行字段值
+datatable.setValue('filed1','value1',row,'ctx') //设置在指定行字段值，同时传入自定义数据
 ```
 <a name="DataTable.isEnable"></a>
 
@@ -234,7 +259,8 @@ datatable.setValue('filed1','value1') //设置当前行字段值var row = datat
 
 **Example**  
 ```js
-datatable.isEnable() //获取datatable是否可修改datatable.isEnable('field1') //获取字段field1是否可修改
+datatable.isEnable() //获取datatable是否可修改
+datatable.isEnable('field1') //获取字段field1是否可修改
 ```
 <a name="DataTable.setEnable"></a>
 
@@ -336,7 +362,8 @@ datatable.getRowByRowId('rowid')
 
 **Example**  
 ```js
-var row = datatable.getRow(1)datatable.getRowIndex(row) // 1
+var row = datatable.getRow(1)
+datatable.getRowIndex(row) // 1
 ```
 <a name="DataTable.getRowsByField"></a>
 
@@ -429,7 +456,9 @@ datatable.getChangedRows()
 
 **Example**  
 ```js
-datatable.getValue('field1')var row = datatable.getRow(1)datatable.getValue('field1',row)
+datatable.getValue('field1')
+var row = datatable.getRow(1)
+datatable.getValue('field1',row)
 ```
 <a name="DataTable.getIndexByRowId"></a>
 
@@ -504,7 +533,9 @@ datatable.getFocusIndex()
 
 **Example**  
 ```js
-datatable.getMeta() // 获取所有meta信息datatable.getMeta('field1') // 获取field1所有meta信息datatable.getMeta('field1','type') // 获取field1的key信息
+datatable.getMeta() // 获取所有meta信息
+datatable.getMeta('field1') // 获取field1所有meta信息
+datatable.getMeta('field1','type') // 获取field1的key信息
 ```
 <a name="DataTable.getRowMeta"></a>
 
@@ -520,7 +551,9 @@ datatable.getMeta() // 获取所有meta信息datatable.getMeta('field1') // 获
 
 **Example**  
 ```js
-datatable.getRowMeta() // 获取当前行所有meta信息datatable.getRowMeta('field1') // 获取当前行field1所有meta信息datatable.getRowMeta('field1','type') // 获取当前行field1的key信息
+datatable.getRowMeta() // 获取当前行所有meta信息
+datatable.getRowMeta('field1') // 获取当前行field1所有meta信息
+datatable.getRowMeta('field1','type') // 获取当前行field1的key信息
 ```
 <a name="DataTable.get参数"></a>
 
@@ -570,7 +603,8 @@ datatable.getSelectedIndices()
 
 **Example**  
 ```js
-datatable.getSelectedDatas()datatable.getSelectedDatas(true)
+datatable.getSelectedDatas()
+datatable.getSelectedDatas(true)
 ```
 <a name="DataTable.getSelectedRows"></a>
 
@@ -597,7 +631,9 @@ datatable.getSelectedRows()
 
 **Example**  
 ```js
-datatable.getSimpleData() // 获取所有数据信息datatable.getSimpleData({type:'current'}) // 获取当前行数据信息datatable.getSimpleData({type:'current','fields':['filed1','field3']}) // 获取当前行field1和filed3数据信息
+datatable.getSimpleData() // 获取所有数据信息
+datatable.getSimpleData({type:'current'}) // 获取当前行数据信息
+datatable.getSimpleData({type:'current','fields':['filed1','field3']}) // 获取当前行field1和filed3数据信息
 ```
 <a name="DataTable.setMeta"></a>
 
@@ -627,7 +663,8 @@ datatable.setMeta('filed1','type','string')
 
 **Example**  
 ```js
-var metaObj = {supplier: {meta: {precision:'3', default: '0239900x', display:'显示名称'}}}datatable.updateMeta(metaObj)
+var metaObj = {supplier: {meta: {precision:'3', default: '0239900x', display:'显示名称'}}}
+datatable.updateMeta(metaObj)
 ```
 <a name="DataTable.add参数"></a>
 
@@ -656,7 +693,11 @@ datatable.add参数('precision','3')
 
 **Example**  
 ```js
-var paramsObj = { 'precision':'3', 'default':'1.234'}datatable.add参数s(paramsObj)
+var paramsObj = {
+ 'precision':'3',
+ 'default':'1.234'
+}
+datatable.add参数s(paramsObj)
 ```
 <a name="DataTable.refSelectedRows"></a>
 
@@ -802,7 +843,12 @@ datatable.clear()
 
 **Example**  
 ```js
-var row1 = new Row({parent: datatable})row1.setData({ field1: 'value1', field2: 'value2'})datatable.addRow(row1)
+var row1 = new Row({parent: datatable})
+row1.setData({
+ field1: 'value1',
+ field2: 'value2'
+})
+datatable.addRow(row1)
 ```
 <a name="DataTable.addRows"></a>
 
@@ -816,7 +862,17 @@ var row1 = new Row({parent: datatable})row1.setData({ field1: 'value1', field
 
 **Example**  
 ```js
-var row1 = new Row({parent: datatable})row1.setData({ field1: 'value1', field2: 'value2'})var row2 = new Row({parent: datatable})row2.setData({ field1: 'value11', field2: 'value22'})datatable.addRow([row1,row2])
+var row1 = new Row({parent: datatable})
+row1.setData({
+ field1: 'value1',
+ field2: 'value2'
+})
+var row2 = new Row({parent: datatable})
+row2.setData({
+ field1: 'value11',
+ field2: 'value22'
+})
+datatable.addRow([row1,row2])
 ```
 <a name="DataTable.insertRow"></a>
 
@@ -831,7 +887,12 @@ var row1 = new Row({parent: datatable})row1.setData({ field1: 'value1', field
 
 **Example**  
 ```js
-var row1 = new Row({parent: datatable})row1.setData({ field1: 'value1', field2: 'value2'})datatable.insertRow(1,row1)
+var row1 = new Row({parent: datatable})
+row1.setData({
+ field1: 'value1',
+ field2: 'value2'
+})
+datatable.insertRow(1,row1)
 ```
 <a name="DataTable.insertRows"></a>
 
@@ -932,7 +993,8 @@ datatabel.addRowsSelect([1,2])
 
 **Example**  
 ```js
-datatable.setAllRowsUnSelect() // 全部取消选中datatable.setAllRowsUnSelect({quiet:true}) // 全部取消选中,不触发事件
+datatable.setAllRowsUnSelect() // 全部取消选中
+datatable.setAllRowsUnSelect({quiet:true}) // 全部取消选中,不触发事件
 ```
 <a name="DataTable.setRowUnSelect"></a>
 
@@ -981,7 +1043,9 @@ datatable.setRowsUnSelect([1,2])
 
 **Example**  
 ```js
-datatable.setRowFocus(1) // 设置第二行为焦点行datatable.setRowFocus(1,true) // 设置第二行为焦点行，不触发事件datatable.setRowFocus(1,false,true) // 设置第二行为焦点行，如果当前焦点行为第二行，仍旧触发事件
+datatable.setRowFocus(1) // 设置第二行为焦点行
+datatable.setRowFocus(1,true) // 设置第二行为焦点行，不触发事件
+datatable.setRowFocus(1,false,true) // 设置第二行为焦点行，如果当前焦点行为第二行，仍旧触发事件
 ```
 <a name="DataTable.setRowUnFocus"></a>
 
@@ -1006,7 +1070,15 @@ datatable.setRowUnFocus()
 
 **Example**  
 ```js
-var data = [{  filed1:'value1',  field2:'value2'},{  filed1:'value11',  field2:'value21'}]datatable.setSimpleData(data)datatable.setSimpleData(data,{unSelect:false})
+var data = [{
+  filed1:'value1',
+  field2:'value2'
+},{
+  filed1:'value11',
+  field2:'value21'
+}]
+datatable.setSimpleData(data)
+datatable.setSimpleData(data,{unSelect:false})
 ```
 <a name="DataTable.addSimpleData"></a>
 
@@ -1021,7 +1093,14 @@ var data = [{  filed1:'value1',  field2:'value2'},{  filed1:'value11',  fie
 
 **Example**  
 ```js
-var data = [{  filed1:'value1',  field2:'value2'},{  filed1:'value11',  field2:'value21'}]datatable.addSimpleData(data,Row.STATUS.NEW)
+var data = [{
+  filed1:'value1',
+  field2:'value2'
+},{
+  filed1:'value11',
+  field2:'value21'
+}]
+datatable.addSimpleData(data,Row.STATUS.NEW)
 ```
 <a name="DataTable.on"></a>
 
@@ -1038,7 +1117,9 @@ var data = [{  filed1:'value1',  field2:'value2'},{  filed1:'value11',  fie
 
 **Example**  
 ```js
-datatable.on(u.DataTable.ON_ROW_FOCUS, function() {}) // 普通datatable.on([u.DataTable.ON_INSERT, u.DataTable.ON_DELETE], function() {}) // 数组datatable.on({u.DataTable.ON_INSERT: function() {}, u.DataTable.ON_DELETE: function() {}}) // map
+datatable.on(u.DataTable.ON_ROW_FOCUS, function() {}) // 普通
+datatable.on([u.DataTable.ON_INSERT, u.DataTable.ON_DELETE], function() {}) // 数组
+datatable.on({u.DataTable.ON_INSERT: function() {}, u.DataTable.ON_DELETE: function() {}}) // map
 ```
 <a name="DataTable.off"></a>
 
@@ -1054,7 +1135,9 @@ datatable.on(u.DataTable.ON_ROW_FOCUS, function() {}) // 普通datatable.on([u.
 
 **Example**  
 ```js
-datatable.off(u.DataTable.ON_ROW_FOCUS, function() {}) // 普通datatable.off([u.DataTable.ON_INSERT, u.DataTable.ON_DELETE], function() {}) // 数组datatable.off({u.DataTable.ON_INSERT: function() {}, u.DataTable.ON_DELETE: function() {}}) // map
+datatable.off(u.DataTable.ON_ROW_FOCUS, function() {}) // 普通
+datatable.off([u.DataTable.ON_INSERT, u.DataTable.ON_DELETE], function() {}) // 数组
+datatable.off({u.DataTable.ON_INSERT: function() {}, u.DataTable.ON_DELETE: function() {}}) // map
 ```
 <a name="DataTable.one"></a>
 
@@ -1069,7 +1152,9 @@ datatable.off(u.DataTable.ON_ROW_FOCUS, function() {}) // 普通datatable.off([
 
 **Example**  
 ```js
-datatable.one(u.DataTable.ON_ROW_FOCUS, function() {}) // 普通datatable.one([u.DataTable.ON_INSERT, u.DataTable.ON_DELETE], function() {}) // 数组datatable.one({u.DataTable.ON_INSERT: function() {}, u.DataTable.ON_DELETE: function() {}}) // map
+datatable.one(u.DataTable.ON_ROW_FOCUS, function() {}) // 普通
+datatable.one([u.DataTable.ON_INSERT, u.DataTable.ON_DELETE], function() {}) // 数组
+datatable.one({u.DataTable.ON_INSERT: function() {}, u.DataTable.ON_DELETE: function() {}}) // map
 ```
 <a name="DataTable.trigger"></a>
 
