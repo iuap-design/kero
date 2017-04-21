@@ -73,6 +73,17 @@ const setRows = function(rows, options) {
  */
 const addRow = function(row) {
     this.insertRow(this.rows().length, row)
+    this.resetDelRowEnd();
+}
+
+const resetDelRowEnd = function() {
+    for (var i = 0; i < this.rows().length; i++) {
+        var row = this.rows()[i];
+        if (row.status == Row.STATUS.DELETE || row.status == Row.STATUS.FALSE_DELETE) {
+            this.rows().splice(i, 1)
+            this.rows().push(row);
+        }
+    }
 }
 
 /**
@@ -94,6 +105,7 @@ const addRow = function(row) {
  */
 const addRows = function(rows) {
     this.insertRows(this.rows().length, rows)
+    this.resetDelRowEnd();
 }
 
 /**
@@ -167,10 +179,10 @@ const createEmptyRow = function(options) {
         parent: this
     })
     this.addRow(r)
-    var unSelect =  options ? options.unSelect : false;
-    if(!unSelect){
-      if (!this.getCurrentRow())
-          this.setRowSelect(r);
+    var unSelect = options ? options.unSelect : false;
+    if (!unSelect) {
+        if (!this.getCurrentRow())
+            this.setRowSelect(r);
     }
     return r
 }
@@ -181,5 +193,6 @@ export const rowFunObj = {
     addRows: addRows,
     insertRow: insertRow,
     insertRows: insertRows,
-    createEmptyRow: createEmptyRow
+    createEmptyRow: createEmptyRow,
+    resetDelRowEnd: resetDelRowEnd
 }
