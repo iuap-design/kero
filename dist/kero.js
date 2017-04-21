@@ -1,5 +1,5 @@
 /*!
- * kero v3.2.0
+ * kero v3.2.2
  * 
  * author : yonyou FED
  * homepage : https://github.com/iuap-design/kero#readme
@@ -158,7 +158,7 @@
             date.getMilliseconds();
             return year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds;
         }, _dateToUTCString = function(date) {
-            if (!date) return "";
+            if (!date && 0 != date) return "";
             if ("number" == typeof date) return date;
             date.indexOf("-") > -1 && (date = date.replace(/\-/g, "/"));
             var utcString = Date.parse(date);
@@ -582,9 +582,26 @@
         }, setValue = function(fieldName, value, row, ctx) {
             1 === arguments.length && (value = fieldName, fieldName = "$data"), (row = row ? row : this.getCurrentRow()) && row.setValue(fieldName, value, ctx);
         }, resetAllValue = function() {
-            for (var rows = this.rows(), i = 0; i < rows.length; i++) rows[i].resetValue();
+            for (var rows = this.rows(), i = 0; i < rows.length; i++) {
+                var row = rows[i];
+                if (row.status == Row.STATUS.NEW) this.setRowsDelete(row); else if (row.status == Row.STATUS.FALSE_DELETE) {
+                    row.status = Row.STATUS.NORMAL;
+                    var rows = [ row ];
+                    this.trigger(DataTable.ON_INSERT, {
+                        index: 0,
+                        rows: rows
+                    });
+                } else row.status == Row.STATUS.UPDATE && (row.status = Row.STATUS.NORMAL, rows[i].resetValue());
+            }
         }, resetValueByRow = function(row) {
-            row.resetValue();
+            if (row.status == Row.STATUS.NEW) this.setRowsDelete(row); else if (row.status == Row.STATUS.FALSE_DELETE) {
+                row.status = Row.STATUS.NORMAL;
+                var rows = [ row ];
+                this.trigger(DataTable.ON_INSERT, {
+                    index: 0,
+                    rows: rows
+                });
+            } else row.status == Row.STATUS.UPDATE && (row.status = Row.STATUS.NORMAL, rows[i].resetValue());
         };
         exports.dataFunObj = {
             setData: setData,
@@ -800,6 +817,9 @@
         }, getRowIdsByIndices = function(indices) {
             for (var rowIds = [], i = 0; i < indices.length; i++) rowIds.push(this.getRow(indices[i]).rowId);
             return rowIds;
+        }, getRowsByIndices = function(indices) {
+            for (var rows = [], i = 0; i < indices.length; i++) rows.push(this.getRow(indices[i]));
+            return rows;
         };
         exports.getDataFunObj = {
             getData: getData,
@@ -818,7 +838,8 @@
             getValue: getValue,
             getIndexByRowId: getIndexByRowId,
             getAllDatas: getAllDatas,
-            getRowIdsByIndices: getRowIdsByIndices
+            getRowIdsByIndices: getRowIdsByIndices,
+            getRowsByIndices: getRowsByIndices
         };
     });
 }, function(module, exports, __webpack_require__) {
@@ -1955,9 +1976,15 @@
             }
             return insertRows.length > 0 && this.addRows(insertRows), insertRows;
         }, addRow = function(row) {
-            this.insertRow(this.rows().length, row);
+            this.insertRow(this.rows().length, row), this.resetDelRowEnd();
+        }, resetDelRowEnd = function() {
+            for (var i = 0; i < this.rows().length; i++) {
+                var row = this.rows()[i];
+                row.status != Row.STATUS.DELETE && row.status != Row.STATUS.FALSE_DELETE || (this.rows().splice(i, 1), 
+                this.rows().push(row));
+            }
         }, addRows = function(rows) {
-            this.insertRows(this.rows().length, rows);
+            this.insertRows(this.rows().length, rows), this.resetDelRowEnd();
         }, insertRow = function(index, row) {
             row || (row = new Row({
                 parent: this
@@ -1982,7 +2009,8 @@
             addRows: addRows,
             insertRow: insertRow,
             insertRows: insertRows,
-            createEmptyRow: createEmptyRow
+            createEmptyRow: createEmptyRow,
+            resetDelRowEnd: resetDelRowEnd
         };
     });
 }, function(module, exports, __webpack_require__) {
@@ -2024,7 +2052,7 @@
             indices = _util.utilFunObj._formatToIndicesArray(this, indices), indices = indices.sort(function(a, b) {
                 return b - a;
             });
-            for (var rowIds = this.getRowIdsByIndices(indices), i = 0; i < indices.length; i++) {
+            for (var rowIds = this.getRowIdsByIndices(indices), rows = this.getRowsByIndices(indices), i = 0; i < indices.length; i++) {
                 var row = this.getRow(indices[i]);
                 if (row.status == Row.STATUS.NEW) this.rows().splice(indices[i], 1); else {
                     row.setStatus(Row.STATUS.FALSE_DELETE);
@@ -2036,7 +2064,8 @@
             this.updateCurrIndex(), this.trigger(DataTable.ON_DELETE, {
                 falseDelete: !0,
                 indices: indices,
-                rowIds: rowIds
+                rowIds: rowIds,
+                rows: rows
             });
         };
         exports.rowDeleteFunObj = {
@@ -2072,7 +2101,7 @@
                 rowId: rowId
             }), this.focusIndex(-1), this.updateCurrIndex();
         }, updateFocusIndex = function(opIndex, opType, num) {
-            (0, _util.isNumber)(num) || (num = 1), opIndex <= this.focusIndex() && this.focusIndex() != -1 && ("+" === opType ? this.focusIndex(this.focusIndex() + num) : "-" === opType && (this.focusIndex() >= opIndex && this.focusIndex() <= opIndex + num - 1 ? this.focusIndex(this.focusIndex() - 1) : this.focusIndex() > opIndex + num - 1 && this.focusIndex(this.focusIndex() - num)));
+            (0, _util.isNumber)(num) || (num = 1), opIndex <= this.focusIndex() && this.focusIndex() != -1 && ("+" === opType ? this.focusIndex(this.focusIndex() + num) : "-" === opType && (this.focusIndex() >= opIndex && this.focusIndex() <= opIndex + num - 1 ? this.focusIndex(-1) : this.focusIndex() > opIndex + num - 1 && this.focusIndex(this.focusIndex() - num)));
         };
         exports.rowFocusFunObj = {
             setRowFocus: setRowFocus,
@@ -2405,12 +2434,24 @@
             }
         },
         format: function(date, formatString, language) {
-            if (!date) return "";
+            if (!date && 0 != date) return "";
             var i, length, array = formatString.match(u.date._formattingTokens), output = "", _date = u.date.getDateObj(date);
             if (!_date) return date;
             for (language = language || __WEBPACK_IMPORTED_MODULE_0__core__.a.getLanguages(), 
             i = 0, length = array.length; i < length; i++) u.date._formats[array[i]] ? output += u.date._formats[array[i]](_date, language) : output += array[i];
             return output;
+        },
+        strToDateByTimezone: function(str, timezone) {
+            var dateObj = u.date.getDateObj(str), localTime = dateObj.getTime(), localOffset = 6e4 * dateObj.getTimezoneOffset(), utc = localTime + localOffset;
+            return utc += 36e5 * parseFloat(timezone);
+        },
+        getDateByTimeZonec2z: function(date, timezone) {
+            var dateObj = u.date.getDateObj(date), localTime = dateObj.getTime(), localOffset = 6e4 * dateObj.getTimezoneOffset(), utc = localTime + localOffset, calctime = utc + 36e5 * parseFloat(timezone);
+            return new Date(calctime);
+        },
+        getDateByTimeZonez2c: function(date, timezone) {
+            var dateObj = u.date.getDateObj(date), localTime = dateObj.getTime(), localOffset = 6e4 * dateObj.getTimezoneOffset(), utc = localTime - 36e5 * parseFloat(timezone) - localOffset;
+            return new Date(utc);
         },
         _addOrSubtract: function(date, period, value, isAdding) {
             var times = date.getTime(), d = date.getDate(), m = date.getMonth(), _date = u.date.getDateObj(date);
@@ -2426,24 +2467,23 @@
         sub: function(date, period, value) {
             return u.date._addOrSubtract(date, period, value, -1);
         },
-        getDateObj: function(value) {
-            if (!value || void 0 === value) return value;
+        getDateObj: function(value, obj) {
+            var timezone;
+            if (obj && (timezone = obj.timezone), !value && 0 != value || void 0 === value) return value;
             var dateFlag = !1, _date = new Date(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__util__.dateFormat)(value));
             if (isNaN(_date)) {
                 var index1, index2, index3, s1, s2, s3, s4;
-                if (value.indexOf) if (index1 = value.indexOf("-"), index2 = value.indexOf(":"), 
-                index3 = value.indexOf(" "), index1 > 0 || index2 > 0 || index3 > 0) _date = new Date(), 
-                index3 > 0 ? (s3 = value.split(" "), s1 = s3[0].split("-"), s2 = s3[1].split(":"), 
-                s4 = s3[2]) : index1 > 0 ? s1 = value.split("-") : index2 > 0 && (s2 = value.split(":")), 
+                value.indexOf && (index1 = value.indexOf("-"), index2 = value.indexOf(":"), index3 = value.indexOf(" "), 
+                index1 > 0 || index2 > 0 || index3 > 0 ? (_date = new Date(), index3 > 0 ? (s3 = value.split(" "), 
+                s1 = s3[0].split("-"), s2 = s3[1].split(":"), s4 = s3[2]) : index1 > 0 ? s1 = value.split("-") : index2 > 0 && (s2 = value.split(":")), 
                 s1 && s1.length > 0 && (_date.setYear(s1[0]), _date.setMonth(parseInt(s1[1] - 1)), 
-                _date.setDate(s1[2] ? s1[2] : 0), dateFlag = !0), s2 && s2.length > 0 && ("pm" == s4 && (s2[0] = s2[0] - -12), 
-                _date.setHours(s2[0] ? s2[0] : 0), _date.setMinutes(s2[1] ? s2[1] : 0), _date.setSeconds(s2[2] ? s2[2] : 0), 
-                dateFlag = !0); else {
-                    if (_date = new Date(parseInt(value)), isNaN(_date)) throw new TypeError("invalid Date parameter");
-                    dateFlag = !0;
-                }
+                _date.setDate(s1[2] ? s1[2] : 0), _date.setMonth(parseInt(s1[1] - 1)), _date.setDate(s1[2] ? s1[2] : 0), 
+                dateFlag = !0), s2 && s2.length > 0 && ("pm" == s4 && (s2[0] = s2[0] - -12), _date.setHours(s2[0] ? s2[0] : 0), 
+                _date.setMinutes(s2[1] ? s2[1] : 0), _date.setSeconds(s2[2] ? s2[2] : 0), dateFlag = !0)) : (_date = new Date(parseInt(value)), 
+                isNaN(_date) || (dateFlag = !0)));
             } else dateFlag = !0;
-            return dateFlag ? _date : null;
+            return dateFlag ? (timezone && (_date = u.date.getDateByTimeZonec2z(_date, timezone)), 
+            _date) : null;
         }
     };
     var date = u.date;

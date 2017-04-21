@@ -1,3 +1,25 @@
+<a name="3.2.2"></a>
+## [3.2.2](https://github.com/iuap-design/kero/compare/v3.2.1...v3.2.2) (2017-04-21)
+
+
+### Bug Fixes
+
+* dataTable选中某行，修改readme ([ba5d7bc](https://github.com/iuap-design/kero/commit/ba5d7bc))
+* 修改产出文件名称 ([36cf7d2](https://github.com/iuap-design/kero/commit/36cf7d2))
+* 解决focus为最后一行，删除最后一行之后重新设置为新的最后一行时无法生效的问题 ([f3d0d77](https://github.com/iuap-design/kero/commit/f3d0d77))
+
+
+### Features
+
+* addSimpleData增加参数控制是否选中第一行 ([2aa0a3f](https://github.com/iuap-design/kero/commit/2aa0a3f))
+* datatable、row文档完善属性说明 ([0c30e86](https://github.com/iuap-design/kero/commit/0c30e86))
+* datatable增加resetAllValue、resetValueByRow，row增加setStatus、resetValue用以支持重置数据的业务需求 ([5b13898](https://github.com/iuap-design/kero/commit/5b13898))
+* resetAllValue增加判断状态，如果为新增则删除此数据，如果为删除则新增此数据，如果为更新则还原数据 ([b868324](https://github.com/iuap-design/kero/commit/b868324))
+* 优化子表获取字段逻辑，没有当前行的情况下获取第一行 ([f077032](https://github.com/iuap-design/kero/commit/f077032))
+* 增加API getRowsByIndices ([170e590](https://github.com/iuap-design/kero/commit/170e590))
+
+
+
 <a name="3.1.27"></a>
 ## [3.1.27](https://github.com/iuap-design/kero/compare/v3.1.26...v3.1.27) (2017-02-23)
 
