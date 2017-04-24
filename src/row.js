@@ -77,10 +77,10 @@ const addRow = function(row) {
 }
 
 const resetDelRowEnd = function() {
-    for (var i = 0; i < this.rows().length; i++) {
+    for (var i = this.rows().length - 1; i > -1; i--) {
         var row = this.rows()[i];
         if (row.status == Row.STATUS.DELETE || row.status == Row.STATUS.FALSE_DELETE) {
-            this.rows().splice(i, 1)
+            this.rows().splice(i, 1);
             this.rows().push(row);
         }
     }
@@ -173,6 +173,7 @@ const insertRows = function(index, rows) {
  * @return {u.Row} 空行对象
  * @example
  * datatable.createEmptyRow();
+ * datatable.createEmptyRow({unSelect:true})
  */
 const createEmptyRow = function(options) {
     var r = new Row({
