@@ -51,9 +51,10 @@ const removeAllRows = function() {
 /**
  * 根据索引数据删除多条数据行
  * @memberof DataTable
- * @param  {array} indices 需要删除的数据行对应索引数组
+ * @param  {array} indices 需要删除的数据行对应数组，数组中既可以是索引也可以是row对象
  * @example
  * datatable.removeRows([1,2])
+ * datatable.removeRows([row1,row2])
  */
 const removeRows = function(indices) {
     this.setRowsDelete(indices)
