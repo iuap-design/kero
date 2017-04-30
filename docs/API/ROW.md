@@ -32,7 +32,12 @@
 <a name="Row+status"></a>
 
 ### row.status : <code>string</code>
-当前行的状态Row.STATUS.NORMAL('nrm') ：前后端都存在并且保持一致Row.STATUS.UPDATE('upd') ：前后端都存在并且前端进行了修改Row.STATUS.NEW('new') ：后端不存在，前端存在的数据Row.STATUS.DELETE('del') ：后端请求返回的状态，前端判断为此状态则将数据删除Row.STATUS.FALSE_DELETE('fdel') ：后端存在，前端不存在的数据
+当前行的状态
+Row.STATUS.NORMAL('nrm') ：前后端都存在并且保持一致
+Row.STATUS.UPDATE('upd') ：前后端都存在并且前端进行了修改
+Row.STATUS.NEW('new') ：后端不存在，前端存在的数据
+Row.STATUS.DELETE('del') ：后端请求返回的状态，前端判断为此状态则将数据删除
+Row.STATUS.FALSE_DELETE('fdel') ：后端存在，前端不存在的数据
 
 **Default**: <code>&quot;Row.STATUS.NEW&quot;</code>  
 <a name="Row+parent"></a>
@@ -54,7 +59,8 @@
 
 **Example**  
 ```js
-row.setValue('filed1','value1') // 设置字段值row.setValue('filed1','value1','ctx') //设置字段值，同时传入自定义数据
+row.setValue('filed1','value1') // 设置字段值
+row.setValue('filed1','value1','ctx') //设置字段值，同时传入自定义数据
 ```
 <a name="Row.setData"></a>
 
@@ -108,7 +114,8 @@ row.getData()
 
 **Example**  
 ```js
-row.getSimpleData()row.getSimpleData({fields:['field1','field2']})
+row.getSimpleData()
+row.getSimpleData({fields:['field1','field2']})
 ```
 <a name="Row.setSimpleData"></a>
 
@@ -123,7 +130,12 @@ row.getSimpleData()row.getSimpleData({fields:['field1','field2']})
 
 **Example**  
 ```js
-var data = {  filed1:'value1',  field2:'value2'}datatable.setSimpleData(data)datatable.setSimpleData(data,'upd')
+var data = {
+  filed1:'value1',
+  field2:'value2'
+}
+datatable.setSimpleData(data)
+datatable.setSimpleData(data,'upd')
 ```
 <a name="Row.toggleSelect"></a>
 
@@ -137,7 +149,9 @@ var data = {  filed1:'value1',  field2:'value2'}datatable.setSimpleData(data
 
 **Example**  
 ```js
-row.toggleSelect()row.toggleSelect('single')row.toggleSelect('multi')
+row.toggleSelect()
+row.toggleSelect('single')
+row.toggleSelect('multi')
 ```
 <a name="Row.getMeta"></a>
 
@@ -154,7 +168,8 @@ row.toggleSelect()row.toggleSelect('single')row.toggleSelect('multi')
 
 **Example**  
 ```js
-row.getMeta('field1','type')row.getMeta('field1','type',true)
+row.getMeta('field1','type')
+row.getMeta('field1','type',true)
 ```
 <a name="Row.setMeta"></a>
 
