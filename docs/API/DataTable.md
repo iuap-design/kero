@@ -45,7 +45,7 @@
         * [.getFocusIndex()](#DataTable.getFocusIndex) ⇒ <code>number</code>
         * [.getMeta([fieldName], [key])](#DataTable.getMeta) ⇒ <code>object</code>
         * [.getRowMeta([fieldName], [key])](#DataTable.getRowMeta) ⇒ <code>object</code>
-        * [.get参数(key)](#DataTable.get参数) ⇒ <code>\*</code>
+        * [.getParam(key)](#DataTable.getParam) ⇒ <code>\*</code>
         * [.getSelectedIndex()](#DataTable.getSelectedIndex) ⇒ <code>number</code>
         * [.getSelectedIndices()](#DataTable.getSelectedIndices) ⇒ <code>array</code>
         * [.getSelectedDatas([withEmptyRow])](#DataTable.getSelectedDatas) ⇒ <code>array</code>
@@ -53,8 +53,8 @@
         * [.getSimpleData([options])](#DataTable.getSimpleData) ⇒ <code>array</code>
         * [.setMeta(fieldName, key, value)](#DataTable.setMeta)
         * [.updateMeta(meta)](#DataTable.updateMeta)
-        * [.add参数(key, value)](#DataTable.add参数)
-        * [.add参数s(params)](#DataTable.add参数s)
+        * [.addParam(key, value)](#DataTable.addParam)
+        * [.addParams(params)](#DataTable.addParams)
         * [.refSelectedRows(fieldName)](#DataTable.refSelectedRows)
         * [.ref(fieldName)](#DataTable.ref)
         * [.refMeta(fieldName, key)](#DataTable.refMeta)
@@ -332,7 +332,7 @@ datatable.getRowByRowId('rowid')
 
 | 参数 | 类型 |
 | --- | --- |
-| 需要获取索引的row对象 | <code>u.Row</code> | 
+| 需要获取索引的row对象 | <code>u.Row</code> |
 
 **Example**  
 ```js
@@ -439,7 +439,7 @@ datatable.getValue('field1')var row = datatable.getRow(1)datatable.getValue('f
 
 | 参数 | 类型 |
 | --- | --- |
-| rowId | <code>String</code> | 
+| rowId | <code>String</code> |
 
 **Example**  
 ```js
@@ -522,9 +522,9 @@ datatable.getMeta() // 获取所有meta信息datatable.getMeta('field1') // 获
 ```js
 datatable.getRowMeta() // 获取当前行所有meta信息datatable.getRowMeta('field1') // 获取当前行field1所有meta信息datatable.getRowMeta('field1','type') // 获取当前行field1的key信息
 ```
-<a name="DataTable.get参数"></a>
+<a name="DataTable.getParam"></a>
 
-### DataTable.get参数(key) ⇒ <code>\*</code>
+### DataTable.getParam(key) ⇒ <code>\*</code>
 获取参数参数值
 
 **返回值**: <code>\*</code> - 参数参数值  
@@ -535,7 +535,7 @@ datatable.getRowMeta() // 获取当前行所有meta信息datatable.getRowMeta('
 
 **Example**  
 ```js
-datatable.get参数('param1')
+datatable.getParam('param1')
 ```
 <a name="DataTable.getSelectedIndex"></a>
 
@@ -629,9 +629,9 @@ datatable.setMeta('filed1','type','string')
 ```js
 var metaObj = {supplier: {meta: {precision:'3', default: '0239900x', display:'显示名称'}}}datatable.updateMeta(metaObj)
 ```
-<a name="DataTable.add参数"></a>
+<a name="DataTable.addParam"></a>
 
-### DataTable.add参数(key, value)
+### DataTable.addParam(key, value)
 增加参数参数
 
 
@@ -642,11 +642,11 @@ var metaObj = {supplier: {meta: {precision:'3', default: '0239900x', display:'�
 
 **Example**  
 ```js
-datatable.add参数('precision','3')
+datatable.addParam('precision','3')
 ```
-<a name="DataTable.add参数s"></a>
+<a name="DataTable.addParams"></a>
 
-### DataTable.add参数s(params)
+### DataTable.addParams(params)
 增加多个参数参数
 
 
@@ -656,7 +656,7 @@ datatable.add参数('precision','3')
 
 **Example**  
 ```js
-var paramsObj = { 'precision':'3', 'default':'1.234'}datatable.add参数s(paramsObj)
+var paramsObj = { 'precision':'3', 'default':'1.234'}datatable.addParams(paramsObj)
 ```
 <a name="DataTable.refSelectedRows"></a>
 

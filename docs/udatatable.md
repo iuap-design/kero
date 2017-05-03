@@ -65,7 +65,7 @@
         * [.getFocusIndex()](#DataTable.getFocusIndex) ⇒ <code>number</code>
         * [.getMeta([fieldName], [key])](#DataTable.getMeta) ⇒ <code>object</code>
         * [.getRowMeta([fieldName], [key])](#DataTable.getRowMeta) ⇒ <code>object</code>
-        * [.get参数(key)](#DataTable.get参数) ⇒ <code>\*</code>
+        * [.getParam(key)](#DataTable.getParam) ⇒ <code>\*</code>
         * [.getSelectedIndex()](#DataTable.getSelectedIndex) ⇒ <code>number</code>
         * [.getSelectedIndices()](#DataTable.getSelectedIndices) ⇒ <code>array</code>
         * [.getSelectedDatas([withEmptyRow])](#DataTable.getSelectedDatas) ⇒ <code>array</code>
@@ -73,8 +73,8 @@
         * [.getSimpleData([options])](#DataTable.getSimpleData) ⇒ <code>array</code>
         * [.setMeta(fieldName, key, value)](#DataTable.setMeta)
         * [.updateMeta(meta)](#DataTable.updateMeta)
-        * [.add参数(key, value)](#DataTable.add参数)
-        * [.add参数s(params)](#DataTable.add参数s)
+        * [.addParam(key, value)](#DataTable.addParam)
+        * [.addParams(params)](#DataTable.addParams)
         * [.refSelectedRows(fieldName)](#DataTable.refSelectedRows)
         * [.ref(fieldName)](#DataTable.ref)
         * [.refMeta(fieldName, key)](#DataTable.refMeta)
@@ -176,7 +176,7 @@ DataTable的是否支持前端缓存，支持前端缓存则前端会存储所�
 在指定index位置插入单条数据行
 
 
-| 参数 | 类型 | 描述 |
+| 参数 | Type | Description |
 | --- | --- | --- |
 | index | <code>number</code> | 数据行插入之后的位置 |
 | row | <code>object</code> | 数据行信息 |
@@ -194,7 +194,7 @@ datatable.copyRow(1,row)
 在指定index位置插入多条数据行
 
 
-| 参数 | 类型 | 描述 |
+| 参数 | Type | Description |
 | --- | --- | --- |
 | index | <code>number</code> | 数据行插入之后的位置 |
 | rows | <code>array</code> | 存储数据行信息的数组 |
@@ -215,7 +215,7 @@ datatable.copyRow(1,[row1,row2])
 设置数据信息
 
 
-| 参数 | 类型 | Default | 描述 |
+| 参数 | Type | Default | Description |
 | --- | --- | --- | --- |
 | data | <code>object</code> |  | 需要设置的数据信息，必须包含rows或者pages属性 |
 | [data.rows] | <code>array</code> |  | 数据信息中的行信息数组 |
@@ -288,7 +288,7 @@ datatable.setData(data,op)
 设置对应行对应字段的值
 
 
-| 参数 | 类型 | Default | 描述 |
+| 参数 | Type | Default | Description |
 | --- | --- | --- | --- |
 | fieldName | <code>string</code> |  | 需要设置的字段 |
 | value | <code>string</code> |  | 需要设置的值 |
@@ -307,9 +307,9 @@ datatable.setValue('filed1','value1',row,'ctx') //设置在指定行字段值，
 ### DataTable.isEnable([fieldName]) ⇒ <code>boolean</code>
 判断DataTable或指定字段是否可修改
 
-**返回值**: <code>boolean</code> - DataTable/指定字段是否可修改  
+**Returns**: <code>boolean</code> - DataTable/指定字段是否可修改  
 
-| 参数 | 类型 | 描述 |
+| 参数 | Type | Description |
 | --- | --- | --- |
 | [fieldName] | <code>string</code> | 需要进行判断的字段值 |
 
@@ -324,7 +324,7 @@ datatable.isEnable('field1') //获取字段field1是否可修改
 设置DataTable是否可修改
 
 
-| 参数 | 类型 | 描述 |
+| 参数 | Type | Description |
 | --- | --- | --- |
 | enable | <code>boolean</code> | true表示可修改，否则表示不可修改 |
 
@@ -337,7 +337,7 @@ datatable.setEnable(true)
 ### DataTable.getCurrentRow() ⇒ <code>null</code> &#124; <code>u.Row</code>
 获取DataTable对象的当前行
 
-**返回值**: <code>null</code> &#124; <code>u.Row</code> - DataTable对象的当前行  
+**Returns**: <code>null</code> &#124; <code>u.Row</code> - DataTable对象的当前行  
 **Example**  
 ```js
 datatable.getCurrentRow()
@@ -347,7 +347,7 @@ datatable.getCurrentRow()
 ### DataTable.getCurrentIndex() ⇒ <code>number</code>
 获取DataTable对象的当前行对应的index
 
-**返回值**: <code>number</code> - DataTable对象的当前行对应的index  
+**Returns**: <code>number</code> - DataTable对象的当前行对应的index  
 **Example**  
 ```js
 datatable.getCurrentIndex()
@@ -357,7 +357,7 @@ datatable.getCurrentIndex()
 ### DataTable.getData() ⇒ <code>array</code>
 获取DataTable的数据信息
 
-**返回值**: <code>array</code> - 数据信息对应的数组，每项对应一条数据  
+**Returns**: <code>array</code> - 数据信息对应的数组，每项对应一条数据  
 **Example**  
 ```js
 datatable.getData()
@@ -367,9 +367,9 @@ datatable.getData()
 ### DataTable.getDataByRule(rule) ⇒ <code>array</code>
 按照特定规则获取数据
 
-**返回值**: <code>array</code> - 按照规则获取到的数据信息  
+**Returns**: <code>array</code> - 按照规则获取到的数据信息  
 
-| 参数 | 类型 | 描述 |
+| 参数 | Type | Description |
 | --- | --- | --- |
 | rule | <code>string</code> | DataTable.SUBMIT.current('current') ：当前选中行 DataTable.SUBMIT.focus('focus') ：当前focus行 DataTable.SUBMIT.all('all') ：所有行 DataTable.SUBMIT.select('select') ：当前页选中行 DataTable.SUBMIT.change('change') ：发生改变的行 DataTable.SUBMIT.empty('empty') ：不获取数据，返回空数组 DataTable.SUBMIT.allSelect('allSelect') ：所有页选中行 DataTable.SUBMIT.allPages('allPages') ：所有页的数据 |
 
@@ -382,9 +382,9 @@ datatable.getDataByRule(‘all’)
 ### DataTable.getRow(index) ⇒ <code>object</code>
 根据索引获取指定行数据信息
 
-**返回值**: <code>object</code> - 获取到的指定行数据信息  
+**Returns**: <code>object</code> - 获取到的指定行数据信息  
 
-| 参数 | 类型 | 描述 |
+| 参数 | Type | Description |
 | --- | --- | --- |
 | index | <code>number</code> | 需要获取的数据信息的索引 |
 
@@ -398,7 +398,7 @@ datatable.getRow(1)
 根据rowid获取Row对象
 
 
-| 参数 | 类型 | 描述 |
+| 参数 | Type | Description |
 | --- | --- | --- |
 | rowid | <code>string</code> | 需要获取的Row对应的rowid |
 
@@ -412,7 +412,7 @@ datatable.getRowByRowId('rowid')
 获取Row对象对应的索引
 
 
-| 参数 | 类型 |
+| 参数 | Type |
 | --- | --- |
 | 需要获取索引的row对象 | <code>u.Row</code> | 
 
@@ -426,9 +426,9 @@ datatable.getRowIndex(row) // 1
 ### DataTable.getRowsByField(field, value) ⇒ <code>array</code>
 根据字段及字段值获取所有数据行
 
-**返回值**: <code>array</code> - 根据字段及字段值获取的所有数据行  
+**Returns**: <code>array</code> - 根据字段及字段值获取的所有数据行  
 
-| 参数 | 类型 | 描述 |
+| 参数 | Type | Description |
 | --- | --- | --- |
 | field | <code>string</code> | 需要获取行的对应字段 |
 | value | <code>string</code> | 需要获取行的对应字段值 |
@@ -442,9 +442,9 @@ datatable.getRowsByField('field1','value1')
 ### DataTable.getRowByField(field, value) ⇒ <code>u.Row</code>
 根据字段及字段值获取第一条数据行
 
-**返回值**: <code>u.Row</code> - 根据字段及字段值获取第一条数据行  
+**Returns**: <code>u.Row</code> - 根据字段及字段值获取第一条数据行  
 
-| 参数 | 类型 | 描述 |
+| 参数 | Type | Description |
 | --- | --- | --- |
 | field | <code>string</code> | 需要获取行的对应字段 |
 | value | <code>string</code> | 需要获取行的对应字段值 |
@@ -458,7 +458,7 @@ datatable.getRowByField('field1','value1')
 ### DataTable.getAllRows() ⇒ <code>array</code>
 获取当前页的所有数据行
 
-**返回值**: <code>array</code> - 获取到的数据行  
+**Returns**: <code>array</code> - 获取到的数据行  
 **Example**  
 ```js
 datatable.getAllRows()
@@ -468,7 +468,7 @@ datatable.getAllRows()
 ### DataTable.getAllPageRows() ⇒ <code>array</code>
 获取所有页的所有数据行
 
-**返回值**: <code>array</code> - 获取到的数据行  
+**Returns**: <code>array</code> - 获取到的数据行  
 **Example**  
 ```js
 datatable.getAllPageRows()
@@ -478,9 +478,9 @@ datatable.getAllPageRows()
 ### DataTable.getChangedDatas(withEmptyRow) ⇒ <code>array</code>
 获取发生变化的数据信息
 
-**返回值**: <code>array</code> - 发生变化的数据信息  
+**Returns**: <code>array</code> - 发生变化的数据信息  
 
-| 参数 | 类型 | Default | 描述 |
+| 参数 | Type | Default | Description |
 | --- | --- | --- | --- |
 | withEmptyRow | <code>boolean</code> | <code>false</code> | 未发生变化的数据是否使用空行代替，true表示以空行代替未发生变化行，false相反 |
 
@@ -493,7 +493,7 @@ datatable.getChangedDatas()
 ### DataTable.getChangedRows() ⇒ <code>array</code>
 获取发生改变的Row对象
 
-**返回值**: <code>array</code> - 发生改变的Row对象  
+**Returns**: <code>array</code> - 发生改变的Row对象  
 **Example**  
 ```js
 datatable.getChangedRows()
@@ -503,9 +503,9 @@ datatable.getChangedRows()
 ### DataTable.getValue(fieldName, [row]) ⇒ <code>string</code>
 根据字段获取对应Row对象的字段值
 
-**返回值**: <code>string</code> - 获取到的字段值  
+**Returns**: <code>string</code> - 获取到的字段值  
 
-| 参数 | 类型 | Default | 描述 |
+| 参数 | Type | Default | Description |
 | --- | --- | --- | --- |
 | fieldName | <code>string</code> |  | 需要获取的值对应的字段 |
 | [row] | <code>u.Row</code> | <code>默认为当前行</code> | 对应的数据行 |
@@ -522,7 +522,7 @@ datatable.getValue('field1',row)
 根据行号获取行索引
 
 
-| 参数 | 类型 |
+| 参数 | Type |
 | --- | --- |
 | rowId | <code>String</code> | 
 
@@ -535,7 +535,7 @@ datatable.getIndexByRowId('rowid')
 ### DataTable.getAllDatas() ⇒ <code>array</code>
 获取所有行数据信息
 
-**返回值**: <code>array</code> - 所有行数据信息  
+**Returns**: <code>array</code> - 所有行数据信息  
 **Example**  
 ```js
 datatable.getAllDatas()
@@ -545,9 +545,9 @@ datatable.getAllDatas()
 ### DataTable.getRowIdsByIndices(indices) ⇒ <code>array</code>
 根据索引获取rowid
 
-**返回值**: <code>array</code> - 获取到的rowid  
+**Returns**: <code>array</code> - 获取到的rowid  
 
-| 参数 | 类型 | 描述 |
+| 参数 | Type | Description |
 | --- | --- | --- |
 | indices | <code>array</code> | 需要获取rowid的索引值 |
 
@@ -560,9 +560,9 @@ datatable.getRowIdsByIndices([1,2,5])
 ### DataTable.getRowsByIndices(indices) ⇒ <code>array</code>
 根据索引获取row
 
-**返回值**: <code>array</code> - 获取到的row  
+**Returns**: <code>array</code> - 获取到的row  
 
-| 参数 | 类型 | 描述 |
+| 参数 | Type | Description |
 | --- | --- | --- |
 | indices | <code>array</code> | 需要获取rowid的索引值 |
 
@@ -575,7 +575,7 @@ datatable.getRowIdsByIndices([1,2,5])
 ### DataTable.getFocusRow() ⇒ <code>u.Row</code>
 获取焦点行
 
-**返回值**: <code>u.Row</code> - 焦点行  
+**Returns**: <code>u.Row</code> - 焦点行  
 **Example**  
 ```js
 datatable.getFocusRow()
@@ -585,7 +585,7 @@ datatable.getFocusRow()
 ### DataTable.getFocusIndex() ⇒ <code>number</code>
 获取焦点行索引
 
-**返回值**: <code>number</code> - 焦点行索引  
+**Returns**: <code>number</code> - 焦点行索引  
 **Example**  
 ```js
 datatable.getFocusIndex()
@@ -595,9 +595,9 @@ datatable.getFocusIndex()
 ### DataTable.getMeta([fieldName], [key]) ⇒ <code>object</code>
 获取meta信息
 
-**返回值**: <code>object</code> - meta信息  
+**Returns**: <code>object</code> - meta信息  
 
-| 参数 | 类型 | 描述 |
+| 参数 | Type | Description |
 | --- | --- | --- |
 | [fieldName] | <code>string</code> | 需要获取的字段 |
 | [key] | <code>string</code> | 需要获取的字段指定meta信息 |
@@ -613,9 +613,9 @@ datatable.getMeta('field1','type') // 获取field1的key信息
 ### DataTable.getRowMeta([fieldName], [key]) ⇒ <code>object</code>
 获取当前行的meta信息，如果不存在当前行则获取DataTable的meta信息
 
-**返回值**: <code>object</code> - meta信息  
+**Returns**: <code>object</code> - meta信息  
 
-| 参数 | 类型 | 描述 |
+| 参数 | Type | Description |
 | --- | --- | --- |
 | [fieldName] | <code>string</code> | 需要获取的字段 |
 | [key] | <code>string</code> | 需要获取的字段指定meta信息 |
@@ -626,27 +626,27 @@ datatable.getRowMeta() // 获取当前行所有meta信息
 datatable.getRowMeta('field1') // 获取当前行field1所有meta信息
 datatable.getRowMeta('field1','type') // 获取当前行field1的key信息
 ```
-<a name="DataTable.get参数"></a>
+<a name="DataTable.getParam"></a>
 
-### DataTable.get参数(key) ⇒ <code>\*</code>
+### DataTable.getParam(key) ⇒ <code>\*</code>
 获取参数参数值
 
-**返回值**: <code>\*</code> - 参数参数值  
+**Returns**: <code>\*</code> - 参数参数值  
 
-| 参数 | 类型 | 描述 |
+| 参数 | Type | Description |
 | --- | --- | --- |
 | key | <code>string</code> | 参数对应的key |
 
 **Example**  
 ```js
-datatable.get参数('param1')
+datatable.getParam('param1')
 ```
 <a name="DataTable.getSelectedIndex"></a>
 
 ### DataTable.getSelectedIndex() ⇒ <code>number</code>
 获取选中行索引，多选时，只返回第一个行索引
 
-**返回值**: <code>number</code> - 选中行索引  
+**Returns**: <code>number</code> - 选中行索引  
 **Example**  
 ```js
 datatable.getSelectedIndex()
@@ -656,7 +656,7 @@ datatable.getSelectedIndex()
 ### DataTable.getSelectedIndices() ⇒ <code>array</code>
 获取选中的所有行索引数组
 
-**返回值**: <code>array</code> - 所有行索引数组  
+**Returns**: <code>array</code> - 所有行索引数组  
 **Example**  
 ```js
 datatable.getSelectedIndices()
@@ -666,9 +666,9 @@ datatable.getSelectedIndices()
 ### DataTable.getSelectedDatas([withEmptyRow]) ⇒ <code>array</code>
 获取选中行的数据信息
 
-**返回值**: <code>array</code> - 发生变化的数据信息  
+**Returns**: <code>array</code> - 发生变化的数据信息  
 
-| 参数 | 类型 | Default | 描述 |
+| 参数 | Type | Default | Description |
 | --- | --- | --- | --- |
 | [withEmptyRow] | <code>boolean</code> | <code>false</code> | 未选中的数据是否使用空行代替，true表示以空行代替未选中行，false相反 |
 
@@ -682,7 +682,7 @@ datatable.getSelectedDatas(true)
 ### DataTable.getSelectedRows() ⇒ <code>array</code>
 获取选中的Row对象
 
-**返回值**: <code>array</code> - 选中的Row对象  
+**Returns**: <code>array</code> - 选中的Row对象  
 **Example**  
 ```js
 datatable.getSelectedRows()
@@ -692,9 +692,9 @@ datatable.getSelectedRows()
 ### DataTable.getSimpleData([options]) ⇒ <code>array</code>
 获取数据信息，只获取字段名与字段值
 
-**返回值**: <code>array</code> - 获取到的数据信息  
+**Returns**: <code>array</code> - 获取到的数据信息  
 
-| 参数 | 类型 | Default | 描述 |
+| 参数 | Type | Default | Description |
 | --- | --- | --- | --- |
 | [options] | <code>object</code> |  | [description] |
 | [options.type] | <code>string</code> | <code>&quot;all&quot;</code> | 获取数据的规则 all：所有数据 current：当前行数据 focus：焦点行数据 select：选中行数据 change：发生改变的数据 |
@@ -712,7 +712,7 @@ datatable.getSimpleData({type:'current','fields':['filed1','field3']}) // 获取
 设置meta信息
 
 
-| 参数 | 类型 | 描述 |
+| 参数 | Type | Description |
 | --- | --- | --- |
 | fieldName | <code>string</code> | 需要设置meta信息的字段名 |
 | key | <code>string</code> | meta信息的key |
@@ -728,7 +728,7 @@ datatable.setMeta('filed1','type','string')
 更新meta信息
 
 
-| 参数 | 类型 | 描述 |
+| 参数 | Type | Description |
 | --- | --- | --- |
 | meta | <code>object</code> | 需要更新的meta信息 |
 
@@ -737,28 +737,28 @@ datatable.setMeta('filed1','type','string')
 var metaObj = {supplier: {meta: {precision:'3', default: '0239900x', display:'显示名称'}}}
 datatable.updateMeta(metaObj)
 ```
-<a name="DataTable.add参数"></a>
+<a name="DataTable.addParam"></a>
 
-### DataTable.add参数(key, value)
+### DataTable.addParam(key, value)
 增加参数参数
 
 
-| 参数 | 类型 | 描述 |
+| 参数 | Type | Description |
 | --- | --- | --- |
 | key | <code>string</code> | 需要增加的key值 |
 | value | <code>\*</code> | 需要增加的具体指 |
 
 **Example**  
 ```js
-datatable.add参数('precision','3')
+datatable.addParam('precision','3')
 ```
-<a name="DataTable.add参数s"></a>
+<a name="DataTable.addParams"></a>
 
-### DataTable.add参数s(params)
+### DataTable.addParams(params)
 增加多个参数参数
 
 
-| 参数 | 类型 | 描述 |
+| 参数 | Type | Description |
 | --- | --- | --- |
 | params | <code>object</code> | 需要增加的参数对象 |
 
@@ -768,7 +768,7 @@ var paramsObj = {
  'precision':'3',
  'default':'1.234'
 }
-datatable.add参数s(paramsObj)
+datatable.addParams(paramsObj)
 ```
 <a name="DataTable.refSelectedRows"></a>
 
@@ -776,7 +776,7 @@ datatable.add参数s(paramsObj)
 为选中行绑定监听，当选中行发生改变时触发对应方法
 
 
-| 参数 | 类型 | 描述 |
+| 参数 | Type | Description |
 | --- | --- | --- |
 | fieldName | <code>string</code> | 绑定的字段名 |
 
@@ -790,7 +790,7 @@ datatable.refSelectedRows().subscribe(function(){})
 为某个字段绑定监听，当字段发生改变时触发对应方法
 
 
-| 参数 | 类型 | 描述 |
+| 参数 | Type | Description |
 | --- | --- | --- |
 | fieldName | <code>string</code> | 绑定的字段名 |
 
@@ -804,7 +804,7 @@ datatable.ref('field1').subscribe(function(){})
 绑定字段属性，当字段属性发生改变时触发对应方法
 
 
-| 参数 | 类型 | 描述 |
+| 参数 | Type | Description |
 | --- | --- | --- |
 | fieldName | <code>string</code> | 绑定的字段名 |
 | key | <code>string</code> | 绑定的属性key |
@@ -819,7 +819,7 @@ datatable.refMeta('field1','type').subscribe(function(){})
 绑定当前行的字段属性，当字段属性发生改变时触发对应方法
 
 
-| 参数 | 类型 | 描述 |
+| 参数 | Type | Description |
 | --- | --- | --- |
 | fieldName | <code>string</code> | 绑定的字段名 |
 | key | <code>string</code> | 绑定的属性key |
@@ -834,7 +834,7 @@ datatable.refRowMeta('field1','type').subscribe(function(){})
 绑定字段是否可修改属性，当字段可修改属性发生改变时触发对应方法
 
 
-| 参数 | 类型 | 描述 |
+| 参数 | Type | Description |
 | --- | --- | --- |
 | fieldName | <code>string</code> | 绑定的字段名 |
 
@@ -848,7 +848,7 @@ datatable.refEnable('field1').subscribe(function(){})
 根据rowId删除指定行
 
 
-| 参数 | 类型 | 描述 |
+| 参数 | Type | Description |
 | --- | --- | --- |
 | rowId | <code>string</code> | 需要删除行的rowId |
 
@@ -862,7 +862,7 @@ datatable.removeRowByRowId('rowid1')
 根据索引删除指定行
 
 
-| 参数 | 类型 | 描述 |
+| 参数 | Type | Description |
 | --- | --- | --- |
 | index | <code>number</code> | 需要删除行的索引 |
 
@@ -885,13 +885,14 @@ datatable.removeAllRows();
 根据索引数据删除多条数据行
 
 
-| 参数 | 类型 | 描述 |
+| 参数 | Type | Description |
 | --- | --- | --- |
-| indices | <code>array</code> | 需要删除的数据行对应索引数组 |
+| indices | <code>array</code> | 需要删除的数据行对应数组，数组中既可以是索引也可以是row对象 |
 
 **Example**  
 ```js
 datatable.removeRows([1,2])
+datatable.removeRows([row1,row2])
 ```
 <a name="DataTable.clear"></a>
 
@@ -908,7 +909,7 @@ datatable.clear()
 在最后位置添加一条数据行
 
 
-| 参数 | 类型 | 描述 |
+| 参数 | Type | Description |
 | --- | --- | --- |
 | row | <code>u.Row</code> | 数据行 |
 
@@ -927,7 +928,7 @@ datatable.addRow(row1)
 在最后位置添加多条数据行
 
 
-| 参数 | 类型 | 描述 |
+| 参数 | Type | Description |
 | --- | --- | --- |
 | rows | <code>array</code> | 数据行数组 |
 
@@ -951,7 +952,7 @@ datatable.addRows([row1,row2])
 在指定索引位置添加一条数据行
 
 
-| 参数 | 类型 | 描述 |
+| 参数 | Type | Description |
 | --- | --- | --- |
 | index | <code>number</code> | 指定索引 |
 | row | <code>u.Row</code> | 数据行 |
@@ -971,7 +972,7 @@ datatable.insertRow(1,row1)
 在指定索引位置添加多条数据行
 
 
-| 参数 | 类型 | 描述 |
+| 参数 | Type | Description |
 | --- | --- | --- |
 | index | <code>number</code> | 指定索引 |
 | rows | <code>array</code> | 数据行数组 var row1 = new Row({parent: datatable}) row1.setData({  field1: 'value1',  field2: 'value2' }) var row2 = new Row({parent: datatable}) row2.setData({  field1: 'value11',  field2: 'value22' }) datatable.insertRows(1,[row1,row2]) |
@@ -981,10 +982,11 @@ datatable.insertRow(1,row1)
 ### DataTable.createEmptyRow() ⇒ <code>u.Row</code>
 创建空行
 
-**返回值**: <code>u.Row</code> - 空行对象  
+**Returns**: <code>u.Row</code> - 空行对象  
 **Example**  
 ```js
 datatable.createEmptyRow();
+datatable.createEmptyRow({unSelect:true})
 ```
 <a name="DataTable.setAllRowsSelect"></a>
 
@@ -1001,7 +1003,7 @@ datatable.setAllRowsSelect()
 根据索引设置选中行，清空之前已选中的所有行
 
 
-| 参数 | 类型 | 描述 |
+| 参数 | Type | Description |
 | --- | --- | --- |
 | index | <code>number</code> | 需要选中行的索引 |
 
@@ -1015,7 +1017,7 @@ datatable.setRowSelect(1)
 根据索引数组设置选中行，清空之前已选中的所有行
 
 
-| 参数 | 类型 | 描述 |
+| 参数 | Type | Description |
 | --- | --- | --- |
 | indices | <code>array</code> | 需要选中行的索引数组 |
 
@@ -1029,7 +1031,7 @@ datatable.setRowsSelect([1,2])
 根据索引添加选中行，不会清空之前已选中的行
 
 
-| 参数 | 类型 | 描述 |
+| 参数 | Type | Description |
 | --- | --- | --- |
 | index | <code>number</code> | 需要选中行的索引 |
 
@@ -1043,7 +1045,7 @@ datatable.addRowSelect(1)
 根据索引数组添加选中行，不会清空之前已选中的行
 
 
-| 参数 | 类型 | 描述 |
+| 参数 | Type | Description |
 | --- | --- | --- |
 | indices | <code>array</code> | 需要选中行的索引数组 |
 
@@ -1057,7 +1059,7 @@ datatabel.addRowsSelect([1,2])
 全部取消选中
 
 
-| 参数 | 类型 | 描述 |
+| 参数 | Type | Description |
 | --- | --- | --- |
 | [options] | <code>object</code> | 可选参数 |
 | [options.quiet] | <code>boolean</code> | 如果为true则不触发事件，否则触发事件 |
@@ -1073,7 +1075,7 @@ datatable.setAllRowsUnSelect({quiet:true}) // 全部取消选中,不触发事件
 根据索引取消选中
 
 
-| 参数 | 类型 | 描述 |
+| 参数 | Type | Description |
 | --- | --- | --- |
 | index | <code>number</code> | 需要取消选中的行索引 |
 
@@ -1087,7 +1089,7 @@ datatable.setRowUnSelect(1)
 根据索引数组取消选中
 
 
-| 参数 | 类型 | 描述 |
+| 参数 | Type | Description |
 | --- | --- | --- |
 | indices | <code>array</code> | 需要取消选中的行索引数组 |
 
@@ -1106,7 +1108,7 @@ datatable.setRowsUnSelect([1,2])
 设置焦点行
 
 
-| 参数 | 类型 | 描述 |
+| 参数 | Type | Description |
 | --- | --- | --- |
 | index | <code>number</code> &#124; <code>u.Row</code> | 行对象或者行index |
 | [quiet] | <code>boolean</code> | 如果为true则不触发事件，否则触发事件 |
@@ -1133,7 +1135,7 @@ datatable.setRowUnFocus()
 设置数据, 只设置字段值
 
 
-| 参数 | 类型 | Default | 描述 |
+| 参数 | Type | Default | Description |
 | --- | --- | --- | --- |
 | data | <code>array</code> |  | 数据信息 |
 | [options] | <code>boject</code> |  | 可配置参数 |
@@ -1157,7 +1159,7 @@ datatable.setSimpleData(data,{unSelect:true})
 追加数据, 只设置字段值
 
 
-| 参数 | 类型 | Default | 描述 |
+| 参数 | Type | Default | Description |
 | --- | --- | --- | --- |
 | data | <code>array</code> |  | 数据信息 |
 | [status] | <code>string</code> | <code>&quot;nrm&quot;</code> | 追加数据信息的状态，参照Row对象的状态介绍 |
@@ -1181,9 +1183,9 @@ datatable.addSimpleData(data, null, {unSelect:true})
 ### DataTable.on(name, [callback], [one]) ⇒ <code>[DataTable](#DataTable)</code>
 为DataTable对象添加监听
 
-**返回值**: <code>[DataTable](#DataTable)</code> - 当前的DataTable对象  
+**Returns**: <code>[DataTable](#DataTable)</code> - 当前的DataTable对象  
 
-| 参数 | 类型 | 描述 |
+| 参数 | Type | Description |
 | --- | --- | --- |
 | name | <code>string</code> &#124; <code>array</code> &#124; <code>object</code> | 针对不同用法分别对应监听名称、监听名称对应的数组、监听名称及对应的回调组成的对象 |
 | [callback] | <code>function</code> | 监听对应的回调函数 |
@@ -1200,9 +1202,9 @@ datatable.on({u.DataTable.ON_INSERT: function() {}, u.DataTable.ON_DELETE: funct
 ### DataTable.off(name, [callback]) ⇒ <code>[DataTable](#DataTable)</code>
 为DataTable对象取消监听
 
-**返回值**: <code>[DataTable](#DataTable)</code> - 当前的DataTable对象  
+**Returns**: <code>[DataTable](#DataTable)</code> - 当前的DataTable对象  
 
-| 参数 | 类型 | 描述 |
+| 参数 | Type | Description |
 | --- | --- | --- |
 | name | <code>string</code> &#124; <code>array</code> &#124; <code>object</code> | 针对不同用法分别对应监听名称、监听名称对应的数组、监听名称及对应的回调组成的对象 |
 | [callback] | <code>function</code> | 监听对应的回调函数 |
@@ -1219,7 +1221,7 @@ datatable.off({u.DataTable.ON_INSERT: function() {}, u.DataTable.ON_DELETE: func
 为DataTable对象添加只执行一次的监听
 
 
-| 参数 | 类型 | 描述 |
+| 参数 | Type | Description |
 | --- | --- | --- |
 | name | <code>string</code> &#124; <code>array</code> &#124; <code>object</code> | 针对不同用法分别对应监听名称、监听名称对应的数组、监听名称及对应的回调组成的对象 |
 | [callback] | <code>function</code> | 监听对应的回调函数 |
@@ -1235,9 +1237,9 @@ datatable.one({u.DataTable.ON_INSERT: function() {}, u.DataTable.ON_DELETE: func
 ### DataTable.trigger(name) ⇒ <code>[DataTable](#DataTable)</code>
 触发DataTable对象绑定的事件监听
 
-**返回值**: <code>[DataTable](#DataTable)</code> - 当前的DataTable对象  
+**Returns**: <code>[DataTable](#DataTable)</code> - 当前的DataTable对象  
 
-| 参数 | 类型 | 描述 |
+| 参数 | Type | Description |
 | --- | --- | --- |
 | name | <code>string</code> | 需要触发的事件监听对应的名称 |
 
@@ -1256,7 +1258,7 @@ datatable.trigger('valuechange')
 根据row对象重置数据至nrm状态时的数据
 
 
-| 参数 | 类型 | 描述 |
+| 参数 | Type | Description |
 | --- | --- | --- |
 | row | <code>u.row</code> | 需要重置数据的row对象 |
 
