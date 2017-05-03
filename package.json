@@ -4,11 +4,13 @@
   "description": "",
   "main": "src/index",
   "scripts": {
+    "r-watch": "rollup -c -w",
+    "r-build": "rollup -c",
     "build": "webpack --colors --progress --env.mode=build",
     "dev": "webpack --progress --colors --env.mode=dev",
     "test": "mocha --compilers js:babel-core/register --colors -w ./test/*.spec.js",
     "es": "babel src -d lib",
-    "product": "npm run es && npm run build && npm run dev",
+    "product": "npm run es && npm run r-build",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0 ",
     "docs": "node bin/mdconcat.js",
     "makeAPI": "gulp docs && sh bin/docMutilLang.sh"
@@ -43,6 +45,15 @@
     "jsdoc-to-markdown": "^3.0.0",
     "mocha": "^3.0.1",
     "webpack": "^2.2.1",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-preset-latest": "^6.24.1",
+    "rollup-plugin-babel": "^2.7.1",
+    "rollup-plugin-license": "^0.3.0",
+    "rollup-plugin-multi-entry": "^2.0.1",
+    "rollup-plugin-multidest": "^1.0.1",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-uglify": "^1.0.2",
+    "rollup-watch": "^3.2.2",
     "yargs": "^4.8.1"
   },
   "repository": {
