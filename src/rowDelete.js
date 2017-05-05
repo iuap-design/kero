@@ -41,18 +41,20 @@ const setRowsDelete = function(indices) {
     });
     var rowIds = this.getRowIdsByIndices(indices)
     var rows = this.getRowsByIndices(indices);
+    var ros = this.rows();
     for (var i = 0; i < indices.length; i++) {
-        var row = this.getRow(indices[i])
+        var row = this.getRow(indices[i]);
         if (row.status == Row.STATUS.NEW) {
-            this.rows().splice(indices[i], 1);
+            ros.splice(indices[i], 1);
         } else {
-            row.setStatus(Row.STATUS.FALSE_DELETE)
-            var temprows = this.rows().splice(indices[i], 1)
-            this.rows().push(temprows[0]);
+            row.setStatus(Row.STATUS.FALSE_DELETE);
+            var temprows = ros.splice(indices[i], 1);
+            ros.push(temprows[0]);
         }
         this.updateSelectedIndices(indices[i], '-');
         this.updateFocusIndex(indices[i], '-');
     }
+    this.rows(ros);
     this.updateCurrIndex();
     this.trigger(DataTable.ON_DELETE, {
         falseDelete: true,

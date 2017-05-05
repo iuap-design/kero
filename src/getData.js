@@ -461,7 +461,8 @@ const getAllDatas = function() {
 const getRowIdsByIndices = function(indices) {
     var rowIds = []
     for (var i = 0; i < indices.length; i++) {
-        rowIds.push(this.getRow(indices[i]).rowId)
+        if (this.getRow(indices[i]))
+            rowIds.push(this.getRow(indices[i]).rowId)
     }
     return rowIds
 }
