@@ -36,7 +36,7 @@ npm install kero
 ```
 - cdn 资源
 ```
-//design.yyuap.com/static/kero/latest/js/kero.js
+//design.yonyoucloud.com/static/kero/latest/js/kero.js
 ```
 
 ### 引入kero
@@ -48,8 +48,8 @@ import { Datatable } from "kero"
 - HTML直接引入
 ```
 <!-- kero依赖 knockout需要提前引入-->
-<script src="//design.yyuap.com/static/knockout/knockout-3.2.0.debug.js"></script>
-<script src="//design.yyuap.com/static/kero/latest/js/kero.js"></script>
+<script src="//design.yonyoucloud.com/static/knockout/knockout-3.2.0.debug.js"></script>
+<script src="//design.yonyoucloud.com/static/kero/latest/js/kero.js"></script>
 ```
 
 ### 简单示例

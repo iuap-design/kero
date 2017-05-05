@@ -143,7 +143,7 @@ async.auto({
                                 var codeHtml = [];
                                 var codeCss = [];
                                 var codeJs = [];
-                                var ctxPath = '//design.yyuap.com/static/uui/latest';
+                                var ctxPath = '//design.yonyoucloud.com/static/uui/latest';
                                 var optBtn = '<button  class="u-button u-button-block u-button-accent margin-top-15 codeOptBtn" ><i class="uf uf-arrow-down"></i>查看代码</button>';
 
                                 var styles, htmls, scripts, tpl;
@@ -216,7 +216,7 @@ async.auto({
                                             '<meta charset="UTF-8">\r\n',
                                             '<meta name="viewport" content="width=device-width, initial-scale=1">\r\n',
                                             '<title>Title</title>\r\n',
-                                            '<link rel="stylesheet" href="//design.yyuap.com/static/uploader/css/webuploader.css">\r\n',
+                                            '<link rel="stylesheet" href="//design.yonyoucloud.com/static/uploader/css/webuploader.css">\r\n',
                                             '<link rel="stylesheet" href="' + ctxPath + '/css/font-awesome.css">\r\n',
                                             '<link rel="stylesheet" type="text/css" href="' + ctxPath + '/css/u.css">\r\n',
                                             '<link rel="stylesheet" type="text/css" href="' + ctxPath + '/css/tree.css">\r\n',
@@ -227,14 +227,14 @@ async.auto({
                                             '</head>\r\n',
                                             '<body style="background-color: #eceff1;margin-left: 20px;width: calc(100% - 20px );">\r\n',
                                             htmls,
-                                            '<script src="//design.yyuap.com/static/jquery/jquery-1.11.2.js"></script>\r\n',
-                                            '<script src="//design.yyuap.com/static/uploader/js/webuploader.js"></script>\r\n',
-                                            '<script src="//design.yyuap.com/static/knockout/knockout-3.2.0.debug.js"></script>\r\n',
+                                            '<script src="//design.yonyoucloud.com/static/jquery/jquery-1.11.2.js"></script>\r\n',
+                                            '<script src="//design.yonyoucloud.com/static/uploader/js/webuploader.js"></script>\r\n',
+                                            '<script src="//design.yonyoucloud.com/static/knockout/knockout-3.2.0.debug.js"></script>\r\n',
                                             '<script src="' + ctxPath + '/js/u-polyfill.js"></script>\r\n',
                                             '<script src="' + ctxPath + '/js/u.js"></script>\r\n',
                                             '<script src="' + ctxPath + '/js/u-tree.js"></script>\r\n',
                                             '<script src="' + ctxPath + '/js/u-grid.js"></script>\r\n',
-                                            '<script src="//design.yyuap.com/static/requirejs/require.debug.js"></script>\r\n',
+                                            '<script src="//design.yonyoucloud.com/static/requirejs/require.debug.js"></script>\r\n',
                                             '<script>\r\n',
                                             scripts,
                                             '</script>\r\n',

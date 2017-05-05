@@ -11,11 +11,11 @@
 </head>
 <body>
 
-  <script src="http://design.yyuap.com/static/jquery/jquery-1.9.1.min.js"></script>
+  <script src="http://design.yonyoucloud.com/static/jquery/jquery-1.9.1.min.js"></script>
   <!--引入knockout依赖-->
-  <script src="http://design.yyuap.com/static/knockout/knockout-3.2.0.debug.js"></script>
+  <script src="http://design.yonyoucloud.com/static/knockout/knockout-3.2.0.debug.js"></script>
   <!--引入核心js文件-->
-  <script src="http://design.yyuap.com/static/uui/latest/js/u.js"></script>
+  <script src="http://design.yonyoucloud.com/static/uui/latest/js/u.js"></script>
 </body>
 </html>
 ```
@@ -26,7 +26,7 @@
 
 ```javascript
 <!--[if lte IE 8]>
-  <script src="http://design.yyuap.com/static/uui/latest/js/u-polyfill.js"></script>
+  <script src="http://design.yonyoucloud.com/static/uui/latest/js/u-polyfill.js"></script>
 <![endif]-->
 ```
 

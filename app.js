@@ -91,7 +91,7 @@ function copyExamp(path,pathLength){
 								}else{
 									htmlStr = data.toString();
 								}
-								var ctx = 'http://design.yyuap.com/static/'
+								var ctx = 'http://design.yonyoucloud.com/static/'
 								var tpl = [
 							        '<!DOCTYPE html>',
 							        '<html lang="en">',

@@ -33,7 +33,7 @@ npm install kero
 ```
 * cdn 
 ```
-//design.yyuap.com/static/kero/latest/kero.js
+//design.yonyoucloud.com/static/kero/latest/kero.js
 ```
 ### Introducing kero
 
@@ -46,8 +46,8 @@ import { Datatable } from "kero"
 
 ```
 <!-- kero is dependent on knockout-->
-<script src="//design.yyuap.com/static/knockout/knockout-3.2.0.debug.js"></script>
-<script src="//design.yyuap.com/static/kero/latest/kero.js"></script>
+<script src="//design.yonyoucloud.com/static/knockout/knockout-3.2.0.debug.js"></script>
+<script src="//design.yonyoucloud.com/static/kero/latest/kero.js"></script>
 ```
 
 ### Use
