@@ -192,8 +192,10 @@ const _setData = function(rowObj, sourceData, targetData, subscribe, parentKey, 
  * @param {boolean} [options.fieldFlag]   未设置的meta是否进行存储，如果为true则未设置的meta也进行存储
  * @example
  * var data = {
- *   filed1:'value1',
- *   field2:'value2'
+ *    data:{
+ *      filed1:'value1',
+ *      field2:'value2'
+ *    }
  * }
  * row.setData(data)
  * row.setData(data,false)

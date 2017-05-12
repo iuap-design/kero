@@ -66,8 +66,10 @@ const setRows = function(rows, options) {
  * @example
  * var row1 = new Row({parent: datatable})
  * row1.setData({
- *  field1: 'value1',
- *  field2: 'value2'
+ *  data:{
+ *    field1: 'value1',
+ *    field2: 'value2'
+ *  }
  * })
  * datatable.addRow(row1)
  */
@@ -93,13 +95,17 @@ const resetDelRowEnd = function() {
  * @example
  * var row1 = new Row({parent: datatable})
  * row1.setData({
- *  field1: 'value1',
- *  field2: 'value2'
+ *  data:{
+ *    field1: 'value1',
+ *    field2: 'value2'
+ *  }
  * })
  * var row2 = new Row({parent: datatable})
  * row2.setData({
- *  field1: 'value11',
- *  field2: 'value22'
+ *  data:{
+ *    field1: 'value11',
+ *    field2: 'value22'
+ *  }
  * })
  * datatable.addRows([row1,row2])
  */
@@ -116,8 +122,10 @@ const addRows = function(rows) {
  * @example
  * var row1 = new Row({parent: datatable})
  * row1.setData({
- *  field1: 'value1',
- *  field2: 'value2'
+ *  data:{
+ *    field1: 'value1',
+ *    field2: 'value2'
+ *  }
  * })
  * datatable.insertRow(1,row1)
  */
@@ -137,13 +145,17 @@ const insertRow = function(index, row) {
  * @param  {array} rows  数据行数组
  * var row1 = new Row({parent: datatable})
  * row1.setData({
- *  field1: 'value1',
- *  field2: 'value2'
+ *  data:{
+ *    field1: 'value1',
+ *    field2: 'value2'
+ *  }
  * })
  * var row2 = new Row({parent: datatable})
  * row2.setData({
- *  field1: 'value11',
- *  field2: 'value22'
+ *  data:{
+ *    field1: 'value11',
+ *    field2: 'value22'
+ *  }
  * })
  * datatable.insertRows(1,[row1,row2])
  */
