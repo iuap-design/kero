@@ -28,13 +28,17 @@
  *    rows:[{
  *      id:'r41201', // 如果需要添加
  *      status:'nrm', // 如果需要添加
- *      filed1:'value1',
- *      field2:'value2'
+ *      data:{
+ *          field1:'value1',
+ *          field2:'value2'
+ *        }
  *    },{
  *      id:'r41202',
  *      status:'nrm',
- *      filed1:'value11',
- *      field2:'value21'
+ *      data:{
+ *          field1:'value11',
+ *          field2:'value21'
+ *        }
  *    },...],
  *    select:[0]
  * }
@@ -169,23 +173,11 @@ const setValue = function(fieldName, value, row, ctx) {
  * 重置所有行的数据至nrm状态时的数据
  */
 const resetAllValue = function() {
-    var rows = this.rows();
+    var rows = new Array();
+    rows = rows.concat(this.rows());
     for (var i = 0; i < rows.length; i++) {
-      var row = rows[i];
-      if(row.status == Row.STATUS.NEW){
-        this.setRowsDelete(row);
-      }else if(row.status == Row.STATUS.FALSE_DELETE){
-        row.status = Row.STATUS.NORMAL;
-        var rows = [row];
-        this.trigger(DataTable.ON_INSERT, {
-            index: 0,
-            rows: rows
-        })
-      }else if(row.status == Row.STATUS.UPDATE){
-        row.status = Row.STATUS.NORMAL;
-        rows[i].resetValue();
-      }
-
+        var row = rows[i];
+        this.resetValueByRow(row);
     }
 }
 
@@ -194,22 +186,21 @@ const resetAllValue = function() {
  * @param {u.row} row 需要重置数据的row对象
  */
 const resetValueByRow = function(row) {
-    if(row.status == Row.STATUS.NEW){
-      this.setRowsDelete(row);
-    }else if(row.status == Row.STATUS.FALSE_DELETE){
-      row.status = Row.STATUS.NORMAL;
-      var rows = [row];
-      this.trigger(DataTable.ON_INSERT, {
-          index: 0,
-          rows: rows
-      })
-    }else if(row.status == Row.STATUS.UPDATE){
-      row.status = Row.STATUS.NORMAL;
-      rows[i].resetValue();
+    if (row.status == Row.STATUS.NEW) {
+        this.setRowsDelete(row);
+    } else if (row.status == Row.STATUS.FALSE_DELETE) {
+        row.status = Row.STATUS.NORMAL;
+        var rows = [row];
+        this.trigger(DataTable.ON_INSERT, {
+            index: 0,
+            rows: rows
+        })
+    } else if (row.status == Row.STATUS.UPDATE) {
+        row.status = Row.STATUS.NORMAL;
+        row.resetValue();
     }
 
 }
-
 export const dataFunObj = {
     setData: setData,
     setValue: setValue,
