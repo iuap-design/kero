@@ -162,6 +162,12 @@
           * @default false
           */
          this.pageCache = options['pageCache'] === undefined ? DataTable.DEFAULTS.pageCache : options['pageCache'];
+         /**
+          * DataTable删除数据时是否强制删除，如果设置为true则不再考虑数据的状态，执行删除时则删除此条数据。如果设置为false则需要考虑数据的状态，如果状态为new则删除此条数据否则将状态修改为fdel
+          * @type {boolean}
+          * @default false
+          */
+         this.forceDel = options['forceDel'] === undefined ? DataTable.DEFAULTS.pageCache : options['forceDel'];
          // 存储所有row对象
          this.rows = ko.observableArray([])
          // 存储所有的选中行的index
@@ -246,7 +252,8 @@
      pageIndex: 0,
      totalPages: 0,
      pageCache: false,
-     enable: true
+     enable: true,
+     forceDel: false
  }
 
  DataTable.META_DEFAULTS = {

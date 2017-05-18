@@ -44,7 +44,7 @@ const setRowsDelete = function(indices) {
     var ros = this.rows();
     for (var i = 0; i < indices.length; i++) {
         var row = this.getRow(indices[i]);
-        if (row.status == Row.STATUS.NEW) {
+        if (row.status == Row.STATUS.NEW || this.forceDel) {
             ros.splice(indices[i], 1);
         } else {
             row.setStatus(Row.STATUS.FALSE_DELETE);
