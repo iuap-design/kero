@@ -1,5 +1,5 @@
 /**
- * kero v3.2.2
+ * kero v3.2.3
  * 
  * author : yonyou FED
  * homepage : https://github.com/iuap-design/kero#readme
@@ -21,80 +21,16 @@ var U_LOCALE = "u_locale";
 var U_USERCODE = "usercode";
 var enumerables = true;
 var enumerablesTest = {
-	toString: 1
-};
-for (var i$1 in enumerablesTest) {
+		toString: 1
+	};
+for(var i in enumerablesTest) {
 	enumerables = null;
 }
-if (enumerables) {
-	enumerables = ['hasOwnProperty', 'valueOf', 'isPrototypeOf', 'propertyIsEnumerable', 'toLocaleString', 'toString', 'constructor'];
+if(enumerables) {
+	enumerables = ['hasOwnProperty', 'valueOf', 'isPrototypeOf', 'propertyIsEnumerable',
+		'toLocaleString', 'toString', 'constructor'
+	];
 }
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
-  return typeof obj;
-} : function (obj) {
-  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-};
-
-
-
-
-
-
-
-
-
-
-
-var classCallCheck = function (instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-};
-
-
-
-
-
-
-
-
-
-
-
-var inherits = function (subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
-  }
-
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      enumerable: false,
-      writable: true,
-      configurable: true
-    }
-  });
-  if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-};
-
-
-
-
-
-
-
-
-
-
-
-var possibleConstructorReturn = function (self, call) {
-  if (!self) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return call && (typeof call === "object" || typeof call === "function") ? call : self;
-};
 
 /**
  * Module : Sparrow extend
@@ -108,21 +44,21 @@ var possibleConstructorReturn = function (self, call) {
  * @param {Object}  目标对象
  * @param {config} 源对象
  */
-var extend = function extend(object, config) {
+var extend = function(object, config) {
 	var args = arguments,
-	    options;
-	if (args.length > 1) {
-		for (var len = 1; len < args.length; len++) {
+		options;
+	if(args.length > 1) {
+		for(var len = 1; len < args.length; len++) {
 			options = args[len];
-			if (object && options && (typeof options === 'undefined' ? 'undefined' : _typeof(options)) === 'object') {
+			if(object && options && typeof options === 'object') {
 				var i, j, k;
-				for (i in options) {
+				for(i in options) {
 					object[i] = options[i];
 				}
-				if (enumerables) {
-					for (j = enumerables.length; j--;) {
+				if(enumerables) {
+					for(j = enumerables.length; j--;) {
 						k = enumerables[j];
-						if (options.hasOwnProperty && options.hasOwnProperty(k)) {
+						if(options.hasOwnProperty && options.hasOwnProperty(k)) {
 							object[k] = options[k];
 						}
 					}
@@ -133,7 +69,7 @@ var extend = function extend(object, config) {
 	return object;
 };
 
-if (!Object.assign) {
+if(!Object.assign){
 	Object.assign = extend;
 }
 
@@ -219,13 +155,17 @@ var copyRowFunObj = {
  *    rows:[{
  *      id:'r41201', // 如果需要添加
  *      status:'nrm', // 如果需要添加
- *      filed1:'value1',
- *      field2:'value2'
+ *      data:{
+ *          field1:'value1',
+ *          field2:'value2'
+ *        }
  *    },{
  *      id:'r41202',
  *      status:'nrm',
- *      filed1:'value11',
- *      field2:'value21'
+ *      data:{
+ *          field1:'value11',
+ *          field2:'value21'
+ *        }
  *    },...],
  *    select:[0]
  * }
@@ -353,22 +293,11 @@ var setValue = function setValue(fieldName, value, row, ctx) {
  * 重置所有行的数据至nrm状态时的数据
  */
 var resetAllValue = function resetAllValue() {
-    var rows = this.rows();
+    var rows = new Array();
+    rows = rows.concat(this.rows());
     for (var i = 0; i < rows.length; i++) {
         var row = rows[i];
-        if (row.status == Row.STATUS.NEW) {
-            this.setRowsDelete(row);
-        } else if (row.status == Row.STATUS.FALSE_DELETE) {
-            row.status = Row.STATUS.NORMAL;
-            var rows = [row];
-            this.trigger(DataTable.ON_INSERT, {
-                index: 0,
-                rows: rows
-            });
-        } else if (row.status == Row.STATUS.UPDATE) {
-            row.status = Row.STATUS.NORMAL;
-            rows[i].resetValue();
-        }
+        this.resetValueByRow(row);
     }
 };
 
@@ -388,10 +317,9 @@ var resetValueByRow = function resetValueByRow(row) {
         });
     } else if (row.status == Row.STATUS.UPDATE) {
         row.status = Row.STATUS.NORMAL;
-        rows[i].resetValue();
+        row.resetValue();
     }
 };
-
 var dataFunObj = {
     setData: setData,
     setValue: setValue,
@@ -918,7 +846,7 @@ var getAllDatas = function getAllDatas() {
 var getRowIdsByIndices = function getRowIdsByIndices(indices) {
     var rowIds = [];
     for (var i = 0; i < indices.length; i++) {
-        rowIds.push(this.getRow(indices[i]).rowId);
+        if (this.getRow(indices[i])) rowIds.push(this.getRow(indices[i]).rowId);
     }
     return rowIds;
 };
@@ -1248,6 +1176,72 @@ var getSimpleData = function getSimpleData(options) {
 
 var getSimpleDataFunObj = {
     getSimpleData: getSimpleData
+};
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+  return typeof obj;
+} : function (obj) {
+  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+};
+
+
+
+
+
+
+
+
+
+
+
+var classCallCheck = function (instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+};
+
+
+
+
+
+
+
+
+
+
+
+var inherits = function (subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      enumerable: false,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+};
+
+
+
+
+
+
+
+
+
+
+
+var possibleConstructorReturn = function (self, call) {
+  if (!self) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+
+  return call && (typeof call === "object" || typeof call === "function") ? call : self;
 };
 
 /**
@@ -1814,47 +1808,51 @@ var refFunObj = {
  * 创建一个带壳的对象,防止外部修改
  * @param {Object} proto
  */
-var createShellObject = function createShellObject(proto) {
-	var exf = function exf() {};
+var createShellObject = function(proto) {
+	var exf = function() {};
 	exf.prototype = proto;
 	return new exf();
 };
-var getJSObject = function getJSObject(target, names) {
-	if (!names) {
+var getJSObject = function(target, names) {
+	if(!names) {
 		return;
 	}
-	if ((typeof names === 'undefined' ? 'undefined' : _typeof(names)) == 'object') return names;
+	if(typeof names == 'object')
+		return names
 	var nameArr = names.split('.');
 	var obj = target;
-	for (var i = 0; i < nameArr.length; i++) {
+	for(var i = 0; i < nameArr.length; i++) {
 		obj = obj[nameArr[i]];
-		if (!obj) return null;
+		if(!obj) return null
 	}
-	return obj;
+	return obj
 };
-var isNumber = function isNumber(obj) {
+var isNumber = function(obj) {
 	//return obj === +obj
 	//加了个typeof 判断，因为'431027199110.078573'会解析成number
 	return obj - parseFloat(obj) + 1 >= 0;
 };
-var isArray = Array.isArray || function (val) {
+var isArray = Array.isArray || function(val) {
 	return Object.prototype.toString.call(val) === '[object Array]';
 };
-var isEmptyObject = function isEmptyObject(obj) {
+var isEmptyObject = function(obj) {
 	var name;
-	for (name in obj) {
+	for(name in obj) {
 		return false;
 	}
 	return true;
 };
-try {
+try{
 	NodeList.prototype.forEach = Array.prototype.forEach;
-} catch (e) {}
+}catch(e){
+	
+}
+
 
 /**
  * 获得字符串的字节长度
  */
-String.prototype.lengthb = function () {
+String.prototype.lengthb = function() {
 	//	var str = this.replace(/[^\x800-\x10000]/g, "***");
 	var str = this.replace(/[^\x00-\xff]/g, "**");
 	return str.length;
@@ -1863,30 +1861,33 @@ String.prototype.lengthb = function () {
 /**
  * 将AFindText全部替换为ARepText
  */
-String.prototype.replaceAll = function (AFindText, ARepText) {
+String.prototype.replaceAll = function(AFindText, ARepText) {
 	//自定义String对象的方法
 	var raRegExp = new RegExp(AFindText, "g");
 	return this.replace(raRegExp, ARepText);
 };
 
-var dateFormat = function dateFormat(str) {
+
+var dateFormat = function ( str ) {
 	//如果不是string类型  原型返回
-	if (typeof str !== 'string') {
+	if ( typeof ( str ) !== 'string')
+	{
 		return str;
 	}
 	//判断 str 格式如果是 yy-mm-dd
-	if (str && str.indexOf('-') > -1) {
+	if (str && str.indexOf ('-') > -1){
 		//获取当前是否是 ios版本,>8是因为ios不识别new Date（“2016/11”）格式
 		var ua = navigator.userAgent.toLowerCase();
 		if (/iphone|ipad|ipod/.test(ua)) {
 			//转换成 yy/mm/dd
-			str = str.replace(/-/g, "/");
-			str = str.replace(/(^\s+)|(\s+$)/g, "");
-			if (str.length <= 8) {
+		    str = str.replace(/-/g,"/");
+			str = str.replace(/(^\s+)|(\s+$)/g,"");
+			if(str.length <= 8){
 				str = str += "/01";
 			}
 		}
 	}
+
 
 	return str;
 };
@@ -2065,8 +2066,10 @@ var setRows = function setRows(rows, options) {
  * @example
  * var row1 = new Row({parent: datatable})
  * row1.setData({
- *  field1: 'value1',
- *  field2: 'value2'
+ *  data:{
+ *    field1: 'value1',
+ *    field2: 'value2'
+ *  }
  * })
  * datatable.addRow(row1)
  */
@@ -2092,13 +2095,17 @@ var resetDelRowEnd = function resetDelRowEnd() {
  * @example
  * var row1 = new Row({parent: datatable})
  * row1.setData({
- *  field1: 'value1',
- *  field2: 'value2'
+ *  data:{
+ *    field1: 'value1',
+ *    field2: 'value2'
+ *  }
  * })
  * var row2 = new Row({parent: datatable})
  * row2.setData({
- *  field1: 'value11',
- *  field2: 'value22'
+ *  data:{
+ *    field1: 'value11',
+ *    field2: 'value22'
+ *  }
  * })
  * datatable.addRows([row1,row2])
  */
@@ -2115,8 +2122,10 @@ var addRows = function addRows(rows) {
  * @example
  * var row1 = new Row({parent: datatable})
  * row1.setData({
- *  field1: 'value1',
- *  field2: 'value2'
+ *  data:{
+ *    field1: 'value1',
+ *    field2: 'value2'
+ *  }
  * })
  * datatable.insertRow(1,row1)
  */
@@ -2136,13 +2145,17 @@ var insertRow = function insertRow(index, row) {
  * @param  {array} rows  数据行数组
  * var row1 = new Row({parent: datatable})
  * row1.setData({
- *  field1: 'value1',
- *  field2: 'value2'
+ *  data:{
+ *    field1: 'value1',
+ *    field2: 'value2'
+ *  }
  * })
  * var row2 = new Row({parent: datatable})
  * row2.setData({
- *  field1: 'value11',
- *  field2: 'value22'
+ *  data:{
+ *    field1: 'value11',
+ *    field2: 'value22'
+ *  }
  * })
  * datatable.insertRows(1,[row1,row2])
  */
@@ -2257,18 +2270,20 @@ var setRowsDelete = function setRowsDelete(indices) {
     });
     var rowIds = this.getRowIdsByIndices(indices);
     var rows = this.getRowsByIndices(indices);
+    var ros = this.rows();
     for (var i = 0; i < indices.length; i++) {
         var row = this.getRow(indices[i]);
-        if (row.status == Row.STATUS.NEW) {
-            this.rows().splice(indices[i], 1);
+        if (row.status == Row.STATUS.NEW || this.forceDel) {
+            ros.splice(indices[i], 1);
         } else {
             row.setStatus(Row.STATUS.FALSE_DELETE);
-            var temprows = this.rows().splice(indices[i], 1);
-            this.rows().push(temprows[0]);
+            var temprows = ros.splice(indices[i], 1);
+            ros.push(temprows[0]);
         }
         this.updateSelectedIndices(indices[i], '-');
         this.updateFocusIndex(indices[i], '-');
     }
+    this.rows(ros);
     this.updateCurrIndex();
     this.trigger(DataTable.ON_DELETE, {
         falseDelete: true,
@@ -2803,6 +2818,7 @@ var off = function off(name, callback) {
             }
         }
     }
+    this._events[name] = cbs;
     return this;
 };
 
@@ -2932,6 +2948,12 @@ var DataTable$1 = function DataTable(options) {
      * @default false
      */
     this.pageCache = options['pageCache'] === undefined ? DataTable.DEFAULTS.pageCache : options['pageCache'];
+    /**
+     * DataTable删除数据时是否强制删除，如果设置为true则不再考虑数据的状态，执行删除时则删除此条数据。如果设置为false则需要考虑数据的状态，如果状态为new则删除此条数据否则将状态修改为fdel
+     * @type {boolean}
+     * @default false
+     */
+    this.forceDel = options['forceDel'] === undefined ? DataTable.DEFAULTS.pageCache : options['forceDel'];
     // 存储所有row对象
     this.rows = ko.observableArray([]);
     // 存储所有的选中行的index
@@ -3015,7 +3037,8 @@ DataTable$1.DEFAULTS = {
     pageIndex: 0,
     totalPages: 0,
     pageCache: false,
-    enable: true
+    enable: true,
+    forceDel: false
 };
 
 DataTable$1.META_DEFAULTS = {
@@ -3421,7 +3444,8 @@ var eq = function eq(a, b) {
     if ((a === null || a === undefined || a === '') && (b === null || b === undefined || b === '')) return true;
     //判断输入的值是否相等，a,b是字符串直接比较这两个值即可，没必要判断是否是数据，判断是否是数据使用parseFloat转换有时精度不准（431027199110.078573）
     //if (isNumber(a) && isNumber(b) && parseFloat(a) == parseFloat(b)) return true;
-    if (a + '' == b + '') return true;
+    if (a + '' == b + '' || a == b) return true;
+    if (isNumber(a) && isNumber(b) && parseFloat(a) - parseFloat(b) < 0.0000005 && parseFloat(a) - parseFloat(b) > -0.0000005) return true;
     return false;
 };
 
@@ -3732,8 +3756,10 @@ var _setData = function _setData(rowObj, sourceData, targetData, subscribe, pare
  * @param {boolean} [options.fieldFlag]   未设置的meta是否进行存储，如果为true则未设置的meta也进行存储
  * @example
  * var data = {
- *   filed1:'value1',
- *   field2:'value2'
+ *    data:{
+ *      filed1:'value1',
+ *      field2:'value2'
+ *    }
  * }
  * row.setData(data)
  * row.setData(data,false)
@@ -4199,22 +4225,27 @@ var rowMetaFunObj = {
  * Date	  : 2016-07-27 21:46:50
  */
 
-var setCookie = function setCookie(sName, sValue, oExpires, sPath, sDomain, bSecure) {
+var setCookie = function(sName, sValue, oExpires, sPath, sDomain, bSecure) {
 	var sCookie = sName + "=" + encodeURIComponent(sValue);
-	if (oExpires) sCookie += "; expires=" + oExpires.toGMTString();
-	if (sPath) sCookie += "; path=" + sPath;
-	if (sDomain) sCookie += "; domain=" + sDomain;
-	if (bSecure) sCookie += "; secure=" + bSecure;
+	if(oExpires)
+		sCookie += "; expires=" + oExpires.toGMTString();
+	if(sPath)
+		sCookie += "; path=" + sPath;
+	if(sDomain)
+		sCookie += "; domain=" + sDomain;
+	if(bSecure)
+		sCookie += "; secure=" + bSecure;
 	document.cookie = sCookie;
 };
 
-var getCookie = function getCookie(sName) {
+var getCookie = function(sName) {
 	var sRE = "(?:; )?" + sName + "=([^;]*);?";
 	var oRE = new RegExp(sRE);
 
-	if (oRE.test(document.cookie)) {
+	if(oRE.test(document.cookie)) {
 		return decodeURIComponent(RegExp["$1"]);
-	} else return null;
+	} else
+		return null;
 };
 
 /**
@@ -4250,14 +4281,18 @@ var maskerMeta = {
 		precision: 2,
 		curSymbol: '￥'
 	},
-	'percent': {},
-	'phoneNumber': {}
+	'percent': {
+
+	},
+	'phoneNumber': {
+		
+	}
 };
 /**
  * 获取环境信息
  * @return {environment}
  */
-fn.getEnvironment = function () {
+fn.getEnvironment = function() {
 	return createShellObject(environment);
 };
 
@@ -4265,31 +4300,31 @@ fn.getEnvironment = function () {
  * 获取客户端参数对象
  * @return {clientAttributes}
  */
-fn.getClientAttributes = function () {
-	var exf = function exf() {};
+fn.getClientAttributes = function() {
+	var exf = function() {};
 	return createShellObject(clientAttributes);
 };
 
-fn.setContextPath = function (contextPath) {
-	return environment[IWEB_CONTEXT_PATH] = contextPath;
+fn.setContextPath = function(contextPath) {
+	return environment[IWEB_CONTEXT_PATH] = contextPath
 };
-fn.getContextPath = function (contextPath) {
-	return environment[IWEB_CONTEXT_PATH];
-};
-/**
- * 设置客户端参数对象
- * @param {Object} k 对象名称
- * @param {Object} v 对象值(建议使用简单类型)
- */
-fn.setClientAttribute = function (k, v) {
-	clientAttributes[k] = v;
-};
-/**
- * 获取会话级参数对象
- * @return {clientAttributes}
- */
-fn.getSessionAttributes = function () {
-	var exf = function exf() {};
+fn.getContextPath = function(contextPath) {
+		return environment[IWEB_CONTEXT_PATH]
+	};
+	/**
+	 * 设置客户端参数对象
+	 * @param {Object} k 对象名称
+	 * @param {Object} v 对象值(建议使用简单类型)
+	 */
+fn.setClientAttribute = function(k, v) {
+		clientAttributes[k] = v;
+	};
+	/**
+	 * 获取会话级参数对象
+	 * @return {clientAttributes}
+	 */
+fn.getSessionAttributes = function() {
+	var exf = function() {};
 	return createShellObject(sessionAttributes);
 };
 
@@ -4298,7 +4333,7 @@ fn.getSessionAttributes = function () {
  * @param {Object} k 对象名称
  * @param {Object} v 对象值(建议使用简单类型)
  */
-fn.setSessionAttribute = function (k, v) {
+fn.setSessionAttribute = function(k, v) {
 	sessionAttributes[k] = v;
 	setCookie("ISES_" + k, v);
 };
@@ -4307,9 +4342,9 @@ fn.setSessionAttribute = function (k, v) {
  * 移除客户端参数
  * @param {Object} k 对象名称
  */
-fn.removeClientAttribute = function (k) {
+fn.removeClientAttribute = function(k) {
 	clientAttributes[k] = null;
-	execIgnoreError(function () {
+	execIgnoreError(function() {
 		delete clientAttributes[k];
 	});
 };
@@ -4317,29 +4352,29 @@ fn.removeClientAttribute = function (k) {
 /**
  * 获取地区信息编码
  */
-fn.getLocale = function () {
-	return this.getEnvironment().locale;
+fn.getLocale = function() {
+	return this.getEnvironment().locale
 };
 
 /**
  * 获取多语信息
  */
-fn.getLanguages = function () {
-	return this.getEnvironment().languages;
+fn.getLanguages = function() {
+	return this.getEnvironment().languages
 };
 /**
  * 收集环境信息(包括客户端参数)
  * @return {Object}
  */
-fn.collectEnvironment = function () {
+fn.collectEnvironment = function() {
 	var _env = this.getEnvironment();
 	var _ses = this.getSessionAttributes();
 
-	for (var i in clientAttributes) {
+	for(var i in clientAttributes) {
 		_ses[i] = clientAttributes[i];
 	}
 	_env.clientAttributes = _ses;
-	return _env;
+	return _env
 };
 
 /**
@@ -4347,76 +4382,87 @@ fn.collectEnvironment = function () {
  * @param {String} type
  * @param {Object} meta
  */
-fn.setMaskerMeta = function (type, meta) {
-	if (typeof type == 'function') {
+fn.setMaskerMeta = function(type, meta) {
+	if(typeof type == 'function') {
 		getMetaFunc = type;
 	} else {
-		if (!maskerMeta[type]) maskerMeta[type] = meta;else {
-			if ((typeof meta === 'undefined' ? 'undefined' : _typeof(meta)) != 'object') maskerMeta[type] = meta;else for (var key in meta) {
-				maskerMeta[type][key] = meta[key];
-			}
+		if(!maskerMeta[type])
+			maskerMeta[type] = meta;
+		else {
+			if(typeof meta != 'object')
+				maskerMeta[type] = meta;
+			else
+				for(var key in meta) {
+					maskerMeta[type][key] = meta[key];
+				}
 		}
 	}
 };
-fn.getMaskerMeta = function (type) {
-	if (typeof getMetaFunc == 'function') {
+fn.getMaskerMeta = function(type) {
+	if(typeof getMetaFunc == 'function') {
 		var meta = getMetaFunc.call(this);
 		return meta[type];
-	} else return extend({}, maskerMeta[type]);
+	} else
+		return extend({}, maskerMeta[type]);
 };
 environment.languages = getCookie(U_LANGUAGES) ? getCookie(U_LANGUAGES).split(',') : navigator.language ? navigator.language : 'zh-CN';
-if (environment.languages == 'zh-cn') environment.languages = 'zh-CN';
-if (environment.languages == 'en-us') environment.languages = 'en-US';
+if(environment.languages == 'zh-cn')
+	environment.languages = 'zh-CN';
+if(environment.languages == 'en-us')
+	environment.languages = 'en-US';
 
 environment.theme = getCookie(U_THEME);
 environment.locale = getCookie(U_LOCALE);
 //environment.timezoneOffset = (new Date()).getTimezoneOffset()
 environment.usercode = getCookie(U_USERCODE);
 //init session attribute
-document.cookie.replace(/ISES_(\w*)=([^;]*);?/ig, function (a, b, c) {
+document.cookie.replace(/ISES_(\w*)=([^;]*);?/ig, function(a, b, c) {
 	sessionAttributes[b] = c;
 });
 
-var Core = function Core() {};
+var Core = function() {};
 Core.prototype = fn;
 
 var core = new Core();
 
 /**
-* Module : Sparrow i18n
-* Author : Kvkens(yueming@yonyou.com)
-* Date	  : 2016-07-29 10:16:54
-*/
+ * Module : Sparrow i18n
+ * Author : Kvkens(yueming@yonyou.com)
+ * Date	  : 2016-07-29 10:16:54
+ */
 //import {uuii18n} from '?';//缺失故修改为default值
 // 从datatable/src/compatiable/u/JsExtension.js抽取
-window.getCurrentJsPath = function () {
+window.getCurrentJsPath = function() {
 	var doc = document,
-	    a = {},
-	    expose = +new Date(),
-	    rExtractUri = /((?:http|https|file):\/\/.*?\/[^:]+)(?::\d+)?:\d+/,
-	    isLtIE8 = ('' + doc.querySelector).indexOf('[native code]') === -1;
+	a = {},
+	expose = +new Date(),
+	rExtractUri = /((?:http|https|file):\/\/.*?\/[^:]+)(?::\d+)?:\d+/,
+	isLtIE8 = ('' + doc.querySelector).indexOf('[native code]') === -1;
 	// FF,Chrome
-	if (doc.currentScript) {
+	if (doc.currentScript){
 		return doc.currentScript.src;
 	}
 
 	var stack;
-	try {
+	try{
 		a.b();
-	} catch (e) {
+	}
+	catch(e){
 		stack = e.stack || e.fileName || e.sourceURL || e.stacktrace;
 	}
 	// IE10
-	if (stack) {
+	if (stack){
 		var absPath = rExtractUri.exec(stack)[1];
-		if (absPath) {
+		if (absPath){
 			return absPath;
 		}
 	}
 
 	// IE5-9
-	for (var scripts = doc.scripts, i = scripts.length - 1, script; script = scripts[i--];) {
-		if (script.className !== expose && script.readyState === 'interactive') {
+	for(var scripts = doc.scripts,
+		i = scripts.length - 1,
+		script; script = scripts[i--];){
+		if (script.className !== expose && script.readyState === 'interactive'){
 			script.className = expose;
 			// if less than ie 8, must get abs path by getAttribute(src, 4)
 			return isLtIE8 ? script.getAttribute('src', 4) : script.src;
@@ -4426,22 +4472,22 @@ window.getCurrentJsPath = function () {
 
 if (window.i18n) {
 	window.u = window.u || {};
-	var scriptPath = getCurrentJsPath(),
-	    _temp = scriptPath.substr(0, scriptPath.lastIndexOf('/')),
-	    __FOLDER__ = _temp.substr(0, _temp.lastIndexOf('/')),
-	    resGetPath = u.i18nPath || __FOLDER__ + '/locales/__lng__/__ns__.json';
-	i18n.init({
-		postAsync: false,
-		getAsync: false,
-		fallbackLng: false,
-		ns: { namespaces: ['uui-trans'] },
-		lng: getCookie(U_LOCALE) || 'zh',
-		resGetPath: resGetPath
-	});
+    var scriptPath = getCurrentJsPath(),
+        _temp = scriptPath.substr(0, scriptPath.lastIndexOf('/')),
+        __FOLDER__ = _temp.substr(0, _temp.lastIndexOf('/')),
+        resGetPath = u.i18nPath || __FOLDER__ + '/locales/__lng__/__ns__.json';
+    i18n.init({
+        postAsync: false,
+        getAsync: false,
+        fallbackLng: false,
+        ns: {namespaces: ['uui-trans']},
+		lng:getCookie(U_LOCALE) || 'zh',
+        resGetPath: resGetPath
+    });
 }
 
-var trans = function trans(key, dftValue) {
-	return window.i18n ? i18n.t('uui-trans:' + key) : dftValue;
+var trans = function (key, dftValue) {
+    return  window.i18n ?  i18n.t('uui-trans:' + key) : dftValue
 };
 
 /**
@@ -4484,70 +4530,70 @@ u$1.date = {
 
     _formattingTokens: /(\[[^\[]*\])|(\\)?(Mo|MM?M?M?|Do|DDDo|DD?D?D?|ddd?d?|do?|w[o|w]?|W[o|W]?|Q|YYYY|YY|e|E|a|A|hh?|HH?|mm?|ss?|S{1,4}|x|X|zz?|ZZ?|.)/g,
 
-    leftZeroFill: function leftZeroFill(number, targetLength, forceSign) {
+    leftZeroFill: function(number, targetLength, forceSign) {
         var output = '' + Math.abs(number),
             sign = number >= 0;
         while (output.length < targetLength) {
             output = '0' + output;
         }
-        return (sign ? forceSign ? '+' : '' : '-') + output;
+        return (sign ? (forceSign ? '+' : '') : '-') + output;
     },
 
     _formats: {
         //year
-        YY: function YY(date) {
+        YY: function(date) {
             return u$1.date.leftZeroFill(date.getFullYear() % 100, 2);
         },
-        YYYY: function YYYY(date) {
+        YYYY: function(date) {
             return date.getFullYear();
         },
         //month
-        M: function M(date) {
+        M: function(date) {
             return date.getMonth() + 1;
         },
-        MM: function MM(date) {
+        MM: function(date) {
             var m = u$1.date._formats.M(date);
             return u$1.date.leftZeroFill(m, 2);
         },
-        MMM: function MMM(date, language) {
+        MMM: function(date, language) {
             var m = date.getMonth();
             // return u.date._dateLocale[language].monthsShort[m];
             return u$1.date._jsonLocale.monthsShort[m];
         },
-        MMMM: function MMMM(date, language) {
+        MMMM: function(date, language) {
             var m = date.getMonth();
             // return u.date._dateLocale[language].months[m];
             return u$1.date._jsonLocale.months[m];
         },
         //date
-        D: function D(date) {
+        D: function(date) {
             return date.getDate();
         },
-        DD: function DD(date) {
+        DD: function(date) {
             var d = u$1.date._formats.D(date);
             return u$1.date.leftZeroFill(d, 2);
         },
         // weekday
-        d: function d(date) {
+        d: function(date) {
             return date.getDay();
         },
-        dd: function dd(date, language) {
+        dd: function(date, language) {
             var d = u$1.date._formats.d(date);
             // return u.date._dateLocale[language].weekdaysMin[d];
             return u$1.date._jsonLocale.weekdaysMin[d];
         },
-        ddd: function ddd(date, language) {
+        ddd: function(date, language) {
             var d = u$1.date._formats.d(date);
             // return u.date._dateLocale[language].weekdaysShort[d];
             return u$1.date._jsonLocale.weekdaysShort[d];
         },
-        dddd: function dddd(date, language) {
+        dddd: function(date, language) {
             var d = u$1.date._formats.d(date);
             // return u.date._dateLocale[language].weekdays[d];
             return u$1.date._jsonLocale.weekdays[d];
         },
         // am pm
-        a: function a(date) {
+        a: function(date) {
             if (date.getHours() > 12) {
                 return 'pm';
             } else {
@@ -4555,33 +4601,33 @@ u$1.date = {
             }
         },
         //hour
-        h: function h(date) {
+        h: function(date) {
             var h = date.getHours();
             h = h > 12 ? h - 12 : h;
-            return h;
+            return h
         },
-        hh: function hh(date) {
+        hh: function(date) {
             var h = u$1.date._formats.h(date);
             return u$1.date.leftZeroFill(h, 2);
         },
-        H: function H(date) {
+        H: function(date) {
             return date.getHours();
         },
-        HH: function HH(date) {
+        HH: function(date) {
             return u$1.date.leftZeroFill(date.getHours(), 2);
         },
         // minutes
-        m: function m(date) {
+        m: function(date) {
             return date.getMinutes();
         },
-        mm: function mm(date) {
+        mm: function(date) {
             return u$1.date.leftZeroFill(date.getMinutes(), 2);
         },
         //seconds
-        s: function s(date) {
+        s: function(date) {
             return date.getSeconds();
         },
-        ss: function ss(date) {
+        ss: function(date) {
             return u$1.date.leftZeroFill(date.getSeconds(), 2);
         }
     },
@@ -4591,12 +4637,10 @@ u$1.date = {
      * @param date
      * @param formatString
      */
-    format: function format(date, formatString, language) {
+    format: function(date, formatString, language) {
         if (!date && date != 0) return ''; // renturn date 改为 return '',因：setFormat初始会赋值为undefined,造成二次选择报错
         var array = formatString.match(u$1.date._formattingTokens),
-            i,
-            length,
-            output = '';
+            i, length, output = '';
         var _date = u$1.date.getDateObj(date);
         if (!_date) return date;
         language = language || core.getLanguages();
@@ -4609,12 +4653,12 @@ u$1.date = {
         }
         return output;
     },
-    strToDateByTimezone: function strToDateByTimezone(str, timezone) {
+    strToDateByTimezone: function(str, timezone) {
         var dateObj = u$1.date.getDateObj(str);
         var localTime = dateObj.getTime();
         var localOffset = dateObj.getTimezoneOffset() * 60000;
         var utc = localTime + localOffset; //得到国际标准时间
-        utc = utc + 3600000 * parseFloat(timezone);
+        utc = utc + (3600000 * parseFloat(timezone));
         return utc;
     },
 
@@ -4624,12 +4668,12 @@ u$1.date = {
      * @param  {number} timezone 指定时区
      * @return {Date}          转化后的日期对象
      */
-    getDateByTimeZonec2z: function getDateByTimeZonec2z(date, timezone) {
+    getDateByTimeZonec2z: function(date, timezone) {
         var dateObj = u$1.date.getDateObj(date);
         var localTime = dateObj.getTime();
         var localOffset = dateObj.getTimezoneOffset() * 60000;
         var utc = localTime + localOffset;
-        var calctime = utc + 3600000 * parseFloat(timezone);
+        var calctime = utc + (3600000 * parseFloat(timezone));
         return new Date(calctime);
     },
     /**
@@ -4638,15 +4682,15 @@ u$1.date = {
      * @param  {number} timezone 指定时区
      * @return {Date}          转化后的日期对象
      */
-    getDateByTimeZonez2c: function getDateByTimeZonez2c(date, timezone) {
+    getDateByTimeZonez2c: function(date, timezone) {
         var dateObj = u$1.date.getDateObj(date);
         var localTime = dateObj.getTime();
         var localOffset = dateObj.getTimezoneOffset() * 60000;
-        var utc = localTime - 3600000 * parseFloat(timezone) - localOffset;
-        return new Date(utc);
+        var utc = localTime - (3600000 * parseFloat(timezone)) - localOffset;
+        return new Date(utc)
     },
 
-    _addOrSubtract: function _addOrSubtract(date, period, value, isAdding) {
+    _addOrSubtract: function(date, period, value, isAdding) {
         var times = date.getTime(),
             d = date.getDate(),
             m = date.getMonth(),
@@ -4679,18 +4723,18 @@ u$1.date = {
         return _date;
     },
 
-    add: function add(date, period, value) {
+    add: function(date, period, value) {
         return u$1.date._addOrSubtract(date, period, value, 1);
     },
-    sub: function sub(date, period, value) {
+    sub: function(date, period, value) {
         return u$1.date._addOrSubtract(date, period, value, -1);
     },
-    getDateObj: function getDateObj(value, obj) {
+    getDateObj: function(value, obj) {
         var timezone;
         if (obj) {
             timezone = obj.timezone;
         }
-        if (!value && value != 0 || typeof value == 'undefined') return value;
+        if ((!value && value != 0) || typeof value == 'undefined') return value;
         var dateFlag = false;
         var _date = new Date(dateFormat(value));
         if (isNaN(_date)) {
@@ -4723,7 +4767,7 @@ u$1.date = {
                     if (s2 && s2.length > 0) {
                         //解决ie和firefox等时间pm直接变am问题
                         if (s4 == "pm") {
-                            s2[0] = s2[0] - -12;
+                            s2[0] = s2[0] - (-12);
                         }
                         _date.setHours(s2[0] ? s2[0] : 0);
                         _date.setMinutes(s2[1] ? s2[1] : 0);
@@ -4747,7 +4791,8 @@ u$1.date = {
                 _date = u$1.date.getDateByTimeZonec2z(_date, timezone);
             }
             return _date;
-        } else return null;
+        } else
+            return null;
     }
 
 };

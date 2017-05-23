@@ -1,3 +1,18 @@
+<a name="3.2.3"></a>
+## [3.2.3](https://github.com/iuap-design/kero/compare/v3.2.2...v3.2.3) (2017-05-23)
+
+
+### Bug Fixes
+
+* 解决dataTable的off操作无法清除之前绑定的事件的问题 ([6a8bf1f](https://github.com/iuap-design/kero/commit/6a8bf1f))
+
+
+### Features
+
+* datatable增加参数forceDel，可不考虑状态强制删除数据 ([2ee566f](https://github.com/iuap-design/kero/commit/2ee566f))
+
+
+
 <a name="3.2.2"></a>
 ## [3.2.2](https://github.com/iuap-design/kero/compare/v3.2.1...v3.2.2) (2017-04-21)
 
