@@ -12,7 +12,7 @@ const eq = function(a, b) {
     if ((a === null || a === undefined || a === '') && (b === null || b === undefined || b === '')) return true;
     //判断输入的值是否相等，a,b是字符串直接比较这两个值即可，没必要判断是否是数据，判断是否是数据使用parseFloat转换有时精度不准（431027199110.078573）
     //if (isNumber(a) && isNumber(b) && parseFloat(a) == parseFloat(b)) return true;
-    if (a + '' == b + '' || a == b) return true;
+    if (a + '' === b + '' || a === b) return true;
     if (isNumber(a) && isNumber(b)  && parseFloat(a) - parseFloat(b) < 0.0000005 && parseFloat(a) - parseFloat(b) > -0.0000005) return true;
     return false;
 }
