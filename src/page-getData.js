@@ -72,6 +72,24 @@ const getSelectRows = function() {
     return rows
 }
 
+
+/**
+ * 获取发生改变的Row对象
+ * @memberof DataTable
+ * @return {array} 发生改变的Row对象
+ * @example
+ * datatable.getChangedRows()
+ */
+const getChangedRows = function() {
+    var changedRows = [],
+        rows = this.rows.peek();
+    for (var i = 0, count = rows.length; i < count; i++) {
+        if (rows[i] && rows[i].status != Row.STATUS.NORMAL) {
+            changedRows.push(rows[i])
+        }
+    }
+    return changedRows
+}
 /**
  * 根据rowid获取Row对象
  * @memberof Page
@@ -109,6 +127,7 @@ export const pageGetDataFunObj = {
     getData: getData,
     getSelectDatas: getSelectDatas,
     getSelectRows: getSelectRows,
+    getChangedRows: getChangedRows,
     getRowByRowId: getRowByRowId,
     getRowValue: getRowValue
 }
