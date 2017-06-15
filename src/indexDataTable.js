@@ -167,7 +167,7 @@
           * @type {boolean}
           * @default false
           */
-         this.forceDel = options['forceDel'] === undefined ? DataTable.DEFAULTS.pageCache : options['forceDel'];
+         this.forceDel = options['forceDel'] === undefined ? DataTable.DEFAULTS.forceDel : options['forceDel'];
          // 存储所有row对象
          this.rows = ko.observableArray([])
          // 存储所有的选中行的index
