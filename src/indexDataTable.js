@@ -268,7 +268,7 @@
  DataTable.ON_ROW_ALLSELECT = 'allSelect'
  DataTable.ON_ROW_ALLUNSELECT = 'allUnselect'
  DataTable.ON_VALUE_CHANGE = 'valueChange'
- DataTable.ON_BEFORE_VALUE_CHANGE = 'beforeValueCHange'
+ DataTable.ON_BEFORE_VALUE_CHANGE = 'beforeValueChange'
  DataTable.ON_CURRENT_VALUE_CHANGE = 'currentValueChange' //当前行变化
  //  DataTable.ON_AFTER_VALUE_CHANGE = 'afterValueChange'
  //  DataTable.ON_ADD_ROW = 'addRow'
