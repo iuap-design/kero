@@ -1,3 +1,18 @@
+<a name="3.2.4"></a>
+## [3.2.4](https://github.com/iuap-design/kero/compare/v3.2.3...v3.2.4) (2017-06-22)
+
+
+### Bug Fixes
+
+* 修改eq方法的==为=== ([b1b390a](https://github.com/iuap-design/kero/commit/b1b390a))
+
+
+### Features
+
+* datatable对象的getSimpleData支持跨页选择后获取选中数据 ([3fae27e](https://github.com/iuap-design/kero/commit/3fae27e))
+
+
+
 <a name="3.2.3"></a>
 ## [3.2.3](https://github.com/iuap-design/kero/compare/v3.2.2...v3.2.3) (2017-05-23)
 

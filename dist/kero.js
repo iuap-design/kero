@@ -1,5 +1,5 @@
 /**
- * kero v3.2.3
+ * kero v3.2.4
  * 
  * author : yonyou FED
  * homepage : https://github.com/iuap-design/kero#readme
@@ -1149,18 +1149,35 @@ var getSimpleData = function getSimpleData(options) {
         type = options['type'] || 'all',
         fields = options['fields'] || null;
 
-    if (type === 'all') {
-        rows = this.rows.peek();
-    } else if (type === 'current') {
+    if (type === 'current') {
         var currRow = this.getCurrentRow();
         rows = currRow == null ? [] : [currRow];
     } else if (type === 'focus') {
         var focusRow = this.getFocusRow();
         rows = focusRow == null ? [] : [focusRow];
-    } else if (type === 'select') {
-        rows = this.getSelectedRows();
-    } else if (type === 'change') {
-        rows = this.getChangedRows();
+    } else {
+        if (this.pageCache) {
+            var pages = this.getPages();
+            rows = [];
+            for (var i = 0; i < pages.length; i++) {
+                var page = pages[i];
+                if (type === 'all') {
+                    rows = rows.concat(page.rows.peek());
+                } else if (type === 'select') {
+                    rows = rows.concat(page.getSelectRows());
+                } else if (type === 'change') {
+                    rows = rows.concat(page.getSelectRows());
+                }
+            }
+        } else {
+            if (type === 'all') {
+                rows = this.rows.peek();
+            } else if (type === 'select') {
+                rows = this.getSelectedRows();
+            } else if (type === 'change') {
+                rows = this.getChangedRows();
+            }
+        }
     }
 
     for (var i = 0; i < rows.length; i++) {
@@ -2953,7 +2970,7 @@ var DataTable$1 = function DataTable(options) {
      * @type {boolean}
      * @default false
      */
-    this.forceDel = options['forceDel'] === undefined ? DataTable.DEFAULTS.pageCache : options['forceDel'];
+    this.forceDel = options['forceDel'] === undefined ? DataTable.DEFAULTS.forceDel : options['forceDel'];
     // 存储所有row对象
     this.rows = ko.observableArray([]);
     // 存储所有的选中行的index
@@ -3045,15 +3062,14 @@ DataTable$1.META_DEFAULTS = {
     enable: true,
     required: false,
     descs: {}
-};
 
-//事件类型
-DataTable$1.ON_ROW_SELECT = 'select';
+    //事件类型
+};DataTable$1.ON_ROW_SELECT = 'select';
 DataTable$1.ON_ROW_UNSELECT = 'unSelect';
 DataTable$1.ON_ROW_ALLSELECT = 'allSelect';
 DataTable$1.ON_ROW_ALLUNSELECT = 'allUnselect';
 DataTable$1.ON_VALUE_CHANGE = 'valueChange';
-DataTable$1.ON_BEFORE_VALUE_CHANGE = 'beforeValueCHange';
+DataTable$1.ON_BEFORE_VALUE_CHANGE = 'beforeValueChange';
 DataTable$1.ON_CURRENT_VALUE_CHANGE = 'currentValueChange'; //当前行变化
 //  DataTable.ON_AFTER_VALUE_CHANGE = 'afterValueChange'
 //  DataTable.ON_ADD_ROW = 'addRow'
@@ -3226,6 +3242,23 @@ var getSelectRows = function getSelectRows() {
 };
 
 /**
+ * 获取发生改变的Row对象
+ * @memberof DataTable
+ * @return {array} 发生改变的Row对象
+ * @example
+ * datatable.getChangedRows()
+ */
+var getChangedRows$1 = function getChangedRows() {
+    var changedRows = [],
+        rows = this.rows.peek();
+    for (var i = 0, count = rows.length; i < count; i++) {
+        if (rows[i] && rows[i].status != Row.STATUS.NORMAL) {
+            changedRows.push(rows[i]);
+        }
+    }
+    return changedRows;
+};
+/**
  * 根据rowid获取Row对象
  * @memberof Page
  * @param {string} rowid 需要获取的Row对应的rowid
@@ -3261,6 +3294,7 @@ var pageGetDataFunObj = {
     getData: getData$1,
     getSelectDatas: getSelectDatas,
     getSelectRows: getSelectRows,
+    getChangedRows: getChangedRows$1,
     getRowByRowId: getRowByRowId$1,
     getRowValue: getRowValue
 };
@@ -3444,7 +3478,7 @@ var eq = function eq(a, b) {
     if ((a === null || a === undefined || a === '') && (b === null || b === undefined || b === '')) return true;
     //判断输入的值是否相等，a,b是字符串直接比较这两个值即可，没必要判断是否是数据，判断是否是数据使用parseFloat转换有时精度不准（431027199110.078573）
     //if (isNumber(a) && isNumber(b) && parseFloat(a) == parseFloat(b)) return true;
-    if (a + '' == b + '' || a == b) return true;
+    if (a + '' === b + '' || a === b) return true;
     if (isNumber(a) && isNumber(b) && parseFloat(a) - parseFloat(b) < 0.0000005 && parseFloat(a) - parseFloat(b) > -0.0000005) return true;
     return false;
 };
@@ -5115,13 +5149,12 @@ Row$1.STATUS = {
     NEW: 'new',
     DELETE: 'del',
     FALSE_DELETE: 'fdel'
-};
 
-/*
- * 生成随机行id
- * @private
- */
-Row$1.getRandomRowId = function () {
+    /*
+     * 生成随机行id
+     * @private
+     */
+};Row$1.getRandomRowId = function () {
     var _id = setTimeout(function () {});
     return _id + '';
 };

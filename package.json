@@ -1,6 +1,6 @@
 {
   "name": "kero",
-  "version": "3.2.3",
+  "version": "3.2.4",
   "description": "",
   "main": "src/index",
   "scripts": {
@@ -20,7 +20,7 @@
     "example": "examples"
   },
   "dependencies": {
-    "tinper-sparrow": "^3.2.2"
+    "tinper-sparrow": "^3.2.3"
   },
   "devDependencies": {
     "babel-cli": "^6.11.4",
