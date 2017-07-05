@@ -169,9 +169,15 @@ const insertRows = function(index, rows) {
     this.updateSelectedIndices(index, '+', rows.length)
     this.updateFocusIndex(index, '+', rows.length)
     this.updatePageAll();
+    var insertRows = []
+    $.each(rows,function(i){
+      if(this.status == Row.STATUS.NORMAL || this.status == Row.STATUS.UPDATE || this.status == Row.STATUS.NEW){
+        insertRows.push(this);
+      }
+    })
     this.trigger(DataTable.ON_INSERT, {
         index: index,
-        rows: rows
+        rows: insertRows
     })
     if (this.ns) {
         if (this.root.valueChange[this.ns])
