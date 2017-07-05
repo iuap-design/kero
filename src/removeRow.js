@@ -56,8 +56,8 @@ const removeAllRows = function() {
  * datatable.removeRows([1,2])
  * datatable.removeRows([row1,row2])
  */
-const removeRows = function(indices) {
-    this.setRowsDelete(indices)
+const removeRows = function(indices, obj) {
+    this.setRowsDelete(indices, obj)
 }
 
 

@@ -34,7 +34,8 @@ const setAllRowsDelete = function() {
  * 根据索引数组删除数据行
  * @param {Array} indices 需要删除数据行的索引数组
  */
-const setRowsDelete = function(indices) {
+const setRowsDelete = function(indices, obj) {
+    var forceDel = obj ? obj.forceDel : false;
     indices = utilFunObj._formatToIndicesArray(this, indices)
     indices = indices.sort(function(a, b) {
         return b - a;
@@ -44,7 +45,7 @@ const setRowsDelete = function(indices) {
     var ros = this.rows();
     for (var i = 0; i < indices.length; i++) {
         var row = this.getRow(indices[i]);
-        if (row.status == Row.STATUS.NEW || this.forceDel) {
+        if (row.status == Row.STATUS.NEW || this.forceDel || forceDel) {
             ros.splice(indices[i], 1);
         } else {
             row.setStatus(Row.STATUS.FALSE_DELETE);
