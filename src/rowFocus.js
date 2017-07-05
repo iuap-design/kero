@@ -24,8 +24,12 @@ const setRowFocus = function(index, quiet, force) {
         index = this.getIndexByRowId(index.rowId)
         rowId = index.rowId
     }
+
     if (index === -1 || (index === this.focusIndex() && !force)) {
         return;
+    }
+    if (this.focusIndex() > -1) {
+        this.setRowUnFocus(this.focusIndex());
     }
     this.focusIndex(index)
     if (quiet) {

@@ -89,6 +89,8 @@ const setRowsSelect = function(indices) {
     })
     this.updateCurrIndex();
 
+    this.setRowFocus(indices[0]);
+
 }
 
 
