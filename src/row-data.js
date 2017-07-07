@@ -20,7 +20,7 @@ import {
  * row.setValue('filed1','value1') // 设置字段值
  * row.setValue('filed1','value1','ctx') //设置字段值，同时传入自定义数据
  */
-const setValue = function(fieldName, value, ctx, options) {
+const setValue = function(fieldName, value, ctx, options, validType) {
 
     if (arguments.length === 1) {
         value = fieldName;
@@ -29,7 +29,11 @@ const setValue = function(fieldName, value, ctx, options) {
     var oldValue = this.getValue(fieldName)
     if (typeof oldValue == 'undefined' || oldValue === null)
         oldValue = ''
-    if (rowUtilFunObj.eq(oldValue, value)) return;
+    if(validType&&validType==="string"){
+        if(oldValue===value) return;
+    }else{
+        if (rowUtilFunObj.eq(oldValue, value)) return;
+    }
     var event = {
         eventType: 'dataTableEvent',
         dataTable: this.parent.id,
