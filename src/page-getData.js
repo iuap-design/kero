@@ -82,7 +82,7 @@ const getSelectRows = function() {
  */
 const getChangedRows = function() {
     var changedRows = [],
-        rows = this.rows.peek();
+        rows = this.rows;
     for (var i = 0, count = rows.length; i < count; i++) {
         if (rows[i] && rows[i].status != Row.STATUS.NORMAL) {
             changedRows.push(rows[i])

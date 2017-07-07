@@ -44,7 +44,7 @@ const getSimpleData = function(options) {
                 }else if(type === 'select') {
                     rows = rows.concat(page.getSelectRows());
                 } else if (type === 'change') {
-                    rows = rows.concat(page.getSelectRows());
+                    rows = rows.concat(page.getChangedRows());
                 }
             }
         } else {
