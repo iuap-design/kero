@@ -39,12 +39,14 @@ const getSimpleData = function(options) {
             rows = []
             for (var i = 0; i < pages.length; i++) {
                 var page = pages[i];
-                if (type === 'all') {
-                    rows = rows.concat(page.rows.peek());
-                }else if(type === 'select') {
-                    rows = rows.concat(page.getSelectRows());
-                } else if (type === 'change') {
-                    rows = rows.concat(page.getChangedRows());
+                if (page) {
+                    if (type === 'all') {
+                        rows = rows.concat(page.rows.peek());
+                    } else if (type === 'select') {
+                        rows = rows.concat(page.getSelectRows());
+                    } else if (type === 'change') {
+                        rows = rows.concat(page.getChangedRows());
+                    }
                 }
             }
         } else {
