@@ -292,6 +292,32 @@ const getRowsByField = function(field, value) {
 }
 
 /**
+ * 根据多个字段及字段值获取所有数据行
+ * @memberof DataTable
+ * @param  {string} fields 需要获取行的对应字段及对应值数组
+ * @return {array}      根据字段及字段值获取的所有数据行
+ * @example
+ * datatable.getRowsByFields([{field:'field1',value:'value1'},{field:'field2',value:'value2'}])
+ */
+const getRowsByFields = function(fileds) {
+    var rows = this.rows.peek();
+    var returnRows = new Array();
+    if (fileds && fileds.length > 0) {
+        for (var i = 0, count = rows.length; i < count; i++) {
+            var matchCount = 0;
+            var l = fileds.length;
+            for (var j = 0; j < l; j++) {
+                if (rows[i].getValue(fileds[j]['field']) === fileds[j]['value'])
+                    matchCount++;
+            }
+            if (matchCount == l)
+                returnRows.push(rows[i]);
+        }
+    }
+    return returnRows;
+}
+
+/**
  * 根据字段及字段值获取第一条数据行
  * @memberof DataTable
  * @param  {string} field 需要获取行的对应字段
@@ -501,5 +527,6 @@ export const getDataFunObj = {
     getIndexByRowId: getIndexByRowId,
     getAllDatas: getAllDatas,
     getRowIdsByIndices: getRowIdsByIndices,
-    getRowsByIndices: getRowsByIndices
+    getRowsByIndices: getRowsByIndices,
+    getRowsByFields:getRowsByFields
 }
