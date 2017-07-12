@@ -86,10 +86,25 @@ const getSelectedRows = function() {
     return selectRows
 }
 
+const getAllPageSelectedRows = function() {
+    var rows = [];
+    if (this.pageCache) {
+        var pages = this.getPages();
+        for (var i = 0; i < pages.length; i++) {
+            var page = pages[i];
+            if (page) {
+                rows = rows.concat(page.getSelectRows());
+            }
+        }
+    }
+    return rows;
+}
+
 export const getSelectFunObj = {
     getSelectedIndex: getSelectedIndex,
     getSelectedIndices: getSelectedIndices,
     getSelectedIndexs: getSelectedIndexs,
     getSelectedDatas: getSelectedDatas,
-    getSelectedRows: getSelectedRows
+    getSelectedRows: getSelectedRows,
+    getAllPageSelectedRows: getAllPageSelectedRows
 }

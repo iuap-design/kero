@@ -41,7 +41,7 @@ const getSimpleData = function(options) {
                 var page = pages[i];
                 if (page) {
                     if (type === 'all') {
-                        rows = rows.concat(page.rows.peek());
+                        rows = rows.concat(page.rows);
                     } else if (type === 'select') {
                         rows = rows.concat(page.getSelectRows());
                     } else if (type === 'change') {
