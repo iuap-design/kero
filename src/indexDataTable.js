@@ -1,6 +1,6 @@
  /**
   * Module : Kero webpack entry dataTable index
-  * Author : liuyk(liuyuekai@yonyou.com)
+  * Author : huyue(huyueb@yonyou.com)
   * Date   : 2016-08-09 15:24:46
   */
 
@@ -297,7 +297,23 @@
      allPages: 'allPages'
  }
 
+/**
+ * 将默认meta与传入进行的meta对象进行合并
+ * meta: {
+     f1: {
+         enable:false
+     }
+ }
+ newMetas：{
+     f1:{
+         enable:false,
+         required:false,
+         descs:{
 
+        }
+    }
+}
+ */
  DataTable.createMetaItems = function(metas) {
      var newMetas = {};
      for (var key in metas) {
