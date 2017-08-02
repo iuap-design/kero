@@ -13,7 +13,7 @@ const eq = function(a, b) {
     //判断输入的值是否相等，a,b是字符串直接比较这两个值即可，没必要判断是否是数据，判断是否是数据使用parseFloat转换有时精度不准（431027199110.078573）
     //if (isNumber(a) && isNumber(b) && parseFloat(a) == parseFloat(b)) return true;
     if (a + '' === b + '' || a === b) return true;
-    if (isNumber(a) && isNumber(b)  && parseFloat(a) - parseFloat(b) < 0.0000005 && parseFloat(a) - parseFloat(b) > -0.0000005) return true;
+    if (isNumber(a) && isNumber(b) && parseFloat(a) - parseFloat(b) < 0.0000005 && parseFloat(a) - parseFloat(b) > -0.0000005) return true;
     return false;
 }
 
@@ -103,11 +103,15 @@ const _triggerChange = function(rowObj, fieldName, oldValue, ctx) {
  * @param {Object} value
  */
 const formatValue = function(field, value) {
+    if (value && value.replace) {
+        value = value.replace(/</g, "&#60;").replace(/"/g, "&#34;").replace(/'/g, "&#39;");
+    }
     var type = this.parent.getMeta(field, 'type')
     if (!type) return value
     if (type == 'date' || type == 'datetime') {
         return _formatDate(value)
     }
+
     return value
 }
 
