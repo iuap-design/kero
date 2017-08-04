@@ -152,13 +152,14 @@ const setData = function(data, options) {
  * @param {string} value     需要设置的值
  * @param {u.row} [row=当前行] 需要设置的u.row对象，
  * @param {*} [ctx]        自定义属性，在valuechange监听传入对象中可通过ctx获取此处设置
+ * @param {string} validType 传递值的字符类型，如string，integer等
  * @example
  * datatable.setValue('filed1','value1') //设置当前行字段值
  * var row = datatable.getRow(1)
  * datatable.setValue('filed1','value1',row) //设置在指定行字段值
  * datatable.setValue('filed1','value1',row,'ctx') //设置在指定行字段值，同时传入自定义数据
  */
-const setValue = function(fieldName, value, row, ctx) {
+const setValue = function(fieldName, value, row, ctx, validType) {
     if (arguments.length === 1) {
         value = fieldName;
         fieldName = '$data';
@@ -166,7 +167,7 @@ const setValue = function(fieldName, value, row, ctx) {
 
     row = row ? row : this.getCurrentRow()
     if (row)
-        row.setValue(fieldName, value, ctx)
+        row.setValue(fieldName, value, ctx, undefined, validType);
 }
 
 /**

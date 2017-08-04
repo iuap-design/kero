@@ -16,6 +16,7 @@ import {
  * @param {string} fieldName 需要设置的字段
  * @param {string} value     需要设置的值
  * @param {*} [ctx]        自定义属性，在valuechange监听传入对象中可通过ctx获取此处设置
+ * @param {string} validType 传递值的字符类型，如string，integer等
  * @example
  * row.setValue('filed1','value1') // 设置字段值
  * row.setValue('filed1','value1','ctx') //设置字段值，同时传入自定义数据
