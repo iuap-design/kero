@@ -44,7 +44,7 @@ const setMeta = function(fieldName, key, value) {
 
 
 /**
- * 更新meta信息
+ * 更新meta信息，需要在对应的控件中去监听事件，该方式是想去动态的更改Datatable中的this.options里面的属性的值的配置
  * @memberof DataTable
  * @param  {object} meta 需要更新的meta信息
  * @example
