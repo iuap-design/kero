@@ -1,3 +1,13 @@
+<a name="3.2.5"></a>
+## [3.2.5](https://github.com/iuap-design/kero/compare/v3.2.4...v3.2.5) (2017-08-04)
+
+
+### Features
+
+* 给row.setValue增加validType判断 ([3e15ca4](https://github.com/iuap-design/kero/commit/3e15ca4))
+
+
+
 <a name="3.2.4"></a>
 ## [3.2.4](https://github.com/iuap-design/kero/compare/v3.2.3...v3.2.4) (2017-06-22)
 

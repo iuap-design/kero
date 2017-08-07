@@ -1,5 +1,5 @@
 /**
- * kero v3.2.4
+ * kero v3.2.5
  * 
  * author : yonyou FED
  * homepage : https://github.com/iuap-design/kero#readme
@@ -273,20 +273,21 @@ var setData = function setData(data, options) {
  * @param {string} value     需要设置的值
  * @param {u.row} [row=当前行] 需要设置的u.row对象，
  * @param {*} [ctx]        自定义属性，在valuechange监听传入对象中可通过ctx获取此处设置
+ * @param {string} validType 传递值的字符类型，如string，integer等
  * @example
  * datatable.setValue('filed1','value1') //设置当前行字段值
  * var row = datatable.getRow(1)
  * datatable.setValue('filed1','value1',row) //设置在指定行字段值
  * datatable.setValue('filed1','value1',row,'ctx') //设置在指定行字段值，同时传入自定义数据
  */
-var setValue = function setValue(fieldName, value, row, ctx) {
+var setValue = function setValue(fieldName, value, row, ctx, validType) {
     if (arguments.length === 1) {
         value = fieldName;
         fieldName = '$data';
     }
 
     row = row ? row : this.getCurrentRow();
-    if (row) row.setValue(fieldName, value, ctx);
+    if (row) row.setValue(fieldName, value, ctx, undefined, validType);
 };
 
 /**
@@ -685,6 +686,30 @@ var getRowsByField = function getRowsByField(field, value) {
 };
 
 /**
+ * 根据多个字段及字段值获取所有数据行
+ * @memberof DataTable
+ * @param  {string} fields 需要获取行的对应字段及对应值数组
+ * @return {array}      根据字段及字段值获取的所有数据行
+ * @example
+ * datatable.getRowsByFields([{field:'field1',value:'value1'},{field:'field2',value:'value2'}])
+ */
+var getRowsByFields = function getRowsByFields(fileds) {
+    var rows = this.rows.peek();
+    var returnRows = new Array();
+    if (fileds && fileds.length > 0) {
+        for (var i = 0, count = rows.length; i < count; i++) {
+            var matchCount = 0;
+            var l = fileds.length;
+            for (var j = 0; j < l; j++) {
+                if (rows[i].getValue(fileds[j]['field']) === fileds[j]['value']) matchCount++;
+            }
+            if (matchCount == l) returnRows.push(rows[i]);
+        }
+    }
+    return returnRows;
+};
+
+/**
  * 根据字段及字段值获取第一条数据行
  * @memberof DataTable
  * @param  {string} field 需要获取行的对应字段
@@ -884,7 +909,8 @@ var getDataFunObj = {
     getIndexByRowId: getIndexByRowId,
     getAllDatas: getAllDatas,
     getRowIdsByIndices: getRowIdsByIndices,
-    getRowsByIndices: getRowsByIndices
+    getRowsByIndices: getRowsByIndices,
+    getRowsByFields: getRowsByFields
 };
 
 /**
@@ -1111,12 +1137,27 @@ var getSelectedRows = function getSelectedRows() {
     return selectRows;
 };
 
+var getAllPageSelectedRows = function getAllPageSelectedRows() {
+    var rows = [];
+    if (this.pageCache) {
+        var pages = this.getPages();
+        for (var i = 0; i < pages.length; i++) {
+            var page = pages[i];
+            if (page) {
+                rows = rows.concat(page.getSelectRows());
+            }
+        }
+    }
+    return rows;
+};
+
 var getSelectFunObj = {
     getSelectedIndex: getSelectedIndex,
     getSelectedIndices: getSelectedIndices,
     getSelectedIndexs: getSelectedIndexs,
     getSelectedDatas: getSelectedDatas,
-    getSelectedRows: getSelectedRows
+    getSelectedRows: getSelectedRows,
+    getAllPageSelectedRows: getAllPageSelectedRows
 };
 
 /**
@@ -1161,12 +1202,14 @@ var getSimpleData = function getSimpleData(options) {
             rows = [];
             for (var i = 0; i < pages.length; i++) {
                 var page = pages[i];
-                if (type === 'all') {
-                    rows = rows.concat(page.rows.peek());
-                } else if (type === 'select') {
-                    rows = rows.concat(page.getSelectRows());
-                } else if (type === 'change') {
-                    rows = rows.concat(page.getSelectRows());
+                if (page) {
+                    if (type === 'all') {
+                        rows = rows.concat(page.rows);
+                    } else if (type === 'select') {
+                        rows = rows.concat(page.getSelectRows());
+                    } else if (type === 'change') {
+                        rows = rows.concat(page.getChangedRows());
+                    }
                 }
             }
         } else {
@@ -1996,8 +2039,8 @@ var removeAllRows = function removeAllRows() {
  * datatable.removeRows([1,2])
  * datatable.removeRows([row1,row2])
  */
-var removeRows = function removeRows(indices) {
-    this.setRowsDelete(indices);
+var removeRows = function removeRows(indices, obj) {
+    this.setRowsDelete(indices, obj);
 };
 
 /**
@@ -2186,9 +2229,15 @@ var insertRows = function insertRows(index, rows) {
     this.updateSelectedIndices(index, '+', rows.length);
     this.updateFocusIndex(index, '+', rows.length);
     this.updatePageAll();
+    var insertRows = [];
+    $.each(rows, function (i) {
+        if (this.status == Row.STATUS.NORMAL || this.status == Row.STATUS.UPDATE || this.status == Row.STATUS.NEW) {
+            insertRows.push(this);
+        }
+    });
     this.trigger(DataTable.ON_INSERT, {
         index: index,
-        rows: rows
+        rows: insertRows
     });
     if (this.ns) {
         if (this.root.valueChange[this.ns]) this.root.valueChange[this.ns](-this.root.valueChange[this.ns]());
@@ -2280,7 +2329,8 @@ var setAllRowsDelete = function setAllRowsDelete() {
  * 根据索引数组删除数据行
  * @param {Array} indices 需要删除数据行的索引数组
  */
-var setRowsDelete = function setRowsDelete(indices) {
+var setRowsDelete = function setRowsDelete(indices, obj) {
+    var forceDel = obj ? obj.forceDel : false;
     indices = utilFunObj._formatToIndicesArray(this, indices);
     indices = indices.sort(function (a, b) {
         return b - a;
@@ -2290,7 +2340,7 @@ var setRowsDelete = function setRowsDelete(indices) {
     var ros = this.rows();
     for (var i = 0; i < indices.length; i++) {
         var row = this.getRow(indices[i]);
-        if (row.status == Row.STATUS.NEW || this.forceDel) {
+        if (row.status == Row.STATUS.NEW || this.forceDel || forceDel) {
             ros.splice(indices[i], 1);
         } else {
             row.setStatus(Row.STATUS.FALSE_DELETE);
@@ -2395,6 +2445,8 @@ var setRowsSelect = function setRowsSelect(indices) {
         rowIds: rowIds
     });
     this.updateCurrIndex();
+
+    this.setRowFocus(indices[0]);
 };
 
 /**
@@ -2583,8 +2635,12 @@ var setRowFocus = function setRowFocus(index, quiet, force) {
         index = this.getIndexByRowId(index.rowId);
         rowId = index.rowId;
     }
+
     if (index === -1 || index === this.focusIndex() && !force) {
         return;
+    }
+    if (this.focusIndex() > -1) {
+        this.setRowUnFocus(this.focusIndex());
     }
     this.focusIndex(index);
     if (quiet) {
@@ -2696,11 +2752,20 @@ var setSimpleData = function setSimpleData(data, options) {
         // for(var f in _data){
         //     this.createField(f)
         // }
-        if (_typeof(data[i]) !== 'object') _data = { $data: data[i] };
-        rows.push({
-            status: Row.STATUS.NORMAL,
-            data: _data
-        });
+        if (_typeof(data[i]) !== 'object') _data = {
+            $data: data[i]
+        };
+        if (options && options.status) {
+            rows.push({
+                status: options.status,
+                data: _data
+            });
+        } else {
+            rows.push({
+                status: Row.STATUS.NORMAL,
+                data: _data
+            });
+        }
     }
     var _data = {
         rows: rows
@@ -2903,7 +2968,7 @@ var eventsFunObj = {
 
 /**
  * Module : Kero webpack entry dataTable index
- * Author : liuyk(liuyuekai@yonyou.com)
+ * Author : huyue(huyueb@yonyou.com)
  * Date   : 2016-08-09 15:24:46
  */
 
@@ -3096,9 +3161,25 @@ DataTable$1.SUBMIT = {
     empty: 'empty',
     allSelect: 'allSelect',
     allPages: 'allPages'
-};
 
-DataTable$1.createMetaItems = function (metas) {
+    /**
+     * 将默认meta与传入进行的meta对象进行合并
+     * meta: {
+         f1: {
+             enable:false
+         }
+     }
+     newMetas：{
+         f1:{
+             enable:false,
+             required:false,
+             descs:{
+    
+            }
+        }
+    }
+     */
+};DataTable$1.createMetaItems = function (metas) {
     var newMetas = {};
     for (var key in metas) {
         var meta = metas[key];
@@ -3250,7 +3331,7 @@ var getSelectRows = function getSelectRows() {
  */
 var getChangedRows$1 = function getChangedRows() {
     var changedRows = [],
-        rows = this.rows.peek();
+        rows = this.rows;
     for (var i = 0, count = rows.length; i < count; i++) {
         if (rows[i] && rows[i].status != Row.STATUS.NORMAL) {
             changedRows.push(rows[i]);
@@ -3561,11 +3642,15 @@ var _triggerChange = function _triggerChange(rowObj, fieldName, oldValue, ctx) {
  * @param {Object} value
  */
 var formatValue = function formatValue(field, value) {
+    if (value && value.replace) {
+        value = value.replace(/</g, "&#60;").replace(/"/g, "&#34;").replace(/'/g, "&#39;");
+    }
     var type = this.parent.getMeta(field, 'type');
     if (!type) return value;
     if (type == 'date' || type == 'datetime') {
         return _formatDate(value);
     }
+
     return value;
 };
 
@@ -3623,11 +3708,12 @@ var rowUtilFunObj = {
  * @param {string} fieldName 需要设置的字段
  * @param {string} value     需要设置的值
  * @param {*} [ctx]        自定义属性，在valuechange监听传入对象中可通过ctx获取此处设置
+ * @param {string} validType 传递值的字符类型，如string，integer等
  * @example
  * row.setValue('filed1','value1') // 设置字段值
  * row.setValue('filed1','value1','ctx') //设置字段值，同时传入自定义数据
  */
-var setValue$1 = function setValue(fieldName, value, ctx, options) {
+var setValue$1 = function setValue(fieldName, value, ctx, options, validType) {
 
     if (arguments.length === 1) {
         value = fieldName;
@@ -3635,7 +3721,11 @@ var setValue$1 = function setValue(fieldName, value, ctx, options) {
     }
     var oldValue = this.getValue(fieldName);
     if (typeof oldValue == 'undefined' || oldValue === null) oldValue = '';
-    if (rowUtilFunObj.eq(oldValue, value)) return;
+    if (validType && validType === "string") {
+        if (oldValue === value) return;
+    } else {
+        if (rowUtilFunObj.eq(oldValue, value)) return;
+    }
     var event = {
         eventType: 'dataTableEvent',
         dataTable: this.parent.id,
