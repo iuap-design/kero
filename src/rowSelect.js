@@ -191,10 +191,11 @@ const setRowsUnSelect = function(indices) {
     var selectedIndices = this.selectedIndices().slice()
 
     // 避免与控件循环触发
-    if (selectedIndices.indexOf(indices[0]) == -1) return;
+    // 因为现在当传的数组中的第一个行索引的那一行如果本身就是未选中的，会导致后面的没法操作，先注释掉
+    //if (selectedIndices.indexOf(indices[0]) == -1) return;
 
     for (var i = 0; i < indices.length; i++) {
-        var index = indices[i]
+        var index = indices[i];
         var pos = selectedIndices.indexOf(index)
         if (pos != -1)
             selectedIndices.splice(pos, 1)
