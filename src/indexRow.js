@@ -140,8 +140,10 @@ Row.getRandomRowId = function() {
     var _id = setTimeout(function() {})
     return _id + '';
 };
-
-
+//为了能让rowUtilFunObj给项目组重写，主要重写eq方法-huyue
+window.u = window.u || {};
+u = window.u;
+u.rowUtilFunObj = rowUtilFunObj;
 
 export {
     Row
