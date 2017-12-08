@@ -14,7 +14,7 @@ const eq = function(a, b) {
     //if (isNumber(a) && isNumber(b) && parseFloat(a) == parseFloat(b)) return true;
     if (a + '' === b + '' || a === b) return true;
     // if (isNumber(a) && isNumber(b) && parseFloat(a) - parseFloat(b) < 0.0000005 && parseFloat(a) - parseFloat(b) > -0.0000005) return true;--胡玥修改
-    if(isNumber$1(a) && isNumber$1(b)) {
+    if(isNumber(a) && isNumber(b)) {
         if((a.length > 16 || b.length > 16) && window.BigNumber) {
             return new BigNumber(a).eq(new BigNumber(b));
         } 
