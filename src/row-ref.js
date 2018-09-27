@@ -12,7 +12,9 @@ import {
 import {
     rowUtilFunObj
 } from './row-util';
-
+import {
+    trans
+} from 'tinper-sparrow/src/util/i18n'
 /**
  * 为某个字段绑定监听，当字段发生改变时触发对应方法
  * @memberof Row
@@ -147,9 +149,9 @@ const refEnum = function(fieldName) {
             var valArr = rowUtilFunObj._getField(this, fieldName)['value']
             if (!valArr) return "";
             if (valArr == "N")
-                valArr = "否";
+                 valArr =  trans('dataTable.N', '否');
             else if (valArr == "Y")
-                valArr = "是";
+                 valArr = trans('dataTable.Y', '是');
             return valArr;
         },
         write: function(value) {

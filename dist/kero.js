@@ -2545,7 +2545,8 @@ var setRowsUnSelect = function setRowsUnSelect(indices) {
     var selectedIndices = this.selectedIndices().slice();
 
     // 避免与控件循环触发
-    if (selectedIndices.indexOf(indices[0]) == -1) return;
+    // 因为现在当传的数组中的第一个行索引的那一行如果本身就是未选中的，会导致后面的没法操作，先注释掉--huyue
+    //if (selectedIndices.indexOf(indices[0]) == -1) return;
 
     for (var i = 0; i < indices.length; i++) {
         var index = indices[i];
@@ -2736,7 +2737,6 @@ var setSimpleData = function setSimpleData(data, options) {
     this.cachedPages = [];
     this.focusIndex(-1);
     this.selectedIndices([]);
-
     this.setSimpleDataReal = [];
     if (!data) {
         this.setSimpleDataReal = data;
@@ -3560,7 +3560,13 @@ var eq = function eq(a, b) {
     //判断输入的值是否相等，a,b是字符串直接比较这两个值即可，没必要判断是否是数据，判断是否是数据使用parseFloat转换有时精度不准（431027199110.078573）
     //if (isNumber(a) && isNumber(b) && parseFloat(a) == parseFloat(b)) return true;
     if (a + '' === b + '' || a === b) return true;
-    if (isNumber(a) && isNumber(b) && parseFloat(a) - parseFloat(b) < 0.0000005 && parseFloat(a) - parseFloat(b) > -0.0000005) return true;
+    // if (isNumber(a) && isNumber(b) && parseFloat(a) - parseFloat(b) < 0.0000005 && parseFloat(a) - parseFloat(b) > -0.0000005) return true;--胡玥修改
+    if (isNumber(a) && isNumber(b)) {
+        if ((a.length > 16 || b.length > 16) && window.BigNumber) {
+            return new BigNumber(a).eq(new BigNumber(b));
+        }
+        return parseFloat(a) - parseFloat(b) < 0.0000005 && parseFloat(a) - parseFloat(b) > -0.0000005;
+    }
     return false;
 };
 
@@ -5055,7 +5061,7 @@ var refEnum = function refEnum(fieldName) {
             if (!rowUtilFunObj._getField(this, fieldName)['value']) return "";
             var valArr = rowUtilFunObj._getField(this, fieldName)['value'];
             if (!valArr) return "";
-            if (valArr == "N") valArr = "否";else if (valArr == "Y") valArr = "是";
+            if (valArr == "N") valArr = trans('dataTable.N', '否');else if (valArr == "Y") valArr = trans('dataTable.Y', '是');
             return valArr;
         },
         write: function write(value) {
@@ -5248,6 +5254,10 @@ Row$1.STATUS = {
     var _id = setTimeout(function () {});
     return _id + '';
 };
+//为了能让rowUtilFunObj给项目组重写，主要重写eq方法-huyue
+window.u = window.u || {};
+u = window.u;
+u.rowUtilFunObj = rowUtilFunObj;
 
 /**
  * Module : Kero webpack entry index
